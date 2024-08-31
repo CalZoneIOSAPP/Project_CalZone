@@ -25,14 +25,10 @@ struct User: Codable, Identifiable, Hashable {
     var userName: String?
     var profileImageUrl: String?
     var address: String?
-    var maxCalorieAPIUsageNum: Int? = 5 // The number of times user can estimate calories.
-    var maxAssistantTokenNum: Int? = 10000 // The number of tokens available when user is using AI Assistant.
-    
     
     var id: String { // Use this to work with instead of the uid
         return uid ?? NSUUID().uuidString
     }
-     
     
     // Other Information
     var description: String?
@@ -53,3 +49,32 @@ extension User {
 }
 
 
+
+struct Usage: Codable, Identifiable, Hashable {
+    // per day usage limit
+    @DocumentID var uid: String?
+    
+    var date: Date?
+    
+    var maxCalorieAPIUsageNumRemaining: Int? = 10 // The number of times user can estimate calories.
+    var maxAssistantTokenNumRemaining: Int? = 10000 // The number of tokens available when user is using AI Assistant.
+    
+    var id: String { // Use this to work with instead of the uid
+        return uid ?? NSUUID().uuidString
+    }
+    
+}
+
+
+struct Membership: Codable, Identifiable, Hashable {
+    // per day usage limit
+    @DocumentID var uid: String?
+    
+    var timeRemaining: Date?
+    var type: String?
+    
+    var id: String { // Use this to work with instead of the uid
+        return uid ?? NSUUID().uuidString
+    }
+    
+}
