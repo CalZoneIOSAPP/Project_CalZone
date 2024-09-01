@@ -12,6 +12,8 @@
 		043097382BE7018C0016FCD8 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043097372BE7018C0016FCD8 /* MockData.swift */; };
 		047512BD2C5B2B40005F223A /* MealSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047512BC2C5B2B40005F223A /* MealSectionView.swift */; };
 		047512BF2C6568DE005F223A /* FoodItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047512BE2C6568DE005F223A /* FoodItemEditView.swift */; };
+		0497CA3E2C83F1D600A6FE84 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA3D2C83F1D500A6FE84 /* StatsView.swift */; };
+		0497CA402C83F6FA00A6FE84 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA3F2C83F6FA00A6FE84 /* StatsViewModel.swift */; };
 		04EB98A52C54B759001621A6 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB98A42C54B759001621A6 /* Meal.swift */; };
 		04EB98A72C54BA08001621A6 /* MealServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB98A62C54BA08001621A6 /* MealServices.swift */; };
 		04F208662C4CDDBB007E78D2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F208652C4CDDBB007E78D2 /* CalendarView.swift */; };
@@ -91,6 +93,8 @@
 		043097372BE7018C0016FCD8 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		047512BC2C5B2B40005F223A /* MealSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSectionView.swift; sourceTree = "<group>"; };
 		047512BE2C6568DE005F223A /* FoodItemEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodItemEditView.swift; sourceTree = "<group>"; };
+		0497CA3D2C83F1D500A6FE84 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		0497CA3F2C83F6FA00A6FE84 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
 		04EB98A42C54B759001621A6 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		04EB98A62C54BA08001621A6 /* MealServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealServices.swift; sourceTree = "<group>"; };
 		04F208652C4CDDBB007E78D2 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 		540CB1602C4BE6ED0033F69F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0497CA3D2C83F1D500A6FE84 /* StatsView.swift */,
 				540CB1622C4BE7050033F69F /* DashboardView.swift */,
 				047512BC2C5B2B40005F223A /* MealSectionView.swift */,
 				04F208652C4CDDBB007E78D2 /* CalendarView.swift */,
@@ -268,6 +273,7 @@
 				04EB98A42C54B759001621A6 /* Meal.swift */,
 				54A59C3D2C54E52F00617B83 /* FoodItem.swift */,
 				04EB98A62C54BA08001621A6 /* MealServices.swift */,
+				0497CA3F2C83F6FA00A6FE84 /* StatsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -630,6 +636,7 @@
 				54E9D6D72C773B3D00CFD7A0 /* MealType.swift in Sources */,
 				5474F6712C77C31800BF86F4 /* SecureFieldView.swift in Sources */,
 				542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */,
+				0497CA402C83F6FA00A6FE84 /* StatsViewModel.swift in Sources */,
 				54D6310A2BF77DA000AD4A66 /* NameCardInfo.swift in Sources */,
 				5479997C2BE3DF7D007A7CCE /* FirebaseConstants.swift in Sources */,
 				54FB02842C4BD974004D8451 /* ChatSelectionViewModel.swift in Sources */,
@@ -653,6 +660,7 @@
 				54FB02862C4BD9EA004D8451 /* ChatViewModel.swift in Sources */,
 				54D6310B2BF77DA000AD4A66 /* CardType.swift in Sources */,
 				540CB1632C4BE7050033F69F /* DashboardView.swift in Sources */,
+				0497CA3E2C83F1D600A6FE84 /* StatsView.swift in Sources */,
 				547999722BE3DE05007A7CCE /* UserCell.swift in Sources */,
 				541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */,
 				54E926B82BEE4835001ACDD8 /* ImageServices.swift in Sources */,
