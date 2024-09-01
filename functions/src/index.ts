@@ -34,8 +34,17 @@ type ChatCompletionMessage = {
 // Function to handle ChatGPT queries
 export const generateResponse = functions.https.onCall(
   async (data) => {
-    const messages: ChatCompletionMessage[] = data.messages;
+    const userMessages: ChatCompletionMessage[] = data.messages;
     const model = data.model || "gpt-4-turbo";
+
+    const prefixMessage: ChatCompletionMessage = {
+      role: "system",
+      content: "You are a nutrition expert, please only respond " +
+      "to questions that are related to diet and nutrition. If the following" +
+      "prompt is not related to diet or nutrition, please reject to answer.",
+    };
+    // Prepend the prefixMessage to the user's messages
+    const messages = [prefixMessage, ...userMessages];
 
     try {
       const response = await openai.chat.completions.create({
@@ -43,7 +52,13 @@ export const generateResponse = functions.https.onCall(
         messages: messages,
       });
 
-      return response.choices[0].message;
+      const content = response.choices[0].message.content;
+      const tokensUsed = response.usage?.total_tokens;
+
+      return {
+        content: content,
+        tokensUsed: tokensUsed,
+      };
     } catch (error) {
       console.error("Error calling OpenAI API:", error);
       throw new functions.https.HttpsError(

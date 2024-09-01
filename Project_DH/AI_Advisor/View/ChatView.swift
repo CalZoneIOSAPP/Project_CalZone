@@ -11,11 +11,12 @@ import SwiftUI
 struct ChatView: View {
     
     @StateObject var viewModel: ChatViewModel
+    @StateObject var profileViewModel = ProfileViewModel()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
-            Text(viewModel.chat?.topic ?? "AI Advisor")
+            Text(viewModel.chat?.topic ?? "AI Advisor - Cally")
                 .font(.title3)
                 .bold()
                 .padding(.top, 15)
@@ -160,11 +161,13 @@ struct ChatView: View {
     /// - Parameters: none
     /// - Returns: none
     func sendMessage() {
-        Task {
-            do {
-                try await viewModel.sendMessage()
-            } catch {
-                print(error)
+        if let userId = profileViewModel.currentUser?.uid {
+            Task {
+                do {
+                    try await viewModel.sendMessage(userId: userId)
+                } catch {
+                    print(error)
+                }
             }
         }
     }

@@ -38,7 +38,7 @@ struct ChatSelectionView: View {
                                             .clipShape(Rectangle())
                                         
                                         VStack(alignment: .leading) {
-                                            Text(chat.topic ?? "AI Advisor")
+                                            Text(chat.topic ?? "AI Advisor - Cally")
                                                 .font(.headline)
                                             
                                             Text(chat.lastMessageTimeAgo)

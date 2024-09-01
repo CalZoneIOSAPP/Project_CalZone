@@ -108,7 +108,7 @@ class MealInputViewModel: ObservableObject {
             try usageDocRef.setData(from: usage)
 
         } catch {
-//            print("Error decoding usage document: \(error)")
+            print("ERROR: Error decoding usage document: \(error)")
         }
     }
     
