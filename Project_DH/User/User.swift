@@ -57,7 +57,7 @@ struct Usage: Codable, Identifiable, Hashable {
     var lastUsageTimestamp: Date?
     
     var maxCalorieAPIUsageNumRemaining: Int? = 10 // The number of times user can estimate calories.
-    var maxAssistantTokenNumRemaining: Int? = 10000 // The number of tokens available when user is using AI Assistant.
+    var maxAssistantTokenNumRemaining: Int? = 10000 // The number of tokens available when user is using AI Assistant. (Not implemented yet. No need for now.)
     
     var id: String { // Use this to work with instead of the uid
         return uid ?? NSUUID().uuidString
