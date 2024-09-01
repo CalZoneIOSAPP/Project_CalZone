@@ -12,14 +12,15 @@ struct AppEntryView: View {
     
     var body: some View {
         Group {
-            if viewModel.userSession != nil { // if the user session is none
+            if viewModel.userSession != nil { // If the user session is active
                 MainMenuView()
             } else {
                 SignInView()
             }
-        }// End of Navigation Stack
+        }
     }
 }
+
 
 #Preview {
     AppEntryView()

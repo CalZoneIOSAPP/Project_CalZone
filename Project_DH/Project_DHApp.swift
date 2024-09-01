@@ -17,9 +17,8 @@ struct Project_MeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppEntryView()
+            LaunchScreenView()
                 .preferredColorScheme(.light) // This sets the application to only show in light mode.
         }
     }
 }
-

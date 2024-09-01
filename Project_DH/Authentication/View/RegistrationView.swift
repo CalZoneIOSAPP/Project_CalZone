@@ -20,99 +20,113 @@ struct RegistrationView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Image(.logo)
-                    .resizable().scaledToFill()
-                    .frame(width: 120, height: 120)
-                    .padding(.vertical, 20)
-                
-                Text("Let's get started!")
-                    .font(.title2)
-                    .padding(.bottom, 80)
-                    .shadow(color: Color.black.opacity(0.1), radius: 2)
-                
-                // MARK: User Input Textfields
-                VStack{
-                    HStack {
-                        Image(systemName: "person")
-                            .padding(.leading, 15)
-                        TextField("Username", text: $authViewModel.username)
-                            .textInputAutocapitalization(.never)
-                            .font(.subheadline)
-                            .padding(12)
+            GeometryReader { _ in
+                VStack {
+                    Image(.logo)
+                        .resizable().scaledToFill()
+                        .frame(width: 120, height: 120)
+                        .padding(.vertical, 20)
+                    
+                    Text("Let's get started!")
+                        .font(.title2)
+                        .padding(.bottom, 80)
+                        .shadow(color: Color.black.opacity(0.1), radius: 2)
+                    
+                    // MARK: User Input Textfields
+                    VStack{
+                        HStack {
+                            Image(systemName: "person")
+                                .padding(.leading, 15)
+                            TextField("Username", text: $authViewModel.username)
+                                .textInputAutocapitalization(.never)
+                                .font(.subheadline)
+                                .padding(12)
+                        }
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.horizontal, 30)
+                        .padding(.bottom, 10)
+                        
+                        HStack {
+                            Image(systemName: "envelope")
+                                .padding(.leading, 10)
+                            TextField("Email", text: $authViewModel.email)
+                                .textInputAutocapitalization(.never)
+                                .keyboardType(.emailAddress)
+                                .font(.subheadline)
+                                .padding(12)
+                        }
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.horizontal, 30)
+                        .padding(.bottom, 10)
+                        
+                        
+                        HStack {
+                            Image(systemName: "key.horizontal")
+                                .padding(.leading, 10)
+                            SecureFieldView(text: $authViewModel.password, placeholder: "Password")
+                                .padding(12)
+                        }
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.horizontal, 30)
                     }
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 10)
+                    
+                    // MARK: ERROR MESSAGE
+                    HStack {
+                        authViewModel.alertItem?.message ?? Text(" ")
+                        Spacer()
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.brandRed)
+                    .padding(.leading, 30)
+                    .padding(.bottom, 5)
                     
                     HStack {
-                        Image(systemName: "envelope")
-                            .padding(.leading, 10)
-                        TextField("Email", text: $authViewModel.email)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.emailAddress)
-                            .font(.subheadline)
-                            .padding(12)
+                        Image(systemName: "info.circle")
+                        Text("Your password must be at least 6 characters")
+                            .font(.footnote)
+                        Spacer()
                     }
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 10)
+                    .padding(.leading, 30)
                     
                     
-                    HStack {
-                        Image(systemName: "key.horizontal")
-                            .padding(.leading, 10)
-                        SecureFieldView(text: $authViewModel.password, placeholder: "Password")
-                            .padding(12)
+                    //MARK: Privacy and Policy
+                    VStack{
+                        Toggle("I agree to the Privacy Policy", isOn: $authViewModel.privacy)
+                            .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
+                            .font(.custom("custom", size: 15))
+                            .padding(.leading, 30)
+                            .padding(.trailing, 40)
+                        
+                        Toggle("I agree to the Terms and Conditions", isOn: $authViewModel.conditions)
+                            .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
+                            .font(.custom("custom", size: 15))
+                            .padding(.leading, 30)
+                            .padding(.trailing, 40)
                     }
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 30)
-                }
-                
-                // MARK: ERROR MESSAGE
-                HStack {
-                    authViewModel.alertItem?.message ?? Text(" ")
+                    .hidden()
+                    
                     Spacer()
-                }
-                .font(.footnote)
-                .foregroundStyle(.brandRed)
-                .padding(.leading, 30)
-                .padding(.bottom, 5)
-                
-                //MARK: Privacy and Policy
-                VStack{
-                    Toggle("I agree to the Privacy Policy", isOn: $authViewModel.privacy)
-                        .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
-                        .font(.custom("custom", size: 15))
-                        .padding(.leading, 30)
-                        .padding(.trailing, 40)
                     
-                    Toggle("I agree to the Terms and Conditions", isOn: $authViewModel.conditions)
-                        .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
-                        .font(.custom("custom", size: 15))
-                        .padding(.leading, 30)
-                        .padding(.trailing, 40)
+                    // MARK: SIGN UP BUTTON
+                    Button {
+                        Task{ try await authViewModel.createUser() }
+                    }label: {
+                        Text("Sign Up")
+                    }
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .frame(width: 310, height: 45)
+                    .background(.brandDarkGreen)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .padding(.bottom, 30)
+                    .shadow(radius: 3)
                 }
-                
-                Spacer()
-                
-                // MARK: SIGN UP BUTTON
-                Button {
-                    Task{ try await authViewModel.createUser() }
-                }label: {
-                    Text("Sign Up")
-                }
-                .fontWeight(.semibold)
-                .foregroundStyle(.white)
-                .frame(width: 310, height: 45)
-                .background(.brandDarkGreen)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.bottom, 30)
-                .shadow(radius: 3)
             }
+            .ignoresSafeArea(.keyboard, edges: .all)
+            
             
         } // End of Navigation Stack
         .navigationBarBackButtonHidden()
