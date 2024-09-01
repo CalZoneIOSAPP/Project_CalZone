@@ -57,7 +57,7 @@ class ChatViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.chat = success
                 }
-            case .failure(let failure):
+            case .failure(_):
                 print("ERROR: Failure case. \nSource: ChatViewModel/fetchData()")
             }
         }

@@ -92,6 +92,7 @@ class AuthServices {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
             try await self.uploadUserData(email: email, userName: username, id: result.user.uid)
+            try await UserServices.sharedUser.fetchCurrentUserData()
             print("CREATED USER \(result.user.uid)" )
         } catch {
             print("ERROR: FAILED TO CREATE USER \nSource: AuthServices/createUser() \n\(error.localizedDescription)") //automatically gives us the "error" object by swift

@@ -144,6 +144,7 @@ class MealInputViewModel: ObservableObject {
     /// - Parameters:
     ///     - for: the image of the food item
     /// - Returns: Boolean value whether the food item is a valid input to the AI model.
+    @MainActor
     func validFoodItem(for image: UIImage) async throws -> Bool {
         print("NOTE: Validating for food items...")
         let downsizedImg = ImageManipulation.downSizeImage(for: image)
@@ -166,6 +167,7 @@ class MealInputViewModel: ObservableObject {
     /// - Parameters:
     ///     - for: the image of the food item
     /// - Returns: none
+    @MainActor
     func generateCalories(for image: UIImage) async throws {
         print("NOTE: Predicting Calories..")
         let downsizedImg = ImageManipulation.downSizeImage(for: image)
