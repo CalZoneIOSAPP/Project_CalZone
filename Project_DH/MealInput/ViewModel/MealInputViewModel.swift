@@ -23,9 +23,11 @@ class MealInputViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var imageChanged = false
     @Published var showInputError = false
+    @Published var showUsageError = false
     @Published var sliderValue: Double = 100.0
     @Published var selectedMealType: MealType?
     @Published var selectedDate = Date()
+    @Published var isProcessingMealInfo = false
     
     
     private let db = Firestore.firestore()
@@ -46,22 +48,113 @@ class MealInputViewModel: ObservableObject {
     }
     
     
+    /// This function handles the logic for checking the available usage and then getting the meal info..
+    /// - Parameters:
+    ///     - user: the user which is making the request to get the meal info
+    /// - Returns: none
+    @MainActor
+    func getMealInfo(for user: User) async throws {
+        guard let userId = user.uid else {
+//            print("Invalid user ID")
+            return
+        }
+
+        let usageDocRef = db.collection("usages").document(userId)
+
+        do {
+            let document = try await usageDocRef.getDocument()
+            var usage: Usage
+
+            if document.exists {
+                usage = try document.data(as: Usage.self) // No need for conditional binding
+            } else {
+                print("Usage document does not exist. Creating a new usage document.")
+                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 10, maxAssistantTokenNumRemaining: 10000)
+
+                // Upload the new Usage document to Firestore
+                try usageDocRef.setData(from: usage)
+                print("New usage document successfully created")
+            }
+            
+            // Get the current timestamp
+            let currentTimestamp = Date()
+            let lastUsageTimestamp = usage.lastUsageTimestamp ?? Date.distantPast
+            
+            // Calculate the time interval between the last usage and now
+            let timeInterval = currentTimestamp.timeIntervalSince(lastUsageTimestamp)
+                
+            // Check if 24 hours (86400 seconds) have passed
+            if timeInterval >= 86400 {
+                // Reset the usage counters
+                usage.resetUsage(with: currentTimestamp)
+                try usageDocRef.setData(from: usage)
+            }
+
+            // Now check remaining usage
+            guard let remainingUses = usage.maxCalorieAPIUsageNumRemaining, remainingUses > 0 else {
+                clearInputs()
+                showUsageError = true
+                return
+            }
+
+            // Get the meal information with predictions.
+            await predictMealInfo(for: image!)
+
+            // Decrement the remaining usage count if not showing error
+            if showInputError == false {
+                usage.maxCalorieAPIUsageNumRemaining = remainingUses - 1
+            }
+            
+            try usageDocRef.setData(from: usage)
+
+        } catch {
+//            print("Error decoding usage document: \(error)")
+        }
+    }
+    
+    
+    /// This function handles the logic for requesting the food item information from the AI.
+    /// - Parameters:
+    ///     - for: the image of the food item
+    /// - Returns: none
+    @MainActor
+    func predictMealInfo(for image: UIImage) async {
+        isProcessingMealInfo = true
+        do {
+            print("NOTE: Prediction Started, please wait.")
+            if try await validFoodItem(for: image) { // check if the image contains food
+                try await generateCalories(for: image)
+                try await generateMealName(for: image)
+                imageChanged = true
+            }
+            else {
+                // clear input
+                clearInputs()
+                showInputError = true
+            }
+            
+        } catch {
+            print(error)
+        }
+        isProcessingMealInfo = false
+    }
+    
+    
     /// This function checks if the food item photo is a valid input.
     /// - Parameters:
     ///     - for: the image of the food item
     /// - Returns: Boolean value whether the food item is a valid input to the AI model.
     func validFoodItem(for image: UIImage) async throws -> Bool {
+        print("NOTE: Validating for food items...")
         let downsizedImg = ImageManipulation.downSizeImage(for: image)
         
         guard let imageUrl = try await FoodItemImageUploader.uploadImage(downsizedImg!) else {
             throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to upload image to Firebase"])
         }
-        print("IMAGE URL: \(imageUrl)")
         
         let result = try await functions.httpsCallable("validFoodItem").call(["imageUrl": imageUrl])
         if let data = result.data as? [String: Any], let isValid = data["valid"] as? Bool {
             try await ImageManipulation.deleteImageOnFirebase(imageURL: imageUrl)
-            print("VALID: \(isValid)")
             return isValid
         } else {
             throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unexpected response from the server"])
@@ -102,6 +195,7 @@ class MealInputViewModel: ObservableObject {
     /// - Parameters:
     ///     - for: the image of the food item
     /// - Returns: none
+    @MainActor
     func generateMealName(for image: UIImage) async throws {
         print("NOTE: Generating the meal name.")
         let downsizedImg = ImageManipulation.downSizeImage(for: image)
@@ -129,7 +223,6 @@ class MealInputViewModel: ObservableObject {
     ///     - userId: the current user's id
     ///     - date: the date which the item will be saved to
     /// - Returns: none
-    @MainActor
     func saveFoodItem(image: UIImage, userId: String, date: Date, completion: @escaping (Error?) -> Void) async throws {
         guard let imageUrl = try? await FoodItemImageUploader.uploadImage(image) else {
             print("ERROR: FAILED TO GET imageURL! \nSource: saveFoodItem() ")

@@ -54,13 +54,24 @@ struct Usage: Codable, Identifiable, Hashable {
     // per day usage limit
     @DocumentID var uid: String?
     
-    var date: Date?
+    var lastUsageTimestamp: Date?
     
     var maxCalorieAPIUsageNumRemaining: Int? = 10 // The number of times user can estimate calories.
     var maxAssistantTokenNumRemaining: Int? = 10000 // The number of tokens available when user is using AI Assistant.
     
     var id: String { // Use this to work with instead of the uid
         return uid ?? NSUUID().uuidString
+    }
+    
+    
+    /// Reseting the usage limits.
+    /// - Parameters:
+    ///     - currentTimestamp: The current timestamp as a new starting point  of 24 hours.
+    /// - Returns: none
+    mutating func resetUsage(with currentTimestamp: Date) {
+        maxCalorieAPIUsageNumRemaining = 10
+        maxAssistantTokenNumRemaining = 10000
+        lastUsageTimestamp = currentTimestamp
     }
     
 }

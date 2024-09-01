@@ -104,7 +104,7 @@ class DashboardViewModel: ObservableObject {
         for meal in meals {
             fetchFoodItems(mealId: meal.id ?? "", mealType: meal.mealType)
         }
-        print("I have number of meals: \(meals.count)")
+//        print("I have number of meals: \(meals.count)")
 
     }
     

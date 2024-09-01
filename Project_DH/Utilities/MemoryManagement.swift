@@ -13,5 +13,5 @@ import Foundation
 /// - Returns: none
 func clearCache() {
     URLCache.shared.removeAllCachedResponses()
-    print("Cache cleared")
+//    print("NOTE: Cache cleared")
 }

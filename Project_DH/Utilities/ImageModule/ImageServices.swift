@@ -22,12 +22,12 @@ struct ImageUploader {
         guard let imageData = image.jpegData(compressionQuality: 0.2) else { return nil }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference(withPath: "/profile_images/\(filename)")
-        print("SUCCESS: STORAGE REFERENCE RETRIEVED: \(storageRef)")
+//        print("NOTE: STORAGE REFERENCE RETRIEVED: \(storageRef)")
         
         do {
             let _ = try await storageRef.putDataAsync(imageData)
             let url = try await storageRef.downloadURL()
-            print("SUCCESS: UPLOADED USER PROFILE PHOTO WITH URL: \(url)")
+//            print("NOTE: UPLOADED USER PROFILE PHOTO WITH URL: \(url)")
             clearCache()
             return url.absoluteString
         } catch {
@@ -74,12 +74,12 @@ struct FoodItemImageUploader {
         let storageRef = Storage.storage().reference(withPath: "/foodItem/\(filename)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg" // Set the content type
-        print("SUCCESS: STORAGE REFERENCE RETRIEVED: \(storageRef)")
+//        print("SUCCESS: STORAGE REFERENCE RETRIEVED: \(storageRef)")
         
         do {
             let _ = try await storageRef.putDataAsync(imageData, metadata: metadata)
             let url = try await storageRef.downloadURL()
-            print("SUCCESS: UPLOADED FOOD ITEM PHOTO WITH URL: \(url)")
+//            print("SUCCESS: UPLOADED FOOD ITEM PHOTO WITH URL: \(url)")
             clearCache() // clears the cache after sending the image.
             return url.absoluteString
         } catch {
@@ -149,7 +149,7 @@ struct ImageManipulation {
         // Compress the image data until it's below the max size
         var imageData = processedImage.jpegData(compressionQuality: quality)
         while let data = imageData, data.count > maxSize && quality > 0 {
-            print("NOTE: Image larger than \(megabyte) MB, reducing the image quality...")
+            print("WARNING: Image larger than \(megabyte) MB, reducing the image quality...")
             quality -= 0.1
             imageData = processedImage.jpegData(compressionQuality: quality)
         }

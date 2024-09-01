@@ -18,7 +18,6 @@ struct MealInputView: View {
     @State private var isImagePickerPresented: Bool = false
     @State private var sourceType: SourceType = .camera
     @State private var pickedPhoto: Bool = false
-    @State private var isProcessingMealInfo = false
     @State private var savePressed = false
     @State private var showingDatePicker = false
     @State private var originalDate: Date = Date()
@@ -35,7 +34,7 @@ struct MealInputView: View {
                     ZStack {
                         // TODO: Maybe make the loading screen nicer.
                         // While processing meal info, show loading screen
-                        if isProcessingMealInfo {
+                        if viewModel.isProcessingMealInfo {
                             VStack {
                                 Spacer()
                                 HStack {
@@ -51,7 +50,15 @@ struct MealInputView: View {
                                     FoodPictureView(image: viewModel.image ?? UIImage(resource: .plus))
                                         .onChange(of: viewModel.image) {
                                             if viewModel.image != UIImage(resource: .plus){
-                                                getMealInfo(for: viewModel.image!)
+                                                if let user = profileViewModel.currentUser {
+                                                    Task {
+                                                        do {
+                                                            try await viewModel.getMealInfo(for: user)
+                                                        } catch {
+                                                            print("ERROR: Getting meal info.")
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     
@@ -123,7 +130,7 @@ struct MealInputView: View {
                                         Text("0%")
                                         Slider(value: $viewModel.sliderValue, in: 0...100, step: 1)
                                                         .frame(width: 170)
-                                                        .disabled(!viewModel.imageChanged || isProcessingMealInfo || savePressed)
+                                                        .disabled(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed)
                                                         .onChange(of: viewModel.sliderValue) {
                                                             viewModel.calorieIntakePercentage()
                                                         }
@@ -135,7 +142,7 @@ struct MealInputView: View {
                                     // Select Meal Type
                                     DropDownMenu(selection: $viewModel.selectedMealType, hint: viewModel.determineMealType(), options: [.breakfast, .lunch, .dinner, .snack], anchor: .top)
                                         .padding(.bottom, 40)
-                                        .disabled(isProcessingMealInfo || savePressed)
+                                        .disabled(viewModel.isProcessingMealInfo || savePressed)
                                     
                                     // Save Meal Button
                                     Button {
@@ -172,8 +179,8 @@ struct MealInputView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 8))
                                     .padding(.bottom, 3)
                                     .shadow(radius: 3)
-                                    .disabled(!viewModel.imageChanged || isProcessingMealInfo || savePressed)
-                                    .opacity(!viewModel.imageChanged || isProcessingMealInfo || savePressed ? 0.6 : 1.0)
+                                    .disabled(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed)
+                                    .opacity(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed ? 0.6 : 1.0)
                                     
                                     // Reset inputs
                                     Button {
@@ -185,14 +192,14 @@ struct MealInputView: View {
                                             .frame(width: 180, height: 45)
                                     }
                                     .background((Color.white).shadow(.drop(color: .primary.opacity(0.15), radius: 4)), in: .rect(cornerRadius: 8))
-                                    .disabled(savePressed || isProcessingMealInfo)
-                                    .opacity(savePressed || isProcessingMealInfo ? 0.6 : 1.0)
+                                    .disabled(savePressed || viewModel.isProcessingMealInfo)
+                                    .opacity(savePressed || viewModel.isProcessingMealInfo ? 0.6 : 1.0)
                                     .padding(.bottom, 30)
                                 }
 
                             }
                             .disabled(viewModel.showMessageWindow)
-                            .blur(radius: viewModel.showMessageWindow ? 5 : 0)
+                            .blur(radius: viewModel.showMessageWindow || viewModel.showInputError || viewModel.showUsageError ? 5 : 0)
                             .navigationTitle("ADD A MEAL")
                             .navigationBarTitleDisplayMode(.inline)
                             .disabled(savePressed)
@@ -207,14 +214,18 @@ struct MealInputView: View {
                                     .animation(.easeInOut, value: viewModel.showInputError)
                             }
                             
+                            if viewModel.showUsageError {
+                                PopUpMessageView(messageTitle: "Apologies", message: "To be able to get unlimited usage, please join us and become a CalBite member!", isPresented: $viewModel.showUsageError)
+                            }
+                            
                         } // end of else statement
                         
                     } // End of ZStack
                     .toolbar(content: {
                         ToolbarItem(placement: .topBarTrailing) {
                             CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingDatePicker, viewModel: dashboardViewModel, fetchOnDone: false)
-                                .disabled(isProcessingMealInfo || savePressed)
-                                .opacity(isProcessingMealInfo || savePressed ? 0 : 1.0)
+                                .disabled(viewModel.isProcessingMealInfo || savePressed)
+                                .opacity(viewModel.isProcessingMealInfo || savePressed ? 0 : 1.0)
                         }
                     })
                 } // End of VStack
@@ -228,32 +239,7 @@ struct MealInputView: View {
     }// End of body
     
     
-    /// This function handles the logic for requesting the food item information from the AI.
-    /// - Parameters:
-    ///     - for: the image of the food item
-    /// - Returns: none
-    func getMealInfo(for image: UIImage) {
-        isProcessingMealInfo = true
-        Task {
-            do {
-                print("NOTE: Prediction Started, please wait.")
-                if try await viewModel.validFoodItem(for: image) { // check if the image contains food
-                    try await viewModel.generateCalories(for: image)
-                    try await viewModel.generateMealName(for: image)
-                    viewModel.imageChanged = true
-                }
-                else {
-                    // clear input
-                    viewModel.clearInputs()
-                    viewModel.showInputError = true
-                }
-                
-            } catch {
-                print(error)
-            }
-            isProcessingMealInfo = false
-        }
-    }
+
     
     
 }
