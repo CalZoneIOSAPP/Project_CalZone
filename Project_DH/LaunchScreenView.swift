@@ -29,7 +29,10 @@ struct LaunchScreenView: View {
         }
     }
 
-    // Function to delay for a certain time before checking the launch conditions
+    
+    /// Delay for a certain time before checking the launch conditions
+    /// - Parameters: none
+    /// - Returns: none
     private func delayAndCheckLaunchConditions() {
         let delayDuration = 2.0 // Delay duration in seconds
 
@@ -38,7 +41,10 @@ struct LaunchScreenView: View {
         }
     }
 
-    // Function to check if the user has agreed to the terms and if it's the first launch
+    
+    /// Function to check if the user has agreed to the terms and if it's the first launch
+    /// - Parameters: none
+    /// - Returns: none
     private func checkLaunchConditionsAndShowPopup() {
         let isFirstLaunch = !UserDefaults.standard.bool(forKey: "isFirstLaunch")
         let hasAgreed = UserDefaults.standard.bool(forKey: "hasAgreed")

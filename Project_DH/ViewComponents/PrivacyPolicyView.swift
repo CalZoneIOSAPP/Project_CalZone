@@ -79,6 +79,11 @@ struct PrivacyPolicyView: View {
 
 
 extension View {
+    /// This function presents the popup for privacy and policy.
+    /// - Parameters:
+    ///     - isPresented: whether the popup should be displayed.
+    ///     - onDismiss: closure
+    /// - Returns: popup view
     func popup(isPresented: Binding<Bool>, onDismiss: @escaping () -> Void) -> some View {
         self.overlay(
             Group {

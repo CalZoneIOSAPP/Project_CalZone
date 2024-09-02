@@ -72,6 +72,9 @@ struct DropDownMenu: View {
     
     
     @ViewBuilder
+    /// This function shows the options selector.
+    /// - Parameters: none
+    /// - Returns: the view itself
     func OptionsView() -> some View {
         VStack(spacing: 10){
             ForEach(options, id: \.self) { option in
