@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 
 struct ChatView: View {
@@ -13,6 +14,10 @@ struct ChatView: View {
     @StateObject var viewModel: ChatViewModel
     @StateObject var profileViewModel = ProfileViewModel()
     @Environment(\.dismiss) private var dismiss
+    
+    private var user: User? {
+        return profileViewModel.currentUser
+    }
     
     var body: some View {
         VStack {
@@ -32,6 +37,7 @@ struct ChatView: View {
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
                         .id(message.id)
+                        .padding(.vertical, 5)
                         .onChange(of: viewModel.messages) { oldValue, newValue in
                             scrollToBottom(scrollView: scrollView)
                         }
@@ -129,12 +135,48 @@ struct ChatView: View {
             if (message.role == .user) {
                 Spacer()
             }
+            if (message.role == .assistant) {
+                VStack {
+                    Image("Logo_filled")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding(.trailing, 10)
+                        .padding(.top, 10)
+                    Spacer()
+                }
+            }
             Text(message.text)
                 .padding(.horizontal)
                 .padding(.vertical, 12)
                 .foregroundStyle(message.role == .user ? .white : .black)
                 .background(message.role == .user ? .brandDarkGreen : .white)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            
+            if (message.role == .user) {
+                VStack {
+                    if let imageUrl = user?.profileImageUrl {
+                        KFImage(URL(string: imageUrl))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 40, height: 40)
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                            .padding(.leading, 10)
+                            .padding(.top, 10)
+
+                    } else {
+                        Image(systemName: "person.crop.square")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(Color(.systemGray4))
+                            .padding(.leading, 10)
+                            .padding(.top, 10)
+                            
+                    }
+                    Spacer()
+                }
+            }
+            
             if (message.role == .assistant) {
                 Spacer()
             }
