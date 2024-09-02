@@ -114,6 +114,19 @@ struct ProfilePageView: View {
             EditProfileView(showingProfileInfo: $showingProfileInfo)
                 .environmentObject(viewModel)
         })
+        .fullScreenCover(item: $selectedView) { viewCase in
+            switch viewCase {
+            case .myStatistics:
+                StatsChartView() // Show the StatsChartView
+            // TODO: Handle other cases in the future!
+            case .meals:
+                StatsChartView()
+            case .friends:
+                StatsChartView()
+            case .settings:
+                StatsChartView()
+            }
+        }
 
 //        .fullScreenCover(isPresented: $showingProfilePreview, content: {
 //            ProfilePreviewView(user: user ?? User.MOCK_USER, showingProfilePreview: $showingProfilePreview)
