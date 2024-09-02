@@ -84,6 +84,7 @@
 		54F18F112C850244001E6A38 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F102C850244001E6A38 /* LaunchScreenView.swift */; };
 		54F18F152C850B27001E6A38 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F142C850B27001E6A38 /* PrivacyPolicyView.swift */; };
 		54F18F172C859EE1001E6A38 /* LaunchView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54F18F162C859EE1001E6A38 /* LaunchView.storyboard */; };
+		54F18F1B2C85B7E1001E6A38 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F1A2C85B7E1001E6A38 /* Tip.swift */; };
 		54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB027F2C4BD8D9004D8451 /* ChatSelectionView.swift */; };
 		54FB02822C4BD907004D8451 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB02812C4BD907004D8451 /* ChatView.swift */; };
 		54FB02842C4BD974004D8451 /* ChatSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB02832C4BD974004D8451 /* ChatSelectionViewModel.swift */; };
@@ -165,6 +166,7 @@
 		54F18F102C850244001E6A38 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		54F18F142C850B27001E6A38 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		54F18F162C859EE1001E6A38 /* LaunchView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchView.storyboard; sourceTree = "<group>"; };
+		54F18F1A2C85B7E1001E6A38 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		54FB027F2C4BD8D9004D8451 /* ChatSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectionView.swift; sourceTree = "<group>"; };
 		54FB02812C4BD907004D8451 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		54FB02832C4BD974004D8451 /* ChatSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 		547999742BE3DE63007A7CCE /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				54F18F192C85B7D5001E6A38 /* UserGuide */,
 				540CB16B2C4D05490033F69F /* ImageModule */,
 				043097362BE701430016FCD8 /* MockData */,
 				5479997B2BE3DF7D007A7CCE /* FirebaseConstants.swift */,
@@ -501,6 +504,14 @@
 				043097222BE6EBD60016FCD8 /* CardTemplateLibrary */,
 			);
 			path = Legacy;
+			sourceTree = "<group>";
+		};
+		54F18F192C85B7D5001E6A38 /* UserGuide */ = {
+			isa = PBXGroup;
+			children = (
+				54F18F1A2C85B7E1001E6A38 /* Tip.swift */,
+			);
+			path = UserGuide;
 			sourceTree = "<group>";
 		};
 		54FB027C2C4BD786004D8451 /* AI_Advisor */ = {
@@ -652,6 +663,7 @@
 				54E9D6D72C773B3D00CFD7A0 /* MealType.swift in Sources */,
 				5474F6712C77C31800BF86F4 /* SecureFieldView.swift in Sources */,
 				542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */,
+				54F18F1B2C85B7E1001E6A38 /* Tip.swift in Sources */,
 				0497CA442C85784100A6FE84 /* StatsChartView.swift in Sources */,
 				54D6310A2BF77DA000AD4A66 /* NameCardInfo.swift in Sources */,
 				5479997C2BE3DF7D007A7CCE /* FirebaseConstants.swift in Sources */,

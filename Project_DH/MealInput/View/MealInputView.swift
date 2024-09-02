@@ -22,6 +22,8 @@ struct MealInputView: View {
     @State private var showingDatePicker = false
     @State private var originalDate: Date = Date()
     
+    let saveToOtherDateTip = SaveToOtherDateTip()
+    
     enum SourceType {
         case camera
         case photoLibrary
@@ -226,6 +228,7 @@ struct MealInputView: View {
                             CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingDatePicker, viewModel: dashboardViewModel, fetchOnDone: false)
                                 .disabled(viewModel.isProcessingMealInfo || savePressed)
                                 .opacity(viewModel.isProcessingMealInfo || savePressed ? 0 : 1.0)
+                                .popoverTip(saveToOtherDateTip)
                         }
                     })
                 } // End of VStack

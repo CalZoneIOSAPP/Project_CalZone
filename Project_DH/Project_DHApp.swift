@@ -8,11 +8,17 @@
 import SwiftUI
 import Firebase
 import GoogleSignIn
+import TipKit
 
 @main
 struct Project_MeApp: App {
     init() {
         FirebaseApp.configure()
+        do {
+            try setupTips()
+        } catch {
+            print("ERROR: Setting up tips. \nSource: Project_DHApp")
+        }
     }
     
     var body: some Scene {
@@ -20,5 +26,9 @@ struct Project_MeApp: App {
             LaunchScreenView()
                 .preferredColorScheme(.light) // This sets the application to only show in light mode.
         }
+    }
+    
+    private func setupTips() throws {
+        try Tips.configure([.displayFrequency(.immediate), .datastoreLocation(.applicationDefault)])
     }
 }
