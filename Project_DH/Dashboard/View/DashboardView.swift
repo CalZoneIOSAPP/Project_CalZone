@@ -36,7 +36,7 @@ struct DashboardView: View {
                     } else {
                         ScrollView {
                             dashboardHeader
-                                .padding(.bottom, -20)
+                                .padding(.bottom, 50)
                             mealSections
                         }
                         .refreshable { // Pull down to refresh
@@ -88,11 +88,14 @@ struct DashboardView: View {
         VStack(alignment: .center) {
             if let targetCalories = viewModel.profileViewModel.currentUser?.targetCalories {
                 ProgressBarView(targetCalories: Int(targetCalories)!, currentCalories: viewModel.sumCalories)
+                    .padding(.bottom, -30)
+
             } else {
                 Text("You Consumed \(viewModel.sumCalories) Calories Today")
                     .font(.title)
                     .padding(.top, 5)
             }
+        
             if viewModel.exceededCalorieTarget {
                 Text(LocalizedStringKey("Be careful, you exceeded your calorie limit!"))
                     .foregroundStyle(Color.brandRed)

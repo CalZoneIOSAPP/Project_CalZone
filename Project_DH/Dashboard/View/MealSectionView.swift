@@ -140,6 +140,7 @@ struct MealSectionView: View {
         if foodItems.count == 0 {
             viewModel.deleteMeal(mealID: foodItem.mealId)
         }
+        viewModel.checkCalorieTarget()
     }
     
     

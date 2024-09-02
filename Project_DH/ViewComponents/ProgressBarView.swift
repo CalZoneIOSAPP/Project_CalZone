@@ -23,45 +23,12 @@ struct ProgressBarView: View {
                     .font(.title)
                     .padding(.bottom, 10)
                 if currentCalories > targetCalories {
-                    ProgressView(value: Double(targetCalories), total: Double(targetCalories))
-                        .progressViewStyle(LinearProgressViewStyle())
-                        .padding(.horizontal)
+                    semiCircleBar(curCal: targetCalories, targetCal: targetCalories)
+                    .padding(.horizontal, 80)
+                    .padding(.top, 20)
                 }
                 else {
-                    ZStack {
-                        // Background Circle
-                        Circle()
-                            .trim(from: 0.0, to: 0.65)
-                            .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-                            .opacity(0.2)
-                            .foregroundColor(color)
-                            .rotationEffect(Angle(degrees: rotationAngle))
-                            .shadow(color: Color.black.opacity(0.2), radius: 10, x:0, y:2)
-
-                        // Progress Circle
-                        Circle()
-                            .trim(from: 0.0, to: CGFloat(min(Double(currentCalories) / Double(targetCalories), 1.0)) * 0.65)
-                            .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color("brandLightGreen"), Color("brandDarkGreen")]), startPoint: .top, endPoint: .bottom))
-                            .rotationEffect(Angle(degrees: rotationAngle)) // Start from the top
-                            .animation(.linear, value: Double(currentCalories) / Double(targetCalories))
-
-                        // Progress Text
-                        VStack {
-                            Text(String(format: "%.0f%%", min(Double(currentCalories) / Double(targetCalories), 1.0) * 100.0))
-                                .font(.largeTitle)
-                                .foregroundColor(color)
-                            
-                            Divider()
-                                .padding(.horizontal, 30)
-                                .bold()
-                            
-                            Text("\(currentCalories)Cal")
-                                .font(.largeTitle)
-                                .foregroundColor(color)
-                        }
-                        
-                    }
+                    semiCircleBar(curCal: currentCalories, targetCal: targetCalories)
                     .padding(.horizontal, 80)
                     .padding(.top, 20)
                 }
@@ -74,6 +41,51 @@ struct ProgressBarView: View {
         }
         .padding()
     }
+    
+    
+    /// This function creates the semi circular progress bar.
+    /// - Parameters:
+    ///     - curCal: current calories
+    ///     - targetCal: target calories
+    /// - Returns: the progress bar
+    func semiCircleBar(curCal: Int, targetCal: Int ) -> some View {
+        ZStack {
+            // Background Circle
+            Circle()
+                .trim(from: 0.0, to: 0.65)
+                .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                .opacity(0.2)
+                .foregroundColor(color)
+                .rotationEffect(Angle(degrees: rotationAngle))
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x:0, y:2)
+
+            // Progress Circle
+            Circle()
+                .trim(from: 0.0, to: CGFloat(min(Double(curCal) / Double(targetCal), 1.0)) * 0.65)
+                .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color("brandLightGreen"), Color("brandDarkGreen")]), startPoint: .trailing, endPoint: .leading))
+                .rotationEffect(Angle(degrees: rotationAngle)) // Start from the top
+                .animation(.linear, value: Double(curCal) / Double(targetCal))
+
+            // Progress Text
+            VStack {
+                Text(String(format: "%.0f%%", min(Double(curCal) / Double(targetCal), 1.0) * 100.0))
+                    .font(.largeTitle)
+                    .foregroundColor(color)
+                
+                Divider()
+                    .padding(.horizontal, 30)
+                    .bold()
+                
+                Text("\(curCal)Cal")
+                    .font(.largeTitle)
+                    .foregroundColor(color)
+            }
+        }
+    }
+    
+    
+    
 }
 
 

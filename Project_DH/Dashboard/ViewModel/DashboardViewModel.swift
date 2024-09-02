@@ -71,9 +71,11 @@ class DashboardViewModel: ObservableObject {
             print("NOTE: FIRST TRUE \(calTarget), \(self.sumCalories)")
             
             if Int(calTarget) == 0 {
+                print("0 cal")
                 exceededCalorieTarget = false
             } else {
                 exceededCalorieTarget = Int(calTarget)! < self.sumCalories
+                print("exeeded calorie num")
             }
         } else {
             exceededCalorieTarget = false
