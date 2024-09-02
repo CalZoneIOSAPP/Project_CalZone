@@ -113,9 +113,7 @@ struct FoodItemEditView: View {
                 }
             }
         }// End of ZStack
-        .onTapGesture {
-            UIApplication.shared.hideKeyboard()  // Dismiss the keyboard on any tap
-        }
+        .dismissKeyboardOnTap()
     }
     
     

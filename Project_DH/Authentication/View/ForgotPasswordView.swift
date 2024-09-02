@@ -74,9 +74,7 @@ struct ForgotPasswordView: View {
         .navigationTitle("Reset Password")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden()
-        .onTapGesture {
-            UIApplication.shared.hideKeyboard()  // Dismiss the keyboard on any tap
-        }
+        .dismissKeyboardOnTap()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {

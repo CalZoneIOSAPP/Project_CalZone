@@ -107,7 +107,6 @@ struct EditProfileView: View {
                 }
                 .disabled(viewModel.showEditWindow)
                 
-                
                 List {
                     
                     Section(header: Text("Account Info")){
@@ -159,7 +158,6 @@ struct EditProfileView: View {
             if viewModel.showEditWindow {
                 EditInfoView
             }
-            
         }// End of Z Stack
         
     }

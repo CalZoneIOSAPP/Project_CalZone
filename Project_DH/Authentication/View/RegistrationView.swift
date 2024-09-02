@@ -137,9 +137,7 @@ struct RegistrationView: View {
             
         } // End of Navigation Stack
         .navigationBarBackButtonHidden()
-        .onTapGesture {
-            UIApplication.shared.hideKeyboard()  // Dismiss the keyboard on any tap
-        }
+        .dismissKeyboardOnTap()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {

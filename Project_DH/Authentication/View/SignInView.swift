@@ -126,7 +126,6 @@ struct SignInView: View {
                         case .failure(let error):
                             print("FAILED SIGNING IN WITH APPLE \(error)")
                         }
-                        
                     }
                     .frame(width: 293, height: 40)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -184,21 +183,11 @@ struct SignInView: View {
                     .font(.footnote)
                     .padding(.vertical)
                 }
-                
-
             }
             .ignoresSafeArea(.keyboard, edges: .all)
-            
-            
-            
+            .dismissKeyboardOnTap()
         } // End of Navigation Stack
         .navigationBarBackButtonHidden()
-        .onTapGesture {
-            UIApplication.shared.hideKeyboard()  // Dismiss the keyboard on any tap
-        }
-        
-        
-        
     }
     
 }

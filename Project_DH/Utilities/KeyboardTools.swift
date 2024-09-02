@@ -16,3 +16,24 @@ extension UIApplication {
 }
 
  
+// ViewModifier to dismiss the keyboard on tap outside of interactive components
+struct KeyboardDismissModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        UIApplication.shared.hideKeyboard()
+                    }
+            )
+    }
+}
+
+
+// Extension to easily apply the modifier
+extension View {
+    func dismissKeyboardOnTap() -> some View {
+        modifier(KeyboardDismissModifier())
+    }
+}
