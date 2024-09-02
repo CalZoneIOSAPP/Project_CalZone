@@ -62,12 +62,19 @@ struct LaunchScreenView: View {
 struct LaunchScreenContentView: View {
     var body: some View {
         VStack {
-            VStack {
-                Image("Logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(.horizontal, 100)
+            Spacer()
+            HStack {
+                Spacer()
+                VStack {
+                    Image("Logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.horizontal, 110)
+                }
+                Spacer()
             }
+            .padding(.bottom, 20)
+            Spacer()
         }
         .frame(minHeight: 2000)
     }
