@@ -31,11 +31,11 @@ struct ChatSelectionView: View {
                                     selectedChatId = ChatID(id: chat.id ?? "")
                                 }) {
                                     HStack {
-                                        Image(systemName: "person.crop.square")
+                                        Image("Logo_filled")
                                             .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .opacity(0.5)
-                                            .clipShape(Rectangle())
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .padding(.trailing, 10)
                                         
                                         VStack(alignment: .leading) {
                                             Text(chat.topic ?? "AI Advisor - Cally")
@@ -58,7 +58,6 @@ struct ChatSelectionView: View {
 //                                                .clipShape(Capsule(style: .continuous))
                                         
                                     }
-                                    .padding(.vertical, 7)
                                     .contentShape(Rectangle())
                                     
                                 }
