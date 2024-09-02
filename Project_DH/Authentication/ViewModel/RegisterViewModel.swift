@@ -19,6 +19,8 @@ class RegisterViewModel: ObservableObject {
     @Published var alertItem: AlertItem?
     @Published var showLoadingScreen = true
     
+    @Published var processingRegistration = false
+    
     // TODO: CREATE LOCAL USER OBJECT
 //    @Published var User
     

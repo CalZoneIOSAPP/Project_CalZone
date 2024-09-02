@@ -86,7 +86,13 @@ struct SignInView: View {
                     
                     // MARK: SIGN IN WITH EMAIL AND PASSWORD
                     Button {
-                        Task { try await authViewModel.login() }
+                        authViewModel.processingSignIn = true
+                        Task {
+                            defer {
+                                authViewModel.processingSignIn = false
+                            }
+                            try await authViewModel.login()
+                        }
                     }label: {
                         Text("Sign In                                                      ")
                     }
@@ -97,6 +103,7 @@ struct SignInView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding(.vertical)
                     .shadow(radius: 3)
+                    .disabled(authViewModel.processingSignIn)
                     
                     dividerOr()
                     
@@ -109,19 +116,31 @@ struct SignInView: View {
                     } onCompletion: { result in
                         switch result {
                         case .success(let authorization):
-                            Task { try await authViewModel.signInApple(authorization) }
+                            Task {
+                                authViewModel.processingSignIn = true
+                                defer {
+                                    authViewModel.processingSignIn = false
+                                }
+                                try await authViewModel.signInApple(authorization)
+                            }
                         case .failure(let error):
                             print("FAILED SIGNING IN WITH APPLE \(error)")
                         }
+                        
                     }
                     .frame(width: 293, height: 40)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding(.top, 8)
                     .shadow(radius: 3)
+                    .disabled(authViewModel.processingSignIn)
                     
                     // MARK: SIGN IN WITH GOOGLE
                     Button {
                         Task {
+                            authViewModel.processingSignIn = true
+                            defer {
+                                authViewModel.processingSignIn = false
+                            }
                             do {
                                 try await authViewModel.signInGoogle()
                             } catch {
@@ -139,7 +158,6 @@ struct SignInView: View {
                                 .foregroundStyle(Color(.systemGray))
                                 .padding(.trailing)
                         }
-                        
                     }
                     .fontWeight(.semibold)
                     .foregroundStyle(.white)
@@ -148,6 +166,7 @@ struct SignInView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding(.bottom, 40)
                     .shadow(radius: 3)
+                    .disabled(authViewModel.processingSignIn)
 
                     Spacer()
                     

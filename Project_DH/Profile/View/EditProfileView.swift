@@ -19,6 +19,7 @@ struct EditProfileView: View {
     @State private var isImagePickerPresented: Bool = false
     @State private var sourceType: SourceType = .camera
     @State private var pickedPhoto: Bool = false
+    @State private var showSavingPopup: Bool = false
     
     var currentEditTab = ""
     
@@ -45,6 +46,11 @@ struct EditProfileView: View {
 
                     Button { // Save the photo to the Firebase
                         Task {
+                            viewModel.processingSaving = true
+                            defer {
+                                viewModel.processingSaving = false
+                                showSavingPopup = true
+                            }
                             try await viewModel.updateProfilePhoto()
                             pickedPhoto = false
                         }
@@ -54,7 +60,7 @@ struct EditProfileView: View {
                             .opacity(!pickedPhoto ? 0 : 1)
                     }
                     .padding(.trailing, 30)
-                    .disabled(!pickedPhoto)
+                    .disabled(!pickedPhoto || viewModel.processingSaving)
                     
                 }
                 .disabled(viewModel.showEditWindow)
@@ -143,7 +149,12 @@ struct EditProfileView: View {
                 }
                 .disabled(viewModel.showEditWindow)
             }
-            .blur(radius: viewModel.showEditWindow ? 5 : 0)
+            .blur(radius: viewModel.showEditWindow || showSavingPopup ? 5 : 0)
+            
+            if showSavingPopup {
+                PopUpMessageView(messageTitle: "Success!", message: "Your profile image is updated.", isPresented: $showSavingPopup)
+                    .animation(.easeInOut, value: showSavingPopup)
+            }
             
             if viewModel.showEditWindow {
                 EditInfoView

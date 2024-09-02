@@ -27,6 +27,7 @@ class ProfileViewModel: ObservableObject {
     @Published var editInfoWindowTitle = LocalizedStringKey("")
     @Published var editInfoWindowPlaceHolder = LocalizedStringKey("")
     @Published var strToChange = ""
+    @Published var processingSaving: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     

@@ -18,6 +18,7 @@ class SignInViewModel: ObservableObject {
     @Published var password = ""
     @Published var nonce: String?
     @Published var alertItem: AlertItem?
+    @Published var processingSignIn = false
     
     
     /// This function is triggered when the user tries to log in on the front end.

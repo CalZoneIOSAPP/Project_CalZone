@@ -380,7 +380,6 @@
 				541D91C42BE7D323000DED2B /* TapGestures(legacy).swift */,
 				541D91CE2BE800FA000DED2B /* TopViewController.swift */,
 				54C06B142BEBA129005D98A7 /* TimeManager.swift */,
-				54A59C412C550FF200617B83 /* PopUpMessageView.swift */,
 				54BF6FE22C594095006151F6 /* MemoryManagement.swift */,
 				542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */,
 				547DA2DA2C711350003A37CA /* GradientColor.swift */,
@@ -402,6 +401,7 @@
 				545700FB2C6E43C5008110D1 /* ProgressBarView.swift */,
 				5474F6672C7740A400BF86F4 /* DropDownMenu.swift */,
 				54F18F142C850B27001E6A38 /* PrivacyPolicyView.swift */,
+				54A59C412C550FF200617B83 /* PopUpMessageView.swift */,
 			);
 			path = ViewComponents;
 			sourceTree = "<group>";

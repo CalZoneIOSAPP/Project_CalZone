@@ -112,7 +112,13 @@ struct RegistrationView: View {
                     
                     // MARK: SIGN UP BUTTON
                     Button {
-                        Task{ try await authViewModel.createUser() }
+                        authViewModel.processingRegistration = true
+                        Task{
+                            defer {
+                                authViewModel.processingRegistration = false
+                            }
+                            try await authViewModel.createUser()
+                        }
                     }label: {
                         Text("Sign Up")
                     }
@@ -123,6 +129,7 @@ struct RegistrationView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding(.bottom, 30)
                     .shadow(radius: 3)
+                    .disabled(authViewModel.processingRegistration)
                 }
             }
             .ignoresSafeArea(.keyboard, edges: .all)
