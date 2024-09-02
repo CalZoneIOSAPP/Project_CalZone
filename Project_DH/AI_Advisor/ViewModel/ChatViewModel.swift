@@ -22,6 +22,7 @@ class ChatViewModel: ObservableObject {
     @Published var selectedModel: ChatModel = .gpt4 // default model
     @Published var scrollToBottom = false
     @Published var calories: String?
+    @Published var isTyping: Bool = false
     
     let chatId: String
     let db = Firestore.firestore()
@@ -175,6 +176,7 @@ class ChatViewModel: ObservableObject {
     /// - Parameters:
     ///     - for: The message which the user inputs.
     /// - Returns: none
+    @MainActor
     func generateResponse(for message: AppMessage) async throws {
         // Prepare messages to send to Firebase function
         let queryMessages = messages.map { appMessage in
@@ -187,6 +189,8 @@ class ChatViewModel: ObservableObject {
         ]
         
         do {
+            isTyping = true
+            
             let result = try await functions.httpsCallable("generateResponse").call(data)
             
             if let responseData = result.data as? [String: Any], let content = responseData["content"] as? String, let tokensUsed = responseData["tokensUsed"] as? Int{
@@ -198,14 +202,13 @@ class ChatViewModel: ObservableObject {
                 if let lastMessage = messages.last {
                     _ = try storeMessage(message: lastMessage)
                 }
-                
                 tokens = tokensUsed
-                
             }
         } catch {
             print("ERROR: Calling Firebase cloud function for response generation: \nSource: ChatViewModel/sendMessage() \n\(error.localizedDescription)")
             throw error
         }
+        isTyping = false
     }
     
     

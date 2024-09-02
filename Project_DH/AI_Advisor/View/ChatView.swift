@@ -16,7 +16,7 @@ struct ChatView: View {
     
     var body: some View {
         VStack {
-            Text(viewModel.chat?.topic ?? "AI Advisor - Cally")
+            Text(viewModel.isTyping ? "AI Advisor - Cally (Typing...)" : "AI Advisor - Cally")
                 .font(.title3)
                 .bold()
                 .padding(.top, 15)
@@ -33,7 +33,6 @@ struct ChatView: View {
                         .listRowBackground(Color.clear)
                         .id(message.id)
                         .onChange(of: viewModel.messages) { oldValue, newValue in
-                            print(viewModel.messages)
                             scrollToBottom(scrollView: scrollView)
                         }
                 }
