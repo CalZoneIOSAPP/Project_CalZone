@@ -49,7 +49,6 @@ struct DashboardView: View {
                         }
                     }
                 }
-//                .navigationTitle(isGreetingVisible ? "\(getGreeting()), \(viewModel.profileViewModel.currentUser?.userName ?? "The Healthy One!")" : "\(DateTools().formattedDate(viewModel.selectedDate))")
                 .navigationTitle("CalBite")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {

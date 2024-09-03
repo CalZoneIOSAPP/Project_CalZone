@@ -38,7 +38,7 @@ struct DetailForm: View {
                         tel: tel.isEmpty ? nil : tel,
                         userName: userName,
                         address: address.isEmpty ? nil : address,
-                        description: description.isEmpty ? nil : description
+                        firstTimeUser: true, description: description.isEmpty ? nil : description
                     )
                     self.presentationMode.wrappedValue.dismiss()
                 }) {

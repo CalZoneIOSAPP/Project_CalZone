@@ -20,7 +20,7 @@ struct MockData {
             tel: "5087235805",
             userName: "Kinopio",
             profileImageUrl: "",
-            description: "bigsmart",
+            firstTimeUser: true, description: "bigsmart",
             followerNum: 1
         ),
         .init(
@@ -30,7 +30,7 @@ struct MockData {
             email: "bigsmart@gmail.com",
             userName: "RNGUZI",
             profileImageUrl: "",
-            description: "REAL UZI",
+            firstTimeUser: false, description: "REAL UZI",
             followerNum: 2
         )
     ]

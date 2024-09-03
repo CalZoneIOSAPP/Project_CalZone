@@ -133,5 +133,12 @@ class UserServices {
         }
     }
     
+    @MainActor
+    func updateFirstTimeLogin() async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["firstTimeUser" : false])
+        self.currentUser?.firstTimeUser = false
+    }
+    
     
 }

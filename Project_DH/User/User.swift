@@ -25,6 +25,7 @@ struct User: Codable, Identifiable, Hashable {
     var userName: String?
     var profileImageUrl: String?
     var address: String?
+    var firstTimeUser: Bool?
     
     var id: String { // Use this to work with instead of the uid
         return uid ?? NSUUID().uuidString
@@ -44,7 +45,7 @@ struct User: Codable, Identifiable, Hashable {
 
 // Mock user
 extension User {
-    static let MOCK_USER = User(email: "123@gmail.com", userName: "MockUserName")
+    static let MOCK_USER = User(email: "123@gmail.com", userName: "MockUserName", firstTimeUser: true)
     
 }
 

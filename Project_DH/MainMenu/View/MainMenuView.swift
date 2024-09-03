@@ -10,6 +10,8 @@ import SwiftUI
 
 /// The view which handles all major tabs of the application. The logic for the bottom tabs.
 struct MainMenuView: View {
+    @State private var isShowingInfoCollection: Bool = true
+    @StateObject var profileViewModel = ProfileViewModel()
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -54,9 +56,27 @@ struct MainMenuView: View {
                     .padding(.bottom, 49)
             }
             .edgesIgnoringSafeArea(.bottom) // Ensures the Divider is aligned with the tab bar
+            
+            if isShowingInfoCollection && checkFirstTimeLogIn(){
+                InfoCollectionView(isShowing: $isShowingInfoCollection)
+            }
+            
         }
         .ignoresSafeArea(.keyboard)
-
+        
+    }
+    
+    
+    /// Checks whether the user signed in for the first time.
+    /// - Parameters: none
+    /// - Returns: none
+    func checkFirstTimeLogIn() -> Bool{
+        if let firstTimeUser = profileViewModel.currentUser?.firstTimeUser {
+            print(profileViewModel.currentUser?.uid as Any)
+            print("FIRST TIME USER: \(firstTimeUser)")
+            return firstTimeUser
+        }
+        return false
     }
 }
 
