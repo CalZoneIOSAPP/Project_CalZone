@@ -38,10 +38,7 @@ struct InfoCollectionView: View {
                 
                 Spacer()
                 
-                // Forward arrow button
-                Button(action: {
-                    // Add next action
-                }) {
+                NavigationLink(destination: GenderSelectionView(isShowing: $isShowing)) {
                     Image(systemName: "arrow.right")
                         .resizable()
                         .frame(width: 25, height: 25)
@@ -51,6 +48,7 @@ struct InfoCollectionView: View {
                         .clipShape(Circle())
                 }
                 .padding(.bottom, 60)
+
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

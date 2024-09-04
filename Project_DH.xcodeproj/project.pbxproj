@@ -87,6 +87,11 @@
 		54F18F242C877699001E6A38 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F232C877699001E6A38 /* GenderSelectionView.swift */; };
 		54F18F262C877730001E6A38 /* InfoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F252C877730001E6A38 /* InfoCollectionView.swift */; };
 		54F18F292C88227B001E6A38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F18F282C88227B001E6A38 /* GoogleService-Info.plist */; };
+		54F18F2B2C88C6D7001E6A38 /* WeightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F2A2C88C6D7001E6A38 /* WeightSelectionView.swift */; };
+		54F18F2D2C88CED5001E6A38 /* TargetWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F2C2C88CED5001E6A38 /* TargetWeightView.swift */; };
+		54F18F2F2C88D0FF001E6A38 /* HeightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F2E2C88D0FF001E6A38 /* HeightSelectionView.swift */; };
+		54F18F312C88D6BD001E6A38 /* BirthdaySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F302C88D6BD001E6A38 /* BirthdaySelectionView.swift */; };
+		54F18F332C88DBEC001E6A38 /* CollectionDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F322C88DBEC001E6A38 /* CollectionDoneView.swift */; };
 		54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB027F2C4BD8D9004D8451 /* ChatSelectionView.swift */; };
 		54FB02822C4BD907004D8451 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB02812C4BD907004D8451 /* ChatView.swift */; };
 		54FB02842C4BD974004D8451 /* ChatSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB02832C4BD974004D8451 /* ChatSelectionViewModel.swift */; };
@@ -171,6 +176,11 @@
 		54F18F232C877699001E6A38 /* GenderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
 		54F18F252C877730001E6A38 /* InfoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionView.swift; sourceTree = "<group>"; };
 		54F18F282C88227B001E6A38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		54F18F2A2C88C6D7001E6A38 /* WeightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSelectionView.swift; sourceTree = "<group>"; };
+		54F18F2C2C88CED5001E6A38 /* TargetWeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetWeightView.swift; sourceTree = "<group>"; };
+		54F18F2E2C88D0FF001E6A38 /* HeightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightSelectionView.swift; sourceTree = "<group>"; };
+		54F18F302C88D6BD001E6A38 /* BirthdaySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdaySelectionView.swift; sourceTree = "<group>"; };
+		54F18F322C88DBEC001E6A38 /* CollectionDoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDoneView.swift; sourceTree = "<group>"; };
 		54FB027F2C4BD8D9004D8451 /* ChatSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectionView.swift; sourceTree = "<group>"; };
 		54FB02812C4BD907004D8451 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		54FB02832C4BD974004D8451 /* ChatSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -533,6 +543,11 @@
 			children = (
 				54F18F252C877730001E6A38 /* InfoCollectionView.swift */,
 				54F18F232C877699001E6A38 /* GenderSelectionView.swift */,
+				54F18F2A2C88C6D7001E6A38 /* WeightSelectionView.swift */,
+				54F18F2C2C88CED5001E6A38 /* TargetWeightView.swift */,
+				54F18F2E2C88D0FF001E6A38 /* HeightSelectionView.swift */,
+				54F18F302C88D6BD001E6A38 /* BirthdaySelectionView.swift */,
+				54F18F322C88DBEC001E6A38 /* CollectionDoneView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -679,6 +694,7 @@
 				541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */,
 				541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */,
 				541D352E2BE3D7E600AF38AF /* RegisterViewModel.swift in Sources */,
+				54F18F2D2C88CED5001E6A38 /* TargetWeightView.swift in Sources */,
 				5474F6682C7740A400BF86F4 /* DropDownMenu.swift in Sources */,
 				547FE76D2C4A55BF00C80790 /* ProfilePageEnum.swift in Sources */,
 				547999732BE3DE05007A7CCE /* UserServices.swift in Sources */,
@@ -693,6 +709,7 @@
 				5474F6712C77C31800BF86F4 /* SecureFieldView.swift in Sources */,
 				542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */,
 				54F18F1B2C85B7E1001E6A38 /* Tip.swift in Sources */,
+				54F18F2B2C88C6D7001E6A38 /* WeightSelectionView.swift in Sources */,
 				0497CA442C85784100A6FE84 /* StatsChartView.swift in Sources */,
 				54D6310A2BF77DA000AD4A66 /* NameCardInfo.swift in Sources */,
 				5479997C2BE3DF7D007A7CCE /* FirebaseConstants.swift in Sources */,
@@ -712,6 +729,7 @@
 				541D35332BE3D7E600AF38AF /* SignInView.swift in Sources */,
 				547999882BE41D7F007A7CCE /* MainMenuView.swift in Sources */,
 				54C06B132BEA85D1005D98A7 /* ForgotPasswordView.swift in Sources */,
+				54F18F312C88D6BD001E6A38 /* BirthdaySelectionView.swift in Sources */,
 				54B80ECC2C5191350065B1B7 /* MealInputViewModel.swift in Sources */,
 				54D631042BF77D2400AD4A66 /* DetailForm.swift in Sources */,
 				547999712BE3DE05007A7CCE /* User.swift in Sources */,
@@ -744,6 +762,8 @@
 				54E926B62BEE47D6001ACDD8 /* ImageTools.swift in Sources */,
 				545700FC2C6E43C5008110D1 /* ProgressBarView.swift in Sources */,
 				54BF6FE32C594095006151F6 /* MemoryManagement.swift in Sources */,
+				54F18F2F2C88D0FF001E6A38 /* HeightSelectionView.swift in Sources */,
+				54F18F332C88DBEC001E6A38 /* CollectionDoneView.swift in Sources */,
 				043097382BE7018C0016FCD8 /* MockData.swift in Sources */,
 				54C06B152BEBA129005D98A7 /* TimeManager.swift in Sources */,
 				54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */,

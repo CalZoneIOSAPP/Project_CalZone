@@ -1,0 +1,102 @@
+//
+//  BirthdaySelectionView.swift
+//  Project_DH
+//
+//  Created by Yongxiang Jin on 9/4/24.
+//
+
+import SwiftUI
+
+struct BirthdaySelectionView: View {
+    @Binding var isShowing: Bool
+    @State private var selectedYear = 2000
+    @State private var selectedMonth = 1
+    @State private var selectedDay = 1
+    
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 20) {
+                // Subtitle
+                Text("完成评测，为你生成专属方案")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                
+                // Progress bar
+                ProgressView(value: 1.0)
+                    .progressViewStyle(LinearProgressViewStyle(tint: .brandDarkGreen))
+                    .padding(.horizontal)
+                    .padding(.top, 10)
+                
+                
+                // Birthday Section
+                VStack(spacing: 20) {
+                    Text("你的出生日期是?")
+                        .font(.title2)
+                        .fontWeight(.medium)
+                        .foregroundColor(.black)
+                    
+                    // Date Picker (year, month, day)
+                    HStack {
+                        Picker(selection: $selectedYear, label: Text("")) {
+                            ForEach(1997...2003, id: \.self) { year in
+                                Text("\(year)年").tag(year)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .clipped()
+                        
+                        Picker(selection: $selectedMonth, label: Text("")) {
+                            ForEach(1...12, id: \.self) { month in
+                                Text("\(month)月").tag(month)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .clipped()
+                        
+                        Picker(selection: $selectedDay, label: Text("")) {
+                            ForEach(1...31, id: \.self) { day in
+                                Text("\(day)日").tag(day)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .clipped()
+                    }
+                    .pickerStyle(WheelPickerStyle())
+                }
+                .padding()
+                
+                // Age and Description
+                VStack {
+                    Text("24 岁")
+                        .font(.largeTitle)
+                        .foregroundColor(.green)
+                    
+                    Text("基础代谢高、身体活动水平高，拥有体重管理的先天优势！")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                }
+                .padding()
+                
+                Spacer()
+                
+                NavigationLink(destination: CollectionDoneView(isShowing: $isShowing)) {
+                    Text("下一步")
+                        .font(.headline)
+                        .foregroundColor(.brandDarkGreen)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.brandLightGreen)
+                        .cornerRadius(10)
+                }
+                .padding(.bottom, 30)
+                .padding(.horizontal)
+            }
+            .background(.brandBackgroundGreen)
+        } // NavigationStack
+    }
+}
+
+#Preview {
+    BirthdaySelectionView(isShowing: .constant(true))
+}
