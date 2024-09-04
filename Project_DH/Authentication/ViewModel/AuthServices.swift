@@ -51,13 +51,20 @@ class AuthServices {
             let result = try await Auth.auth().signIn(with: credential)
             print("LOGIN WITH CREDENTIAL: \nGOT RESULT: \(result.user.uid)")
             self.userSession = result.user
-            try await UserServices.sharedUser.fetchCurrentUserData()
-            print("LOGGED IN USER WITH CREDENTIAL: \n\(result.user.uid)" )
+            do {
+                try await UserServices.sharedUser.fetchCurrentUserData()
+            } catch {
+                try await self.uploadUserAuthData(email: result.user.email!, userName: "Cool Person \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true)
+                try await UserServices.sharedUser.fetchCurrentUserData()
+                print("WARNING: Credential is provided, but failed to fetch user. Creating a new user object in the database. \nSource: AuthServices/login()")
+            }
+            print("NOTE: Logged in with user credential: \n\(result.user.uid)")
         } catch {
             // TODO: Make sure this is also true for Apple Sign In
             let result = try await Auth.auth().signIn(with: credential)
             try await self.uploadUserAuthData(email: result.user.email!, userName: "Cool Person \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true)
-            print("ERROR: FAILED TO SIGN IN WITH CREDENTIAL! \nSource: AuthServices/login() \n\(error.localizedDescription)")
+            try await UserServices.sharedUser.fetchCurrentUserData()
+            print("ERROR: Failed to sign in with credential. \nSource: AuthServices/login() \n\(error.localizedDescription)")
         }
     }
     

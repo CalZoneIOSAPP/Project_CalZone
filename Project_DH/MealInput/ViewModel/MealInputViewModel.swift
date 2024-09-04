@@ -225,6 +225,7 @@ class MealInputViewModel: ObservableObject {
     ///     - userId: the current user's id
     ///     - date: the date which the item will be saved to
     /// - Returns: none
+    @MainActor
     func saveFoodItem(image: UIImage, userId: String, date: Date, completion: @escaping (Error?) -> Void) async throws {
         guard let imageUrl = try? await FoodItemImageUploader.uploadImage(image) else {
             print("ERROR: FAILED TO GET imageURL! \nSource: saveFoodItem() ")

@@ -120,7 +120,9 @@ struct ChatView: View {
                     .background(Color.brandDarkGreen)
                     .bold()
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .opacity(viewModel.messageText == "" ? 0.7 : 1)
             }
+            .disabled(viewModel.messageText == "")
         }
         .padding()
     }
