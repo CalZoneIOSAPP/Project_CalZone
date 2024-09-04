@@ -13,7 +13,6 @@
 		047512BD2C5B2B40005F223A /* MealSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047512BC2C5B2B40005F223A /* MealSectionView.swift */; };
 		047512BF2C6568DE005F223A /* FoodItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047512BE2C6568DE005F223A /* FoodItemEditView.swift */; };
 		0497CA442C85784100A6FE84 /* StatsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA432C85784100A6FE84 /* StatsChartView.swift */; };
-		0497CA482C87BB0400A6FE84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0497CA472C87BB0400A6FE84 /* GoogleService-Info.plist */; };
 		0497CA4A2C87C08D00A6FE84 /* WeekSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA492C87C08D00A6FE84 /* WeekSelectionView.swift */; };
 		0497CA4E2C87D54800A6FE84 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA4D2C87D54800A6FE84 /* StatsViewModel.swift */; };
 		04EB98A52C54B759001621A6 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB98A42C54B759001621A6 /* Meal.swift */; };
@@ -87,6 +86,7 @@
 		54F18F1B2C85B7E1001E6A38 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F1A2C85B7E1001E6A38 /* Tip.swift */; };
 		54F18F242C877699001E6A38 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F232C877699001E6A38 /* GenderSelectionView.swift */; };
 		54F18F262C877730001E6A38 /* InfoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F252C877730001E6A38 /* InfoCollectionView.swift */; };
+		54F18F292C88227B001E6A38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F18F282C88227B001E6A38 /* GoogleService-Info.plist */; };
 		54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB027F2C4BD8D9004D8451 /* ChatSelectionView.swift */; };
 		54FB02822C4BD907004D8451 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB02812C4BD907004D8451 /* ChatView.swift */; };
 		54FB02842C4BD974004D8451 /* ChatSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FB02832C4BD974004D8451 /* ChatSelectionViewModel.swift */; };
@@ -101,7 +101,6 @@
 		047512BC2C5B2B40005F223A /* MealSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSectionView.swift; sourceTree = "<group>"; };
 		047512BE2C6568DE005F223A /* FoodItemEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodItemEditView.swift; sourceTree = "<group>"; };
 		0497CA432C85784100A6FE84 /* StatsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsChartView.swift; sourceTree = "<group>"; };
-		0497CA472C87BB0400A6FE84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0497CA492C87C08D00A6FE84 /* WeekSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSelectionView.swift; sourceTree = "<group>"; };
 		0497CA4D2C87D54800A6FE84 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
 		04EB98A42C54B759001621A6 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
@@ -169,9 +168,9 @@
 		54F18F142C850B27001E6A38 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		54F18F162C859EE1001E6A38 /* LaunchView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchView.storyboard; sourceTree = "<group>"; };
 		54F18F1A2C85B7E1001E6A38 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
-		54F18F1C2C85F78C001E6A38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54F18F232C877699001E6A38 /* GenderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
 		54F18F252C877730001E6A38 /* InfoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionView.swift; sourceTree = "<group>"; };
+		54F18F282C88227B001E6A38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54FB027F2C4BD8D9004D8451 /* ChatSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectionView.swift; sourceTree = "<group>"; };
 		54FB02812C4BD907004D8451 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		54FB02832C4BD974004D8451 /* ChatSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -486,9 +485,9 @@
 				547999742BE3DE63007A7CCE /* Utilities */,
 				54B4499E2BDD407C00E35D49 /* Preview Content */,
 				54E9D6D52C773A3900CFD7A0 /* Legacy */,
+				54F18F282C88227B001E6A38 /* GoogleService-Info.plist */,
 				54B4499C2BDD407C00E35D49 /* Assets.xcassets */,
 				541D91CD2BE7E09B000DED2B /* Project-DH-Info.plist */,
-				0497CA472C87BB0400A6FE84 /* GoogleService-Info.plist */,
 				54C06B112BE9665D005D98A7 /* Project_DHDebug.entitlements */,
 				54F18F0D2C84E6BA001E6A38 /* PrivacyInfo.xcprivacy */,
 			);
@@ -498,7 +497,6 @@
 		54B4499E2BDD407C00E35D49 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				54F18F1C2C85F78C001E6A38 /* GoogleService-Info.plist */,
 				54B4499F2BDD407C00E35D49 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -665,8 +663,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				54B449A02BDD407C00E35D49 /* Preview Assets.xcassets in Resources */,
+				54F18F292C88227B001E6A38 /* GoogleService-Info.plist in Resources */,
 				54B4499D2BDD407C00E35D49 /* Assets.xcassets in Resources */,
-				0497CA482C87BB0400A6FE84 /* GoogleService-Info.plist in Resources */,
 				54F18F172C859EE1001E6A38 /* LaunchView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
