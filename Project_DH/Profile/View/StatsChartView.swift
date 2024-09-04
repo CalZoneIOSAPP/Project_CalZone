@@ -11,6 +11,7 @@ import Charts
 struct StatsChartView: View {
     @State private var showingPopover = false
     @State private var selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: Date()) ?? DateInterval()
+    @State private var selectedMonth = Date() // Add selectedMonth state
     @Binding var user: User?
     @StateObject private var viewModel = StatsViewModel()
     @Environment(\.presentationMode) var presentationMode
@@ -33,10 +34,12 @@ struct StatsChartView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     Text("Total Calories: \(viewModel.totalCalories)")
-                        .padding()
+                        .font(.headline)
+                        .padding(.bottom, 5)
                     
-                    Text("Average Calories per day: \(viewModel.totalCalories / 7)")
-                        .padding()
+                    Text("Average Calories per day: \(viewModel.averageCalories)")
+                        .font(.subheadline)
+                        .padding(.bottom, 5)
                     
                     Chart {
                         ForEach(viewModel.weeklyData, id: \.0) { entry in
@@ -52,9 +55,11 @@ struct StatsChartView: View {
                             )
                             .foregroundStyle(.green)
                             .annotation(position: .top) {
-                                Text("\(entry.1)")
-                                    .font(.caption)
-                                    .foregroundColor(.black)
+                                if entry.1 > 0 {
+                                    Text("\(entry.1)")
+                                        .font(.caption)
+                                        .foregroundColor(.black)
+                                }
                             }
                         }
                     }
@@ -65,7 +70,7 @@ struct StatsChartView: View {
             }
             .navigationTitle("My Statistics")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {
+            .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
@@ -76,13 +81,12 @@ struct StatsChartView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    WeekSelectionView(selectedWeek: $selectedWeek, showingPopover: $showingPopover, user: $user, viewModel: viewModel)
+                    WeekSelectionView(selectedWeek: $selectedWeek, selectedMonth: $selectedMonth, showingPopover: $showingPopover, user: $user, viewModel: viewModel)
                 }
-            })
-            .onAppear{
+            }
+            .onAppear {
                 fetchDataForSelectedWeek()
             }
-            
         } // End of NavigationStack
     }
     

@@ -13,6 +13,7 @@ class StatsViewModel: ObservableObject {
     @Published var weeklyData: [(String, Int)] = []
     @Published var isLoading = true
     @Published var totalCalories = 0
+    @Published var averageCalories = 0
 
     private var db = Firestore.firestore()
 
@@ -27,21 +28,14 @@ class StatsViewModel: ObservableObject {
         
         weeklyData = [] // clear previous data
         totalCalories = 0
-        
-        print("the start date of weekInterval in viewmodel is \(currentDate)")
-        print("the whole weekInterval is \(weekInterval)")
-        
-        // var fetchedData: [(String, Int)] = []
-        // var fetchedData: [(String, Int)] = []
-
+        averageCalories = 0
         
         // Sequentially fetch calories for each date in the week
         func fetchNextDate() {
             guard currentDate < weekInterval.end else {
                 // End of the interval, update the data
                 DispatchQueue.main.async {
-                    // self.weeklyData = fetchedData
-                    // self.weeklyData = fetchedData
+                    self.averageCalories = self.totalCalories / (self.weeklyData.count > 0 ? self.weeklyData.count : 1)
                     self.isLoading = false
                 }
                 return
@@ -49,11 +43,9 @@ class StatsViewModel: ObservableObject {
 
             fetchCaloriesForDate(userId: userId, date: currentDate) { calories in
                 let dateString = DateFormatter.localizedString(from: currentDate, dateStyle: .short, timeStyle: .none)
-                print("I have dateString \(dateString), and date \(currentDate), and found calories \(calories)")
                 DispatchQueue.main.async {
                     self.weeklyData.append((dateString, calories))
                     self.totalCalories += calories
-                    print("Current weeklyData: \(self.weeklyData)")
                 }
                 
                 // Move to the next day
@@ -62,8 +54,6 @@ class StatsViewModel: ObservableObject {
                     fetchNextDate()  // Fetch the next date in sequence
                 } else {
                     DispatchQueue.main.async {
-                        // self.weeklyData = fetchedData
-                        // self.weeklyData = fetchedData
                         self.isLoading = false
                     }
                 }
@@ -72,6 +62,51 @@ class StatsViewModel: ObservableObject {
         
         fetchNextDate()  // Start fetching from the first day
     }
+    
+    /// Fetches calorie data for each day in the selected month for the given user.
+    /// - Parameters:
+    ///   - userId: The ID of the user.
+    ///   - monthStart: The start date of the month.
+    func fetchCaloriesForMonth(userId: String, monthStart: Date) {
+            isLoading = true
+            let calendar = Calendar.current
+            guard let monthEnd = calendar.date(byAdding: .month, value: 1, to: monthStart) else { return }
+            var currentDate = monthStart
+            
+            weeklyData = [] // clear previous data
+            totalCalories = 0
+            
+            // Sequentially fetch calories for each date in the month
+            func fetchNextDate() {
+                guard currentDate < monthEnd else {
+                    // End of the month, update the data
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                    }
+                    return
+                }
+
+                fetchCaloriesForDate(userId: userId, date: currentDate) { calories in
+                    let dateString = DateFormatter.localizedString(from: currentDate, dateStyle: .short, timeStyle: .none)
+                    DispatchQueue.main.async {
+                        self.weeklyData.append((dateString, calories))
+                        self.totalCalories += calories
+                    }
+                    
+                    // Move to the next day
+                    if let nextDay = calendar.date(byAdding: .day, value: 1, to: currentDate) {
+                        currentDate = nextDay
+                        fetchNextDate()  // Fetch the next date in sequence
+                    } else {
+                        DispatchQueue.main.async {
+                            self.isLoading = false
+                        }
+                    }
+                }
+            }
+            
+            fetchNextDate()  // Start fetching from the first day
+        }
 
     /// Fetches calorie data for a specific date for the given user.
     /// - Parameters:
@@ -82,8 +117,6 @@ class StatsViewModel: ObservableObject {
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
         let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)!
-        
-        print("I am fetching calories data from \(dayStart) to \(dayEnd)")
 
         let mealsQuery = db.collection("meal")
             .whereField("userId", isEqualTo: userId)
@@ -98,7 +131,6 @@ class StatsViewModel: ObservableObject {
             }
 
             guard let mealDocuments = querySnapshot?.documents, !mealDocuments.isEmpty else {
-                // print("No meals found for \(date)")
                 completion(0) // No meals found, so calorie count is 0
                 return
             }
@@ -108,7 +140,6 @@ class StatsViewModel: ObservableObject {
             
             // Ensure mealIds is not empty before querying foodItems
             guard !mealIds.isEmpty else {
-                // print("No mealIds found for \(date), setting calories to 0")
                 completion(0)
                 return
             }
@@ -127,11 +158,9 @@ class StatsViewModel: ObservableObject {
                     for document in foodDocuments {
                         if let foodItem = try? document.data(as: FoodItem.self) {
                             totalCalories += foodItem.calorieNumber
-                            print("I get the foodItem \(foodItem.foodName) with \(foodItem.calorieNumber)")
                         }
                     }
                 }
-
                 completion(totalCalories)
             }
         }
