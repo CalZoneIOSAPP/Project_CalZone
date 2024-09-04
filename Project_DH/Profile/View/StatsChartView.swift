@@ -10,31 +10,57 @@ import Charts
 
 struct StatsChartView: View {
     @State private var showingPopover = false
+    @State private var selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: Date()) ?? DateInterval()
+    @Binding var user: User?
+    @StateObject private var viewModel = StatsViewModel()
     @Environment(\.presentationMode) var presentationMode
+    
+    // Define a DateFormatter for "MM/dd" format for X-Axis in the chart
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M/dd" // Shows as "8/27" instead of "2024/8/27"
+        return formatter
+    }
     
     var body: some View {
         NavigationStack {
-            
             VStack {
-                Chart {
-                    // Example Data
-                    let data = [("08-26", 400), ("08-27", 0), ("08-28", 700), ("08-29", 800), ("08-30", 200), ("08-31", 100), ("09-01", 700)]
-                    ForEach(data, id: \.0) { entry in
-                        LineMark(
-                            x: .value("Date", entry.0),
-                            y: .value("Calories", entry.1)
-                        )
-                        .foregroundStyle(.blue)
-                        
-                        BarMark(
-                            x: .value("Date", entry.0),
-                            y: .value("Calories", entry.1)
-                        )
-                        .foregroundStyle(.green)
+                if viewModel.isLoading {
+                    ProgressView("Loading data...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.totalCalories == 0 {
+                    Text("No data available for the selected week.")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    Text("Total Calories: \(viewModel.totalCalories)")
+                        .padding()
+                    
+                    Text("Average Calories per day: \(viewModel.totalCalories / 7)")
+                        .padding()
+                    
+                    Chart {
+                        ForEach(viewModel.weeklyData, id: \.0) { entry in
+                            LineMark(
+                                x: .value("Date", formattedDate(entry.0)),
+                                y: .value("Calories", entry.1)
+                            )
+                            .foregroundStyle(.blue)
+                            
+                            BarMark(
+                                x: .value("Date", formattedDate(entry.0)),
+                                y: .value("Calories", entry.1)
+                            )
+                            .foregroundStyle(.green)
+                            .annotation(position: .top) {
+                                Text("\(entry.1)")
+                                    .font(.caption)
+                                    .foregroundColor(.black)
+                            }
+                        }
                     }
+                    .frame(height: 300)
+                    .padding()
                 }
-                .frame(height: 300)
-                
                 // Spacer() Uncomment this will pull the chart to the top
             }
             .navigationTitle("My Statistics")
@@ -50,14 +76,34 @@ struct StatsChartView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    CalorieStatsView(showingPopover: $showingPopover)
+                    WeekSelectionView(selectedWeek: $selectedWeek, showingPopover: $showingPopover, user: $user, viewModel: viewModel)
                 }
             })
+            .onAppear{
+                fetchDataForSelectedWeek()
+            }
             
+        } // End of NavigationStack
+    }
+    
+    private func fetchDataForSelectedWeek() {
+        guard let userId = user?.id else { return }
+        viewModel.fetchCaloriesForWeek(userId: userId, weekInterval: selectedWeek)
+    }
+    
+    // Format the date using the "MM/dd" format
+    private func formattedDate(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        if let date = dateFormatter.date(from: dateString) {
+            return self.dateFormatter.string(from: date)
+        } else {
+            return dateString // Return the original if parsing fails
         }
     }
+    
 }
 
 #Preview {
-    StatsChartView()
+    StatsChartView(user: .constant(User(email: "adminjimmy@gmail.com", userName: "MockUserName", firstTimeUser: true)))
 }

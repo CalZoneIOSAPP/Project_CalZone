@@ -117,14 +117,14 @@ struct ProfilePageView: View {
         .fullScreenCover(item: $selectedView) { viewCase in
             switch viewCase {
             case .myStatistics:
-                StatsChartView() // Show the StatsChartView
+                StatsChartView(user: $viewModel.currentUser) // Show the StatsChartView
             // TODO: Handle other cases in the future!
             case .meals:
-                StatsChartView()
+                StatsChartView(user: $viewModel.currentUser)
             case .friends:
-                StatsChartView()
+                StatsChartView(user: $viewModel.currentUser)
             case .settings:
-                StatsChartView()
+                StatsChartView(user: $viewModel.currentUser)
             }
         }
 
