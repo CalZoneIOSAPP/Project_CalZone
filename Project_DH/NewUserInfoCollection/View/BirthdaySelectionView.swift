@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct BirthdaySelectionView: View {
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Binding var isShowing: Bool
-    @State private var selectedYear = 2000
-    @State private var selectedMonth = 1
-    @State private var selectedDay = 1
     
     var body: some View {
         NavigationStack {
@@ -37,7 +35,7 @@ struct BirthdaySelectionView: View {
                     
                     // Date Picker (year, month, day)
                     HStack {
-                        Picker(selection: $selectedYear, label: Text("")) {
+                        Picker(selection: $viewModel.selectedYear, label: Text("")) {
                             ForEach(1997...2003, id: \.self) { year in
                                 Text("\(year)年").tag(year)
                             }
@@ -45,7 +43,7 @@ struct BirthdaySelectionView: View {
                         .frame(maxWidth: .infinity)
                         .clipped()
                         
-                        Picker(selection: $selectedMonth, label: Text("")) {
+                        Picker(selection: $viewModel.selectedMonth, label: Text("")) {
                             ForEach(1...12, id: \.self) { month in
                                 Text("\(month)月").tag(month)
                             }
@@ -53,7 +51,7 @@ struct BirthdaySelectionView: View {
                         .frame(maxWidth: .infinity)
                         .clipped()
                         
-                        Picker(selection: $selectedDay, label: Text("")) {
+                        Picker(selection: $viewModel.selectedDay, label: Text("")) {
                             ForEach(1...31, id: \.self) { day in
                                 Text("\(day)日").tag(day)
                             }

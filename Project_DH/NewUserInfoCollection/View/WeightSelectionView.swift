@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeightSelectionView: View {
-    @State private var weight: Double = 63.6
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Binding var isShowing: Bool
     
     var body: some View {
@@ -42,13 +42,13 @@ struct WeightSelectionView: View {
                     HStack {
                         Text("30")
                             .foregroundColor(.gray)
-                        Slider(value: $weight, in: 30...90, step: 0.1)
+                        Slider(value: $viewModel.weight, in: 30...90, step: 0.1)
                         Text("90")
                             .foregroundColor(.gray)
                     }
                     .padding(.horizontal)
                     
-                    Text(String(format: "%.1f 公斤", weight))
+                    Text(String(format: "%.1f 公斤", viewModel.weight))
                         .font(.largeTitle)
                         .bold()
                 }

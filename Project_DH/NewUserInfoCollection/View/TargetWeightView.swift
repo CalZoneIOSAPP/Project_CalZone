@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TargetWeightView: View {
-    @State private var targetWeight: Double = 57.8
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Binding var isShowing: Bool
     
     var body: some View {
@@ -39,15 +39,15 @@ struct TargetWeightView: View {
                     
                     // Target Weight Slider
                     HStack {
-                        Text("57")
+                        Text("40")
                             .foregroundColor(.gray)
-                        Slider(value: $targetWeight, in: 57...59, step: 0.1)
-                        Text("59")
+                        Slider(value: $viewModel.targetWeight, in: 40...90, step: 0.1)
+                        Text("90")
                             .foregroundColor(.gray)
                     }
                     .padding(.horizontal)
                     
-                    Text(String(format: "%.1f 公斤", targetWeight))
+                    Text(String(format: "%.1f 公斤", viewModel.targetWeight))
                         .font(.largeTitle)
                         .bold()
                 }
@@ -67,7 +67,7 @@ struct TargetWeightView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: HeightSelectionView(isShowing: $isShowing)) {
+                NavigationLink(destination: BirthdaySelectionView(isShowing: $isShowing)) {
                     Text("下一步")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)

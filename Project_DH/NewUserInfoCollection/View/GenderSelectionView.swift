@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GenderSelectionView: View {
-    @State private var selectedGender: String? = nil
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Binding var isShowing: Bool
     
     var body: some View {
@@ -46,14 +46,14 @@ struct GenderSelectionView: View {
                 HStack(spacing: 50) {
                     VStack {
                         Button(action: {
-                            selectedGender = "female"
+                            viewModel.gender = "female"
                         }) {
                             VStack {
                                 Image("femaleIcon")
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .padding()
-                                    .background(.brandDarkGreen.opacity(selectedGender == "female" ? 0.5 : 0.2))
+                                    .background(.brandDarkGreen.opacity(viewModel.gender == "female" ? 0.5 : 0.2))
                                     .clipShape(Circle())
                                 Text("女性")
                                     .font(.title3)
@@ -64,14 +64,14 @@ struct GenderSelectionView: View {
                     
                     VStack {
                         Button(action: {
-                            selectedGender = "male"
+                            viewModel.gender = "male"
                         }) {
                             VStack {
                                 Image("maleIcon")
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .padding()
-                                    .background(.brandDarkGreen.opacity(selectedGender == "male" ? 0.5 : 0.2))
+                                    .background(.brandDarkGreen.opacity(viewModel.gender == "male" ? 0.5 : 0.2))
                                     .clipShape(Circle())
                                 Text("男性")
                                     .font(.title3)
@@ -84,7 +84,7 @@ struct GenderSelectionView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: WeightSelectionView(isShowing: $isShowing)) {
+                NavigationLink(destination: HeightSelectionView(isShowing: $isShowing)) {
                     Text("下一步")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)

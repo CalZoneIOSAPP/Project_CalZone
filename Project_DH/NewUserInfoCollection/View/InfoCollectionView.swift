@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct InfoCollectionView: View {
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var isShowing: Bool
+    
     
     var discriptionText: String = "To better setup your goals, we need to calculate the calorie number based on your personal information. You are always welcome to skip and add your personal information later."
     

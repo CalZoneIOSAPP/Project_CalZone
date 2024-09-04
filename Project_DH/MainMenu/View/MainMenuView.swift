@@ -12,6 +12,7 @@ import SwiftUI
 struct MainMenuView: View {
     @State private var isShowingInfoCollection: Bool = true
     @StateObject var profileViewModel = ProfileViewModel()
+    @StateObject var infoViewModel = InfoCollectionViewModel()
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -59,6 +60,7 @@ struct MainMenuView: View {
             
             if isShowingInfoCollection && checkFirstTimeLogIn(){
                 InfoCollectionView(isShowing: $isShowingInfoCollection)
+                    .environmentObject(infoViewModel)
             }
             
         }
@@ -72,8 +74,8 @@ struct MainMenuView: View {
     /// - Returns: none
     func checkFirstTimeLogIn() -> Bool{
         if let firstTimeUser = profileViewModel.currentUser?.firstTimeUser {
-            print(profileViewModel.currentUser?.uid as Any)
-            print("FIRST TIME USER: \(firstTimeUser)")
+            //print(profileViewModel.currentUser?.uid as Any)
+            //print("FIRST TIME USER: \(firstTimeUser)")
             return firstTimeUser
         }
         return false

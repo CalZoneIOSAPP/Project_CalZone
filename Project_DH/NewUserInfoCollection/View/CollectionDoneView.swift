@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct CollectionDoneView: View {
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var isShowing: Bool
-    @State private var weight: Double = 63.6
-    @State private var saveSelected: Bool = false
-    @State private var showDashboard: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -28,7 +26,7 @@ struct CollectionDoneView: View {
                 }
                 
                 VStack {
-                    Image("femaleIcon")
+                    Image(viewModel.gender == "male" ? "maleIcon" : "femaleIcon")
                         .resizable()
                         .frame(width: 100, height: 100)
                         .padding()
@@ -45,7 +43,7 @@ struct CollectionDoneView: View {
                         .font(.headline)
                     
                     // BMI Value
-                    Text("2030 kCal")
+                    Text("\(viewModel.calories) kCal")
                         .font(.title2)
                         .foregroundColor(.brandDarkGreen)
                     
@@ -70,7 +68,7 @@ struct CollectionDoneView: View {
                 HStack(spacing: 50) {
                     VStack {
                         Button(action: {
-                            saveSelected = true
+                            viewModel.saveSelected = true
                         }) {
                             Text("保存(推荐)")
                                 .foregroundColor(.brandDarkGreen)
@@ -78,12 +76,12 @@ struct CollectionDoneView: View {
                                 .padding()
                                 .background(.brandLightGreen)
                                 .cornerRadius(10)
-                                .opacity(saveSelected ? 1 : 0.5)
+                                .opacity(viewModel.saveSelected ? 1 : 0.5)
                         }
                     }
                     VStack {
                         Button(action: {
-                            saveSelected = false
+                            viewModel.saveSelected = false
                         }) {
                             Text("不保存")
                                 .foregroundColor(.brandDarkGreen)
@@ -91,7 +89,7 @@ struct CollectionDoneView: View {
                                 .padding()
                                 .background(.brandLightGreen)
                                 .cornerRadius(10)
-                                .opacity(saveSelected ? 0.5 : 1)
+                                .opacity(viewModel.saveSelected ? 0.5 : 1)
                         }
                     }
                 }
@@ -123,9 +121,9 @@ struct CollectionDoneView: View {
                 .padding(.horizontal)
             }
             .background(.brandBackgroundGreen)
-            
-            if showDashboard {
-                DashboardView()
+            .onAppear {
+                // TODO: here
+//                viewModel.calculateTargetCalories()
             }
             
         } // NavigationStack

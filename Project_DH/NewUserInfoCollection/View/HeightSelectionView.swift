@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct HeightSelectionView: View {
-    
-    @State private var height: CGFloat = 170
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
     @Binding var isShowing: Bool
 
     var body: some View {
@@ -47,13 +46,13 @@ struct HeightSelectionView: View {
                         .frame(width: 400, height: 300)
                     
                     // Interactive slider
-                    Slider(value: $height, in: 160...190, step: 1)
+                    Slider(value: $viewModel.height, in: 160...190, step: 1)
                         .rotationEffect(.degrees(-90))
                         .frame(width: 300, height: 80)
                         .padding(.trailing, 75)
                     
                     // Current height display
-                    Text("\(Int(height)) 厘米")
+                    Text("\(Int(viewModel.height)) 厘米")
                         .font(.title)
                         .fontWeight(.medium)
                         .foregroundColor(.green)
@@ -64,7 +63,7 @@ struct HeightSelectionView: View {
                 
                 Spacer()
 
-                NavigationLink(destination: BirthdaySelectionView(isShowing: $isShowing)) {
+                NavigationLink(destination: WeightSelectionView(isShowing: $isShowing)) {
                     Text("下一步")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
