@@ -79,7 +79,7 @@ struct WeekPicker: View {
             displayedComponents: [.date]
         )
         .datePickerStyle(GraphicalDatePickerStyle())
-        .onChange(of: selectedWeek.start) { newStartDate in
+        .onChange(of: selectedWeek.start) { newStartDate, _ in
             selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: newStartDate) ?? DateInterval()
         }
         .padding()
