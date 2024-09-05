@@ -39,6 +39,10 @@ struct User: Codable, Identifiable, Hashable {
     var birthday: Date?
     var gender: String?
     var targetCalories: String?
+    var bmi: Double?
+    var weight: Double?
+    var weightTarget: Double?
+    var activityLevel: String?
     
 }
 

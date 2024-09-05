@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HeightSelectionView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
+    @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
 
     var body: some View {
@@ -19,7 +20,7 @@ struct HeightSelectionView: View {
                     .foregroundColor(.gray)
 
                 // Progress bar
-                ProgressView(value: 0.8)
+                ProgressView(value: (2.0/6.0))
                     .progressViewStyle(LinearProgressViewStyle(tint: .brandDarkGreen))
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -77,6 +78,19 @@ struct HeightSelectionView: View {
                 
             }
             .background(.brandBackgroundGreen)
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.backward")
+                                .foregroundStyle(.brandDarkGreen)
+                        }
+                    }
+                }
+            } // End of toolbar
         } // NavigationStack
 
     }

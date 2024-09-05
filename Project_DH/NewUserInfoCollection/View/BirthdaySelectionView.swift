@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BirthdaySelectionView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
+    @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
     var body: some View {
@@ -20,7 +21,7 @@ struct BirthdaySelectionView: View {
                     .foregroundColor(.gray)
                 
                 // Progress bar
-                ProgressView(value: 1.0)
+                ProgressView(value: (5.0/6.0))
                     .progressViewStyle(LinearProgressViewStyle(tint: .brandDarkGreen))
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -59,15 +60,24 @@ struct BirthdaySelectionView: View {
                         .frame(maxWidth: .infinity)
                         .clipped()
                     }
+                    .onChange(of: viewModel.selectedYear, { _, newValue in
+                        viewModel.calculateAge()
+                    })
+                    .onChange(of: viewModel.selectedMonth, { _, newValue in
+                        viewModel.calculateAge()
+                    })
+                    .onChange(of: viewModel.selectedDay, { _, newValue in
+                        viewModel.calculateAge()
+                    })
                     .pickerStyle(WheelPickerStyle())
                 }
                 .padding()
                 
                 // Age and Description
                 VStack {
-                    Text("24 岁")
+                    Text("\(viewModel.age) 岁")
                         .font(.largeTitle)
-                        .foregroundColor(.green)
+                        .foregroundColor(.brandGreen)
                     
                     Text("基础代谢高、身体活动水平高，拥有体重管理的先天优势！")
                         .font(.subheadline)
@@ -78,7 +88,7 @@ struct BirthdaySelectionView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: CollectionDoneView(isShowing: $isShowing)) {
+                NavigationLink(destination: SportStatusView(isShowing: $isShowing)) {
                     Text("下一步")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
@@ -91,6 +101,19 @@ struct BirthdaySelectionView: View {
                 .padding(.horizontal)
             }
             .background(.brandBackgroundGreen)
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.backward")
+                                .foregroundStyle(.brandDarkGreen)
+                        }
+                    }
+                }
+            } // End of toolbar
         } // NavigationStack
     }
 }

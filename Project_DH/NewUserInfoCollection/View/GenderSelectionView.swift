@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GenderSelectionView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
+    @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
     var body: some View {
@@ -21,7 +22,7 @@ struct GenderSelectionView: View {
                     .padding(.top, 10)
                 
                 // Progress bar
-                ProgressView(value: 0.2)
+                ProgressView(value: (1.0/6.0))
                     .progressViewStyle(LinearProgressViewStyle(tint: .brandDarkGreen))
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -29,7 +30,7 @@ struct GenderSelectionView: View {
                 Spacer()
                 
                 // Question
-                Text("你的性别是？")
+                Text("你的生理性别是？")
                     .font(.title2)
                     .padding(.top, 20)
                 
@@ -98,6 +99,20 @@ struct GenderSelectionView: View {
                 
             }
             .background(.brandBackgroundGreen)
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.backward")
+                                .foregroundStyle(.brandDarkGreen)
+                        }
+                    }
+                }
+            } // End of toolbar
+
         }// End of NavigationStack
 
     }

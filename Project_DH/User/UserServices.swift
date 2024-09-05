@@ -133,6 +133,10 @@ class UserServices {
         }
     }
     
+    
+    /// Sets the status of first time login to false for the current user on Firebase.
+    /// - Parameters: none
+    /// - Returns: none
     @MainActor
     func updateFirstTimeLogin() async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -140,5 +144,31 @@ class UserServices {
         self.currentUser?.firstTimeUser = false
     }
     
+    
+    /// The generic function to update user's dietary information onto Firebase.
+    /// - Parameters:
+    ///     - gender:  Gender of the user.
+    ///     - weight: User's current weight.
+    ///     - targetWeight: User's target weight.
+    ///     - bmi: User's BMI value.
+    ///     - birthday: User's birthday.
+    ///     - activityLevel: The level of daily activity.
+    ///     - calories: User's target calorie number.
+    /// - Returns: none
+    @MainActor
+    func uploadUserInitialLoginInfo(gender: String, weight: Double, targetWeight: Double, bmi: Double, birthday: Date, activityLevel: String, calories: Int) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["target" : false])
+        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
+            "gender" : gender,
+            "weight" : weight,
+            "targetWeight" : targetWeight,
+            "bmi" : bmi,
+            "birthday" : birthday,
+            "activityLevel" : activityLevel,
+            "targetCalories" : String(calories)
+        ])
+        try await UserServices.sharedUser.fetchCurrentUserData()
+    }
     
 }

@@ -65,6 +65,11 @@ struct InfoCollectionView: View {
                     }
                 }
             }
+            .onAppear {
+                viewModel.calculatePercentWeightChange()
+                viewModel.getPercentChangeString()
+                viewModel.calculateAge()
+            }
         }
     }
 }

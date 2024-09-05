@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeightSelectionView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
+    @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
     var body: some View {
@@ -21,7 +22,7 @@ struct WeightSelectionView: View {
                     .foregroundColor(.gray)
                     .padding(.top)
                 
-                ProgressView(value: 0.4)
+                ProgressView(value: (3.0/6.0))
                     .progressViewStyle(LinearProgressViewStyle(tint: .brandDarkGreen))
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -42,8 +43,12 @@ struct WeightSelectionView: View {
                     HStack {
                         Text("30")
                             .foregroundColor(.gray)
-                        Slider(value: $viewModel.weight, in: 30...90, step: 0.1)
-                        Text("90")
+                        Slider(value: $viewModel.weight, in: 30...120, step: 0.1)
+                            .tint(.brandDarkGreen)
+                            .onChange(of: viewModel.weight) { _, newValue in
+                                viewModel.calculateBMI()
+                            }
+                        Text("120")
                             .foregroundColor(.gray)
                     }
                     .padding(.horizontal)
@@ -62,23 +67,25 @@ struct WeightSelectionView: View {
                     // BMI Indicator
                     HStack {
                         Text("偏瘦")
-                            .foregroundColor(.gray)
+                            .foregroundColor(viewModel.bmiLevel == "偏瘦" ? .brandDarkGreen : .gray)
                         Spacer()
                         Text("理想")
-                            .foregroundColor(.green)
+                            .foregroundColor(viewModel.bmiLevel == "理想" ? .brandDarkGreen : .gray)
                         Spacer()
                         Text("偏胖")
-                            .foregroundColor(.gray)
+                            .foregroundColor(viewModel.bmiLevel == "偏胖" ? .brandDarkGreen : .gray)
                         Spacer()
                         Text("肥胖")
-                            .foregroundColor(.gray)
+                            .foregroundColor(viewModel.bmiLevel == "肥胖" ? .brandDarkGreen : .gray)
                     }
                     .padding(.horizontal)
                     
                     // BMI Value
-                    Text("22.0 理想")
+                    Text(LocalizedStringKey(String("\(viewModel.bmiValue) \(viewModel.bmiLevel)")))
                         .font(.title2)
-                        .foregroundColor(.green)
+                        .foregroundColor(viewModel.bmiLevel == "偏瘦" ? .brandBlue :
+                                         viewModel.bmiLevel == "理想" ? .brandGreen:
+                                         viewModel.bmiLevel == "偏胖" ? .brandOrange : .brandRed)
                     
                     Text("标准体重，进阶管理需注意提升代谢水平，可采取16:8饮食法，配合运动。")
                         .font(.subheadline)
@@ -106,6 +113,19 @@ struct WeightSelectionView: View {
                 .padding(.horizontal)
             }
             .background(.brandBackgroundGreen)
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.backward")
+                                .foregroundStyle(.brandDarkGreen)
+                        }
+                    }
+                }
+            } // End of toolbar
         } // NavigationStack
     }
 }

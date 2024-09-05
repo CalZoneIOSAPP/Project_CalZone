@@ -9,13 +9,12 @@ import SwiftUI
 
 struct CollectionDoneView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                // Weight Input Section
                 VStack(spacing: 20) {
                     Text("恭喜，我们更了解您了！")
                         .font(.title2)
@@ -32,7 +31,7 @@ struct CollectionDoneView: View {
                         .padding()
                         .background(.brandDarkGreen.opacity(0.2))
                         .clipShape(Circle())
-                    Text("女性")
+                    Text(viewModel.gender == "male" ? "Male" : "Female")
                         .font(.title3)
                         .foregroundColor(.black)
                 }
@@ -46,6 +45,9 @@ struct CollectionDoneView: View {
                     Text("\(viewModel.calories) kCal")
                         .font(.title2)
                         .foregroundColor(.brandDarkGreen)
+                        .onAppear {
+                            viewModel.calculateTargetCalories()
+                        }
                     
                     Text("该卡路里只是推荐数量，根据您的日常体能消耗，将有所变动。您在进入APP后也可以自行更改")
                         .font(.subheadline)
@@ -108,6 +110,9 @@ struct CollectionDoneView: View {
                     isShowing = false
                     Task {
                         try await UserServices.sharedUser.updateFirstTimeLogin()
+                        if viewModel.saveSelected {
+                            try await viewModel.saveInfoToUser()
+                        }
                     }
                 }) {
                     Text("开始美食之旅")
@@ -121,11 +126,19 @@ struct CollectionDoneView: View {
                 .padding(.horizontal)
             }
             .background(.brandBackgroundGreen)
-            .onAppear {
-                // TODO: here
-//                viewModel.calculateTargetCalories()
-            }
-            
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.backward")
+                                .foregroundStyle(.brandDarkGreen)
+                        }
+                    }
+                }
+            } // End of toolbar
         } // NavigationStack
     }
 }

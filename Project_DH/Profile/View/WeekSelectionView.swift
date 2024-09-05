@@ -130,7 +130,7 @@ struct MonthPicker: View {
             displayedComponents: [.date]
         )
         .datePickerStyle(GraphicalDatePickerStyle())
-        .onChange(of: selectedMonth) { newStartDate in
+        .onChange(of: selectedMonth) { _, newStartDate in
             selectedMonth = Calendar.current.dateInterval(of: .month, for: newStartDate)?.start ?? Date()
         }
         .padding()
