@@ -43,7 +43,7 @@ class InfoCollectionViewModel: ObservableObject {
     
     // Select whether to save the info.
     @Published var calories: Int = 0
-    @Published var saveSelected: Bool = false
+    @Published var saveSelected: Bool = true
     
     var targetDurationWeeks: Int {
         let todayDate = Date()
