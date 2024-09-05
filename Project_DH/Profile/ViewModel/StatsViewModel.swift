@@ -70,6 +70,7 @@ class StatsViewModel: ObservableObject {
     func fetchCaloriesForMonth(userId: String, monthStart: Date) {
             isLoading = true
             let calendar = Calendar.current
+            print("The MonthStart date is \(monthStart)")
             guard let monthEnd = calendar.date(byAdding: .month, value: 1, to: monthStart) else { return }
             var currentDate = monthStart
             
