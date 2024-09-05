@@ -50,7 +50,7 @@ struct GenderSelectionView: View {
                             viewModel.gender = "female"
                         }) {
                             VStack {
-                                Image("FemaleIcon")
+                                Image("femaleIcon")
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .padding()
@@ -68,7 +68,7 @@ struct GenderSelectionView: View {
                             viewModel.gender = "male"
                         }) {
                             VStack {
-                                Image("MaleIcon")
+                                Image("maleIcon")
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .padding()
