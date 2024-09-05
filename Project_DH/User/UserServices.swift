@@ -158,7 +158,6 @@ class UserServices {
     @MainActor
     func uploadUserInitialLoginInfo(gender: String, weight: Double, targetWeight: Double, bmi: Double, birthday: Date, activityLevel: String, calories: Int) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["target" : false])
         try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
             "gender" : gender,
             "weight" : weight,
