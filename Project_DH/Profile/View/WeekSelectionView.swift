@@ -47,7 +47,8 @@ struct WeekSelectionView: View {
                 if pickerMode == .week {
                     WeekPicker(selectedWeek: $selectedWeek)
                 } else {
-                    MonthPicker(selectedMonth: $selectedMonth)
+                    MonthYearPickerView(selectedMonth: $selectedMonth)
+                        .frame(minHeight: 365)
                 }
                 
                 HStack {
@@ -69,6 +70,7 @@ struct WeekSelectionView: View {
                                 viewModel.fetchCaloriesForWeek(userId: uid, weekInterval: selectedWeek)
                             }
                         } else if pickerMode == .month {
+                            selectedMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: selectedMonth)) ?? Date()
                             if let uid = user?.uid {
                                 viewModel.fetchCaloriesForMonth(userId: uid, monthStart: selectedMonth)
                             }
@@ -89,7 +91,6 @@ struct WeekSelectionView: View {
         }
     }
     
-    
     private func formattedDate(_ date: Date, forPickerMode mode: PickerMode) -> String {
         let formatter = DateFormatter()
         if mode == .week {
@@ -105,36 +106,19 @@ struct WeekPicker: View {
     @Binding var selectedWeek: DateInterval
 
     var body: some View {
-        DatePicker(
-            "Select Week",
-            selection: $selectedWeek.start,
-            in: ...Date(),
-            displayedComponents: [.date]
-        )
-        .datePickerStyle(GraphicalDatePickerStyle())
-        .onChange(of: selectedWeek.start) { _, newStartDate in
-            selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: newStartDate) ?? DateInterval()
+        ScrollView {
+            DatePicker(
+                "Select Week",
+                selection: $selectedWeek.start,
+                in: ...Date(),
+                displayedComponents: [.date]
+            )
+            .datePickerStyle(GraphicalDatePickerStyle())
+            .frame(minHeight: 100)
+            .onChange(of: selectedWeek.start) { _, newStartDate in
+                selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: newStartDate) ?? DateInterval()
+            }
         }
-        .padding()
-    }
-}
-
-// New MonthPicker component for selecting the month
-struct MonthPicker: View {
-    @Binding var selectedMonth: Date
-
-    var body: some View {
-        DatePicker(
-            "Select Month",
-            selection: $selectedMonth,
-            in: ...Date(),
-            displayedComponents: [.date]
-        )
-        .datePickerStyle(GraphicalDatePickerStyle())
-        .onChange(of: selectedMonth) { _, newStartDate in
-            selectedMonth = Calendar.current.dateInterval(of: .month, for: newStartDate)?.start ?? Date()
-        }
-        .padding()
     }
 }
 
