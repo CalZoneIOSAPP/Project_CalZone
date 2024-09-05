@@ -25,7 +25,7 @@ struct CollectionDoneView: View {
                 }
                 
                 VStack {
-                    Image(viewModel.gender == "male" ? "maleIcon" : "femaleIcon")
+                    Image(viewModel.gender == "male" ? "MaleIcon" : "FemaleIcon")
                         .resizable()
                         .frame(width: 100, height: 100)
                         .padding()
