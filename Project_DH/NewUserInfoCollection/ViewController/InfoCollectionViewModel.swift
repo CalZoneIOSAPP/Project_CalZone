@@ -70,6 +70,9 @@ class InfoCollectionViewModel: ObservableObject {
     }
     
     
+    /// Calculate the age based on the InfoCollectionViewModel's selected year, month and day values.
+    /// - Parameters: none
+    /// - Returns: none
     func calculateAge() {
         let calendar = Calendar.current
         // Get the current date
@@ -89,17 +92,26 @@ class InfoCollectionViewModel: ObservableObject {
     }
     
     
+    /// Saves the selected info to Firebase, this function is a wrapper which calls the uploadUserInitialLoginInfo() function in UserServices.
+    /// - Parameters: none
+    /// - Returns: none
     @MainActor
     func saveInfoToUser() async throws{
         try await UserServices.sharedUser.uploadUserInitialLoginInfo(gender: gender, weight: weight, targetWeight: targetWeight, bmi: bmiValue, birthday: birthday, activityLevel: activityLevel, calories: calories)
     }
     
     
+    /// Calculates the percentage of weight change based on the target weight and current user's weight. Overwrites the viewModel's percentChanged field.
+    /// - Parameters: none
+    /// - Returns: none
     func calculatePercentWeightChange() {
         percentChanged = Int((targetWeight-weight)/weight * 100)
     }
     
     
+    /// Overwrites the viewModel's weightStatus field based on the value of percent weight change.
+    /// - Parameters: none
+    /// - Returns: none
     func getPercentChangeString() {
         if percentChanged > 0 {
             weightStatus = "增重"
@@ -111,6 +123,9 @@ class InfoCollectionViewModel: ObservableObject {
     }
     
     
+    /// Calculates the target calories based on the user input. It uses the Mifflin-St Jeor Equation.
+    /// - Parameters: none
+    /// - Returns: none
     func calculateTargetCalories() {
         calculateAge()
         let weightDiff = targetWeight - weight
@@ -143,6 +158,9 @@ class InfoCollectionViewModel: ObservableObject {
     }
     
     
+    /// Calculates the BMI value  based on the user input.
+    /// - Parameters: none
+    /// - Returns: none
     func calculateBMI() {
         bmiValue = weight / pow((height/100.0), 2)
         bmiValue = Double(round(10 * bmiValue) / 10)
@@ -159,6 +177,9 @@ class InfoCollectionViewModel: ObservableObject {
     }
     
     
+    /// Revert back to the current date if the selected date is in the past.
+    /// - Parameters: none
+    /// - Returns: none
     func fixDate() {
         let date = dateTools.constructDate(year: targetYear, month: targetMonth, day: targetDay)
         if dateTools.isDateInPast(date!) {

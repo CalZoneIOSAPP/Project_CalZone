@@ -28,6 +28,10 @@ struct Project_MeApp: App {
         }
     }
     
+    
+    ///  Initializing and setting up tips for the application.
+    /// - Parameters: none
+    /// - Returns: none
     private func setupTips() throws {
         try Tips.configure([.displayFrequency(.immediate), .datastoreLocation(.applicationDefault)])
     }

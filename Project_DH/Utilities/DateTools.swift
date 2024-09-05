@@ -58,12 +58,21 @@ struct DateTools {
     }
     
     
+    /// Checking if the specified date is in the past compared to the current date.
+    /// - Parameters:
+    ///     - date: The date to compare against.
+    /// - Returns: If the date is in the past.
     func isDateInPast(_ date: Date) -> Bool {
-        print("CHECKING FOR PAST DATE")
         return date < Date()
     }
     
     
+    /// Constructs a date object based on the year, month and day value.
+    /// - Parameters:
+    ///     - year: The numerical value of the year.
+    ///     - month: The numerical value of the month.
+    ///     - day: The numerical value of the day.
+    /// - Returns: The date object of the requested date components.
     func constructDate(year: Int, month: Int, day: Int) -> Date? {
         var dateComponents = DateComponents()
         dateComponents.year = year

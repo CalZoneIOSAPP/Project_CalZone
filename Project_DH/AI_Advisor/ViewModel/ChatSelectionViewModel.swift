@@ -193,6 +193,12 @@ struct FirestoreDate: Codable, Hashable, Comparable {
     }
     
     
+    /// Compare two FirestoreDate instances by checking if their id properties are the same
+    /// - Parameters:
+    ///     - lhs: The id of firestore date 1.
+    ///     - rhs: The id of firestore date 2.
+    /// - Returns:
+    ///     - if the two ids are the same.
     static func < (lhs: FirestoreDate, rhs: FirestoreDate) -> Bool {
         lhs.date < rhs.date
     }

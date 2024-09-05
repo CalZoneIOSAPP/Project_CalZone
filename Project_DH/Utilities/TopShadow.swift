@@ -14,6 +14,11 @@ struct TopShadow: ViewModifier {
     var x: CGFloat = 0
     var y: CGFloat = -3
     
+    
+    /// This function creates a top shadow.
+    /// - Parameters:
+    ///     - rect: The content which the shadow will be on.
+    /// - Returns: The view including the content and the shadow.
     func body(content: Content) -> some View {
         content
             .background(

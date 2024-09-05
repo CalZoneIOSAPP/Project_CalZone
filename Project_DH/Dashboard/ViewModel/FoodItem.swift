@@ -35,7 +35,12 @@ class FoodItem: Codable, Identifiable, Equatable {
     }
     
     
-    /// Conform to Equatable protocol
+    /// Compare two FoodItem instances by checking if their id properties are the same
+    /// - Parameters:
+    ///     - lhs: The id of food item 1.
+    ///     - rhs: The id of food item 2.
+    /// - Returns:
+    ///     - if the two ids are the same.
     static func == (lhs: FoodItem, rhs: FoodItem) -> Bool {
         return lhs.id == rhs.id
     }

@@ -90,10 +90,12 @@ struct StatsChartView: View {
         } // End of NavigationStack
     }
     
+    
     private func fetchDataForSelectedWeek() {
         guard let userId = user?.id else { return }
         viewModel.fetchCaloriesForWeek(userId: userId, weekInterval: selectedWeek)
     }
+    
     
     // Format the date using the "MM/dd" format
     private func formattedDate(_ dateString: String) -> String {

@@ -79,8 +79,11 @@ class AuthServices {
         try await login(credential: credential)
     }
     
-    // MARK: Calling the login with credential
-    // TODO: Sign in with apple.
+    
+    /// The function which handles the Apple Sign in method. This function will call the login() function with credential as input.
+    /// - Parameters:
+    ///     - credential: The credential for authentication. OAuthCredential with a nonce string
+    /// - Returns: none
     @MainActor
     func loginWithApple(credential: AuthCredential) async throws {
         try await login(credential: credential)

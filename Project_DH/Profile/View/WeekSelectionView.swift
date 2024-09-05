@@ -89,6 +89,7 @@ struct WeekSelectionView: View {
         }
     }
     
+    
     private func formattedDate(_ date: Date, forPickerMode mode: PickerMode) -> String {
         let formatter = DateFormatter()
         if mode == .week {

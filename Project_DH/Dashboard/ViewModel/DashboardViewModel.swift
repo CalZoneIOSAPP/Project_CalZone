@@ -84,6 +84,10 @@ class DashboardViewModel: ObservableObject {
     }
     
     
+    /// Sum up the calorie number of food items in a list of food items.
+    /// - Parameters:
+    ///     - foodItems: The list of food items.]
+    /// - Returns: none
     func sumUpCalories(for foodItems: [FoodItem]) {
         for foodItem in foodItems {
             sumCalories += foodItem.calorieNumber
