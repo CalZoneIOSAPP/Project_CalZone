@@ -105,6 +105,7 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
     case weightTarget
     case height
     case activityLevel
+    case achievementDate
     case targetCalories
 
     
@@ -121,8 +122,11 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return "Height"
         case .activityLevel:
             return "Activity Level"
+        case .achievementDate:
+            return "Date of Achievement"
         case .targetCalories:
             return "Target Calories"
+
         }
     }
     
@@ -139,8 +143,11 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return "height"
         case .activityLevel:
             return "activity level"
+        case .achievementDate:
+            return "achievement date"
         case .targetCalories:
             return "target calories"
+
         }
     }
     
@@ -158,8 +165,11 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .decimalsPad
         case .activityLevel:
             return .dropDown
+        case .achievementDate:
+            return .pickerStyle
         case .targetCalories:
             return .numPad
+
 
         }
     }
@@ -170,7 +180,7 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .gender
         case .activityLevel:
             return .activityLevel
-        case .weight, .weightTarget, .height, .targetCalories:
+        case .weight, .weightTarget, .height, .targetCalories, .achievementDate:
             return nil
         }
     }

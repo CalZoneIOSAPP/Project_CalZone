@@ -37,6 +37,14 @@ class ProfileViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
+    let activityLevelMap: [String: Double] = [
+        "Sedentary": 1.2,
+        "Slightly active": 1.375,
+        "Moderately active": 1.55,
+        "Very active": 1.725,
+        "Super active" : 1.9
+    ]
+    
     
     init() {
         setupUser()
@@ -116,14 +124,89 @@ class ProfileViewModel: ObservableObject {
                 try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .height)
             case .activityLevel:
                 try await UserServices.sharedUser.updateDietaryOptions(with: optionStrInfo!, enumInfo: .activityLevel)
+            case .achievementDate:
+                try await UserServices.sharedUser.updateDietaryOptions(with: dateInfo!, enumInfo: .achievementDate)
             case .targetCalories:
                 try await UserServices.sharedUser.updateDietaryOptions(with: strInfo!, enumInfo: .targetCalories)
             case .none:
                 return
             }
         }
+    }
+    
+    
+    @MainActor
+    func calculateAndSaveTargetCalories() async throws {
+        if infoAvailableForCalorieCalculation(for: currentUser) {
+            let calories = calculateTargetCalories(user: currentUser!)
+            try await updateInfo(with: nil, with: .targetCalories, strInfo: String(calories), optionStrInfo: nil, dateInfo: nil, doubleInfo: nil)
+        }
+    }
+    
+    
+    func calculateAge(date birthDate: Date) -> Int {
+        let calendar = Calendar.current
+        // Get the current date
+        let currentDate = Date()
+        let ageComponents = calendar.dateComponents([.year], from: birthDate, to: currentDate)
+        return ageComponents.year ?? 0
+    }
+    
+    
+    func weeksFromDate(date: Date) -> Int{
+        let todayDate = Date()
+        let calendar = Calendar.current
+        let targetDate = date
+        let daysDifference = calendar.dateComponents([.day], from: todayDate, to: targetDate).day ?? 0
+        let weeksDifference = daysDifference/7
+        return weeksDifference
+    }
+    
+    
+    func calculateTargetCalories(user: User) -> Int {
+        let age = calculateAge(date: user.birthday!)
+        let weightDiff = user.weightTarget! - user.weight!
+        var userBMR: Double
+        let a = 5.0 * Double(age)
+        let w = 10.0 * user.weight!
+        let h = 6.25 * user.height!
         
-
+        if user.gender == "male" {
+            // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)+5
+            userBMR = w + h - a + 5.0
+        } else {
+            // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)−161
+            userBMR = w + h - a - 161.0
+        }
+        
+        let userBMR_Motion = userBMR * activityLevelMap[user.activityLevel!]!
+        
+        // 1 kg of body weight is roughly equivalent to 7700 calories
+        let totalCaloriesToAdjust = weightDiff * 7700
+        var calorieAdjustment: Double = 0
+        
+        // if the user selects unreasonable date, then defaults to 30 days
+        let weeks = weeksFromDate(date: user.achievementDate!)
+        if weeks <= 0 {
+            calorieAdjustment = totalCaloriesToAdjust / 30
+        } else {
+            calorieAdjustment = totalCaloriesToAdjust / (Double(weeks) * 7)
+        }
+        let calories = Int(userBMR_Motion + calorieAdjustment)
+        return calories
+    }
+    
+    
+    func infoAvailableForCalorieCalculation(for user: User?) -> Bool {
+        if let user = user, let gender = user.gender, let height = user.height, let weight = user.weight, let weightTarget = user.weightTarget, let activityLevel = user.activityLevel, let _ = user.birthday {
+            if gender == "" || height == 0.0 || weight == 0.0 || weightTarget == 0.0 || activityLevel == "" {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            return false
+        }
     }
     
     
@@ -183,6 +266,12 @@ class ProfileViewModel: ObservableObject {
         case .activityLevel:
             if let activityLevel = currentUser?.activityLevel {
                 return activityLevel
+            } else {
+                return ""
+            }
+        case .achievementDate:
+            if let achievementDate = currentUser?.achievementDate {
+                return DateTools().formattedDate(achievementDate)
             } else {
                 return ""
             }

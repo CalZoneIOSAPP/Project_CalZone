@@ -41,9 +41,9 @@ struct TargetWeightView: View {
                     HStack {
                         Text("30")
                             .foregroundColor(.gray)
-                        Slider(value: $viewModel.targetWeight, in: 30...120, step: 0.1)
+                        Slider(value: $viewModel.weightTarget, in: 30...120, step: 0.1)
                             .tint(.brandDarkGreen)
-                            .onChange(of: viewModel.targetWeight) { _, newValue in
+                            .onChange(of: viewModel.weightTarget) { _, newValue in
                                 viewModel.calculatePercentWeightChange()
                                 viewModel.getPercentChangeString()
                             }
@@ -52,7 +52,7 @@ struct TargetWeightView: View {
                     }
                     .padding(.horizontal)
                     
-                    Text(String(format: "%.1f 公斤", viewModel.targetWeight))
+                    Text(String(format: "%.1f 公斤", viewModel.weightTarget))
                         .font(.largeTitle)
                         .bold()
                 }

@@ -44,6 +44,7 @@ struct User: Codable, Identifiable, Hashable {
     var weightTarget: Double?
     var height: Double?
     var activityLevel: String?
+    var achievementDate: Date?
     
     
     

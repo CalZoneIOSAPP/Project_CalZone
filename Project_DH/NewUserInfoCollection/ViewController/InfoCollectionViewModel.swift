@@ -15,7 +15,7 @@ class InfoCollectionViewModel: ObservableObject {
     // Weight Selection
     @Published var weight: Double = 66.6
     // Target Weight Selection
-    @Published var targetWeight: Double = 75.0
+    @Published var weightTarget: Double = 75.0
     @Published var targetYear = 2000
     @Published var targetMonth = 1
     @Published var targetDay = 1
@@ -97,7 +97,7 @@ class InfoCollectionViewModel: ObservableObject {
     /// - Returns: none
     @MainActor
     func saveInfoToUser() async throws{
-        try await UserServices.sharedUser.uploadUserInitialLoginInfo(gender: gender, weight: weight, targetWeight: targetWeight, bmi: bmiValue, birthday: birthday, activityLevel: activityLevel, calories: calories)
+        try await UserServices.sharedUser.uploadUserInitialLoginInfo(gender: gender, weight: weight, weightTarget: weightTarget, bmi: bmiValue, birthday: birthday, activityLevel: activityLevel, calories: calories)
     }
     
     
@@ -105,7 +105,7 @@ class InfoCollectionViewModel: ObservableObject {
     /// - Parameters: none
     /// - Returns: none
     func calculatePercentWeightChange() {
-        percentChanged = Int((targetWeight-weight)/weight * 100)
+        percentChanged = Int((weightTarget-weight)/weight * 100)
     }
     
     
@@ -128,7 +128,7 @@ class InfoCollectionViewModel: ObservableObject {
     /// - Returns: none
     func calculateTargetCalories() {
         calculateAge()
-        let weightDiff = targetWeight - weight
+        let weightDiff = weightTarget - weight
         var userBMR: Double
         let a = 5.0 * Double(age)
         let w = 10.0 * weight

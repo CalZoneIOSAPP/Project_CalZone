@@ -88,8 +88,7 @@ class UserServices {
     }
     
     
-    // TODO: Need a more general function for uploading more various user data
-    /// The generic function to update user's  account information.
+    /// The generic function to update user's  account information to Firebase.
     /// - Parameters:
     ///     - with: The information to change.
     ///     - enumInfo: The AccountOptions enum option.
@@ -117,7 +116,7 @@ class UserServices {
     }
     
     
-    /// The generic function to update user's dietary information.
+    /// The generic function to update user's dietary information to Firebase.
     /// - Parameters:
     ///     - with: The dietary information to change
     ///     - enumInfo: The DietaryInfoOptions enum option.
@@ -141,6 +140,9 @@ class UserServices {
         case .activityLevel:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["activityLevel": infoToChange])
             self.currentUser?.activityLevel = infoToChange as? String
+        case .achievementDate:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["achievementDate": infoToChange])
+            self.currentUser?.achievementDate = infoToChange as? Date
         case .targetCalories:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["targetCalories": infoToChange])
             self.currentUser?.targetCalories = infoToChange as? String
@@ -163,19 +165,19 @@ class UserServices {
     /// - Parameters:
     ///     - gender:  Gender of the user.
     ///     - weight: User's current weight.
-    ///     - targetWeight: User's target weight.
+    ///     - weightTarget: User's target weight.
     ///     - bmi: User's BMI value.
     ///     - birthday: User's birthday.
     ///     - activityLevel: The level of daily activity.
     ///     - calories: User's target calorie number.
     /// - Returns: none
     @MainActor
-    func uploadUserInitialLoginInfo(gender: String, weight: Double, targetWeight: Double, bmi: Double, birthday: Date, activityLevel: String, calories: Int) async throws {
+    func uploadUserInitialLoginInfo(gender: String, weight: Double, weightTarget: Double, bmi: Double, birthday: Date, activityLevel: String, calories: Int) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
             "gender" : gender,
             "weight" : weight,
-            "targetWeight" : targetWeight,
+            "weightTarget" : weightTarget,
             "bmi" : bmi,
             "birthday" : birthday,
             "activityLevel" : activityLevel,

@@ -254,6 +254,7 @@ struct EditProfileView: View {
                         let doubleInfo = infoToDouble()
                         
                         try await viewModel.updateInfo(with: viewModel.curStateAccount, with: viewModel.curStateDietary, strInfo: viewModel.strToChange, optionStrInfo: viewModel.optionSelection, dateInfo: viewModel.dateToChange, doubleInfo: doubleInfo)
+                        try await viewModel.calculateAndSaveTargetCalories()
                         viewModel.strToChange = ""
                         viewModel.curStateAccount = nil
                         viewModel.curStateDietary = nil
@@ -273,7 +274,11 @@ struct EditProfileView: View {
     func infoToDouble() -> Double{
         if let state = viewModel.curStateDietary {
             if state == .height || state == .weight || state == .weightTarget {
-                return Double(viewModel.strToChange)!
+                if viewModel.strToChange != "" {
+                    return Double(viewModel.strToChange)!
+                } else {
+                    return 0.0
+                }
             }
         }
         return 0.0
