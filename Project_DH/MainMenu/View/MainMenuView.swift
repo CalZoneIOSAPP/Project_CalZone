@@ -47,7 +47,7 @@ struct MainMenuView: View {
                     }
                     .tag(4)
             }
-            .tint(.primary)
+            .tint(.brandDarkGreen)
             
             // Custom border line above the tab icons
             VStack(spacing: 0) {
