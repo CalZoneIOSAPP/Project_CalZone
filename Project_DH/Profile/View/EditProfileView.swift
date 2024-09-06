@@ -227,6 +227,7 @@ struct EditProfileView: View {
                             .clipShape(Circle())
                             .opacity(0.5)
                         Spacer()
+                        clearButton
                     }
                 case .pickerStyle:
                     DatePicker(
@@ -244,20 +245,7 @@ struct EditProfileView: View {
                             viewModel.dateToChange = viewModel.currentUser?.birthday ?? Date()
                         }
                     }
-                    
-                    Button {
-                        Task {
-                            try await UserServices.sharedUser.deleteFieldValue(field: viewModel.firebaseFieldName!)
-                            resetFields()
-                            viewModel.showEditWindow = false
-                        }
-                    } label: {
-                        Text(LocalizedStringKey("Clear Date"))
-                            .foregroundStyle(.black)
-                            .frame(width: 180, height: 45)
-                    }
-                    .background((Color.white).shadow(.drop(color: .primary.opacity(0.15), radius: 4)), in: .rect(cornerRadius: 8))
-                    .padding(.bottom, 30)
+                    clearButton
                 }
             }
             .zIndex(10000.0) // Making sure that the drop down will list will be on top.
@@ -290,6 +278,23 @@ struct EditProfileView: View {
             }
             .frame(height: 50)
         } // VStack
+    }
+    
+    
+    var clearButton: some View {
+        Button {
+            Task {
+                try await UserServices.sharedUser.deleteFieldValue(field: viewModel.firebaseFieldName!)
+                resetFields()
+                viewModel.showEditWindow = false
+            }
+        } label: {
+            Text(LocalizedStringKey("Clear"))
+                .foregroundStyle(.black)
+                .frame(width: 180, height: 45)
+        }
+        .background((Color.white).shadow(.drop(color: .primary.opacity(0.15), radius: 4)), in: .rect(cornerRadius: 8))
+        .padding(.bottom, 30)
     }
     
     
