@@ -119,6 +119,7 @@ struct EditProfileView: View {
                                     .foregroundStyle(Color(.systemGray2))
                             }
                             .onTapGesture {
+                                viewModel.firebaseFieldName = option.firebaseFieldName
                                 viewModel.curStateAccount = option
                                 viewModel.editInfoWindowTitle = option.title
                                 viewModel.editInfoWindowPlaceHolder = option.placeholder
@@ -138,6 +139,7 @@ struct EditProfileView: View {
                                     .foregroundStyle(Color(.systemGray2))
                             }
                             .onTapGesture {
+                                viewModel.firebaseFieldName = option.firebaseFieldName
                                 viewModel.curStateDietary = option
                                 viewModel.editInfoWindowTitle = option.title
                                 viewModel.editInfoWindowPlaceHolder = option.placeholder
@@ -164,7 +166,7 @@ struct EditProfileView: View {
                     .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .shadow(radius: 5)
-                    .frame(maxWidth: 300, maxHeight: viewModel.editInfoWindowTitle == "Activity Level" ? 420 : 250)
+                    .frame(maxWidth: 300, maxHeight: viewModel.editInfoWindowTitle == "Activity Level" ? 420 : viewModel.inputType == .pickerStyle ? 350 : 200)
                 
             }
         }// End of Z Stack
@@ -219,7 +221,7 @@ struct EditProfileView: View {
                         DropDownMenu(selection: $viewModel.optionSelection, hint: viewModel.editInfoWindowPlaceHolder, options: viewModel.options!, maxWidth: viewModel.optionMaxWidth)
                             .padding(.top, 20)
                         Spacer()
-                        Image(.sport)
+                        Image(viewModel.editInfoWindowTitle == "Activity Level" ? "sport" : "gender")
                             .resizable()
                             .frame(width: 160, height: 160)
                             .clipShape(Circle())
@@ -234,6 +236,28 @@ struct EditProfileView: View {
                     )
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .padding()
+                    .frame(minWidth: 280)
+                    .onAppear {
+                        if viewModel.firebaseFieldName == "achievementDate" {
+                            viewModel.dateToChange = Date()
+                        } else if viewModel.firebaseFieldName == "birthday" {
+                            viewModel.dateToChange = viewModel.currentUser?.birthday ?? Date()
+                        }
+                    }
+                    
+                    Button {
+                        Task {
+                            try await UserServices.sharedUser.deleteFieldValue(field: viewModel.firebaseFieldName!)
+                            resetFields()
+                            viewModel.showEditWindow = false
+                        }
+                    } label: {
+                        Text(LocalizedStringKey("Clear Date"))
+                            .foregroundStyle(.black)
+                            .frame(width: 180, height: 45)
+                    }
+                    .background((Color.white).shadow(.drop(color: .primary.opacity(0.15), radius: 4)), in: .rect(cornerRadius: 8))
+                    .padding(.bottom, 30)
                 }
             }
             .zIndex(10000.0) // Making sure that the drop down will list will be on top.
@@ -244,6 +268,7 @@ struct EditProfileView: View {
             
             HStack(alignment: .center, spacing: 50) {
                 Button {
+                    resetFields()
                     viewModel.showEditWindow = false
                 } label: {
                     Text("Cancel")
@@ -255,10 +280,7 @@ struct EditProfileView: View {
                         
                         try await viewModel.updateInfo(with: viewModel.curStateAccount, with: viewModel.curStateDietary, strInfo: viewModel.strToChange, optionStrInfo: viewModel.optionSelection, dateInfo: viewModel.dateToChange, doubleInfo: doubleInfo)
                         try await viewModel.calculateAndSaveTargetCalories()
-                        viewModel.strToChange = ""
-                        viewModel.curStateAccount = nil
-                        viewModel.curStateDietary = nil
-                        viewModel.options = nil
+                        resetFields()
                     }
                     viewModel.showEditWindow = false
                     
@@ -271,6 +293,10 @@ struct EditProfileView: View {
     }
     
     
+    /// This function changes certian fields to double.
+    /// - Parameters: none
+    /// - Returns: The value changed to double.
+    /// - Note: We collect user input in string, but some firebase values are stored in Double.
     func infoToDouble() -> Double{
         if let state = viewModel.curStateDietary {
             if state == .height || state == .weight || state == .weightTarget {
@@ -282,6 +308,20 @@ struct EditProfileView: View {
             }
         }
         return 0.0
+    }
+    
+    
+    /// This function resets the published variables which are tied to the user inputs.
+    /// - Parameters: none
+    /// - Returns: none
+    func resetFields() {
+        viewModel.strToChange = ""
+        viewModel.curStateAccount = nil
+        viewModel.curStateDietary = nil
+        viewModel.options = nil
+        viewModel.dateToChange = Date()
+        viewModel.firebaseFieldName = nil
+        viewModel.optionSelection = nil
     }
     
     

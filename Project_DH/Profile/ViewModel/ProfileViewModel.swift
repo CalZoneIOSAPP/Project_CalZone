@@ -21,6 +21,7 @@ class ProfileViewModel: ObservableObject {
     @Published var uiImage: UIImage?
     
     // Edit window
+    @Published var firebaseFieldName: String?
     @Published var showEditWindow = false
     @Published var curStateAccount: AccountOptions?
     @Published var curStateDietary: DietaryInfoOptions?
@@ -31,7 +32,6 @@ class ProfileViewModel: ObservableObject {
     @Published var strToChange: String = ""
     @Published var optionSelection: String?
     @Published var dateToChange: Date = Date()
-    @Published var changeDate: Bool = false // the trigger to control whether date info should be saved to firebase
     @Published var options: [String]?
     @Published var optionMaxWidth: CGFloat = 220
     
@@ -39,10 +39,10 @@ class ProfileViewModel: ObservableObject {
     
     let activityLevelMap: [String: Double] = [
         "Sedentary": 1.2,
-        "Slightly active": 1.375,
-        "Moderately active": 1.55,
-        "Very active": 1.725,
-        "Super active" : 1.9
+        "Slightly Active": 1.375,
+        "Moderately Active": 1.55,
+        "Very Active": 1.725,
+        "Super Active" : 1.9
     ]
     
     
@@ -135,6 +135,9 @@ class ProfileViewModel: ObservableObject {
     }
     
     
+    /// This function has the main logic for calculating target calories and checks when is it valid to do calculation. The target calorie number is saved to Firebase after the calculation.
+    /// - Parameters: none
+    /// - Returns: none
     @MainActor
     func calculateAndSaveTargetCalories() async throws {
         if infoAvailableForCalorieCalculation(for: currentUser) {
@@ -144,6 +147,10 @@ class ProfileViewModel: ObservableObject {
     }
     
     
+    /// This function calculates the age with the given birthday date.
+    /// - Parameters:
+    ///     - date: The birthday date.
+    /// - Returns: The age number.
     func calculateAge(date birthDate: Date) -> Int {
         let calendar = Calendar.current
         // Get the current date
@@ -153,6 +160,10 @@ class ProfileViewModel: ObservableObject {
     }
     
     
+    /// This function calculates the number of weeks with a given Date from today's Date.
+    /// - Parameters:
+    ///     - date: The starting date.
+    /// - Returns: Number of weeks.
     func weeksFromDate(date: Date) -> Int{
         let todayDate = Date()
         let calendar = Calendar.current
@@ -163,6 +174,10 @@ class ProfileViewModel: ObservableObject {
     }
     
     
+    /// This function holds the formula for calculating the users desired or suggested calorie number.
+    /// - Parameters:
+    ///     - user: Target user for calorie calculation.
+    /// - Returns: Number of calories.
     func calculateTargetCalories(user: User) -> Int {
         let age = calculateAge(date: user.birthday!)
         let weightDiff = user.weightTarget! - user.weight!
@@ -197,8 +212,12 @@ class ProfileViewModel: ObservableObject {
     }
     
     
+    /// This function decides whether the user meets all requirements to calculate the target calorie number.
+    /// - Parameters:
+    ///     - user: The user to check against.
+    /// - Returns: If the user is eligible for calorie calculation.
     func infoAvailableForCalorieCalculation(for user: User?) -> Bool {
-        if let user = user, let gender = user.gender, let height = user.height, let weight = user.weight, let weightTarget = user.weightTarget, let activityLevel = user.activityLevel, let _ = user.birthday {
+        if let user = user, let gender = user.gender, let height = user.height, let weight = user.weight, let weightTarget = user.weightTarget, let activityLevel = user.activityLevel, let _ = user.birthday, let _ = user.achievementDate {
             if gender == "" || height == 0.0 || weight == 0.0 || weightTarget == 0.0 || activityLevel == "" {
                 return false
             } else {

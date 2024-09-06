@@ -150,6 +150,20 @@ class UserServices {
     }
     
     
+    /// This function deletes a field value from Firebase Firestore with a given field name.
+    /// - Parameters:
+    ///     - field: The field name where the corresponding value will be deleted.
+    /// - Returns: none
+    @MainActor
+    func deleteFieldValue(field: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
+            field: FieldValue.delete()
+        ])
+        try await UserServices.sharedUser.fetchCurrentUserData()
+    }
+    
+    
     /// Sets the status of first time login to false for the current user on Firebase.
     /// - Parameters: none
     /// - Returns: none

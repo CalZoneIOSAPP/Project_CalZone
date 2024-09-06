@@ -61,6 +61,22 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
     }
     
     
+    var firebaseFieldName: String {
+        switch self {
+        case .username:
+            return "userName"
+        case .lastName:
+            return "lastName"
+        case .firstName:
+            return "firstName"
+        case .email:
+            return "email"
+        case .birthday:
+            return "birthday"
+        }
+    }
+    
+    
     /// Placeholder to show for each user info field.
     var placeholder: String {
         switch self {
@@ -129,6 +145,27 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
 
         }
     }
+    
+    
+    var firebaseFieldName: String {
+        switch self {
+        case .gender:
+            return "gender"
+        case .weight:
+            return "weight"
+        case .weightTarget:
+            return "weightTarget"
+        case .height:
+            return "height"
+        case .activityLevel:
+            return "activityLevel"
+        case .achievementDate:
+            return "achievementDate"
+        case .targetCalories:
+            return "targetCalories"
+        }
+    }
+    
     
     /// Placeholder to show for each user info field.
     var placeholder: String {
