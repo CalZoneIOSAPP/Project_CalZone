@@ -15,7 +15,7 @@
 import SwiftUI
 
 
-struct SportStatusView: View {
+struct ActivityLevelView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
 //    @StateObject var viewModel = InfoCollectionViewModel()
     @Environment(\.dismiss) private var dismiss
@@ -134,5 +134,5 @@ struct ActivityLevelOption: View {
 }
 
 #Preview {
-    SportStatusView(isShowing: .constant(true))
+    ActivityLevelView(isShowing: .constant(true))
 }

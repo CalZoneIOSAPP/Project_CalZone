@@ -110,8 +110,6 @@ class UserServices {
         case .email:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["email": infoToChange])
             self.currentUser?.email = infoToChange as! String
-        case .password:
-            print("SHOULD CHANGE PASSWORD")
         case .birthday:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["birthday": infoToChange])
             self.currentUser?.birthday = infoToChange as? Date
@@ -140,6 +138,9 @@ class UserServices {
         case .height:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["height": infoToChange])
             self.currentUser?.height = infoToChange as? Double
+        case .activityLevel:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["activityLevel": infoToChange])
+            self.currentUser?.activityLevel = infoToChange as? String
         case .targetCalories:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["targetCalories": infoToChange])
             self.currentUser?.targetCalories = infoToChange as? String

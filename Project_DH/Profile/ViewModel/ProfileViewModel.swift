@@ -32,6 +32,8 @@ class ProfileViewModel: ObservableObject {
     @Published var optionSelection: String?
     @Published var dateToChange: Date = Date()
     @Published var changeDate: Bool = false // the trigger to control whether date info should be saved to firebase
+    @Published var options: [String]?
+    @Published var optionMaxWidth: CGFloat = 220
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -95,8 +97,6 @@ class ProfileViewModel: ObservableObject {
                 try await UserServices.sharedUser.updateAccountOptions(with: strInfo!, enumInfo: .firstName)
             case .email:
                 try await UserServices.sharedUser.updateAccountOptions(with: strInfo!, enumInfo: .email)
-            case .password:
-                try await UserServices.sharedUser.updateAccountOptions(with: strInfo!, enumInfo: .password)
             case .birthday:
                 try await UserServices.sharedUser.updateAccountOptions(with: dateInfo!, enumInfo: .birthday)
             case .none:
@@ -114,11 +114,12 @@ class ProfileViewModel: ObservableObject {
                 try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .weightTarget)
             case .height:
                 try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .height)
+            case .activityLevel:
+                try await UserServices.sharedUser.updateDietaryOptions(with: optionStrInfo!, enumInfo: .activityLevel)
             case .targetCalories:
                 try await UserServices.sharedUser.updateDietaryOptions(with: strInfo!, enumInfo: .targetCalories)
             case .none:
                 return
-
             }
         }
         
@@ -140,8 +141,6 @@ class ProfileViewModel: ObservableObject {
             return currentUser?.firstName ?? ""
         case .email:
             return currentUser?.email ?? ""
-        case .password:
-            return ""
         case .birthday:
             if let birthday = currentUser?.birthday {
                 return DateTools().formattedDate(birthday)
@@ -178,6 +177,12 @@ class ProfileViewModel: ObservableObject {
         case .height:
             if let height = currentUser?.height {
                 return String(height)
+            } else {
+                return ""
+            }
+        case .activityLevel:
+            if let activityLevel = currentUser?.activityLevel {
+                return activityLevel
             } else {
                 return ""
             }

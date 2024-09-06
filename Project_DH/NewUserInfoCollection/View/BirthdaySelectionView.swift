@@ -88,7 +88,7 @@ struct BirthdaySelectionView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: SportStatusView(isShowing: $isShowing)) {
+                NavigationLink(destination: ActivityLevelView(isShowing: $isShowing)) {
                     Text("下一步")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)

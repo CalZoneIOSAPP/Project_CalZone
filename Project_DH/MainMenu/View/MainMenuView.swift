@@ -35,11 +35,21 @@ struct MainMenuView: View {
                     }
                     .tag(2)
                 
-                Text("Display Users Community!")
-                    .tabItem {
-                        Image(systemName: "bubble")
-                    }
-                    .tag(3)
+                VStack {
+                    Text("You will soon be able to share your stories!")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding()
+                    Image(.community)
+                        .resizable()
+                        .frame(width: 260, height: 260)
+                        .clipShape(Circle())
+                        .opacity(0.5)
+                }
+                .tabItem {
+                    Image(systemName: "bubble")
+                }
+                .tag(3)
                 
                 ProfilePageView()
                     .tabItem {

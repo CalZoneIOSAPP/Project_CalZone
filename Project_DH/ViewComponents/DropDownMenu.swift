@@ -87,7 +87,7 @@ struct DropDownMenu: View {
                         .font(.caption)
                         .opacity(selection == option ? 1 : 0)
                 }
-                .foregroundStyle(selection == option ? Color.primary : Color.gray)
+                .foregroundStyle(selection == option ? .brandDarkGreen : Color.gray)
                 .animation(.none, value: selection)
                 .frame(height: 40)
                 .contentShape(.rect)

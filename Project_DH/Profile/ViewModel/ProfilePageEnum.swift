@@ -41,7 +41,6 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
     case lastName
     case firstName
     case email
-    case password
     case birthday
     
     
@@ -52,8 +51,6 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
             return "Change Username"
         case .email:
             return "Change Email"
-        case .password:
-            return "Change Password"
         case .firstName:
             return "Change First Name"
         case .lastName:
@@ -75,8 +72,6 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
             return "first name"
         case .email:
             return "email"
-        case .password:
-            return "password"
         case .birthday:
             return "birthday"
         }
@@ -94,8 +89,6 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
             return .fullText
         case .email:
             return .fullText
-        case .password:
-            return .fullText
         case .birthday:
             return .pickerStyle
         }
@@ -111,7 +104,9 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
     case weight
     case weightTarget
     case height
+    case activityLevel
     case targetCalories
+
     
     /// Title of each options in user info edit page.
     var title: String {
@@ -124,6 +119,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return "Target Weight"
         case .height:
             return "Height"
+        case .activityLevel:
+            return "Activity Level"
         case .targetCalories:
             return "Target Calories"
         }
@@ -140,6 +137,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return "target body weight"
         case .height:
             return "height"
+        case .activityLevel:
+            return "activity level"
         case .targetCalories:
             return "target calories"
         }
@@ -157,10 +156,25 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .decimalsPad
         case .height:
             return .decimalsPad
+        case .activityLevel:
+            return .dropDown
         case .targetCalories:
             return .numPad
+
         }
     }
+    
+    var options: dropDownOptions? {
+        switch self {
+        case .gender:
+            return .gender
+        case .activityLevel:
+            return .activityLevel
+        case .weight, .weightTarget, .height, .targetCalories:
+            return nil
+        }
+    }
+    
 }
 
 
@@ -191,6 +205,33 @@ enum genderEnum: Int, CaseIterable, Identifiable {
             return "Male"
         case .female:
             return "Female"
+        }
+    }
+    
+}
+
+
+enum dropDownOptions: Int, CaseIterable, Identifiable {
+    var id: Int { return self.rawValue }
+    
+    case gender
+    case activityLevel
+    
+    var options: [String] {
+        switch self {
+        case .gender:
+            return ["male", "female"]
+        case .activityLevel:
+            return ["Sedentary", "Slightly Active", "Moderately Active", "Very Active", "Super Active"]
+        }
+    }
+    
+    var maxWidth: CGFloat {
+        switch self {
+        case .gender:
+            return 220
+        case .activityLevel:
+            return 280
         }
     }
     

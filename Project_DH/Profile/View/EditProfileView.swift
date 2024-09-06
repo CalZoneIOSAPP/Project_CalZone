@@ -143,6 +143,8 @@ struct EditProfileView: View {
                                 viewModel.editInfoWindowPlaceHolder = option.placeholder
                                 viewModel.showEditWindow = true
                                 viewModel.inputType = option.inputStyle
+                                viewModel.options = option.options?.options
+                                viewModel.optionMaxWidth = option.options?.maxWidth ?? 220
                             }
                         }
                     }
@@ -162,7 +164,7 @@ struct EditProfileView: View {
                     .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .shadow(radius: 5)
-                    .frame(maxWidth: 300, maxHeight: 250)
+                    .frame(maxWidth: 300, maxHeight: viewModel.editInfoWindowTitle == "Activity Level" ? 420 : 250)
                 
             }
         }// End of Z Stack
@@ -213,7 +215,17 @@ struct EditProfileView: View {
                         )
                         .padding(.horizontal, 15)
                 case .dropDown:
-                    DropDownMenu(selection: $viewModel.optionSelection, hint: viewModel.editInfoWindowPlaceHolder, options: ["male", "female"], maxWidth: 220)
+                    VStack {
+                        DropDownMenu(selection: $viewModel.optionSelection, hint: viewModel.editInfoWindowPlaceHolder, options: viewModel.options!, maxWidth: viewModel.optionMaxWidth)
+                            .padding(.top, 20)
+                        Spacer()
+                        Image(.sport)
+                            .resizable()
+                            .frame(width: 160, height: 160)
+                            .clipShape(Circle())
+                            .opacity(0.5)
+                        Spacer()
+                    }
                 case .pickerStyle:
                     DatePicker(
                         viewModel.editInfoWindowPlaceHolder,
@@ -245,6 +257,7 @@ struct EditProfileView: View {
                         viewModel.strToChange = ""
                         viewModel.curStateAccount = nil
                         viewModel.curStateDietary = nil
+                        viewModel.options = nil
                     }
                     viewModel.showEditWindow = false
                     
