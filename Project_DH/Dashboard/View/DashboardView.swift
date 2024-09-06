@@ -30,9 +30,23 @@ struct DashboardView: View {
                                 loadedFirstTime = true
                             }
                     } else if viewModel.meals.isEmpty {
-                        Text("No meals yet!")
+                        dashboardHeader
+                        
+                        Spacer()
+                        
+                        Text("Start by adding a meal...")
                             .font(.headline)
+                            .foregroundColor(.gray)
                             .padding()
+                        
+                        Image("noMeal")
+                            .resizable()
+                            .frame(width: 250, height: 250)
+                            .padding(.bottom, 30)
+                            .clipShape(Circle())
+                            .opacity(0.5)
+                        
+                        Spacer()
                     } else {
                         ScrollView {
                             dashboardHeader
@@ -85,22 +99,26 @@ struct DashboardView: View {
     var dashboardHeader: some View {
         // Show sum of calories
         VStack(alignment: .center) {
-            if let targetCalories = viewModel.profileViewModel.currentUser?.targetCalories {
-                ProgressBarView(targetCalories: Int(targetCalories)!, currentCalories: viewModel.sumCalories)
-                    .padding(.bottom, -30)
-
-            } else {
-                Text("You Consumed \(viewModel.sumCalories) Calories Today")
-                    .font(.title)
-                    .padding(.top, 5)
-            }
+            ProgressBarView(user: viewModel.profileViewModel.currentUser ?? User.MOCK_USER, currentCalories: viewModel.sumCalories)
+                .padding(.bottom, -30)
         
             if viewModel.exceededCalorieTarget {
-                Text(LocalizedStringKey("Be careful, you exceeded your calorie limit!"))
-                    .foregroundStyle(Color.brandRed)
-                    .font(.subheadline)
+                if let user = viewModel.profileViewModel.currentUser {
+                    if user.loseWeight() {
+                        Text(LocalizedStringKey("Be careful, you exceeded your calorie limit!"))
+                            .foregroundStyle(Color.brandRed)
+                            .font(.subheadline)
+                    } else if !user.loseWeight() {
+                        Text(LocalizedStringKey("Congratulations, you reached your calorie target!"))
+                            .foregroundStyle(Color.brandRed)
+                            .font(.subheadline)
+                    } else if user.keepWeight() {
+                        Text(LocalizedStringKey("You reached your recommended calorie limit."))
+                            .foregroundStyle(Color.brandRed)
+                            .font(.subheadline)
+                    }
+                }
             }
-            
         }
     }
     

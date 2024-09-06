@@ -9,27 +9,49 @@ import SwiftUI
 
 /// Shows a progress bar for calorie tracking.
 struct ProgressBarView: View {
-    var targetCalories: Int
-    var currentCalories: Int
+    var user: User
     // Progress bar
+    var currentCalories: Int
     var lineWidth: CGFloat = 18
-    var color: Color = .green
+    var color: Color = .brandDarkGreen
     var rotationAngle: CGFloat = 153
     
     var body: some View {
         VStack {
-            if targetCalories > 0 {
-                Text("Target Calories: \(Int(targetCalories))")
-                    .font(.title)
-                    .padding(.bottom, 10)
-                if currentCalories > targetCalories {
-                    semiCircleBar(curCal: targetCalories, targetCal: targetCalories)
-                    .padding(.horizontal, 80)
+            if let targetCalories = user.targetCalories, Int(targetCalories)! > 0 {
+                if  let _ = user.weight, let _ = user.weightTarget {
+                    if user.loseWeight() {
+                        Text("Calorie Limit: \(targetCalories)")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .foregroundStyle(color)
+                    } else if !user.loseWeight() {
+                        Text("Target Calories: \(targetCalories)")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .foregroundStyle(color)
+                    } else if user.keepWeight() {
+                        Text("Target Calories: \(targetCalories)")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .foregroundStyle(color)
+                    }
+                } else {
+                    Text("Target Calories: \(targetCalories)")
+                        .font(.title2)
+                        .padding(.bottom, 10)
+                        .foregroundStyle(color)
+                }
+                
+                
+                if currentCalories > Int(targetCalories)! {
+                    semiCircleBar(curCal: Int(targetCalories)!, targetCal: Int(targetCalories)!)
+                    .padding(.horizontal, 90)
                     .padding(.top, 20)
                 }
                 else {
-                    semiCircleBar(curCal: currentCalories, targetCal: targetCalories)
-                    .padding(.horizontal, 80)
+                    semiCircleBar(curCal: currentCalories, targetCal: Int(targetCalories)!)
+                    .padding(.horizontal, 90)
                     .padding(.top, 20)
                 }
                 
@@ -37,6 +59,10 @@ struct ProgressBarView: View {
                 Text("You Consumed \(currentCalories) Calories Today")
                     .font(.title)
                     .padding(.top, 10)
+                
+                semiCircleBar(curCal: 0, targetCal: 100)
+                .padding(.horizontal, 80)
+                .padding(.top, 20)
             }
         }
         .padding()
@@ -55,7 +81,7 @@ struct ProgressBarView: View {
                 .trim(from: 0.0, to: 0.65)
                 .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                 .opacity(0.2)
-                .foregroundColor(color)
+                .foregroundColor(.green)
                 .rotationEffect(Angle(degrees: rotationAngle))
                 .shadow(color: Color.black.opacity(0.2), radius: 10, x:0, y:2)
 
@@ -68,18 +94,29 @@ struct ProgressBarView: View {
                 .animation(.linear, value: Double(curCal) / Double(targetCal))
 
             // Progress Text
-            VStack {
-                Text(String(format: "%.0f%%", min(Double(curCal) / Double(targetCal), 1.0) * 100.0))
-                    .font(.largeTitle)
-                    .foregroundColor(color)
-                
-                Divider()
-                    .padding(.horizontal, 30)
-                    .bold()
-                
-                Text("\(curCal)Cal")
-                    .font(.largeTitle)
-                    .foregroundColor(color)
+            if let _ = user.targetCalories {
+                VStack {
+                    
+                    Text("\(curCal)Cal")
+                        .font(.custom("cal", size: 25.0))
+                        .foregroundColor(color)
+                    
+                    Divider()
+                        .padding(.horizontal, 30)
+                        .bold()
+                    
+                    Text(String(format: "%.0f%%", min(Double(curCal) / Double(targetCal), 1.0) * 100.0))
+                        .font(.title2)
+                        .foregroundColor(color)
+                    
+                    
+                }
+            } else {
+                VStack {
+                    Text(String("Target not setup."))
+                        .font(.title2)
+                        .foregroundColor(color)
+                }
             }
         }
     }
@@ -90,5 +127,5 @@ struct ProgressBarView: View {
 
 
 #Preview {
-    ProgressBarView(targetCalories: 1000, currentCalories: 100)
+    ProgressBarView(user: User.MOCK_USER, currentCalories: 100)
 }

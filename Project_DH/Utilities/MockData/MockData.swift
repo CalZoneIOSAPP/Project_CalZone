@@ -21,7 +21,11 @@ struct MockData {
             userName: "Kinopio",
             profileImageUrl: "",
             firstTimeUser: true, description: "bigsmart",
-            followerNum: 1
+            followerNum: 1,
+            targetCalories: "1000",
+            weight: 55.0,
+            weightTarget: 60.0
+            
         ),
         .init(
             uid: NSUUID().uuidString,

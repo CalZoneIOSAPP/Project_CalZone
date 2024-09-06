@@ -44,13 +44,55 @@ struct User: Codable, Identifiable, Hashable {
     var weightTarget: Double?
     var activityLevel: String?
     
+    
+    
+    /// The function returns whether the user is trying to lose weight based on the current and target weight values.
+    /// - Parameters: none
+    /// - Returns: If the user is trying to lose weight.
+    func loseWeight() -> Bool {
+        if let weight = weight, let weightTarget = weightTarget {
+            if weight > weightTarget {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
+    }
+    
+    
+    /// The function returns whether the user is trying to keep weight based on the current and target weight values.
+    /// - Parameters: none
+    /// - Returns: If the user is trying to lose weight.
+    func keepWeight() -> Bool {
+        if let weight = weight, let weightTarget = weightTarget {
+            if weight == weightTarget {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
+    }
+    
 }
 
 
 // Mock user
 extension User {
-    static let MOCK_USER = User(email: "123@gmail.com", userName: "MockUserName", firstTimeUser: true)
-    
+    static let MOCK_USER = User(uid: NSUUID().uuidString,
+                                firstName: "Jimmy",
+                                lastName: "Lyu",
+                                email: "bigsmartmovie@gmail.com",
+                                tel: "5087235805",
+                                userName: "Kinopio",
+                                profileImageUrl: "",
+                                firstTimeUser: true, description: "bigsmart",
+                                followerNum: 1,
+                                targetCalories: "1000",
+                                weight: 55.0,
+                                weightTarget: 60.0
+                            )
 }
 
 
