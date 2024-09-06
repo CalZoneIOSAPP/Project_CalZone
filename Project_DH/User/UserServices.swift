@@ -95,25 +95,26 @@ class UserServices {
     ///     - enumInfo: The AccountOptions enum option.
     /// - Returns: none
     @MainActor
-    func updateAccountOptions(with infoToChange: String, enumInfo: AccountOptions) async throws {
+    func updateAccountOptions<T>(with infoToChange: T, enumInfo: AccountOptions) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         switch enumInfo {
         case .username:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["userName": infoToChange])
-            self.currentUser?.userName = infoToChange
+            self.currentUser?.userName = infoToChange as? String
         case .lastName:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["lastName": infoToChange])
-            self.currentUser?.lastName = infoToChange
+            self.currentUser?.lastName = infoToChange as? String
         case .firstName:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["firstName": infoToChange])
-            self.currentUser?.firstName = infoToChange
+            self.currentUser?.firstName = infoToChange as? String
         case .email:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["email": infoToChange])
-            self.currentUser?.email = infoToChange
+            self.currentUser?.email = infoToChange as! String
         case .password:
             print("SHOULD CHANGE PASSWORD")
         case .birthday:
-            print("SHOULD CHANGE BIRTHDAY")
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["birthday": infoToChange])
+            self.currentUser?.birthday = infoToChange as? Date
         }
     }
     
@@ -124,12 +125,24 @@ class UserServices {
     ///     - enumInfo: The DietaryInfoOptions enum option.
     /// - Returns: none
     @MainActor
-    func updateDietaryOptions(with infoToChange: String, enumInfo: DietaryInfoOptions) async throws {
+    func updateDietaryOptions<T>(with infoToChange: T, enumInfo: DietaryInfoOptions) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         switch enumInfo {
+        case .gender:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["gender": infoToChange])
+            self.currentUser?.gender = infoToChange as? String
+        case .weight:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["weight": infoToChange])
+            self.currentUser?.weight = infoToChange as? Double
+        case .weightTarget:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["weightTarget": infoToChange])
+            self.currentUser?.weightTarget = infoToChange as? Double
+        case .height:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["height": infoToChange])
+            self.currentUser?.height = infoToChange as? Double
         case .targetCalories:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["targetCalories": infoToChange])
-            self.currentUser?.targetCalories = infoToChange
+            self.currentUser?.targetCalories = infoToChange as? String
         }
     }
     

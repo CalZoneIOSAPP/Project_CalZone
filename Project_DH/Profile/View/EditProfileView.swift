@@ -123,6 +123,7 @@ struct EditProfileView: View {
                                 viewModel.editInfoWindowTitle = option.title
                                 viewModel.editInfoWindowPlaceHolder = option.placeholder
                                 viewModel.showEditWindow = true
+                                viewModel.inputType = option.inputStyle
                             }
                         }
                     }
@@ -141,6 +142,7 @@ struct EditProfileView: View {
                                 viewModel.editInfoWindowTitle = option.title
                                 viewModel.editInfoWindowPlaceHolder = option.placeholder
                                 viewModel.showEditWindow = true
+                                viewModel.inputType = option.inputStyle
                             }
                         }
                     }
@@ -157,6 +159,11 @@ struct EditProfileView: View {
             
             if viewModel.showEditWindow {
                 EditInfoView
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .shadow(radius: 5)
+                    .frame(maxWidth: 300, maxHeight: 250)
+                
             }
         }// End of Z Stack
         
@@ -165,44 +172,101 @@ struct EditProfileView: View {
     /// The view to show a popup for editing user info.
     var EditInfoView: some View {
         VStack {
+            Text(viewModel.editInfoWindowTitle)
+                .font(.title3)
+                .padding(.top, 20)
+            
+            Spacer()
+            
             VStack {
-                Text(viewModel.editInfoWindowTitle)
-                    .font(.title3)
-                    .padding(.top, 10)
-                if viewModel.editInfoWindowTitle == "Change Target Calories" {
+                switch viewModel.inputType {
+                case .fullText:
+                    TextField(viewModel.editInfoWindowPlaceHolder, text: $viewModel.strToChange)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 15)
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .padding(.horizontal, 15)
+                case .numPad:
                     TextField(viewModel.editInfoWindowPlaceHolder, text: $viewModel.strToChange)
                         .keyboardType(.numberPad)
-                } else {
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 15)
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .padding(.horizontal, 15)
+                case .decimalsPad:
                     TextField(viewModel.editInfoWindowPlaceHolder, text: $viewModel.strToChange)
-                }
-                Divider()
-                HStack(alignment: .center, spacing: 50) {
-                    Button {
-                        viewModel.showEditWindow = false
-                    } label: {
-                        Text("Cancel")
-                    }
-                    Divider()
-                    Button { // Save the title
-                        Task {
-                            try await viewModel.updateInfo(with: viewModel.curStateAccount, with: viewModel.curStateDietary, strInfo: viewModel.strToChange)
-                            viewModel.strToChange = ""
-                            viewModel.curStateAccount = nil
-                            viewModel.curStateDietary = nil
-                        }
-                        viewModel.showEditWindow = false
-                        
-                    } label: {
-                        Text("Save")
-                    }
+                        .keyboardType(.decimalPad)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 15)
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .padding(.horizontal, 15)
+                case .dropDown:
+                    DropDownMenu(selection: $viewModel.optionSelection, hint: viewModel.editInfoWindowPlaceHolder, options: ["male", "female"], maxWidth: 220)
+                case .pickerStyle:
+                    DatePicker(
+                        viewModel.editInfoWindowPlaceHolder,
+                        selection: $viewModel.dateToChange,
+                        displayedComponents: [.date]
+                    )
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .padding()
                 }
             }
-            .padding(.horizontal, 10)
-        }
-        .frame(width: 300, height: 120)
-        .background(Color(.systemGray6))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+            .zIndex(10000.0) // Making sure that the drop down will list will be on top.
+            
+            Spacer()
+            
+            Divider()
+            
+            HStack(alignment: .center, spacing: 50) {
+                Button {
+                    viewModel.showEditWindow = false
+                } label: {
+                    Text("Cancel")
+                }
+                Divider()
+                Button {
+                    Task {
+                        let doubleInfo = infoToDouble()
+                        
+                        try await viewModel.updateInfo(with: viewModel.curStateAccount, with: viewModel.curStateDietary, strInfo: viewModel.strToChange, optionStrInfo: viewModel.optionSelection, dateInfo: viewModel.dateToChange, doubleInfo: doubleInfo)
+                        viewModel.strToChange = ""
+                        viewModel.curStateAccount = nil
+                        viewModel.curStateDietary = nil
+                    }
+                    viewModel.showEditWindow = false
+                    
+                } label: {
+                    Text("Save")
+                }
+            }
+            .frame(height: 50)
+        } // VStack
     }
+    
+    
+    func infoToDouble() -> Double{
+        if let state = viewModel.curStateDietary {
+            if state == .height || state == .weight || state == .weightTarget {
+                return Double(viewModel.strToChange)!
+            }
+        }
+        return 0.0
+    }
+    
+    
     
 }
 

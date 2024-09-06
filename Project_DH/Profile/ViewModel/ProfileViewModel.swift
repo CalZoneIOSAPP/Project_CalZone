@@ -24,10 +24,14 @@ class ProfileViewModel: ObservableObject {
     @Published var showEditWindow = false
     @Published var curStateAccount: AccountOptions?
     @Published var curStateDietary: DietaryInfoOptions?
-    @Published var editInfoWindowTitle = LocalizedStringKey("")
-    @Published var editInfoWindowPlaceHolder = LocalizedStringKey("")
-    @Published var strToChange = ""
+    @Published var editInfoWindowTitle: String = ""
+    @Published var editInfoWindowPlaceHolder: String = ""
     @Published var processingSaving: Bool = false
+    @Published var inputType: inputStyles = .fullText
+    @Published var strToChange: String = ""
+    @Published var optionSelection: String?
+    @Published var dateToChange: Date = Date()
+    @Published var changeDate: Bool = false // the trigger to control whether date info should be saved to firebase
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -57,16 +61,6 @@ class ProfileViewModel: ObservableObject {
     }
     
     
-    /// This function calls the profile username update logic.
-    /// - Parameters:
-    ///     - with: The new username entered.
-    /// - Returns: none
-    /// - Note: This function doesn't perform the update logic, it is an interface for the frontend to call.
-    func updateUsermame(with userName: String) async throws {
-        try await updateUserName(with: userName)
-    }
-    
-    
     /// This function updates the profile username, and handles the logic for that.
     /// - Parameters: none
     /// - Returns: none
@@ -82,25 +76,15 @@ class ProfileViewModel: ObservableObject {
     }
     
     
-    /// This function updates the profile username, and handles the logic for that.
-    /// - Parameters:
-    ///     - with: The new username entered.
-    /// - Returns: none
-    /// - Note: This function doesn't perform the networking tasks, instead it calls the updateUserName function inside UserServices to do that.
-    @MainActor
-    func updateUserName(with userName: String) async throws {
-        try await UserServices.sharedUser.updateUserName(with: userName)
-    }
-    
-    
     /// This function is an generic function which updates any user related information.
     /// - Parameters:
     ///     - with: the enum which is the AccountOptions
     ///     - strInfo: The information to update.
     /// - Returns: none
     @MainActor
-    func updateInfo(with accountEnum: AccountOptions?, with dietaryEnum: DietaryInfoOptions?, strInfo: String?) async throws {
-        guard strInfo != nil else { return }
+    func updateInfo(with accountEnum: AccountOptions?, with dietaryEnum: DietaryInfoOptions?, strInfo: String?, optionStrInfo: String?, dateInfo: Date?, doubleInfo: Double?) async throws {
+        guard strInfo != nil || dateInfo != nil || optionStrInfo != nil || doubleInfo != nil else { return }
+        
         if accountEnum != nil {
             switch accountEnum {
             case .username:
@@ -114,7 +98,7 @@ class ProfileViewModel: ObservableObject {
             case .password:
                 try await UserServices.sharedUser.updateAccountOptions(with: strInfo!, enumInfo: .password)
             case .birthday:
-                try await UserServices.sharedUser.updateAccountOptions(with: strInfo!, enumInfo: .birthday)
+                try await UserServices.sharedUser.updateAccountOptions(with: dateInfo!, enumInfo: .birthday)
             case .none:
                 return
             }
@@ -122,10 +106,19 @@ class ProfileViewModel: ObservableObject {
         
         if dietaryEnum != nil{
             switch dietaryEnum {
+            case .gender:
+                try await UserServices.sharedUser.updateDietaryOptions(with: optionStrInfo!, enumInfo: .gender)
+            case .weight:
+                try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .weight)
+            case .weightTarget:
+                try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .weightTarget)
+            case .height:
+                try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .height)
             case .targetCalories:
                 try await UserServices.sharedUser.updateDietaryOptions(with: strInfo!, enumInfo: .targetCalories)
             case .none:
                 return
+
             }
         }
         
@@ -150,6 +143,9 @@ class ProfileViewModel: ObservableObject {
         case .password:
             return ""
         case .birthday:
+            if let birthday = currentUser?.birthday {
+                return DateTools().formattedDate(birthday)
+            }
             return ""
         }
     }
@@ -161,6 +157,30 @@ class ProfileViewModel: ObservableObject {
     /// - Returns: none
     func getUserDietaryInfo(with enumType: DietaryInfoOptions) -> String {
         switch enumType {
+        case .gender:
+            if let gender = currentUser?.gender {
+                return gender
+            } else {
+                return ""
+            }
+        case .weight:
+            if let weight = currentUser?.weight {
+                return String(weight)
+            } else {
+                return ""
+            }
+        case .weightTarget:
+            if let weightTarget = currentUser?.weightTarget {
+                return String(weightTarget)
+            } else {
+                return ""
+            }
+        case .height:
+            if let height = currentUser?.height {
+                return String(height)
+            } else {
+                return ""
+            }
         case .targetCalories:
             if let calories = currentUser?.targetCalories {
                 return calories

@@ -42,6 +42,7 @@ struct User: Codable, Identifiable, Hashable {
     var bmi: Double?
     var weight: Double?
     var weightTarget: Double?
+    var height: Double?
     var activityLevel: String?
     
     
@@ -91,7 +92,8 @@ extension User {
                                 followerNum: 1,
                                 targetCalories: "1000",
                                 weight: 55.0,
-                                weightTarget: 60.0
+                                weightTarget: 60.0,
+                                height: 175.0
                             )
 }
 
