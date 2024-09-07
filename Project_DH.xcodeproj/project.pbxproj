@@ -495,6 +495,8 @@
 			children = (
 				547FE7702C4A55CC00C80790 /* View */,
 				547FE7732C4A56D400C80790 /* ViewModel */,
+				5410530C2C8C36ED005A7F36 /* Statistics */,
+				5410530B2C8C36E2005A7F36 /* Settings */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -502,8 +504,6 @@
 		547FE7702C4A55CC00C80790 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5410530C2C8C36ED005A7F36 /* Statistics */,
-				5410530B2C8C36E2005A7F36 /* Settings */,
 				547FE76B2C4A55BE00C80790 /* ProfilePageView.swift */,
 				547FE7712C4A566E00C80790 /* EditProfileView.swift */,
 			);
