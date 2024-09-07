@@ -120,11 +120,11 @@ struct ProfilePageView: View {
                 StatsChartView(user: $viewModel.currentUser) // Show the StatsChartView
             // TODO: Handle other cases in the future!
             case .meals:
-                StatsChartView(user: $viewModel.currentUser)
+                MealOverviewView()
             case .friends:
-                StatsChartView(user: $viewModel.currentUser)
+                FriendsView()
             case .settings:
-                StatsChartView(user: $viewModel.currentUser)
+                SettingsView()
             }
         }
 
