@@ -207,17 +207,17 @@ struct MealInputView: View {
                             .disabled(savePressed)
                             
                             if viewModel.showMessageWindow {
-                                PopUpMessageView(messageTitle: "Success!", message: "Your food item is saved.", isPresented: $viewModel.showMessageWindow)
+                                PopUpMessageView(messageTitle: "Success!", message: "Your food item is saved.", popupPositivity: .positive, isPresented: $viewModel.showMessageWindow)
                                     .animation(.easeInOut, value: viewModel.showMessageWindow)
                             }
                             
                             if viewModel.showInputError {
-                                PopUpMessageView(messageTitle: "Apologies", message: "Your image does not contain any food, please try again.", isPresented: $viewModel.showInputError)
+                                PopUpMessageView(messageTitle: "Apologies", message: "Your image does not contain any food, please try again.", popupPositivity: .negative, isPresented: $viewModel.showInputError)
                                     .animation(.easeInOut, value: viewModel.showInputError)
                             }
                             
                             if viewModel.showUsageError {
-                                PopUpMessageView(messageTitle: "Apologies", message: "To be able to get unlimited usage, please join us and become a CalBite member!", isPresented: $viewModel.showUsageError)
+                                PopUpMessageView(messageTitle: "Apologies", message: "To be able to get unlimited usage, please join us and become a CalBite member!", popupPositivity: .negative, isPresented: $viewModel.showUsageError)
                             }
                             
                         } // end of else statement

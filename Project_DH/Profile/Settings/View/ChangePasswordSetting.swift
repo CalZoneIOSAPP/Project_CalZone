@@ -15,80 +15,100 @@ struct ChangePasswordSetting: View {
     @State private var isOldPasswordVisible: Bool = false
     @State private var isNewPasswordVisible: Bool = false
     @State private var isConfirmPasswordVisible: Bool = false
-    @State private var message: String = ""
+    @State private var message: PopupMessage = PopupMessage(message: "", title: "")
     @State private var showPopup: Bool = false
+    @State private var popupPositivity: popupPositivity = .informative
+    @State private var processing: Bool = false
+    
     @Binding var user: User?
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                // Current Password
-                if let user = user, user.passwordSet ?? false {
-                    Section(header: HStack{Text("Enter Current Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
-                        SecureInputView("Enter Current Password", text: $currentPassword, isPasswordVisible: $isOldPasswordVisible)
-                    }
-                }
-                // New Password
-                Section(header: HStack{Text("Enter New Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
-                    SecureInputView("Enter New Password", text: $newPassword, isPasswordVisible: $isNewPasswordVisible)
-                }
-                
-                // Confirm New Password
-                SecureInputView("Re-enter New Password", text: $confirmPassword, isPasswordVisible: $isConfirmPasswordVisible)
-
-                // Password Hint
-                Text("Password must be at least 6 characters.")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.top, 5)
-
-                // Submit Button
-                Button(action: {
-                    Task {
-                        if let user = user, user.passwordSet ?? false {
-                            message = try await UserServices().changePassword(oldPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword)
-                            print(message)
-                        } else {
-                            message = try await UserServices().changePassword(oldPassword: nil, newPassword: newPassword, confirmPassword: confirmPassword)
-                            print(message)
+        ZStack {
+            NavigationStack {
+                VStack {
+                    // Current Password
+                    if let user = user, user.passwordSet ?? false {
+                        Section(header: HStack{Text("Enter Current Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
+                            SecureInputView("Enter Current Password", text: $currentPassword, isPasswordVisible: $isOldPasswordVisible)
                         }
-                        showPopup = true
                     }
-                }) {
-                    Text("Complete")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(.brandLightGreen)
-                        .foregroundColor(.brandDarkGreen)
-                        .cornerRadius(8)
-                        .padding(.top, 20)
-                }
-                
-                Spacer()
-                
-            }
-            .padding()
-            .dismissKeyboardOnTap()
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                    // New Password
+                    Section(header: HStack{Text("Enter New Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
+                        SecureInputView("Enter New Password", text: $newPassword, isPasswordVisible: $isNewPasswordVisible)
+                    }
+                    
+                    // Confirm New Password
+                    SecureInputView("Re-enter New Password", text: $confirmPassword, isPasswordVisible: $isConfirmPasswordVisible)
+
+                    // Password Hint
+                    Text("Password must be at least 6 characters.")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .padding(.top, 5)
+
+                    // Submit Button
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        processing = true
+                        Task {
+                            defer {
+                                processing = false
+                            }
+                            if let user = user, user.passwordSet ?? false {
+                                message = try await UserServices().changePassword(oldPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword)
+                            } else {
+                                message = try await UserServices().changePassword(oldPassword: nil, newPassword: newPassword, confirmPassword: confirmPassword)
+                            }
+                            showPopup = true
+                            if message.title == "Success" {
+                                popupPositivity = .positive
+                                currentPassword = ""
+                                newPassword = ""
+                                confirmPassword = ""
+                            } else {
+                                popupPositivity = .negative
+                            }
+                        }
                     }) {
-                        Image(systemName: "chevron.left")
+                        Text("Complete")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(.brandLightGreen)
                             .foregroundColor(.brandDarkGreen)
-                            .imageScale(.large)
+                            .cornerRadius(8)
+                            .padding(.top, 20)
+                    }
+                    .disabled(processing)
+                    
+                    Spacer()
+                    
+                }
+                .padding()
+                .dismissKeyboardOnTap()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.brandDarkGreen)
+                                .imageScale(.large)
+                        }
                     }
                 }
+            } // NavigationStack
+            .blur(radius: showPopup ? 5 : 0)
+            .disabled(showPopup)
+            
+            if showPopup {
+                PopUpMessageView(messageTitle: message.title, message: message.message, popupPositivity: popupPositivity, isPresented: $showPopup)
             }
-        } // NavigationStack
-        
-        if showPopup {
-            PopUpMessageView(messageTitle: "Confirmation", message: message, isPresented: $showPopup)
-        }
+        } // ZStack
         
     }
 }
+
 
 struct SecureInputView: View {
     var placeholder: String

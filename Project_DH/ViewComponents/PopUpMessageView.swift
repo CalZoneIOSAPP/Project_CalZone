@@ -12,32 +12,47 @@ struct PopUpMessageView: View {
     
     var messageTitle: String
     var message: String
+    var popupPositivity: popupPositivity
     @Binding var isPresented: Bool
-
+    
     var body: some View {
-        VStack{
-            VStack {
-                Text(messageTitle)
-                    .font(.title3)
-                    .padding(.top, 10)
-                    .multilineTextAlignment(.center)
-                Text(message)
+        VStack(spacing: 20) {
+            // Success icon (green circle with checkmark)
+            popupPositivity.icon
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+                .foregroundColor(popupPositivity.colorIcon)
+            
+            // Title Text
+            Text(messageTitle)
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            // Subtitle Text
+            Text(message)
+                .font(.body)
+                .foregroundColor(.gray)
+            
+            
+            Button(action: {
+                isPresented = false
+            }) {
+                Text("Close")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    .cornerRadius(10)
-                    .shadow(radius: 10)
-                    .multilineTextAlignment(.center)
-                Button(action: {
-                    isPresented = false
-                }) {
-                    Text("Close")
-                }
-                .padding(.bottom, 10)
+                    .background(popupPositivity.colorBackground)
+                    .foregroundStyle(popupPositivity.colorForeground)
+                    .cornerRadius(8)
             }
+            .padding(.horizontal, 20)
+            // Button
         }
-        .frame(width: 300)
-        .background(Color(.white))
-        .border(Color.black)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(30)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 10)
     }
     
 }
@@ -51,6 +66,7 @@ struct PopUpMessageView_Previews: PreviewProvider {
         PopUpMessageView(
             messageTitle: "Success!",
             message: "The displayed message will be here",
+            popupPositivity: .informative,
             isPresented: $isPresented
         )
         .previewLayout(.sizeThatFits) // Adjust the preview size to fit the view

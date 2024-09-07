@@ -9,6 +9,59 @@
 import SwiftUI
 
 
+enum popupPositivity: Int, CaseIterable, Identifiable {
+    var id: Int { return self.rawValue }
+    
+    case positive
+    case negative
+    case informative
+    
+    var colorBackground: Color {
+        switch self {
+        case .positive:
+            return .brandLightGreen.opacity(0.5)
+        case .negative:
+            return .brandRed.opacity(0.5)
+        case .informative:
+            return .brandLightGreen.opacity(0.5)
+        }
+    }
+    
+    var colorForeground: Color {
+        switch self {
+        case .positive:
+            return .brandDarkGreen
+        case .negative:
+            return .brandRed
+        case .informative:
+            return .brandDarkGreen
+        }
+    }
+    
+    var colorIcon: Color {
+        switch self {
+        case .positive:
+            return .brandLightGreen
+        case .negative:
+            return .brandRed.opacity(0.8)
+        case .informative:
+            return .gray.opacity(0.8)
+        }
+    }
+    
+    var icon: Image {
+        switch self {
+        case .positive:
+            return Image(systemName: "checkmark.circle.fill")
+        case .negative:
+            return Image(systemName: "xmark.circle.fill")
+        case .informative:
+            return Image(systemName: "info.circle.fill")
+        }
+    }
+}
+
+
 enum SettingsOptions: Int, CaseIterable, Identifiable {
     var id: Int { return self.rawValue }
     

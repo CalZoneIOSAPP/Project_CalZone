@@ -27,6 +27,7 @@
 		5410531D2C8C394F005A7F36 /* MealOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410531C2C8C394F005A7F36 /* MealOverviewView.swift */; };
 		5410531F2C8C395E005A7F36 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410531E2C8C395E005A7F36 /* FriendsView.swift */; };
 		541053212C8C53BF005A7F36 /* ChangePasswordSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */; };
+		541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053222C8CFF34005A7F36 /* PopupMessage.swift */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
@@ -128,6 +129,7 @@
 		5410531C2C8C394F005A7F36 /* MealOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealOverviewView.swift; sourceTree = "<group>"; };
 		5410531E2C8C395E005A7F36 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordSetting.swift; sourceTree = "<group>"; };
+		541053222C8CFF34005A7F36 /* PopupMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessage.swift; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				54E9D6D32C76864300CFD7A0 /* UIConstants.swift */,
 				54E9D6D62C773B3D00CFD7A0 /* MealType.swift */,
 				5474F6692C7770B500BF86F4 /* DateTools.swift */,
+				541053222C8CFF34005A7F36 /* PopupMessage.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				54B4499B2BDD407B00E35D49 /* AppEntryView.swift in Sources */,
 				047512BD2C5B2B40005F223A /* MealSectionView.swift in Sources */,
 				54F18F152C850B27001E6A38 /* PrivacyPolicyView.swift in Sources */,
+				541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */,
 				5479997F2BE3E04F007A7CCE /* dividerOr.swift in Sources */,
 				043097332BE6FBD60016FCD8 /* LibraryView.swift in Sources */,
 				54B449992BDD407B00E35D49 /* Project_DHApp.swift in Sources */,

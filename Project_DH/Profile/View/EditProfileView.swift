@@ -157,7 +157,7 @@ struct EditProfileView: View {
             .blur(radius: viewModel.showEditWindow || showSavingPopup ? 5 : 0)
             
             if showSavingPopup {
-                PopUpMessageView(messageTitle: "Success!", message: "Your profile image is updated.", isPresented: $showSavingPopup)
+                PopUpMessageView(messageTitle: "Success!", message: "Your profile image is updated.", popupPositivity: .positive, isPresented: $showSavingPopup)
                     .animation(.easeInOut, value: showSavingPopup)
             }
             

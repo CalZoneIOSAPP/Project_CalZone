@@ -223,33 +223,33 @@ class UserServices {
     ///     - confirmPassword:  The confirmed password string.
     /// - Returns: The confirmation message.
     @MainActor
-    func changePassword(oldPassword: String?, newPassword: String, confirmPassword: String) async throws -> String {
+    func changePassword(oldPassword: String?, newPassword: String, confirmPassword: String) async throws -> PopupMessage {
         // Check if new password and confirm password match
         guard newPassword == confirmPassword else {
-            print("Passwords do not match.")
-            throw PasswordChangeError.passwordMismatch
+            return PopupMessage(message: "Your new password and the confirmation do not match.", title: "Oops!")
         }
         // Get the current user
         guard let user = Auth.auth().currentUser else {
-            print("Cannot get current user.")
-            throw PasswordChangeError.userNotLoggedIn
+            return PopupMessage(message: "You are not logged in yet.", title: "Oops!")
         }
         if let oldPassword = oldPassword {
             // Ensure new password is different from the old password
             guard oldPassword != newPassword else {
-                print("New password is the same as the current password.")
-                throw PasswordChangeError.passwordSameAsOld
+                return PopupMessage(message: "New password is the same as the current password.", title: "Oops!")
             }
             // Re-authenticate with email and password
             let credential = EmailAuthProvider.credential(withEmail: user.email ?? "", password: oldPassword)
             do {
-                try await user.reauthenticate(with: credential)
+                do {
+                    try await user.reauthenticate(with: credential)
+                } catch {
+                    return PopupMessage(message: "Your original password is incorrect.", title: "Apologies...")
+                }
                 try await user.updatePassword(to: newPassword)
                 try await updatePasswordSet()
-                return "Password successfully changed!"
+                return PopupMessage(message: "Successfully changed your password.", title: "Success")
             } catch {
-                print("Re-authentication failed for email/password user.")
-                throw PasswordChangeError.reauthenticationFailed(error.localizedDescription)
+                return PopupMessage(message: "Failed to change your password due to internal authentication error.", title: "Apologies...")
             }
         } else {
             // Re-authenticate if the user signed in with Google or Apple
@@ -258,8 +258,7 @@ class UserServices {
                 do {
                     try await signInViewModel.reauthenticateGoogle() // Re-authenticate with Google
                 } catch {
-                    print("Re-authentication failed for Google user: \(error.localizedDescription)")
-                    throw PasswordChangeError.reauthenticationFailed(error.localizedDescription)
+                    return PopupMessage(message: "Re-authentication failed for Google user.", title: "Apologies...")
                 }
             } else if user.providerData.first(where: { $0.providerID == "apple.com" }) != nil {
                 // Re-authenticate Apple users
@@ -267,19 +266,16 @@ class UserServices {
                     let authorization = try await signInViewModel.getASAuthorization()
                     try await signInViewModel.reauthenticateApple(authorization) // Re-authenticate with Apple
                 } catch {
-                    print("Re-authentication failed for Apple user: \(error.localizedDescription)")
-                    throw PasswordChangeError.reauthenticationFailed(error.localizedDescription)
+                    return PopupMessage(message: "Re-authentication failed for Apple user.", title: "Apologies...")
                 }
             }
             // After successful re-authentication, update the password
             do {
                 try await user.updatePassword(to: newPassword)
-                print("Password updated successfully.")
                 try await updatePasswordSet()
-                return "Password successfully changed!"
+                return PopupMessage(message: "Successfully changed your password.", title: "Success")
             } catch {
-                print("Error updating password: \(error.localizedDescription)")
-                throw PasswordChangeError.passwordChangeFailed(error.localizedDescription)
+                return PopupMessage(message: "Failed to change your password due to internal authentication error.", title: "Apologies...")
             }
         }
     }
