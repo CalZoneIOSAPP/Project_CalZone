@@ -20,9 +20,30 @@ enum SettingsOptions: Int, CaseIterable, Identifiable {
             return "Change Password"
         }
     }
+}
+
+
+enum PasswordChangeError: Error, LocalizedError {
+    case passwordMismatch
+    case userNotLoggedIn
+    case passwordSameAsOld
+    case reauthenticationFailed(String)
+    case passwordChangeFailed(String)
     
-    
-    
+    var errorDescription: String? {
+        switch self {
+        case .passwordMismatch:
+            return "New password and confirm password do not match."
+        case .userNotLoggedIn:
+            return "User not logged in."
+        case .passwordSameAsOld:
+            return "Your new password must be different from your current password."
+        case .reauthenticationFailed(let message):
+            return "Re-authentication failed: \(message)"
+        case .passwordChangeFailed(let message):
+            return "Password change failed: \(message)"
+        }
+    }
 }
 
 

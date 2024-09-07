@@ -15,6 +15,8 @@ struct ChangePasswordSetting: View {
     @State private var isOldPasswordVisible: Bool = false
     @State private var isNewPasswordVisible: Bool = false
     @State private var isConfirmPasswordVisible: Bool = false
+    @State private var message: String = ""
+    @State private var showPopup: Bool = false
     @Binding var user: User?
 
     var body: some View {
@@ -42,7 +44,16 @@ struct ChangePasswordSetting: View {
 
                 // Submit Button
                 Button(action: {
-                    // Add your action here
+                    Task {
+                        if let user = user, user.passwordSet ?? false {
+                            message = try await UserServices().changePassword(oldPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword)
+                            print(message)
+                        } else {
+                            message = try await UserServices().changePassword(oldPassword: nil, newPassword: newPassword, confirmPassword: confirmPassword)
+                            print(message)
+                        }
+                        showPopup = true
+                    }
                 }) {
                     Text("Complete")
                         .font(.headline)
@@ -71,6 +82,10 @@ struct ChangePasswordSetting: View {
                 }
             }
         } // NavigationStack
+        
+        if showPopup {
+            PopUpMessageView(messageTitle: "Confirmation", message: message, isPresented: $showPopup)
+        }
         
     }
 }

@@ -86,6 +86,81 @@ class SignInViewModel: ObservableObject {
     }
     
     
+    /// This function re-authenticates using the Google method.
+    /// - Parameters: none
+    /// - Returns: none
+    @MainActor
+    func reauthenticateGoogle() async throws {
+        guard let topVC = TopViewController.sharedTopController.topViewController() else {
+            throw URLError(.cannotFindHost)
+        }
+
+        let signInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
+
+        guard let idToken = signInResult.user.idToken?.tokenString else {
+            throw URLError(.badServerResponse)
+        }
+
+        let accessToken = signInResult.user.accessToken.tokenString
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+
+        // Re-authenticate the user
+        try await Auth.auth().currentUser?.reauthenticate(with: credential)
+        print("Re-authenticated with Google successfully")
+    }
+    
+    
+    /// This function re-authenticates using the Apple method.
+    /// - Parameters: none
+    /// - Returns: none
+    @MainActor
+    func reauthenticateApple(_ authorization: ASAuthorization) async throws {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let nonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                throw URLError(.badServerResponse) // Handle missing token error
+            }
+
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                throw URLError(.badServerResponse) // Handle token parsing error
+            }
+
+            let credential = OAuthProvider.appleCredential(withIDToken: idTokenString, rawNonce: nonce, fullName: appleIDCredential.fullName)
+
+            // Re-authenticate the user
+            try await Auth.auth().currentUser?.reauthenticate(with: credential)
+            print("Re-authenticated with Apple successfully")
+        }
+    }
+    
+    
+    /// This function returns a AUAuthorization object used for Apple Sign in and re-authentication.
+    /// - Parameters: none
+    /// - Returns: ASAuthorization object.
+    func getASAuthorization() async throws -> ASAuthorization {
+        // Create the Apple ID request
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        // Set up the Apple ID authorization controller with the request
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        
+        // Delegate handling for the request
+        let delegate = AppleSignInDelegate()
+        authorizationController.delegate = delegate
+        authorizationController.presentationContextProvider = delegate
+        
+        // Present the sign-in UI and await the result
+        return try await withCheckedThrowingContinuation { continuation in
+            delegate.continuation = continuation
+            authorizationController.performRequests()
+        }
+    }
+    
+    
     /// Generates a random string (nonce) of a specified length, with a default length of 32 characters.
     /// - Parameters:
     ///     - length: the length of the resultant random string
@@ -156,7 +231,42 @@ struct GoogleSignInModel {
 
 
 
+class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
 
+    var continuation: CheckedContinuation<ASAuthorization, Error>?
 
+    
+    ///  The function handles the success of Apple Sign-in request.
+    /// - Parameters:
+    ///     - controller: The key component which manages the authentication process.
+    ///     - authorization: The object which holds the result of authentication.
+    /// - Returns: none
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        continuation?.resume(returning: authorization)
+    }
 
+    
+    ///  The function handles the failure of the error.
+    /// - Parameters:
+    ///     - controller: The key component which manages the authentication process.
+    ///     - error: The error object from the authentication.
+    /// - Returns: none
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        continuation?.resume(throwing: error)
+    }
+
+    
+    /// Provide a presentation anchor for the Apple sign-in UI
+    /// - Parameters:
+    ///     - controller: The key component which manages the authentication process.
+    /// - Returns: The window (or "anchor") where the sign-in sheet will appear.
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+            return UIWindow()
+        }
+        return keyWindow
+    }
+}
 

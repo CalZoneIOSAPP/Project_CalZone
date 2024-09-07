@@ -9,11 +9,15 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import FirebaseAuth
+import GoogleSignIn
+import AuthenticationServices
 
 /// Takes care of all network tasks of user services with firebase.
 class UserServices {
 
     @Published var currentUser: User?
+    @Published var signInViewModel = SignInViewModel()
     
     static let sharedUser = UserServices() // Use this user service object across the application.
     
@@ -175,6 +179,17 @@ class UserServices {
     }
     
     
+    /// Sets the status of whether the password for the account is setup.
+    /// - Parameters: none
+    /// - Returns: none
+    @MainActor
+    func updatePasswordSet() async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["passwordSet" : true])
+        self.currentUser?.firstTimeUser = true
+    }
+    
+    
     /// The generic function to update user's dietary information onto Firebase.
     /// - Parameters:
     ///     - gender:  Gender of the user.
@@ -199,5 +214,79 @@ class UserServices {
         ])
         try await UserServices.sharedUser.fetchCurrentUserData()
     }
+    
+    
+    /// This function updates the users password. If the user does not have a password yet, it will set the password. If the user has a password, then changes it.
+    /// - Parameters:
+    ///     - oldPassword: The original password.
+    ///     - newPassword: The new password.
+    ///     - confirmPassword:  The confirmed password string.
+    /// - Returns: The confirmation message.
+    @MainActor
+    func changePassword(oldPassword: String?, newPassword: String, confirmPassword: String) async throws -> String {
+        // Check if new password and confirm password match
+        guard newPassword == confirmPassword else {
+            print("Passwords do not match.")
+            throw PasswordChangeError.passwordMismatch
+        }
+        // Get the current user
+        guard let user = Auth.auth().currentUser else {
+            print("Cannot get current user.")
+            throw PasswordChangeError.userNotLoggedIn
+        }
+        if let oldPassword = oldPassword {
+            // Ensure new password is different from the old password
+            guard oldPassword != newPassword else {
+                print("New password is the same as the current password.")
+                throw PasswordChangeError.passwordSameAsOld
+            }
+            // Re-authenticate with email and password
+            let credential = EmailAuthProvider.credential(withEmail: user.email ?? "", password: oldPassword)
+            do {
+                try await user.reauthenticate(with: credential)
+                try await user.updatePassword(to: newPassword)
+                try await updatePasswordSet()
+                return "Password successfully changed!"
+            } catch {
+                print("Re-authentication failed for email/password user.")
+                throw PasswordChangeError.reauthenticationFailed(error.localizedDescription)
+            }
+        } else {
+            // Re-authenticate if the user signed in with Google or Apple
+            if user.providerData.first(where: { $0.providerID == "google.com" }) != nil {
+                // Re-authenticate Google users
+                do {
+                    try await signInViewModel.reauthenticateGoogle() // Re-authenticate with Google
+                } catch {
+                    print("Re-authentication failed for Google user: \(error.localizedDescription)")
+                    throw PasswordChangeError.reauthenticationFailed(error.localizedDescription)
+                }
+            } else if user.providerData.first(where: { $0.providerID == "apple.com" }) != nil {
+                // Re-authenticate Apple users
+                do {
+                    let authorization = try await signInViewModel.getASAuthorization()
+                    try await signInViewModel.reauthenticateApple(authorization) // Re-authenticate with Apple
+                } catch {
+                    print("Re-authentication failed for Apple user: \(error.localizedDescription)")
+                    throw PasswordChangeError.reauthenticationFailed(error.localizedDescription)
+                }
+            }
+            // After successful re-authentication, update the password
+            do {
+                try await user.updatePassword(to: newPassword)
+                print("Password updated successfully.")
+                try await updatePasswordSet()
+                return "Password successfully changed!"
+            } catch {
+                print("Error updating password: \(error.localizedDescription)")
+                throw PasswordChangeError.passwordChangeFailed(error.localizedDescription)
+            }
+        }
+    }
+
+    
+
+
+    
     
 }
