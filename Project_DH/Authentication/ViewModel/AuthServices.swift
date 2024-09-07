@@ -54,7 +54,7 @@ class AuthServices {
             do {
                 try await UserServices.sharedUser.fetchCurrentUserData()
             } catch {
-                try await self.uploadUserAuthData(email: result.user.email!, userName: "Cool Person \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true)
+                try await self.uploadUserAuthData(email: result.user.email!, userName: "Cool Person \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true, passwordSet: false)
                 try await UserServices.sharedUser.fetchCurrentUserData()
                 print("WARNING: Credential is provided, but failed to fetch user. Creating a new user object in the database. \nSource: AuthServices/login()")
             }
@@ -62,7 +62,7 @@ class AuthServices {
         } catch {
             // TODO: Make sure this is also true for Apple Sign In
             let result = try await Auth.auth().signIn(with: credential)
-            try await self.uploadUserAuthData(email: result.user.email!, userName: "Cool Person \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true)
+            try await self.uploadUserAuthData(email: result.user.email!, userName: "Cool Person \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true, passwordSet: false)
             try await UserServices.sharedUser.fetchCurrentUserData()
             print("ERROR: Failed to sign in with credential. \nSource: AuthServices/login() \n\(error.localizedDescription)")
         }
@@ -101,7 +101,7 @@ class AuthServices {
         do{
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
-            try await self.uploadUserAuthData(email: email, userName: username, id: result.user.uid, firstTimeUser: true)
+            try await self.uploadUserAuthData(email: email, userName: username, id: result.user.uid, firstTimeUser: true, passwordSet: true)
             try await UserServices.sharedUser.fetchCurrentUserData()
             print("CREATED USER \(result.user.uid)" )
         } catch {
@@ -144,8 +144,8 @@ class AuthServices {
     ///     - id: the user's uid
     /// - Returns: none
     @MainActor // Same as Dispatchqueue.main.async
-    private func uploadUserAuthData(email: String, userName: String?, id: String, firstTimeUser: Bool) async throws {
-        let user = User(email: email, userName: userName!, profileImageUrl: nil, firstTimeUser: firstTimeUser)
+    private func uploadUserAuthData(email: String, userName: String?, id: String, firstTimeUser: Bool, passwordSet: Bool) async throws {
+        let user = User(email: email, userName: userName!, profileImageUrl: nil, firstTimeUser: firstTimeUser, passwordSet: passwordSet)
         guard let encodeUser = try? Firestore.Encoder().encode(user) else { return }
         try await Firestore.firestore().collection(Collection().user).document(id).setData(encodeUser)
         UserServices.sharedUser.currentUser = user

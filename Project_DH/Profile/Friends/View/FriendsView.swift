@@ -24,7 +24,7 @@ struct FriendsView: View {
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Image(systemName: "chevron.left")
-                            .foregroundColor(.green)
+                            .foregroundColor(.brandDarkGreen)
                             .imageScale(.large)
                     }
                 }

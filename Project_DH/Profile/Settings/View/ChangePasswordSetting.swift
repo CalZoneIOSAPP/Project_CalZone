@@ -15,13 +15,16 @@ struct ChangePasswordSetting: View {
     @State private var isOldPasswordVisible: Bool = false
     @State private var isNewPasswordVisible: Bool = false
     @State private var isConfirmPasswordVisible: Bool = false
+    @Binding var user: User?
 
     var body: some View {
         NavigationStack {
             VStack {
                 // Current Password
-                Section(header: HStack{Text("Enter Current Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
-                    SecureInputView("Enter Current Password", text: $currentPassword, isPasswordVisible: $isOldPasswordVisible)
+                if let user = user, user.passwordSet ?? false {
+                    Section(header: HStack{Text("Enter Current Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
+                        SecureInputView("Enter Current Password", text: $currentPassword, isPasswordVisible: $isOldPasswordVisible)
+                    }
                 }
                 // New Password
                 Section(header: HStack{Text("Enter New Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
@@ -62,7 +65,7 @@ struct ChangePasswordSetting: View {
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Image(systemName: "chevron.left")
-                            .foregroundColor(.green)
+                            .foregroundColor(.brandDarkGreen)
                             .imageScale(.large)
                     }
                 }
@@ -114,5 +117,5 @@ struct SecureInputView: View {
 
 
 #Preview {
-    ChangePasswordSetting()
+    ChangePasswordSetting(user: .constant(User.MOCK_USER))
 }

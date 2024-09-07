@@ -19,7 +19,7 @@ struct SettingsView: View {
                     Section {
                         ForEach(SettingsOptions.allCases){ option in
                             HStack {
-                                Text(option.title)
+                                Text(viewModel.currentUser?.passwordSet ?? false ? option.title : "Set New Password")
                                 Spacer()
                             }
                             .onTapGesture {
@@ -40,13 +40,13 @@ struct SettingsView: View {
                             presentationMode.wrappedValue.dismiss()
                         }) {
                             Image(systemName: "chevron.left")
-                                .foregroundColor(.green)
+                                .foregroundColor(.brandDarkGreen)
                                 .imageScale(.large)
                         }
                     }
                 }
                 .fullScreenCover(isPresented: $viewModel.showChangePassword, content: {
-                    ChangePasswordSetting()
+                    ChangePasswordSetting(user: $viewModel.currentUser)
                 })
                 
             } // End of NavigationStack
