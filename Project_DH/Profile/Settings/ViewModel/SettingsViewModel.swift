@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+class SettingsViewModel: ObservableObject {
+    // Triggers to show different pages.
+    @Published var showChangePassword: Bool = false
+    
+}
+

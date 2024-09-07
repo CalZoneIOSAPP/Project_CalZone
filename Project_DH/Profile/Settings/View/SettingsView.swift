@@ -8,8 +8,49 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel = SettingsViewModel()
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            NavigationStack {
+                List {
+                    Section {
+                        ForEach(SettingsOptions.allCases){ option in
+                            HStack {
+                                Text(option.title)
+                                Spacer()
+                            }
+                            .onTapGesture {
+                                // Show each edit window
+                                switch option {
+                                case .changePassword:
+                                    viewModel.showChangePassword = true
+                                }
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("Settings")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.green)
+                                .imageScale(.large)
+                        }
+                    }
+                }
+                .fullScreenCover(isPresented: $viewModel.showChangePassword, content: {
+                    ChangePasswordSetting()
+                })
+                
+            } // End of NavigationStack
+        } // ZSTACK
     }
 }
 

@@ -9,6 +9,24 @@
 import SwiftUI
 
 
+enum SettingsOptions: Int, CaseIterable, Identifiable {
+    var id: Int { return self.rawValue }
+    
+    case changePassword
+    
+    var title: LocalizedStringKey {
+        switch self {
+        case .changePassword:
+            return "Change Password"
+        }
+    }
+    
+    
+    
+}
+
+
+
 enum ProfileOptions: Int, CaseIterable, Identifiable {
     var id: Int { return self.rawValue }
     
