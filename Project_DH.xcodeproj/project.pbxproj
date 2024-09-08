@@ -386,6 +386,7 @@
 		5410530E2C8C371A005A7F36 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0497CA4D2C87D54800A6FE84 /* StatsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -578,7 +579,6 @@
 			isa = PBXGroup;
 			children = (
 				547FE76C2C4A55BF00C80790 /* ProfileViewModel.swift */,
-				0497CA4D2C87D54800A6FE84 /* StatsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

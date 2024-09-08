@@ -76,12 +76,14 @@ class StatsViewModel: ObservableObject {
             
             weeklyData = [] // clear previous data
             totalCalories = 0
+            averageCalories = 0
             
             // Sequentially fetch calories for each date in the month
             func fetchNextDate() {
                 guard currentDate < monthEnd else {
                     // End of the month, update the data
                     DispatchQueue.main.async {
+                        self.averageCalories = self.totalCalories / (self.weeklyData.count > 0 ? self.weeklyData.count : 1)
                         self.isLoading = false
                     }
                     return
