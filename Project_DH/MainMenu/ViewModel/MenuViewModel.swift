@@ -28,11 +28,17 @@ class MenuViewModel: ObservableObject {
     /// This function is called when setting up the user session.
     /// - Parameters: none
     /// - Returns: none
-    private func setupUser(){
+    private func setupUser() {
         AuthServices.sharedAuth.$userSession.sink { [weak self] userSessionFromAuthService in
             self?.userSession = userSessionFromAuthService
 //            self?.showLoadingScreen = false
         }.store(in: &cancellable)
+    }
+    
+    
+    @MainActor
+    func fetchUserData() async throws{
+        try await UserServices.sharedUser.fetchCurrentUserData()
     }
     
     

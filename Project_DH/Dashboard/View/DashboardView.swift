@@ -30,6 +30,7 @@ struct DashboardView: View {
                             .onAppear {
                                 loadedFirstTime = true
                             }
+                        
                     } else if viewModel.meals.isEmpty {
                         dashboardHeader
                         
@@ -48,6 +49,7 @@ struct DashboardView: View {
                             .opacity(0.5)
                         
                         Spacer()
+                        
                     } else {
                         ScrollView {
                             dashboardHeader
@@ -75,10 +77,22 @@ struct DashboardView: View {
                         CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingPopover, viewModel: viewModel, fetchOnDone: true)
                     }
                 })
-                .onAppear {
+                .onAppear { // Fetch meal items when view appears.
                     print("NOTE: Fetching in Dashboard View On Appear.")
-                    startTimer()
                     viewModel.sumCalories = 0
+                    viewModel.selectedDate = Date()
+                    Task {
+                        if let uid = viewModel.profileViewModel.currentUser?.uid {
+                            try await viewModel.fetchMeals(for: uid, with: true)
+                        }
+                    }
+                    viewModel.selectedDate = Date()
+                }
+                // Fetch meal items when uid changes.
+                .onChange(of: viewModel.profileViewModel.currentUser?.uid) { _, newValue in
+                    print("NOTE: Fetching in Dashboard View On Change.")
+                    viewModel.sumCalories = 0
+                    viewModel.selectedDate = Date()
                     Task {
                         if let uid = viewModel.profileViewModel.currentUser?.uid {
                             try await viewModel.fetchMeals(for: uid, with: true)
@@ -87,7 +101,7 @@ struct DashboardView: View {
                     viewModel.selectedDate = Date()
                 }
             } // End of Navigation Stack
-
+            
             if showEditPopup {
                 FoodItemEditView(foodItem: $selectedFoodItem, isPresented: $showEditPopup, calorieNum: $viewModel.sumCalories, viewModel: viewModel)
             }

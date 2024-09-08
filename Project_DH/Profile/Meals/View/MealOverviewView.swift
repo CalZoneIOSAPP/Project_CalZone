@@ -56,6 +56,7 @@ struct MealOverviewView: View {
                 }
             }
             .onAppear {
+                viewModel.fetchAllItems = true
                 print("NOTE: Fetching in Meal Overview On Appear.")
                 Task {
                     if let uid = viewModel.profileViewModel.currentUser?.uid {

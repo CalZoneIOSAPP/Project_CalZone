@@ -29,8 +29,8 @@ class DashboardViewModel: ObservableObject {
     @Published var profileViewModel = ProfileViewModel()
     @Published var selectedDate = Date()
     
+    @Published var fetchAllItems: Bool = false
     
-    @Published var cancellable: AnyCancellable?
     private var mealServices = MealServices()
     private var db = Firestore.firestore()
     
@@ -54,7 +54,7 @@ class DashboardViewModel: ObservableObject {
         do {
             self.sumCalories = 0
             try await mealServices.fetchMeals(for: userId, on: dateToFetch)
-            self.meals = self.mealServices.meals
+            meals = mealServices.meals
             try await categorizeFoodItems()
             self.isLoading = false
             self.isRefreshing = false
@@ -113,7 +113,7 @@ class DashboardViewModel: ObservableObject {
 
         // For each meal, fetch all corresponding food items asynchronously
         for meal in meals {
-            try await fetchAllFoodItems(mealId: meal.id ?? "", mealType: meal.mealType)
+            try await fetchFoodItems(mealId: meal.id ?? "", mealType: meal.mealType)
         }
     }
     
@@ -123,52 +123,8 @@ class DashboardViewModel: ObservableObject {
     ///     - mealId: the meal id
     ///     - mealType: the type of the meal (breakfast, lunch, dinner, snack)
     /// - Returns: none
-    private func fetchFoodItems(mealId: String, mealType: String) {
-        db.collection("foodItems").whereField("mealId", isEqualTo: mealId).getDocuments { querySnapshot, error in
-            if let _ = error {
-                DispatchQueue.main.async {
-                    print("ERROR: Failed to fetch food items. \nSource: DashboardViewModel/fetchFoodItems()")
-                }
-                return
-            }
-            guard let documents = querySnapshot?.documents else {
-                DispatchQueue.main.async {
-                    print("ERROR: No food items found. \nSource: DashboardViewModel/fetchFoodItems()")
-                }
-                return
-            }
-            
-            let foodItems = documents.compactMap { queryDocumentSnapshot -> FoodItem? in
-                return try? queryDocumentSnapshot.data(as: FoodItem.self)
-            }
-            
-            DispatchQueue.main.async {
-                switch mealType.lowercased() {
-                case "breakfast":
-                    self.breakfastItems = foodItems
-                    print("NOTE: Fetched breakfast items: \(self.breakfastItems)")
-                case "lunch":
-                    self.lunchItems = foodItems
-                    print("NOTE: Fetched lunch items:\(self.lunchItems)")
-                case "dinner":
-                    self.dinnerItems = foodItems
-                    print("NOTE: Fetched dinner items: \(self.dinnerItems)")
-                case "snack":
-                    self.snackItems = foodItems
-                    print("NOTE: Fetched snack items: \(self.snackItems)")
-                default:
-                    print("NOTE: Unknown meal type")
-                }
-//                self.sumUpCalories(for: foodItems)
-//                self.checkCalorieTarget()
-            }
-            
-        }
-    }
-    
-    
     @MainActor
-    private func fetchAllFoodItems(mealId: String, mealType: String) async throws{
+    private func fetchFoodItems(mealId: String, mealType: String) async throws{
         do {
             let querySnapshot = try await db.collection("foodItems").whereField("mealId", isEqualTo: mealId).getDocuments()
             
@@ -183,8 +139,9 @@ class DashboardViewModel: ObservableObject {
                 return try? queryDocumentSnapshot.data(as: FoodItem.self)
             }
             
-            allFoodItems.append(contentsOf: foodItems)
-            
+            if fetchAllItems {
+                allFoodItems.append(contentsOf: foodItems)
+            }
             switch mealType.lowercased() {
             case "breakfast":
                 breakfastItems = foodItems

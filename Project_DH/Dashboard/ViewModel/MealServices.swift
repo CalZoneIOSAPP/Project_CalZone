@@ -20,6 +20,7 @@ class MealServices: ObservableObject {
     ///     - on: the meals are fetched on this date
     /// - Returns: none
     /// - Note: If you want to fetch all meals, set the date to nil or do not give a date.
+    @MainActor
     func fetchMeals(for userId: String?, on date: Date? = nil) async throws {
         guard let userId = userId else { return }
         
