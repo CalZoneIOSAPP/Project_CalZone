@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 
 struct MealSectionView: View {
@@ -37,7 +38,13 @@ struct MealSectionView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(foodItem.foodName)
+                                    .font(.headline)
+                                    .foregroundStyle(Color(.black).opacity(0.7))
+                                    .lineLimit(2)
+                                    .padding(.bottom, 4)
                                 Text("Calories: \(foodItem.calorieNumber)")
+                                    .font(.subheadline)
+                                    .foregroundStyle(Color(.black).opacity(0.7))
                             }
                             .padding(.trailing, 20)
                             
@@ -45,22 +52,15 @@ struct MealSectionView: View {
                             
                             // Food Percentage Eaten
                             Text("\(String(foodItem.percentageConsumed ?? 100))%")
+                                .font(.subheadline)
+                                .foregroundStyle(Color(.black).opacity(0.7))
                             
-                            AsyncImage(url: URL(string: foodItem.imageURL)) { phase in
-                                switch phase {
-                                case .failure:
-                                    Image(systemName: "photo")
-                                        .font(.largeTitle)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                default:
-                                    ProgressView("Loading...")
-                                }
-                            }
-                            .frame(width: 80, height: 80)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            KFImage(URL(string: foodItem.imageURL))
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 80, height: 80)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+
                         }
                         .padding(.horizontal)
                         .frame(height: 80)
@@ -113,7 +113,7 @@ struct MealSectionView: View {
                     if let foodItemId = item as? String {
                         Task {
                             print("I am moving food item to \(title)")
-                            await viewModel.moveFoodItem(to: title, foodItemId: foodItemId)
+                            try await viewModel.moveFoodItem(to: title, foodItemId: foodItemId)
                         }
                     }
                 }
@@ -140,7 +140,9 @@ struct MealSectionView: View {
         if foodItems.count == 0 {
             viewModel.deleteMeal(mealID: foodItem.mealId)
         }
-        viewModel.checkCalorieTarget()
+        Task {
+            try await viewModel.checkCalorieTarget()
+        }
     }
     
     

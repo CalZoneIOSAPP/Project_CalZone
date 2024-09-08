@@ -59,7 +59,7 @@ struct MealOverviewView: View {
                 print("NOTE: Fetching in Meal Overview On Appear.")
                 Task {
                     if let uid = viewModel.profileViewModel.currentUser?.uid {
-                        try await viewModel.fetchAllMeals(for: uid)
+                        try await viewModel.fetchMeals(for: uid, with: false)
                     }
                 }
             }

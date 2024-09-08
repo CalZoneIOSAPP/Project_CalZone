@@ -35,49 +35,29 @@ class DashboardViewModel: ObservableObject {
     private var db = Firestore.firestore()
     
     
-    /// This function fetches all meals for a given user id for a designated day.
+    /// This function fetches all meals for a given user id.
     /// - Parameters:
-    ///     - for: user's id
-    ///     - on: the date on which meals are fetched
+    ///     - userId: user's id
+    ///     - dateBased: If fetching based on a date.
+    ///     - date: the date on which meals are fetched
     /// - Returns: none
-    func fetchMeals(for userId: String, on date: Date? = nil) {
-        let dateToFetch = date ?? Date()
-        isLoading = true
-        Task {
-            do {
-                try await mealServices.fetchMeals(for: userId, on: dateToFetch)
-                DispatchQueue.main.async {
-                    self.meals = self.mealServices.meals
-                    self.categorizeFoodItems()
-                    self.sumCalories = 0
-                    self.isLoading = false
-                    self.isRefreshing = false
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    print("ERROR: Failed to fetch meals: \(error.localizedDescription) \nSource: DashboardViewModel/fetchMeals()")
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-    
-    
-    /// This function fetches all meals for a given user id regardless of the date.
-    /// - Parameters:
-    ///     - for: user's id
-    /// - Returns: none
+    /// - Note: To fetch meals for a specific date, set dateBased to true. If you want to fetch meals for current day, then leave date to nil or set it to Date()
     @MainActor
-    func fetchAllMeals(for userId: String) async throws {
+    func fetchMeals(for userId: String,  with dateBased: Bool, on date: Date? = nil) async throws {
+        var dateToFetch: Date?
+        if dateBased {
+            dateToFetch = date ?? Date()
+        } else {
+            dateToFetch = nil
+        }
         isLoading = true
         do {
-            try await mealServices.fetchAllMeals(for: userId, on: nil)
-            self.meals = self.mealServices.meals
-            try await categorizeAllFoodItems()
             self.sumCalories = 0
+            try await mealServices.fetchMeals(for: userId, on: dateToFetch)
+            self.meals = self.mealServices.meals
+            try await categorizeFoodItems()
             self.isLoading = false
             self.isRefreshing = false
-            
         } catch {
             print("ERROR: Failed to fetch meals: \(error.localizedDescription) \nSource: DashboardViewModel/fetchMeals()")
             self.isLoading = false
@@ -88,7 +68,8 @@ class DashboardViewModel: ObservableObject {
     /// Checks whether the current calorie intake exceeded the user's target.
     /// - Parameters: none
     /// - Returns: Bool
-    func checkCalorieTarget() {
+    @MainActor
+    func checkCalorieTarget() async throws {
         if let calTarget = profileViewModel.currentUser?.targetCalories {
 //            print("NOTE: FIRST TRUE \(calTarget), \(self.sumCalories)")
             if Int(calTarget) == 0 {
@@ -109,7 +90,8 @@ class DashboardViewModel: ObservableObject {
     /// - Parameters:
     ///     - foodItems: The list of food items.]
     /// - Returns: none
-    func sumUpCalories(for foodItems: [FoodItem]) {
+    @MainActor
+    func sumUpCalories(for foodItems: [FoodItem]) async throws {
         for foodItem in foodItems {
             sumCalories += foodItem.calorieNumber
         }
@@ -120,26 +102,8 @@ class DashboardViewModel: ObservableObject {
     /// - Parameters: none
     /// - Returns: none
     /// - Note: This function will clear all food items inside breakfastItems, lunchItems, dinnerItems, and snackItems list.
-    private func categorizeFoodItems() {
-        DispatchQueue.main.async {
-            self.allFoodItems = []
-            self.breakfastItems = []
-            self.lunchItems = []
-            self.dinnerItems = []
-            self.snackItems = []
-        }
-        // For each meal (breakfast, lunch...), get all corresponding food items.
-        for meal in meals {
-            fetchFoodItems(mealId: meal.id ?? "", mealType: meal.mealType)
-        }
-//        print("I have number of meals: \(meals.count)")
-
-    }
-    
-    
-    // TODO: ADD DOCUMENTATION
     @MainActor
-    private func categorizeAllFoodItems() async throws {
+    private func categorizeFoodItems() async throws {
         // Clear existing food items
         self.allFoodItems = []
         self.breakfastItems = []
@@ -195,8 +159,8 @@ class DashboardViewModel: ObservableObject {
                 default:
                     print("NOTE: Unknown meal type")
                 }
-                self.sumUpCalories(for: foodItems)
-                self.checkCalorieTarget()
+//                self.sumUpCalories(for: foodItems)
+//                self.checkCalorieTarget()
             }
             
         }
@@ -237,6 +201,8 @@ class DashboardViewModel: ObservableObject {
             default:
                 print("NOTE: Unknown meal type")
             }
+            try await sumUpCalories(for: foodItems)
+            try await checkCalorieTarget()
         } catch {
             print("ERROR: Failed to fetch food items. \nSource: DashboardViewModel/fetchFoodItems()")
         }
@@ -248,7 +214,7 @@ class DashboardViewModel: ObservableObject {
     ///     - targetMealType: the meal type list we are moving to (ex. breakfast, dinner ..)
     ///     - foodItemId: the food item id we are moving
     /// - Returns: none
-    func moveFoodItem(to targetMealType: String, foodItemId: String) async {
+    func moveFoodItem(to targetMealType: String, foodItemId: String) async throws{
         if let foodItem = getFoodItem(by: foodItemId) {
             // Determine if a new meal needs to be created
             var targetMealId: String? = meals.first(where: { $0.mealType.lowercased() == targetMealType.lowercased() })?.id
@@ -276,9 +242,7 @@ class DashboardViewModel: ObservableObject {
                 print("ERROR: Failed to move food item: \(error.localizedDescription)")
             }
             // Refresh the meals and food items
-            DispatchQueue.main.async {
-                self.fetchMeals(for: self.profileViewModel.currentUser?.uid ?? "", on: self.selectedDate)
-            }
+            try await fetchMeals(for: profileViewModel.currentUser?.uid ?? "", with: true, on: selectedDate)
         } else {
             print("foodItem not found when moving food item!")
         }

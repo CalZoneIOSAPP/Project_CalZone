@@ -52,16 +52,18 @@ struct DashboardView: View {
                         ScrollView {
                             dashboardHeader
                                 .padding(.bottom, 50)
-                            socialMediaShareSection
-                                .padding(.bottom, 50)
+//                            socialMediaShareSection
+//                                .padding(.bottom, 50)
                             mealSections
                         }
                         .refreshable { // Pull down to refresh
                             loadedFirstTime = true
                             viewModel.isRefreshing = true
                             viewModel.sumCalories = 0
-                            if let uid = viewModel.profileViewModel.currentUser?.uid {
-                                viewModel.fetchMeals(for: uid, on: viewModel.selectedDate)
+                            Task {
+                                if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                    try await viewModel.fetchMeals(for: uid, with: true, on: viewModel.selectedDate)
+                                }
                             }
                         }
                     }
@@ -77,16 +79,10 @@ struct DashboardView: View {
                     print("NOTE: Fetching in Dashboard View On Appear.")
                     startTimer()
                     viewModel.sumCalories = 0
-                    if let uid = viewModel.profileViewModel.currentUser?.uid {
-                        viewModel.fetchMeals(for: uid)
-                    } else {
-                        // Wait for the uid to be available
-                        viewModel.cancellable = viewModel.profileViewModel.$currentUser
-                            .compactMap { $0?.uid } // Only proceed if currentUser.uid is non-nil
-                            .sink { uid in
-                                viewModel.fetchMeals(for: uid)
-                                viewModel.cancellable?.cancel() // Cancel the subscription
-                            }
+                    Task {
+                        if let uid = viewModel.profileViewModel.currentUser?.uid {
+                            try await viewModel.fetchMeals(for: uid, with: true)
+                        }
                     }
                     viewModel.selectedDate = Date()
                 }

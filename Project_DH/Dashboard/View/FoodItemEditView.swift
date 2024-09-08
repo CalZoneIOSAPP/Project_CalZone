@@ -6,6 +6,7 @@
 //
 // FoodItemEditView.swift
 import SwiftUI
+import Kingfisher
 
 struct FoodItemEditView: View {
     @Binding var foodItem: FoodItem?
@@ -35,22 +36,12 @@ struct FoodItemEditView: View {
             // Card view
             if let foodItem = foodItem {
                 VStack {
-                    AsyncImage(url: URL(string: foodItem.imageURL)) { phase in
-                        switch phase {
-                        case .failure:
-                            Image(systemName: "photo")
-                                .font(.largeTitle)
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
-                        default:
-                            ProgressView("Loading...")
-                        }
-                    }
-                    .frame(height: 200)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    
+                    KFImage(URL(string: foodItem.imageURL))
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
 
                     TextField("Food Name", text: Binding(
                         get: { foodItem.foodName },
@@ -85,7 +76,7 @@ struct FoodItemEditView: View {
                         Task {
                             foodItem.percentageConsumed = calcNewPercentage(for: Double(originalCalorieNumber))
                             await viewModel.updateFoodItem(foodItem)
-                            viewModel.fetchMeals(for: viewModel.profileViewModel.currentUser?.uid ?? "", on: viewModel.selectedDate)
+                            try await viewModel.fetchMeals(for: viewModel.profileViewModel.currentUser?.uid ?? "", with: true, on: viewModel.selectedDate)
                             viewModel.wholeFoodItem = false
                             isPresented = false
                         }

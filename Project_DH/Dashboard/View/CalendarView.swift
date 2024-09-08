@@ -52,8 +52,10 @@ struct CalendarView: View {
 
                     Button("Done") {
                         if fetchOnDone {
-                            if let uid = viewModel.profileViewModel.currentUser?.uid {
-                                viewModel.fetchMeals(for: uid, on: viewModel.selectedDate)
+                            Task {
+                                if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                    try await viewModel.fetchMeals(for: uid, with: true, on: viewModel.selectedDate)
+                                }
                             }
                         }
                         showingPopover = false

@@ -37,8 +37,9 @@ struct FoodCard: View {
             // User information
             HStack {
                 // User profile image
+                
                 if let profileImageUrl = user.profileImageUrl {
-                    Image(profileImageUrl)
+                    KFImage(URL(string: profileImageUrl))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 30, height: 30)

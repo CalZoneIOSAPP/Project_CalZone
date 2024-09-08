@@ -29,7 +29,6 @@
 		541053212C8C53BF005A7F36 /* ChangePasswordSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */; };
 		541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053222C8CFF34005A7F36 /* PopupMessage.swift */; };
 		541053252C8DA647005A7F36 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053242C8DA647005A7F36 /* FoodCard.swift */; };
-		541053272C8DAABB005A7F36 /* MealOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053262C8DAABB005A7F36 /* MealOverviewViewModel.swift */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
@@ -133,7 +132,6 @@
 		541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordSetting.swift; sourceTree = "<group>"; };
 		541053222C8CFF34005A7F36 /* PopupMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessage.swift; sourceTree = "<group>"; };
 		541053242C8DA647005A7F36 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
-		541053262C8DAABB005A7F36 /* MealOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealOverviewViewModel.swift; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -438,7 +436,6 @@
 		541053192C8C3920005A7F36 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				541053262C8DAABB005A7F36 /* MealOverviewViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -820,7 +817,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				541053272C8DAABB005A7F36 /* MealOverviewViewModel.swift in Sources */,
 				541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */,
 				541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */,
 				541D352E2BE3D7E600AF38AF /* RegisterViewModel.swift in Sources */,

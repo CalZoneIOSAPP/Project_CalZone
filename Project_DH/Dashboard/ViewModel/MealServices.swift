@@ -14,36 +14,13 @@ class MealServices: ObservableObject {
     private var db = Firestore.firestore()
     
     
-    /// This function fetches all meals for a given user and specified date.
-    /// - Parameters:
-    ///     - for: user's id
-    ///     - on: the meals are fetched on this date
-    /// - Returns: none
-    func fetchMeals(for userId: String?, on date: Date) async throws {
-        guard let userId = userId else { return }
-        
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        let querySnapshot = try await db.collection("meal")
-            .whereField("userId", isEqualTo: userId)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-            .getDocuments()
-        self.meals = querySnapshot.documents.compactMap { document in
-            try? document.data(as: Meal.self)
-        }
-    }
-    
-    
-    /// This function fetches all meals for a given user and specified date.
+    /// This function fetches all meals for a given user.
     /// - Parameters:
     ///     - for: user's id
     ///     - on: the meals are fetched on this date
     /// - Returns: none
     /// - Note: If you want to fetch all meals, set the date to nil or do not give a date.
-    func fetchAllMeals(for userId: String?, on date: Date? = nil) async throws {
+    func fetchMeals(for userId: String?, on date: Date? = nil) async throws {
         guard let userId = userId else { return }
         
         var query: Query = db.collection("meal")
