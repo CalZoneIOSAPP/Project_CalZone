@@ -209,15 +209,19 @@ struct MealInputView: View {
                             if viewModel.showMessageWindow {
                                 PopUpMessageView(messageTitle: "Success!", message: "Your food item is saved.", popupPositivity: .positive, isPresented: $viewModel.showMessageWindow)
                                     .animation(.easeInOut, value: viewModel.showMessageWindow)
+                                    .padding(.horizontal, 30)
                             }
                             
                             if viewModel.showInputError {
                                 PopUpMessageView(messageTitle: "Apologies", message: "Your image does not contain any food, please try again.", popupPositivity: .negative, isPresented: $viewModel.showInputError)
                                     .animation(.easeInOut, value: viewModel.showInputError)
+                                    .padding(.horizontal, 30)
                             }
                             
                             if viewModel.showUsageError {
                                 PopUpMessageView(messageTitle: "Apologies", message: "To be able to get unlimited usage, please join us and become a CalBite member!", popupPositivity: .negative, isPresented: $viewModel.showUsageError)
+                                    .animation(.easeInOut, value: viewModel.showInputError)
+                                    .padding(.horizontal, 30)
                             }
                             
                         } // end of else statement

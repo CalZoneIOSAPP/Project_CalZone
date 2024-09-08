@@ -103,6 +103,7 @@ struct ChangePasswordSetting: View {
             
             if showPopup {
                 PopUpMessageView(messageTitle: message.title, message: message.message, popupPositivity: popupPositivity, isPresented: $showPopup)
+                    .padding(.horizontal, 30)
             }
         } // ZStack
         
