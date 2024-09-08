@@ -103,7 +103,7 @@ struct DashboardView: View {
             } // End of Navigation Stack
             
             if showEditPopup {
-                FoodItemEditView(foodItem: $selectedFoodItem, isPresented: $showEditPopup, calorieNum: $viewModel.sumCalories, viewModel: viewModel)
+                FoodItemEditView(foodItem: $selectedFoodItem, foodItemList: $viewModel.selectedFoodList, isPresented: $showEditPopup, calorieNum: $viewModel.sumCalories, allItems: false, deletable: false, viewModel: viewModel)
             }
         } // End of ZStack
     }

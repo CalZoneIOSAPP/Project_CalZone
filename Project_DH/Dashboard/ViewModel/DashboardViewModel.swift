@@ -31,8 +31,14 @@ class DashboardViewModel: ObservableObject {
     
     @Published var fetchAllItems: Bool = false
     
-    private var mealServices = MealServices()
+    // Edit popup
+    @Published var showEditPopup: Bool = false
+    @Published var selectedFoodItem: FoodItem?
+    @Published var selectedFoodList: [FoodItem] = []
+    
+    @Published var mealServices = MealServices()
     private var db = Firestore.firestore()
+    
     
     
     /// This function fetches all meals for a given user id.

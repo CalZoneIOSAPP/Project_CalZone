@@ -21,8 +21,8 @@ struct FoodCard: View {
                 Spacer()
                 KFImage(URL(string: imageURL))
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity, maxHeight: 180)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: .infinity, maxHeight: 240)
                     .cornerRadius(10)
                 Spacer()
             }

@@ -10,13 +10,16 @@ import Kingfisher
 
 struct FoodItemEditView: View {
     @Binding var foodItem: FoodItem?
+    @Binding var foodItemList: [FoodItem]
     @Binding var isPresented: Bool
     @Binding var calorieNum: Int
+    var allItems: Bool
+    var deletable: Bool
     @ObservedObject var viewModel: DashboardViewModel
-
     @State private var originalFoodName: String = ""
     @State private var originalCalorieNumber: Int = 0
     @State private var originalCalorieSum: Int = 0
+    
     
     var body: some View {
         ZStack {
@@ -48,6 +51,8 @@ struct FoodItemEditView: View {
                         set: { foodItem.foodName = $0 }
                     ))
                     .multilineTextAlignment(.center)
+                    .font(.headline)
+                    .foregroundStyle(Color(.black).opacity(0.6))
                     .padding()
 
                     VStack() {
@@ -65,28 +70,54 @@ struct FoodItemEditView: View {
                             ), formatter: NumberFormatter())
                             .keyboardType(.numberPad)
                         }
+                        .foregroundStyle(Color(.black).opacity(0.6))
                         
                         Toggle("Set as 100% finished:", isOn: $viewModel.wholeFoodItem)
                             .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
-                            .font(.custom("custom", size: 15))
+                            .foregroundStyle(Color(.black).opacity(0.6))
                     }
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 20)
+                    
+                    if deletable {
+                        Button {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            deleteFoodItemFoodItemEditView(foodItemList: foodItemList, foodItem: foodItem)
+                            isPresented = false
+                        } label: {
+                            Text("Delete Food")
+                                .font(.headline)
+                            
+                        }
+                        .frame(maxWidth: 200, minHeight: 40)
+                        .background(Color(.brandRed).opacity(0.3))
+                        .foregroundColor(Color(.brandRed))
+                        .cornerRadius(8)
+                    }
 
-                    Button("Save") {
+                    Button {
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        isPresented = false
                         Task {
                             foodItem.percentageConsumed = calcNewPercentage(for: Double(originalCalorieNumber))
                             await viewModel.updateFoodItem(foodItem)
-                            try await viewModel.fetchMeals(for: viewModel.profileViewModel.currentUser?.uid ?? "", with: true, on: viewModel.selectedDate)
+                            if allItems {
+                                try await viewModel.fetchMeals(for: viewModel.profileViewModel.currentUser?.uid ?? "", with: false)
+                            } else {
+                                try await viewModel.fetchMeals(for: viewModel.profileViewModel.currentUser?.uid ?? "", with: true, on: viewModel.selectedDate)
+                            }
                             viewModel.wholeFoodItem = false
-                            isPresented = false
                         }
+                    } label: {
+                        Text("Save")
+                            .font(.headline)
                     }
-                    .padding()
-                    .frame(maxWidth: 200)
-                    .background(Color.brandDarkGreen)
-                    .foregroundColor(.white)
+                    .frame(maxWidth: 200, minHeight: 40)
+                    .background(Color(.brandLightGreen).opacity(0.3))
+                    .foregroundColor(.brandDarkGreen)
                     .cornerRadius(8)
-                    .padding()
+                    .padding(.bottom, 5)
+                    
                 }
                 .padding()
                 .background(Color.white)
@@ -124,17 +155,45 @@ struct FoodItemEditView: View {
         return Int(round(percentage))
     }
     
+    
+    /// This function classifies each fetched food item by calling the fetchFoodItems function.
+    /// - Parameters:
+    ///     - foodItem: The food item to delete.
+    /// - Returns: none
+    func deleteFoodItemFoodItemEditView(foodItemList: [FoodItem], foodItem: FoodItem) {
+        let imageUrl = foodItem.imageURL
+        viewModel.allFoodItems = viewModel.deleteFoodItem(foodItems: foodItemList, item: foodItem)
+        
+        Task {
+            do {
+                try await ImageManipulation.deleteImageOnFirebase(imageURL: imageUrl)
+            } catch {
+                print("ERROR: Error deleting image. \nSource: MealSectionView/deleteFoodItem()")
+            }
+        }
+        
+        // Check if this was the only item with the same mealId
+        let remainingItemsWithSameMealId = foodItemList.filter { $0.mealId == foodItem.mealId }
+        if remainingItemsWithSameMealId.isEmpty {
+            print("NOTE: Deleting the meal, because there is no more food items.")
+            viewModel.deleteMeal(mealID: foodItem.mealId)
+        }
+    }
+    
+    
 }
 
 #Preview {
     struct Preview: View {
         @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple", imageURL: "https://via.placeholder.com/150", percentage: 100)
+        @State var foodItemList: [FoodItem] = [FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple", imageURL: "https://via.placeholder.com/150", percentage: 100), FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple", imageURL: "https://via.placeholder.com/150", percentage: 100)]
         @State var isPresented = true
         @State var calorieNum = 100
         var viewModel = DashboardViewModel()
 
+
         var body: some View {
-            FoodItemEditView(foodItem: $foodItem, isPresented: $isPresented, calorieNum: $calorieNum, viewModel: viewModel)
+            FoodItemEditView(foodItem: $foodItem, foodItemList: $foodItemList, isPresented: $isPresented, calorieNum: $calorieNum, allItems: false, deletable: true, viewModel: viewModel)
         }
     }
     return Preview()

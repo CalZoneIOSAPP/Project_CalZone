@@ -36,11 +36,37 @@ class MealServices: ObservableObject {
             query = query
                 .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
                 .whereField("date", isLessThan: Timestamp(date: endOfDay))
+        } else {
+            query = query.order(by: "date", descending: true)
         }
         
         let querySnapshot = try await query.getDocuments()
         self.meals = querySnapshot.documents.compactMap { document in
             try? document.data(as: Meal.self)
+        }
+    }
+    
+    
+    /// This function fetches the specific meal.
+    /// - Parameters:
+    ///     - mealId: The id of the meal.
+    ///     - userId: The id of the user.
+    /// - Returns: The fetched meal.
+    @MainActor
+    func fetchMeal(by mealId: String, for userId: String?) async throws -> Meal? {
+        guard let userId = userId else { return nil }
+        
+        let query: Query = db.collection("meal")
+            .whereField("userId", isEqualTo: userId)
+            .whereField("mealId", isEqualTo: mealId)
+        
+        let querySnapshot = try await query.getDocuments()
+        
+        // Since mealId is unique, we expect at most one document.
+        if let document = querySnapshot.documents.first {
+            return try? document.data(as: Meal.self)
+        } else {
+            return nil // No meal found with this mealId
         }
     }
     
