@@ -90,7 +90,6 @@ extension User {
                                 email: "bigsmartmovie@gmail.com",
                                 tel: "5087235805",
                                 userName: "Kinopio",
-                                profileImageUrl: "",
                                 firstTimeUser: true, description: "bigsmart",
                                 followerNum: 1,
                                 targetCalories: "1000",

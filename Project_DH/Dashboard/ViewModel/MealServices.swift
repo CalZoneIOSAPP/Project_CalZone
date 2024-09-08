@@ -37,6 +37,36 @@ class MealServices: ObservableObject {
     }
     
     
+    /// This function fetches all meals for a given user and specified date.
+    /// - Parameters:
+    ///     - for: user's id
+    ///     - on: the meals are fetched on this date
+    /// - Returns: none
+    /// - Note: If you want to fetch all meals, set the date to nil or do not give a date.
+    func fetchAllMeals(for userId: String?, on date: Date? = nil) async throws {
+        guard let userId = userId else { return }
+        
+        var query: Query = db.collection("meal")
+            .whereField("userId", isEqualTo: userId)
+        
+        if let date = date {
+            // If a date is provided, filter meals for that specific day
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: date)
+            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+            
+            query = query
+                .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+                .whereField("date", isLessThan: Timestamp(date: endOfDay))
+        }
+        
+        let querySnapshot = try await query.getDocuments()
+        self.meals = querySnapshot.documents.compactMap { document in
+            try? document.data(as: Meal.self)
+        }
+    }
+    
+    
     /// This function is for loading mock data of meals.
     /// - Parameters: none
     /// - Returns: none

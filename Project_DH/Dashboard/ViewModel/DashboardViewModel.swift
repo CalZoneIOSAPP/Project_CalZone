@@ -15,7 +15,7 @@ import FirebaseFirestoreSwift
 
 class DashboardViewModel: ObservableObject {
     @Published var meals = [Meal]()
-    
+    @Published var allFoodItems: [FoodItem] = []
     @Published var breakfastItems = [FoodItem]()
     @Published var lunchItems = [FoodItem]()
     @Published var dinnerItems = [FoodItem]()
@@ -63,19 +63,40 @@ class DashboardViewModel: ObservableObject {
     }
     
     
+    /// This function fetches all meals for a given user id regardless of the date.
+    /// - Parameters:
+    ///     - for: user's id
+    /// - Returns: none
+    @MainActor
+    func fetchAllMeals(for userId: String) async throws {
+        isLoading = true
+        do {
+            try await mealServices.fetchAllMeals(for: userId, on: nil)
+            self.meals = self.mealServices.meals
+            try await categorizeAllFoodItems()
+            self.sumCalories = 0
+            self.isLoading = false
+            self.isRefreshing = false
+            
+        } catch {
+            print("ERROR: Failed to fetch meals: \(error.localizedDescription) \nSource: DashboardViewModel/fetchMeals()")
+            self.isLoading = false
+        }
+    }
+    
+    
     /// Checks whether the current calorie intake exceeded the user's target.
     /// - Parameters: none
     /// - Returns: Bool
     func checkCalorieTarget() {
         if let calTarget = profileViewModel.currentUser?.targetCalories {
-            print("NOTE: FIRST TRUE \(calTarget), \(self.sumCalories)")
-            
+//            print("NOTE: FIRST TRUE \(calTarget), \(self.sumCalories)")
             if Int(calTarget) == 0 {
-                print("0 cal")
+//                print("NOTE: 0 calories")
                 exceededCalorieTarget = false
             } else {
                 exceededCalorieTarget = Int(calTarget)! < self.sumCalories
-                print("exeeded calorie num")
+//                print("NOTE: Exceeded calorie number")
             }
         } else {
             exceededCalorieTarget = false
@@ -101,6 +122,7 @@ class DashboardViewModel: ObservableObject {
     /// - Note: This function will clear all food items inside breakfastItems, lunchItems, dinnerItems, and snackItems list.
     private func categorizeFoodItems() {
         DispatchQueue.main.async {
+            self.allFoodItems = []
             self.breakfastItems = []
             self.lunchItems = []
             self.dinnerItems = []
@@ -112,6 +134,23 @@ class DashboardViewModel: ObservableObject {
         }
 //        print("I have number of meals: \(meals.count)")
 
+    }
+    
+    
+    // TODO: ADD DOCUMENTATION
+    @MainActor
+    private func categorizeAllFoodItems() async throws {
+        // Clear existing food items
+        self.allFoodItems = []
+        self.breakfastItems = []
+        self.lunchItems = []
+        self.dinnerItems = []
+        self.snackItems = []
+
+        // For each meal, fetch all corresponding food items asynchronously
+        for meal in meals {
+            try await fetchAllFoodItems(mealId: meal.id ?? "", mealType: meal.mealType)
+        }
     }
     
     
@@ -160,6 +199,46 @@ class DashboardViewModel: ObservableObject {
                 self.checkCalorieTarget()
             }
             
+        }
+    }
+    
+    
+    @MainActor
+    private func fetchAllFoodItems(mealId: String, mealType: String) async throws{
+        do {
+            let querySnapshot = try await db.collection("foodItems").whereField("mealId", isEqualTo: mealId).getDocuments()
+            
+            let documents = querySnapshot.documents
+            
+            if documents.isEmpty {
+                print("ERROR: No food items found. \nSource: DashboardViewModel/fetchFoodItems()")
+                return
+            }
+            
+            let foodItems = documents.compactMap { queryDocumentSnapshot -> FoodItem? in
+                return try? queryDocumentSnapshot.data(as: FoodItem.self)
+            }
+            
+            allFoodItems.append(contentsOf: foodItems)
+            
+            switch mealType.lowercased() {
+            case "breakfast":
+                breakfastItems = foodItems
+//                print("NOTE: Fetched breakfast items: \(self.breakfastItems)")
+            case "lunch":
+                lunchItems = foodItems
+//                print("NOTE: Fetched lunch items: \(self.lunchItems)")
+            case "dinner":
+                dinnerItems = foodItems
+//                print("NOTE: Fetched dinner items: \(self.dinnerItems)")
+            case "snack":
+                snackItems = foodItems
+//                print("NOTE: Fetched snack items: \(self.snackItems)")
+            default:
+                print("NOTE: Unknown meal type")
+            }
+        } catch {
+            print("ERROR: Failed to fetch food items. \nSource: DashboardViewModel/fetchFoodItems()")
         }
     }
     
