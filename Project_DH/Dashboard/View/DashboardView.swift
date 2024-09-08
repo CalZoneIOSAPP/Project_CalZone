@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DashboardView: View {
 
+    @Environment(\.openURL) var openURL
     @ObservedObject var viewModel = DashboardViewModel()
     @State private var originalDate: Date = Date()
     @State private var showingPopover = false
@@ -50,6 +51,8 @@ struct DashboardView: View {
                     } else {
                         ScrollView {
                             dashboardHeader
+                                .padding(.bottom, 50)
+                            socialMediaShareSection
                                 .padding(.bottom, 50)
                             mealSections
                         }
@@ -139,6 +142,33 @@ struct DashboardView: View {
             }
         }
     }
+    
+    
+    var socialMediaShareSection: some View {
+        HStack {
+            Text("Share on: ")
+                .bold()
+                .foregroundColor(.black)
+            Button (action: shareToInstagram) {
+                Image("instagramImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 50)
+            }
+            Button (action: shareFaceBook) {
+                Image("facebookImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 50)
+            }
+            Button (action: shareTwitter) {
+                Image("twitterImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 50)
+            }
+        }
+    }
 
     
     /// The function starts a timer with a 5-second interval.
@@ -150,6 +180,87 @@ struct DashboardView: View {
             withAnimation(.easeInOut(duration: 1.0)) {
                 isGreetingVisible.toggle()
             }
+        }
+    }
+    
+    /// The function prepare the shareing content on social media
+    /// - Parameters:
+    ///     - none
+    /// - Returns: String of shareing text content
+    func prepareSharingContent() -> String {
+        var breakfastContent = ""
+        var lunchContent = ""
+        var dinnerContent = ""
+        var snackContent = ""
+        
+        if !viewModel.breakfastItems.isEmpty {
+            breakfastContent = "I had " + viewModel.breakfastItems[0].foodName + " for breakfast!"
+        }
+        if !viewModel.lunchItems.isEmpty {
+            lunchContent = "I had " + viewModel.lunchItems[0].foodName + " for lunch!"
+        }
+        if !viewModel.dinnerItems.isEmpty {
+            dinnerContent = "I had " + viewModel.dinnerItems[0].foodName + " for dinner!"
+        }
+        if !viewModel.snackItems.isEmpty {
+            snackContent = "I had " + viewModel.snackItems[0].foodName + " for snack!"
+        }
+        let content:String = (breakfastContent + lunchContent + dinnerContent + snackContent)
+        // let content:String = (breakfastContent + lunchContent + dinnerContent + snackContent).replacingOccurrences(of: " ", with: "%20")
+        return content
+    }
+    
+    
+    /// The function handle the shareing on Facebook
+    /// - Parameters:
+    ///     - none
+    /// - Returns: none
+    func shareFaceBook() {
+        let content = prepareSharingContent()
+        let encodedContent = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let facebookUrl = "https://www.facebook.com/sharer/sharer.php?u=\(encodedContent)"
+        if let url = URL(string: facebookUrl) {
+            openURL(url)
+        } else {
+            print("Invalid Facebook URL")
+        }
+    }
+    
+    /// The function handle the shareing on Facebook
+    /// - Parameters:
+    ///     - none
+    /// - Returns: none
+    func shareToInstagram() {
+        let content = prepareSharingContent()
+        var activityItems: [Any] = [content] // Start with the text
+        
+        /*
+        if let image = image {
+            activityItems.append(image) // Append the image if it exists
+        }
+         */
+        
+        let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        
+        // Present the Activity View Controller
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    /// The function handle the shareing on Twitter
+    /// - Parameters:
+    ///     - none
+    /// - Returns: none
+    func shareTwitter() {
+        let content = prepareSharingContent()
+        let encodedContent = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let twitterUrl = "https://twitter.com/intent/tweet?text=" + encodedContent + "&url="
+        if let url = URL(string: twitterUrl) {
+                openURL(url)
+        } else {
+            print("Invalid Twitter URL")
         }
     }
 }
