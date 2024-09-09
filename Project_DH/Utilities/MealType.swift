@@ -11,12 +11,12 @@ public typealias MealType = String
 
 public extension MealType {
     
-    static let breakfast = "Breakfast"
+    static let breakfast = NSLocalizedString("Breakfast", comment: "")
     
-    static let lunch = "Lunch"
+    static let lunch = NSLocalizedString("Lunch", comment: "")
     
-    static let dinner = "Dinner"
+    static let dinner = NSLocalizedString("Dinner", comment: "")
     
-    static let snack = "Snack"
+    static let snack = NSLocalizedString("Snack", comment: "")
     
 }

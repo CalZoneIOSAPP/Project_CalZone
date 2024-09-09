@@ -47,14 +47,14 @@ struct GenderSelectionView: View {
                 HStack(spacing: 50) {
                     VStack {
                         Button(action: {
-                            viewModel.gender = "female"
+                            viewModel.gender = NSLocalizedString("female", comment: "")
                         }) {
                             VStack {
                                 Image("femaleIcon")
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .padding()
-                                    .background(.brandDarkGreen.opacity(viewModel.gender == "female" ? 0.5 : 0.2))
+                                    .background(.brandDarkGreen.opacity(viewModel.gender == NSLocalizedString("female", comment: "") ? 0.5 : 0.2))
                                     .clipShape(Circle())
                                 Text("女性")
                                     .font(.title3)
@@ -65,14 +65,14 @@ struct GenderSelectionView: View {
                     
                     VStack {
                         Button(action: {
-                            viewModel.gender = "male"
+                            viewModel.gender = NSLocalizedString("male", comment: "")
                         }) {
                             VStack {
                                 Image("maleIcon")
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .padding()
-                                    .background(.brandDarkGreen.opacity(viewModel.gender == "male" ? 0.5 : 0.2))
+                                    .background(.brandDarkGreen.opacity(viewModel.gender == NSLocalizedString("male", comment: "") ? 0.5 : 0.2))
                                     .clipShape(Circle())
                                 Text("男性")
                                     .font(.title3)

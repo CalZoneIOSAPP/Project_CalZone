@@ -27,7 +27,7 @@ struct RegistrationView: View {
                         .frame(width: 120, height: 120)
                         .padding(.vertical, 20)
                     
-                    Text("Let's get started!")
+                    Text("get_started")
                         .font(.title2)
                         .padding(.bottom, 80)
                         .shadow(color: Color.black.opacity(0.1), radius: 2)
@@ -37,7 +37,7 @@ struct RegistrationView: View {
                         HStack {
                             Image(systemName: "person")
                                 .padding(.leading, 15)
-                            TextField("Username", text: $authViewModel.username)
+                            TextField("username", text: $authViewModel.username)
                                 .textInputAutocapitalization(.never)
                                 .font(.subheadline)
                                 .padding(12)
@@ -50,7 +50,7 @@ struct RegistrationView: View {
                         HStack {
                             Image(systemName: "envelope")
                                 .padding(.leading, 10)
-                            TextField("Email", text: $authViewModel.email)
+                            TextField("email", text: $authViewModel.email)
                                 .textInputAutocapitalization(.never)
                                 .keyboardType(.emailAddress)
                                 .font(.subheadline)
@@ -65,7 +65,7 @@ struct RegistrationView: View {
                         HStack {
                             Image(systemName: "key.horizontal")
                                 .padding(.leading, 10)
-                            SecureFieldView(text: $authViewModel.password, placeholder: "Password")
+                            SecureFieldView(text: $authViewModel.password, placeholder: Text("password"))
                                 .padding(12)
                         }
                         .background(Color(.systemGray6))
@@ -85,7 +85,7 @@ struct RegistrationView: View {
                     
                     HStack {
                         Image(systemName: "info.circle")
-                        Text("Your password must be at least 6 characters")
+                        Text("password_requirement_length")
                             .font(.footnote)
                         Spacer()
                     }
@@ -94,13 +94,13 @@ struct RegistrationView: View {
                     
                     //MARK: Privacy and Policy
                     VStack{
-                        Toggle("I agree to the Privacy Policy", isOn: $authViewModel.privacy)
+                        Toggle("privacy_policy_agreement", isOn: $authViewModel.privacy)
                             .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
                             .font(.custom("custom", size: 15))
                             .padding(.leading, 30)
                             .padding(.trailing, 40)
                         
-                        Toggle("I agree to the Terms and Conditions", isOn: $authViewModel.conditions)
+                        Toggle("terms_agreement", isOn: $authViewModel.conditions)
                             .toggleStyle(SwitchToggleStyle(tint: .brandDarkGreen))
                             .font(.custom("custom", size: 15))
                             .padding(.leading, 30)
@@ -120,7 +120,7 @@ struct RegistrationView: View {
                             try await authViewModel.createUser()
                         }
                     }label: {
-                        Text("Sign Up")
+                        Text("sign_up")
                     }
                     .fontWeight(.semibold)
                     .foregroundStyle(.white)

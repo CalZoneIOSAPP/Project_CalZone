@@ -12,9 +12,6 @@ struct InfoCollectionView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var isShowing: Bool
     
-    
-    var discriptionText: String = "To better setup your goals, we need to calculate the calorie number based on your personal information. You are always welcome to skip and add your personal information later."
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -24,7 +21,7 @@ struct InfoCollectionView: View {
                 
                 Spacer()
                 
-                Text(self.discriptionText.description)
+                Text("To better setup your goals, we need to calculate the calorie number based on your personal information. You are always welcome to skip and add your personal information later.")
                     .font(.body)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)

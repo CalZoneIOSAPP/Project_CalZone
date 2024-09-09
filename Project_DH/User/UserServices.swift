@@ -29,7 +29,16 @@ class UserServices {
     func fetchCurrentUserData() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return } // TODO: ENDED HERE
         let snapshot = try await Firestore.firestore().collection(Collection().user).document(uid).getDocument()
-        let user = try snapshot.data(as: User.self)
+        var user = try snapshot.data(as: User.self)
+        
+        if let gender = user.gender {
+            user.gender = NSLocalizedString(gender, comment: "")
+        }
+        
+        if let activityLevel = user.activityLevel {
+            user.activityLevel = NSLocalizedString(activityLevel, comment: "")
+        }
+        
         self.currentUser = user
         if let curUser = self.currentUser {
             NotificationTool.scheduleAchievementNotification(for: curUser)
@@ -229,16 +238,16 @@ class UserServices {
     func changePassword(oldPassword: String?, newPassword: String, confirmPassword: String) async throws -> PopupMessage {
         // Check if new password and confirm password match
         guard newPassword == confirmPassword else {
-            return PopupMessage(message: "Your new password and the confirmation do not match.", title: "Oops!")
+            return PopupMessage(message: NSLocalizedString("Your new password and the confirmation do not match.", comment: ""), title: NSLocalizedString("Oops!", comment: ""))
         }
         // Get the current user
         guard let user = Auth.auth().currentUser else {
-            return PopupMessage(message: "You are not logged in yet.", title: "Oops!")
+            return PopupMessage(message: NSLocalizedString("You are not logged in yet.", comment: ""), title: NSLocalizedString("Oops!", comment: ""))
         }
         if let oldPassword = oldPassword {
             // Ensure new password is different from the old password
             guard oldPassword != newPassword else {
-                return PopupMessage(message: "New password is the same as the current password.", title: "Oops!")
+                return PopupMessage(message: NSLocalizedString("New password is the same as the current password.", comment: ""), title: NSLocalizedString("Oops!", comment: ""))
             }
             // Re-authenticate with email and password
             let credential = EmailAuthProvider.credential(withEmail: user.email ?? "", password: oldPassword)
@@ -246,13 +255,14 @@ class UserServices {
                 do {
                     try await user.reauthenticate(with: credential)
                 } catch {
-                    return PopupMessage(message: "Your original password is incorrect.", title: "Apologies...")
+                    return PopupMessage(message: NSLocalizedString("Your original password is incorrect.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
                 }
                 try await user.updatePassword(to: newPassword)
                 try await updatePasswordSet()
-                return PopupMessage(message: "Successfully changed your password.", title: "Success")
+                try await UserServices.sharedUser.fetchCurrentUserData()
+                return PopupMessage(message: NSLocalizedString("Successfully changed your password.", comment: ""), title: NSLocalizedString("Success", comment: ""))
             } catch {
-                return PopupMessage(message: "Failed to change your password due to internal authentication error.", title: "Apologies...")
+                return PopupMessage(message: NSLocalizedString("Failed to change your password due to internal authentication error.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
             }
         } else {
             // Re-authenticate if the user signed in with Google or Apple
@@ -261,7 +271,7 @@ class UserServices {
                 do {
                     try await signInViewModel.reauthenticateGoogle() // Re-authenticate with Google
                 } catch {
-                    return PopupMessage(message: "Re-authentication failed for Google user.", title: "Apologies...")
+                    return PopupMessage(message: NSLocalizedString("Re-authentication failed for Google user.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
                 }
             } else if user.providerData.first(where: { $0.providerID == "apple.com" }) != nil {
                 // Re-authenticate Apple users
@@ -269,16 +279,17 @@ class UserServices {
                     let authorization = try await signInViewModel.getASAuthorization()
                     try await signInViewModel.reauthenticateApple(authorization) // Re-authenticate with Apple
                 } catch {
-                    return PopupMessage(message: "Re-authentication failed for Apple user.", title: "Apologies...")
+                    return PopupMessage(message: NSLocalizedString("Re-authentication failed for Apple user.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
                 }
             }
             // After successful re-authentication, update the password
             do {
                 try await user.updatePassword(to: newPassword)
                 try await updatePasswordSet()
-                return PopupMessage(message: "Successfully changed your password.", title: "Success")
+                try await UserServices.sharedUser.fetchCurrentUserData()
+                return PopupMessage(message: NSLocalizedString("Successfully changed your password.", comment: ""), title: NSLocalizedString("Success", comment: ""))
             } catch {
-                return PopupMessage(message: "Failed to change your password due to internal authentication error.", title: "Apologies...")
+                return PopupMessage(message: NSLocalizedString("Failed to change your password due to internal authentication error.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
             }
         }
     }

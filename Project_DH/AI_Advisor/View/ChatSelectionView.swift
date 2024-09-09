@@ -40,7 +40,7 @@ struct ChatSelectionView: View {
                                             .padding(.trailing, 10)
                                         
                                         VStack(alignment: .leading) {
-                                            Text(chat.topic ?? "AI Advisor - Cally")
+                                            Text(chat.topic ?? NSLocalizedString("AI Advisor - Cally", comment: ""))
                                                 .font(.headline)
                                             
                                             Text(chat.lastMessageTimeAgo)
@@ -129,7 +129,7 @@ struct ChatSelectionView: View {
             }
             
             if showPopup {
-                PopUpConfirmationView(messageTitle: "Are you sure you want to delete this chat?", message: "Your chat and chat history will not be able to recover.", actionButtonText: "Delete", isPresented: $showPopup, actionBool: $deleteChat)
+                PopUpConfirmationView(messageTitle: NSLocalizedString("Are you sure you want to delete this chat?", comment: ""), message: NSLocalizedString("Your chat and chat history will not be able to recover.", comment: ""), actionButtonText: NSLocalizedString("Delete", comment: ""), isPresented: $showPopup, actionBool: $deleteChat)
                     .padding(.horizontal, 30)
             }
             

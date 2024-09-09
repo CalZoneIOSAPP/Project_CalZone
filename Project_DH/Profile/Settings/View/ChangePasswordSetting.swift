@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChangePasswordSetting: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @State private var currentPassword: String = ""
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
@@ -29,16 +30,16 @@ struct ChangePasswordSetting: View {
                     // Current Password
                     if let user = user, user.passwordSet ?? false {
                         Section(header: HStack{Text("Enter Current Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
-                            SecureInputView("Enter Current Password", text: $currentPassword, isPasswordVisible: $isOldPasswordVisible)
+                            SecureInputView(NSLocalizedString("Enter Current Password", comment: ""), text: $currentPassword, isPasswordVisible: $isOldPasswordVisible)
                         }
                     }
                     // New Password
                     Section(header: HStack{Text("Enter New Password").font(.headline).foregroundStyle(.gray); Spacer()}) {
-                        SecureInputView("Enter New Password", text: $newPassword, isPasswordVisible: $isNewPasswordVisible)
+                        SecureInputView(NSLocalizedString("Enter New Password", comment: ""), text: $newPassword, isPasswordVisible: $isNewPasswordVisible)
                     }
                     
                     // Confirm New Password
-                    SecureInputView("Re-enter New Password", text: $confirmPassword, isPasswordVisible: $isConfirmPasswordVisible)
+                    SecureInputView(NSLocalizedString("Re-enter New Password", comment: ""), text: $confirmPassword, isPasswordVisible: $isConfirmPasswordVisible)
 
                     // Password Hint
                     Text("Password must be at least 6 characters.")
@@ -60,11 +61,13 @@ struct ChangePasswordSetting: View {
                                 message = try await UserServices().changePassword(oldPassword: nil, newPassword: newPassword, confirmPassword: confirmPassword)
                             }
                             showPopup = true
-                            if message.title == "Success" {
+                            if message.title == NSLocalizedString("Success", comment: "") {
                                 popupPositivity = .positive
                                 currentPassword = ""
                                 newPassword = ""
                                 confirmPassword = ""
+                                // Dismiss the full screen cover
+                                dismiss()
                             } else {
                                 popupPositivity = .negative
                             }

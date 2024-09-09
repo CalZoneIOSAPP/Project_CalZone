@@ -20,7 +20,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text(LocalizedStringKey("Please enter your account's associated email address. A reset link will be sent to the address."))
+                Text("password_reset_instructions")
                     .font(.subheadline)
                     .padding(.vertical, 60)
                     .padding(.horizontal, 20)
@@ -30,7 +30,7 @@ struct ForgotPasswordView: View {
                 HStack {
                     Image(systemName: "envelope")
                         .padding(.leading, 10)
-                    TextField("Email", text: $authViewModel.email)
+                    TextField("email", text: $authViewModel.email)
                         .textInputAutocapitalization(.never)
                         .keyboardType(.emailAddress)
                         .font(.subheadline)
@@ -45,7 +45,7 @@ struct ForgotPasswordView: View {
                 
                 
                 if !TimeManager.sharedTimer.isButtonEnabled {
-                    Text("Remaining seconds: \(TimeManager.sharedTimer.timeRemaining)")
+                    Text("remaining_seconds \(TimeManager.sharedTimer.timeRemaining)")
                         .onReceive(refreshTimer) { _ in
                             
                         }
@@ -56,7 +56,7 @@ struct ForgotPasswordView: View {
                     TimeManager.sharedTimer.isButtonEnabled = false
                     TimeManager.sharedTimer.startTimer()
                 }) {
-                    Text("Send Reset Link                                                     ")
+                    Text("send_reset_link                                                     ")
                 }
                 .disabled(!TimeManager.sharedTimer.isButtonEnabled)
                 .fontWeight(.semibold)
@@ -71,7 +71,7 @@ struct ForgotPasswordView: View {
             .ignoresSafeArea(.keyboard)
             
         }// End of Navigation Stack
-        .navigationTitle("Reset Password")
+        .navigationTitle("reset_password")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden()
         .dismissKeyboardOnTap()

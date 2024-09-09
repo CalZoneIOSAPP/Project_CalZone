@@ -11,7 +11,7 @@ class InfoCollectionViewModel: ObservableObject {
     @Published var dateTools = DateTools()
     @Published var profileViewModel = ProfileViewModel()
     // Gender Selection
-    @Published var gender: String = "female"
+    @Published var gender: String = NSLocalizedString("female", comment: "")
     // Weight Selection
     @Published var weight: Double = 66.6
     // Target Weight Selection
@@ -34,11 +34,11 @@ class InfoCollectionViewModel: ObservableObject {
     // Sport Status
     @Published var activityLevel: String = ""
     let activityLevelMap: [String: Double] = [
-        "Sedentary": 1.2,
-        "Slightly active": 1.375,
-        "Moderately active": 1.55,
-        "Very active": 1.725,
-        "Super active" : 1.9
+        NSLocalizedString("Sedentary", comment: ""): 1.2,
+        NSLocalizedString("Slightly Active", comment: ""): 1.375,
+        NSLocalizedString("Moderately Active", comment: ""): 1.55,
+        NSLocalizedString("Very Active", comment: ""): 1.725,
+        NSLocalizedString("Super Active", comment: "") : 1.9
     ]
     
     // Select whether to save the info.
@@ -134,7 +134,7 @@ class InfoCollectionViewModel: ObservableObject {
         let w = 10.0 * weight
         let h = 6.25 * height
         
-        if gender == "male" {
+        if gender == NSLocalizedString("male", comment: "") {
             // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)+5
             userBMR = w + h - a + 5.0
         } else {

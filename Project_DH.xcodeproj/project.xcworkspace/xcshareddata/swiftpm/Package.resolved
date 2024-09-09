@@ -1,5 +1,5 @@
 {
-  "originHash" : "140f5b5e0ac5b8c2622bcfe01c44cbc34bd928c93a8247496e876eec62431e9d",
+  "originHash" : "2287d834df7b438c820472d4a824bb382929befbfcb79207d0124506b9fdbe93",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
         "version" : "1.7.5"
+      }
+    },
+    {
+      "identity" : "baseapi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/serhii-londar/BaseAPI.git",
+      "state" : {
+        "revision" : "8e736fa8302647749fb1b4ebe3c59e920174a095",
+        "version" : "0.2.1"
       }
     },
     {
@@ -128,6 +137,15 @@
       }
     },
     {
+      "identity" : "mobile-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/crowdin/mobile-sdk-ios.git",
+      "state" : {
+        "revision" : "db1af9601629ec0e58fe5e70c5f12e201ffd987a",
+        "version" : "1.9.0"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
@@ -152,6 +170,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "starscream",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/daltoniam/Starscream.git",
+      "state" : {
+        "revision" : "c6bfd1af48efcc9a9ad203665db12375ba6b145a",
+        "version" : "4.0.8"
       }
     },
     {

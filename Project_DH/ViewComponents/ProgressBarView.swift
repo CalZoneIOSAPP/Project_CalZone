@@ -113,7 +113,7 @@ struct ProgressBarView: View {
                 }
             } else {
                 VStack {
-                    Text(String("Target not setup."))
+                    Text("Target not setup.")
                         .font(.title2)
                         .foregroundColor(color)
                 }

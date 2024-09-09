@@ -38,11 +38,11 @@ class ProfileViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     let activityLevelMap: [String: Double] = [
-        "Sedentary": 1.2,
-        "Slightly Active": 1.375,
-        "Moderately Active": 1.55,
-        "Very Active": 1.725,
-        "Super Active" : 1.9
+        NSLocalizedString("Sedentary", comment: ""): 1.2,
+        NSLocalizedString("Slightly Active", comment: ""): 1.375,
+        NSLocalizedString("Moderately Active", comment: ""): 1.55,
+        NSLocalizedString("Very Active", comment: ""): 1.725,
+        NSLocalizedString("Super Active", comment: "") : 1.9
     ]
     
     
@@ -186,7 +186,7 @@ class ProfileViewModel: ObservableObject {
         let w = 10.0 * user.weight!
         let h = 6.25 * user.height!
         
-        if user.gender == "male" {
+        if user.gender == NSLocalizedString("male", comment: "") {
             // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)+5
             userBMR = w + h - a + 5.0
         } else {

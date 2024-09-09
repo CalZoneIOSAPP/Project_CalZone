@@ -144,16 +144,16 @@ struct DashboardView: View {
     var mealSections: some View {
         VStack {
             if !viewModel.breakfastItems.isEmpty {
-                MealSectionView(viewModel: viewModel, title: "Breakfast", foodItems: $viewModel.breakfastItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                MealSectionView(viewModel: viewModel, title: NSLocalizedString("Breakfast", comment: ""), foodItems: $viewModel.breakfastItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
             }
             if !viewModel.lunchItems.isEmpty {
-                MealSectionView(viewModel: viewModel, title: "Lunch", foodItems: $viewModel.lunchItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                MealSectionView(viewModel: viewModel, title: NSLocalizedString("Lunch", comment: ""), foodItems: $viewModel.lunchItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
             }
             if !viewModel.dinnerItems.isEmpty {
-                MealSectionView(viewModel: viewModel, title: "Dinner", foodItems: $viewModel.dinnerItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                MealSectionView(viewModel: viewModel, title: NSLocalizedString("Dinner", comment: ""), foodItems: $viewModel.dinnerItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
             }
             if !viewModel.snackItems.isEmpty {
-                MealSectionView(viewModel: viewModel, title: "Snack", foodItems: $viewModel.snackItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                MealSectionView(viewModel: viewModel, title: NSLocalizedString("Snack", comment: ""), foodItems: $viewModel.snackItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
             }
         }
     }
@@ -227,16 +227,16 @@ struct DashboardView: View {
         var snackContent = ""
         
         if !viewModel.breakfastItems.isEmpty {
-            breakfastContent = "Breakfast 🥞: " + viewModel.breakfastItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            breakfastContent = NSLocalizedString("Breakfast 🥞: ", comment: "") + viewModel.breakfastItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.lunchItems.isEmpty {
-            lunchContent = "Lunch 🍲: " + viewModel.lunchItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            lunchContent = NSLocalizedString("Lunch 🍲: ", comment: "") + viewModel.lunchItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.dinnerItems.isEmpty {
-            dinnerContent = "Dinner 🍛: " + viewModel.dinnerItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            dinnerContent = NSLocalizedString("Dinner 🍛: ", comment: "") + viewModel.dinnerItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.snackItems.isEmpty {
-            snackContent = "Snacks 🍪: " + viewModel.snackItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            snackContent = NSLocalizedString("Snacks 🍪: ", comment: "") + viewModel.snackItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         
         let totalCalories = viewModel.sumCalories

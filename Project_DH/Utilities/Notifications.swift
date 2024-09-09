@@ -18,8 +18,8 @@ struct NotificationTool {
 
         // Schedule notification for 8:30 AM
         let morningNotificationContent = UNMutableNotificationContent()
-        morningNotificationContent.title = "Good Morning from CalBite!"
-        morningNotificationContent.body = "Are you ready to start a wonderful day? Don't forget to get breakfast!"
+        morningNotificationContent.title = NSLocalizedString("Good Morning from CalBite!", comment: "")
+        morningNotificationContent.body = NSLocalizedString("Are you ready to start a wonderful day? Don't forget to get breakfast!", comment: "")
         morningNotificationContent.sound = UNNotificationSound.default
 
         var morningDateComponents = DateComponents()
@@ -32,8 +32,8 @@ struct NotificationTool {
 
         // Schedule notification for 3:00 PM
         let afternoonNotificationContent = UNMutableNotificationContent()
-        afternoonNotificationContent.title = "Take a break!"
-        afternoonNotificationContent.body = "Time to have a short break from what you are doing, get a cup of tea or coffee."
+        afternoonNotificationContent.title = NSLocalizedString("Take a break!", comment: "")
+        afternoonNotificationContent.body = NSLocalizedString("Time to have a short break from what you are doing, get a cup of tea or coffee.", comment: "")
         afternoonNotificationContent.sound = UNNotificationSound.default
 
         var afternoonDateComponents = DateComponents()
@@ -60,8 +60,8 @@ struct NotificationTool {
         let center = UNUserNotificationCenter.current()
         
         let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = "Congratulations, you made it!"
-        notificationContent.body = "You should meet your target by today. You can setup a new target or stay as you like!"
+        notificationContent.title = NSLocalizedString("Congratulations, you made it!", comment: "")
+        notificationContent.body = NSLocalizedString("You should meet your target by today. You can setup a new target or stay as you like!", comment: "")
         notificationContent.sound = UNNotificationSound.default
 
         // Create a date matching trigger for the achievement date

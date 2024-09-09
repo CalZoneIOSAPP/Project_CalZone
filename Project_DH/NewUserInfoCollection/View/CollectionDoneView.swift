@@ -25,13 +25,13 @@ struct CollectionDoneView: View {
                 }
                 
                 VStack {
-                    Image(viewModel.gender == "male" ? "maleIcon" : "femaleIcon")
+                    Image(viewModel.gender == NSLocalizedString("male", comment: "") ? "maleIcon" : "femaleIcon")
                         .resizable()
                         .frame(width: 100, height: 100)
                         .padding()
                         .background(.brandDarkGreen.opacity(0.2))
                         .clipShape(Circle())
-                    Text(viewModel.gender == "male" ? "Male" : "Female")
+                    Text(viewModel.gender == NSLocalizedString("male", comment: "") ? NSLocalizedString("Male", comment: "") : NSLocalizedString("Female", comment: ""))
                         .font(.title3)
                         .foregroundColor(.black)
                 }

@@ -149,20 +149,20 @@ class DashboardViewModel: ObservableObject {
                 allFoodItems.append(contentsOf: foodItems)
             }
             switch mealType.lowercased() {
-            case "breakfast":
+            case NSLocalizedString("breakfast", comment: ""):
                 breakfastItems = foodItems
 //                print("NOTE: Fetched breakfast items: \(self.breakfastItems)")
-            case "lunch":
+            case NSLocalizedString("lunch", comment: ""):
                 lunchItems = foodItems
 //                print("NOTE: Fetched lunch items: \(self.lunchItems)")
-            case "dinner":
+            case NSLocalizedString("dinner", comment: ""):
                 dinnerItems = foodItems
 //                print("NOTE: Fetched dinner items: \(self.dinnerItems)")
-            case "snack":
+            case NSLocalizedString("snack", comment: ""):
                 snackItems = foodItems
 //                print("NOTE: Fetched snack items: \(self.snackItems)")
             default:
-                print("NOTE: Unknown meal type")
+                print("NOTE: Unknown meal type \(mealType)")
             }
             try await sumUpCalories(for: foodItems)
             try await checkCalorieTarget()

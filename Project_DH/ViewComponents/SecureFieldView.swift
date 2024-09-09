@@ -11,13 +11,13 @@ struct SecureFieldView: View {
     @Binding var text: String
     @State private var displayText: String = ""
     
-    var placeholder: String
+    var placeholder: Text
     var maskCharacter: Character = "•"
 
     var body: some View {
         ZStack(alignment: .leading) {
             if displayText.isEmpty {
-                Text(placeholder)
+                placeholder
                     .foregroundColor(.gray)
                     .font(.subheadline)
                     .opacity(0.6)
@@ -53,5 +53,5 @@ struct SecureFieldView: View {
 
 
 #Preview {
-    SecureFieldView(text: .constant("passcode124"), placeholder: "Password")
+    SecureFieldView(text: .constant("passcode124"), placeholder: Text("password"))
 }

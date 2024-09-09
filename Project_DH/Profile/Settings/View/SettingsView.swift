@@ -19,7 +19,7 @@ struct SettingsView: View {
                     Section {
                         ForEach(SettingsOptions.allCases){ option in
                             HStack {
-                                Text(viewModel.currentUser?.passwordSet ?? false ? option.title : "Set New Password")
+                                Text(viewModel.currentUser?.passwordSet ?? false ? option.title : NSLocalizedString("Set New Password", comment: ""))
                                 Spacer()
                             }
                             .onTapGesture {

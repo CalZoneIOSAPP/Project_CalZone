@@ -104,21 +104,21 @@ struct AppChat: Codable, Identifiable {
         let components = Calendar.current.dateComponents([.second, .minute, .hour, .day, .month, .year], from: lastMessageSent.date, to: now)
         
         let timeUnits: [(value: Int?, unit: String)] = [
-            (components.year, "year"),
-            (components.month, "month"),
-            (components.day, "day"),
-            (components.hour, "hour"),
-            (components.minute, "minute"),
-            (components.second, "second")
+            (components.year, NSLocalizedString("year", comment: "")),
+            (components.month, NSLocalizedString("month", comment: "")),
+            (components.day, NSLocalizedString("day", comment: "")),
+            (components.hour, NSLocalizedString("hour", comment: "")),
+            (components.minute, NSLocalizedString("minute", comment: "")),
+            (components.second, NSLocalizedString("second", comment: ""))
         ]
         
         for timeUnit in timeUnits {
             if let value = timeUnit.value, value > 0 {
-                return "\(value) \(timeUnit.unit)\(value == 1 ? "" : "s") ago"
+                return "\(value) \(timeUnit.unit) " + NSLocalizedString("ago", comment: "")
             }
         }
         
-        return "just now"
+        return NSLocalizedString("just now", comment: "")
         
     }
 }

@@ -28,7 +28,7 @@ struct SignInView: View {
                         .frame(width: 160, height: 160)
                         .padding(.vertical, 20)
                     
-                    Text("Welcome Back!")
+                    Text("welcome_back")
                         .font(.title2)
                         .shadow(color: Color.black.opacity(0.1), radius: 2)
                     
@@ -37,7 +37,7 @@ struct SignInView: View {
                     HStack {
                         Image(systemName: "envelope")
                             .padding(.leading, 10)
-                        TextField("Email", text: $authViewModel.email)
+                        TextField("email", text: $authViewModel.email)
                             .textContentType(.emailAddress)
                             .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
@@ -54,7 +54,11 @@ struct SignInView: View {
                     HStack {
                         Image(systemName: "key.horizontal")
                             .padding(.leading, 10)
-                        SecureFieldView(text: $authViewModel.password, placeholder: "Password")
+//                        SecureField("password", text: $authViewModel.password)
+//                            .textInputAutocapitalization(.never)
+//                            .font(.subheadline)
+//                            .padding(12)
+                        SecureFieldView(text: $authViewModel.password, placeholder: Text("password"))
                             .padding(12)
                     }
                     .background(Color(.systemGray6))
@@ -75,7 +79,7 @@ struct SignInView: View {
                         // TODO: Add a function to prompt user for an email if the password has been forgotten
                         ForgotPasswordView()
                     } label: {
-                        Text("Forgot password?")
+                        Text("forgot_password")
                             .font(.footnote)
                             .foregroundStyle(.brandDarkGreen)
                             .fontWeight(.semibold)
@@ -94,7 +98,7 @@ struct SignInView: View {
                             try await authViewModel.login()
                         }
                     }label: {
-                        Text("Sign In                                                      ")
+                        Text("sign_in")
                     }
                     .fontWeight(.semibold)
                     .foregroundStyle(.white)
@@ -152,7 +156,7 @@ struct SignInView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50)
-                            Text("Sign in with Google")
+                            Text("google_sign_in")
                                 .font(.custom("googlefont", fixedSize: 15.5))
                                 .foregroundStyle(Color(.systemGray))
                                 .padding(.trailing)
@@ -172,11 +176,11 @@ struct SignInView: View {
                     Divider()
                     
                     HStack {
-                        Text("Don't have an account?")
+                        Text("no_account")
                         NavigationLink {
                             RegistrationView()
                         } label: {
-                            Text("Sign Up")
+                            Text("sign_up")
                                 .foregroundStyle(.brandDarkGreen)
                         }
                     }

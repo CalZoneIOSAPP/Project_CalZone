@@ -42,7 +42,13 @@ class MealServices: ObservableObject {
         
         let querySnapshot = try await query.getDocuments()
         self.meals = querySnapshot.documents.compactMap { document in
-            try? document.data(as: Meal.self)
+            var meal = try? document.data(as: Meal.self)
+            
+            if let mealType = meal?.mealType{
+                meal?.mealType = NSLocalizedString(mealType, comment: "")
+            }
+            
+            return meal
         }
     }
     

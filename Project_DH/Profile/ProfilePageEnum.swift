@@ -67,10 +67,10 @@ enum SettingsOptions: Int, CaseIterable, Identifiable {
     
     case changePassword
     
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
         case .changePassword:
-            return "Change Password"
+            return NSLocalizedString("Change Password", comment: "")
         }
     }
 }
@@ -86,15 +86,15 @@ enum PasswordChangeError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .passwordMismatch:
-            return "New password and confirm password do not match."
+            return NSLocalizedString("New password and confirm password do not match.", comment: "")
         case .userNotLoggedIn:
-            return "User not logged in."
+            return NSLocalizedString("User not logged in.", comment: "")
         case .passwordSameAsOld:
-            return "Your new password must be different from your current password."
+            return NSLocalizedString("Your new password must be different from your current password.", comment: "")
         case .reauthenticationFailed(let message):
-            return "Re-authentication failed: \(message)"
+            return NSLocalizedString("Re-authentication failed:", comment: "") + "\(message)"
         case .passwordChangeFailed(let message):
-            return "Password change failed: \(message)"
+            return NSLocalizedString("Password change failed: ", comment: "") + "\(message)"
         }
     }
 }
@@ -140,19 +140,20 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .username:
-            return "Change Username"
+            return NSLocalizedString("Change Username", comment: "")
         case .email:
-            return "Change Email"
+            return NSLocalizedString("Change Email", comment: "")
         case .firstName:
-            return "Change First Name"
+            return NSLocalizedString("Change First Name", comment: "")
         case .lastName:
-            return "Change Last Name"
+            return NSLocalizedString("Change Last Name", comment: "")
         case .birthday:
-            return "Change Birthday"
+            return NSLocalizedString("Change Birthday", comment: "")
         }
     }
     
     
+    /// Do not localize.
     var firebaseFieldName: String {
         switch self {
         case .username:
@@ -173,15 +174,15 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
     var placeholder: String {
         switch self {
         case .username:
-            return "username"
+            return NSLocalizedString("username", comment: "")
         case .lastName:
-            return "last name"
+            return NSLocalizedString("last name", comment: "")
         case .firstName:
-            return "first name"
+            return NSLocalizedString("first name", comment: "")
         case .email:
-            return "email"
+            return NSLocalizedString("email", comment: "")
         case .birthday:
-            return "birthday"
+            return NSLocalizedString("birthday", comment: "")
         }
     }
     
@@ -221,24 +222,24 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .gender:
-            return "Biological Gender"
+            return NSLocalizedString("Biological Gender", comment: "")
         case .weight:
-            return "Body Weight"
+            return NSLocalizedString("Body Weight", comment: "")
         case .weightTarget:
-            return "Target Weight"
+            return NSLocalizedString("Target Weight", comment: "")
         case .height:
-            return "Height"
+            return NSLocalizedString("Height", comment: "")
         case .activityLevel:
-            return "Activity Level"
+            return NSLocalizedString("Activity Level", comment: "")
         case .achievementDate:
-            return "Date of Achievement"
+            return NSLocalizedString("Date of Achievement", comment: "")
         case .targetCalories:
-            return "Target Calories"
-
+            return NSLocalizedString("Target Calories", comment: "")
         }
     }
     
     
+    /// Do not Localize!
     var firebaseFieldName: String {
         switch self {
         case .gender:
@@ -263,19 +264,19 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
     var placeholder: String {
         switch self {
         case .gender:
-            return "biological gender"
+            return NSLocalizedString("biological gender", comment: "")
         case .weight:
-            return "body weight"
+            return NSLocalizedString("body weight", comment: "")
         case .weightTarget:
-            return "target body weight"
+            return NSLocalizedString("target body weight", comment: "")
         case .height:
-            return "height"
+            return NSLocalizedString("height", comment: "")
         case .activityLevel:
-            return "activity level"
+            return NSLocalizedString("activity level", comment: "")
         case .achievementDate:
-            return "achievement date"
+            return NSLocalizedString("achievement date", comment: "")
         case .targetCalories:
-            return "target calories"
+            return NSLocalizedString("target calories", comment: "")
 
         }
     }
@@ -341,9 +342,9 @@ enum genderEnum: Int, CaseIterable, Identifiable {
     var genderStr: String {
         switch self {
         case .male:
-            return "Male"
+            return NSLocalizedString("Male", comment: "")
         case .female:
-            return "Female"
+            return NSLocalizedString("Female", comment: "")
         }
     }
     
@@ -359,9 +360,14 @@ enum dropDownOptions: Int, CaseIterable, Identifiable {
     var options: [String] {
         switch self {
         case .gender:
-            return ["male", "female"]
+            return [NSLocalizedString("male", comment: ""),
+                    NSLocalizedString("female", comment: "")]
         case .activityLevel:
-            return ["Sedentary", "Slightly Active", "Moderately Active", "Very Active", "Super Active"]
+            return [NSLocalizedString("Sedentary", comment: ""),
+                    NSLocalizedString("Slightly Active", comment: ""),
+                    NSLocalizedString("Moderately Active", comment: ""),
+                    NSLocalizedString("Very Active", comment: ""),
+                    NSLocalizedString("Super Active", comment: "")]
         }
     }
     

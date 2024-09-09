@@ -32,6 +32,8 @@
 		541053292C8ED83F005A7F36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053282C8ED83F005A7F36 /* AppDelegate.swift */; };
 		5410532B2C8ED863005A7F36 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410532A2C8ED863005A7F36 /* Notifications.swift */; };
 		5410532D2C8EFC11005A7F36 /* PopUpConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410532C2C8EFC11005A7F36 /* PopUpConfirmationView.swift */; };
+		541053402C8F5A37005A7F36 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5410533F2C8F5A37005A7F36 /* Localizable.xcstrings */; };
+		541053422C8F96AB005A7F36 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
@@ -138,6 +140,8 @@
 		541053282C8ED83F005A7F36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5410532A2C8ED863005A7F36 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5410532C2C8EFC11005A7F36 /* PopUpConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpConfirmationView.swift; sourceTree = "<group>"; };
+		5410533F2C8F5A37005A7F36 /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -633,6 +637,8 @@
 				541D91CD2BE7E09B000DED2B /* Project-DH-Info.plist */,
 				54C06B112BE9665D005D98A7 /* Project_DHDebug.entitlements */,
 				54F18F0D2C84E6BA001E6A38 /* PrivacyInfo.xcprivacy */,
+				5410533F2C8F5A37005A7F36 /* Localizable.xcstrings */,
+				541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */,
 			);
 			path = Project_DH;
 			sourceTree = "<group>";
@@ -790,6 +796,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 54B4498C2BDD407B00E35D49;
 			packageReferences = (
@@ -797,6 +804,7 @@
 				547999822BE40D04007A7CCE /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				541D91C62BE7DC75000DED2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				54FB02892C4BDAD9004D8451 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				541053302C8F33E3005A7F36 /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */,
 			);
 			productRefGroup = 54B449962BDD407B00E35D49 /* Products */;
 			projectDirPath = "";
@@ -812,7 +820,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				541053422C8F96AB005A7F36 /* InfoPlist.xcstrings in Resources */,
 				54B449A02BDD407C00E35D49 /* Preview Assets.xcassets in Resources */,
+				541053402C8F5A37005A7F36 /* Localizable.xcstrings in Resources */,
 				54F18F292C88227B001E6A38 /* GoogleService-Info.plist in Resources */,
 				54B4499D2BDD407C00E35D49 /* Assets.xcassets in Resources */,
 				54F18F172C859EE1001E6A38 /* LaunchView.storyboard in Resources */,
@@ -1149,6 +1159,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		541053302C8F33E3005A7F36 /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/crowdin/mobile-sdk-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
+			};
+		};
 		541D35362BE3DA2600AF38AF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";

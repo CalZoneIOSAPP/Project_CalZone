@@ -54,7 +54,7 @@ struct FoodCard: View {
                 
                 
                 // Username
-                Text(user.userName ?? "Cool Person")
+                Text(user.userName ?? NSLocalizedString("Cool Person", comment: ""))
                     .font(.subheadline)
                     .foregroundStyle(.black)
                     .opacity(0.7)
