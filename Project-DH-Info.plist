@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
-	<key>NSCameraUsageDescription</key>
-	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -21,5 +17,7 @@
 	</array>
 	<key>GIDClientID</key>
 	<string>366914386954-fo37pasp4v5muvuh4i69n989p8igjaci.apps.googleusercontent.com</string>
+	<key>UIBackgroundModes</key>
+	<array/>
 </dict>
 </plist>

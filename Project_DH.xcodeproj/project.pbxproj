@@ -29,6 +29,8 @@
 		541053212C8C53BF005A7F36 /* ChangePasswordSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */; };
 		541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053222C8CFF34005A7F36 /* PopupMessage.swift */; };
 		541053252C8DA647005A7F36 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053242C8DA647005A7F36 /* FoodCard.swift */; };
+		541053292C8ED83F005A7F36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053282C8ED83F005A7F36 /* AppDelegate.swift */; };
+		5410532B2C8ED863005A7F36 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410532A2C8ED863005A7F36 /* Notifications.swift */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
@@ -132,6 +134,8 @@
 		541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordSetting.swift; sourceTree = "<group>"; };
 		541053222C8CFF34005A7F36 /* PopupMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessage.swift; sourceTree = "<group>"; };
 		541053242C8DA647005A7F36 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
+		541053282C8ED83F005A7F36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5410532A2C8ED863005A7F36 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -524,6 +528,8 @@
 				54E9D6D62C773B3D00CFD7A0 /* MealType.swift */,
 				5474F6692C7770B500BF86F4 /* DateTools.swift */,
 				541053222C8CFF34005A7F36 /* PopupMessage.swift */,
+				541053282C8ED83F005A7F36 /* AppDelegate.swift */,
+				5410532A2C8ED863005A7F36 /* Notifications.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -817,6 +823,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				541053292C8ED83F005A7F36 /* AppDelegate.swift in Sources */,
 				541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */,
 				541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */,
 				541D352E2BE3D7E600AF38AF /* RegisterViewModel.swift in Sources */,
@@ -899,6 +906,7 @@
 				54BF6FE32C594095006151F6 /* MemoryManagement.swift in Sources */,
 				54F18F2F2C88D0FF001E6A38 /* HeightSelectionView.swift in Sources */,
 				54F18F332C88DBEC001E6A38 /* CollectionDoneView.swift in Sources */,
+				5410532B2C8ED863005A7F36 /* Notifications.swift in Sources */,
 				043097382BE7018C0016FCD8 /* MockData.swift in Sources */,
 				54C06B152BEBA129005D98A7 /* TimeManager.swift in Sources */,
 				54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */,

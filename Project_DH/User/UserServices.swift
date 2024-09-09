@@ -31,6 +31,9 @@ class UserServices {
         let snapshot = try await Firestore.firestore().collection(Collection().user).document(uid).getDocument()
         let user = try snapshot.data(as: User.self)
         self.currentUser = user
+        if let curUser = self.currentUser {
+            NotificationTool.scheduleAchievementNotification(for: curUser)
+        }
         print("SUCCESS: USER DATA FETCHED \nSource: fetchCurrentUserData() \nUser ID: \(String(describing: user.uid))")
     }
     

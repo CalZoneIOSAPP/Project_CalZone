@@ -12,6 +12,8 @@ import TipKit
 
 @main
 struct Project_MeApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     init() {
         FirebaseApp.configure()
         do {
@@ -25,6 +27,9 @@ struct Project_MeApp: App {
         WindowGroup {
             LaunchScreenView()
                 .preferredColorScheme(.light) // This sets the application to only show in light mode.
+                .onAppear {
+                    requestNotificationPermission()
+                }
         }
     }
     
@@ -35,4 +40,21 @@ struct Project_MeApp: App {
     private func setupTips() throws {
         try Tips.configure([.displayFrequency(.immediate), .datastoreLocation(.applicationDefault)])
     }
+    
+    
+    /// This function prompts the user for push notification permissions.
+    /// - Parameters: none
+    /// - Returns: none
+    func requestNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permission: \(error)")
+            }
+            if granted {
+                NotificationTool.scheduleDailyNotifications()
+            }
+        }
+    }
+    
 }
