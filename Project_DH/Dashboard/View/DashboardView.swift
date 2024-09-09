@@ -19,6 +19,10 @@ struct DashboardView: View {
     @State private var showEditPopup = false
     @State private var selectedFoodItem: FoodItem?
     
+    // For sharing only
+    @State private var sharedImages: [UIImage] = []
+    @State private var isLoadingShare = false
+    
     
     var body: some View {
         ZStack {
@@ -53,9 +57,8 @@ struct DashboardView: View {
                     } else {
                         ScrollView {
                             dashboardHeader
-                                .padding(.bottom, 50)
-//                            socialMediaShareSection
-//                                .padding(.bottom, 50)
+                            socialMediaShareSection
+                                .padding(.bottom)
                             mealSections
                         }
                         .refreshable { // Pull down to refresh
@@ -109,6 +112,7 @@ struct DashboardView: View {
     }
     
     
+    // Dashboard Healder Section
     var dashboardHeader: some View {
         // Show sum of calories
         VStack(alignment: .center) {
@@ -136,6 +140,7 @@ struct DashboardView: View {
     }
     
     
+    // FoodItem Section
     var mealSections: some View {
         VStack {
             if !viewModel.breakfastItems.isEmpty {
@@ -154,49 +159,67 @@ struct DashboardView: View {
     }
     
     
+    // Social Media Share Section
     var socialMediaShareSection: some View {
         HStack {
-            Text("Share on: ")
-                .bold()
-                .foregroundColor(.black)
-            Button (action: shareToInstagram) {
-                Image("instagramImage")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 50)
+            Spacer()
+            Button(action: {
+                isLoadingShare = true
+                Task {
+                    await fetchImagesFromURLs()  // Fetch images first
+                    shareDailyMeals()  // Share both text and images
+                    isLoadingShare = false
+                }
+            }) {
+                if isLoadingShare {
+                    ProgressView()  // Show loading spinner
+                } else {
+                    Label("Share Daily Meals", systemImage: "square.and.arrow.up")
+                }
             }
-            Button (action: shareFaceBook) {
-                Image("facebookImage")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 50)
-            }
-            Button (action: shareTwitter) {
-                Image("twitterImage")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 50)
+        }
+        .padding(.trailing)
+    }
+
+    
+    // Fetch images asynchronously from FoodItem URLs
+    func fetchImagesFromURLs() async {
+        sharedImages = []
+        let allItems = viewModel.breakfastItems + viewModel.lunchItems + viewModel.dinnerItems + viewModel.snackItems
+        for foodItem in allItems {
+            if let url = URL(string: foodItem.imageURL) {
+                do {
+                    let (data, _) = try await URLSession.shared.data(from: url)
+                    if let image = UIImage(data: data) {
+                        sharedImages.append(image)
+                    }
+                } catch {
+                    print("Failed to load image from \(foodItem.imageURL): \(error)")
+                }
             }
         }
     }
 
     
-    /// The function starts a timer with a 5-second interval.
-    /// - Parameters:
-    ///     - _date: The date object.
-    /// - Returns: String of the formatted date.
-    func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
-            withAnimation(.easeInOut(duration: 1.0)) {
-                isGreetingVisible.toggle()
-            }
+    // Share daily meals using UIActivityViewController
+    func shareDailyMeals() {
+        let content = prepareSharingContent()  // Get the text content
+        var activityItems: [Any] = [content]
+        activityItems.append(contentsOf: sharedImages)  // Add images
+
+        let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
         }
     }
+    
     
     /// The function prepare the shareing content on social media
     /// - Parameters:
     ///     - none
     /// - Returns: String of shareing text content
+    /// Prepare the share content with food items
     func prepareSharingContent() -> String {
         var breakfastContent = ""
         var lunchContent = ""
@@ -204,20 +227,28 @@ struct DashboardView: View {
         var snackContent = ""
         
         if !viewModel.breakfastItems.isEmpty {
-            breakfastContent = "I had " + viewModel.breakfastItems[0].foodName + " for breakfast!"
+            breakfastContent = "Breakfast 🥞: " + viewModel.breakfastItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.lunchItems.isEmpty {
-            lunchContent = "I had " + viewModel.lunchItems[0].foodName + " for lunch!"
+            lunchContent = "Lunch 🍲: " + viewModel.lunchItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.dinnerItems.isEmpty {
-            dinnerContent = "I had " + viewModel.dinnerItems[0].foodName + " for dinner!"
+            dinnerContent = "Dinner 🍛: " + viewModel.dinnerItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.snackItems.isEmpty {
-            snackContent = "I had " + viewModel.snackItems[0].foodName + " for snack!"
+            snackContent = "Snacks 🍪: " + viewModel.snackItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
-        let content:String = (breakfastContent + lunchContent + dinnerContent + snackContent)
-        // let content:String = (breakfastContent + lunchContent + dinnerContent + snackContent).replacingOccurrences(of: " ", with: "%20")
-        return content
+        
+        let totalCalories = viewModel.sumCalories
+        
+        return """
+        🍽️ Today's Meal Recap 🍽️
+
+        \(breakfastContent)\(lunchContent)\(dinnerContent)\(snackContent)
+        ✨ Total Calories: \(totalCalories) kcal
+
+        Enjoy every bite while balancing nutrition and health! 🍽️💪
+        """
     }
     
     
@@ -243,12 +274,6 @@ struct DashboardView: View {
     func shareToInstagram() {
         let content = prepareSharingContent()
         var activityItems: [Any] = [content] // Start with the text
-        
-        /*
-        if let image = image {
-            activityItems.append(image) // Append the image if it exists
-        }
-         */
         
         let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         

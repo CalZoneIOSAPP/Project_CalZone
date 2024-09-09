@@ -62,9 +62,3 @@ class FoodItem: Codable, Identifiable, Equatable {
         ]
     }
 }
-
-
-
-
-
-
