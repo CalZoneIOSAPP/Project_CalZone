@@ -118,6 +118,7 @@ struct EditProfileView: View {
                                     .font(.subheadline)
                                     .foregroundStyle(Color(.systemGray2))
                             }
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 viewModel.firebaseFieldName = option.firebaseFieldName
                                 viewModel.curStateAccount = option
@@ -138,6 +139,7 @@ struct EditProfileView: View {
                                     .font(.subheadline)
                                     .foregroundStyle(Color(.systemGray2))
                             }
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 viewModel.firebaseFieldName = option.firebaseFieldName
                                 viewModel.curStateDietary = option
