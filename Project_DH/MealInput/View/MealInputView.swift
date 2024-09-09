@@ -24,6 +24,7 @@ struct MealInputView: View {
     
     let saveToOtherDateTip = SaveToOtherDateTip()
     
+    
     enum SourceType {
         case camera
         case photoLibrary

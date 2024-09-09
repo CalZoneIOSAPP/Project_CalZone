@@ -14,6 +14,8 @@ struct ChatSelectionView: View {
     @StateObject var profileViewModel = ProfileViewModel()
     
     @State private var selectedChatId: ChatID? = nil
+    @State private var showPopup: Bool = false
+    @State private var deleteChat: Bool = false
     
     var body: some View {
         ZStack {
@@ -56,7 +58,6 @@ struct ChatSelectionView: View {
 //                                                .padding(6)
 //                                                .background((chat.model?.tintColor ?? .white).opacity(0.1))
 //                                                .clipShape(Capsule(style: .continuous))
-                                        
                                     }
                                     .contentShape(Rectangle())
                                     
@@ -68,13 +69,20 @@ struct ChatSelectionView: View {
                                     viewModel.showEditWindow = true
                                 }
                                 .swipeActions { // Swipe to delete
-                                    Button(role: .destructive) {
-                                        viewModel.deleteChat(chat: chat)
+                                    Button {
+                                        showPopup = true
+                                        deleteChat = false
                                     } label: {
                                         Label("Delete", systemImage: "trash.fill")
                                     }
                                     .tint(Color.brandRed)
                                 }
+                                .onChange(of: deleteChat, { _, newValue in
+                                    if deleteChat == true {
+                                        viewModel.deleteChat(chat: chat)
+                                        deleteChat = false
+                                    }
+                                })
                             }
                         }
                         .disabled(viewModel.showEditWindow)
@@ -110,13 +118,26 @@ struct ChatSelectionView: View {
 //                .navigationDestination(for: String.self, destination: { chatId in
 //                    ChatView(viewModel: .init(chatId: chatId))
 //                })
+                
 
             }// End of Navigation Stack
+            .blur(radius: showPopup ? 5 : 0)
+            .disabled(showPopup)
             
             if viewModel.showEditWindow {
                 editTitleView
             }
             
+            if showPopup {
+                PopUpConfirmationView(messageTitle: "Are you sure you want to delete this chat?", message: "Your chat and chat history will not be able to recover.", actionButtonText: "Delete", isPresented: $showPopup, actionBool: $deleteChat)
+                    .padding(.horizontal, 30)
+            }
+            
+        }
+        .onDisappear {
+            showPopup = false
+            deleteChat = false
+            selectedChatId = nil
         }
         
     } // End of body
