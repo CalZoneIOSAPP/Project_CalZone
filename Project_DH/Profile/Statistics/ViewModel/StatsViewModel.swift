@@ -14,7 +14,8 @@ class StatsViewModel: ObservableObject {
     @Published var isLoading = true
     @Published var totalCalories = 0
     @Published var averageCalories = 0
-
+    @Published var pickerMode: PickerMode = .week // Track if week or month is selected
+    
     private var db = Firestore.firestore()
 
     /// Fetches calorie data for each day in the selected week for the given user.
@@ -23,6 +24,7 @@ class StatsViewModel: ObservableObject {
     ///   - weekInterval: The DateInterval representing the selected week.
     func fetchCaloriesForWeek(userId: String, weekInterval: DateInterval) {
         isLoading = true
+        pickerMode = .week
         let calendar = Calendar.current
         var currentDate = weekInterval.start
         
@@ -69,8 +71,8 @@ class StatsViewModel: ObservableObject {
     ///   - monthStart: The start date of the month.
     func fetchCaloriesForMonth(userId: String, monthStart: Date) {
             isLoading = true
+            pickerMode = .month
             let calendar = Calendar.current
-            print("The MonthStart date is \(monthStart)")
             guard let monthEnd = calendar.date(byAdding: .month, value: 1, to: monthStart) else { return }
             var currentDate = monthStart
             

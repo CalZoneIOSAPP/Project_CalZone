@@ -67,11 +67,13 @@ struct WeekSelectionView: View {
                         // Your closure code goes here
                         if pickerMode == .week {
                             if let uid = user?.uid {
+                                viewModel.pickerMode = .week
                                 viewModel.fetchCaloriesForWeek(userId: uid, weekInterval: selectedWeek)
                             }
                         } else if pickerMode == .month {
                             selectedMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: selectedMonth)) ?? Date()
                             if let uid = user?.uid {
+                                viewModel.pickerMode = .month
                                 viewModel.fetchCaloriesForMonth(userId: uid, monthStart: selectedMonth)
                             }
                         }

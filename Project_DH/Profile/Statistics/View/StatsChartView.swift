@@ -11,17 +11,10 @@ import Charts
 struct StatsChartView: View {
     @State private var showingPopover = false
     @State private var selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: Date()) ?? DateInterval()
-    @State private var selectedMonth = Date() // Add selectedMonth state
+    @State private var selectedMonth = Date()
     @Binding var user: User?
     @StateObject private var viewModel = StatsViewModel()
     @Environment(\.presentationMode) var presentationMode
-    
-    // Define a DateFormatter for "MM/dd" format for X-Axis in the chart
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "M/dd" // Shows as "8/27" instead of "2024/8/27"
-        return formatter
-    }
     
     var body: some View {
         NavigationStack {
@@ -30,7 +23,7 @@ struct StatsChartView: View {
                     ProgressView("Loading data...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.totalCalories == 0 {
-                    Text("No data available for the selected week.")
+                    Text("No data available for the selected period.")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     Text("Total Calories: \(viewModel.totalCalories)")
@@ -100,14 +93,33 @@ struct StatsChartView: View {
     // Format the date using the "MM/dd" format
     private func formattedDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateFormat = "M/d/yy"
         if let date = dateFormatter.date(from: dateString) {
-            return self.dateFormatter.string(from: date)
+            return isWeekView ? weekDateFormatter.string(from: date) : monthDateFormatter.string(from: date)
         } else {
             return dateString // Return the original if parsing fails
         }
     }
     
+    // Date format for weekly view (MM/dd)
+    private var weekDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd" // Month/Day format
+        
+        return formatter
+    }
+
+    // Date format for monthly view (dd)
+    private var monthDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd" // Day format
+        return formatter
+    }
+
+    // Helper to check whether the current view is weekly or monthly
+    private var isWeekView: Bool {
+        return viewModel.pickerMode == .week
+    }
 }
 
 #Preview {
