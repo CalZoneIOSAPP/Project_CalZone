@@ -127,13 +127,6 @@ struct ProfilePageView: View {
                 SettingsView()
             }
         }
-
-//        .fullScreenCover(isPresented: $showingProfilePreview, content: {
-//            ProfilePreviewView(user: user ?? User.MOCK_USER, showingProfilePreview: $showingProfilePreview)
-//        })
-//        .fullScreenCover(item: $selectedView) { viewCase in
-//            OptionViewHub(enumCase: viewCase)
-//        }
     }
 }
 

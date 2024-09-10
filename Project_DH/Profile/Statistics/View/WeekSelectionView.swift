@@ -93,6 +93,12 @@ struct WeekSelectionView: View {
         }
     }
     
+    
+    /// This function format the date for the text shown aside of the calendar icon
+    /// - Parameters:
+    ///     - date: the date of the first day on selected week or month
+    ///     - mode:   either it is monthly or weekly picker
+    /// - Returns: string:  a formatted date string
     private func formattedDate(_ date: Date, forPickerMode mode: PickerMode) -> String {
         let formatter = DateFormatter()
         if mode == .week {
@@ -104,6 +110,7 @@ struct WeekSelectionView: View {
     }
 }
 
+// A view for week picker only in StatsChartView Only
 struct WeekPicker: View {
     @Binding var selectedWeek: DateInterval
 

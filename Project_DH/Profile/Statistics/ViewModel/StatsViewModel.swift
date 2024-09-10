@@ -32,7 +32,10 @@ class StatsViewModel: ObservableObject {
         totalCalories = 0
         averageCalories = 0
         
-        // Sequentially fetch calories for each date in the week
+        /// This function sequentially fetch calories for each date in the week
+        /// - Parameters:
+        ///     - none
+        /// - Returns: none (will update the data in this StatsViewModel)
         func fetchNextDate() {
             guard currentDate < weekInterval.end else {
                 // End of the interval, update the data

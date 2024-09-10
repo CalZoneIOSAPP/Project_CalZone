@@ -84,13 +84,19 @@ struct StatsChartView: View {
     }
     
     
+    /// This function fetches data of food items for the selected week on current user
+    /// - Parameters:
+    ///     - none
+    /// - Returns: none (will update the data in the viewModel)
     private func fetchDataForSelectedWeek() {
         guard let userId = user?.id else { return }
         viewModel.fetchCaloriesForWeek(userId: userId, weekInterval: selectedWeek)
     }
     
-    
-    // Format the date using the "MM/dd" format
+    /// This function format the date from MM/DD/YY to MM/DD for weekly data, DD for monthly data
+    /// - Parameters:
+    ///     - dataString: a string representing the date, for example 07/01/2024
+    /// - Returns: dateString: a formatted date string
     private func formattedDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "M/d/yy"

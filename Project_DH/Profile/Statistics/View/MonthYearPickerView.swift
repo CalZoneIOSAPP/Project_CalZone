@@ -23,19 +23,38 @@ struct MonthYearPickerView: UIViewRepresentable {
             self.parent = parent
         }
 
+        /// This function managers the components for the library
+        /// - Parameters:
+        ///     - pickerView: the selected UIPickerView
+        /// - Returns: Indicator for month or year. One for months, one for years
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 2 // One for months, one for years
+            return 2
         }
 
+        /// This function managers the pickerView of the picker, the library will handle this
+        /// - Parameters:
+        ///     - pickerView: the selected UIPickerView
+        ///     - numberOfRowsInComponent: the number of
+        /// - Returns: Indicator for month or year. One for months, one for years
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             return component == 0 ? parent.months.count : parent.yearRange.count
         }
 
+        /// This function managers the pickerView of the picker, the library will handle this
+        /// - Parameters:
+        ///     - pickerView: the selected UIPickerView
+        ///     - titleForRow: the index of the row
+        ///     - numberOfRowsInComponent: the number of
+        /// - Returns: show months and year range
         func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
             return component == 0 ? parent.months[row] : "\(parent.yearRange[row])"
         }
 
-        // Update the selected date when the user changes the picker value
+        /// This function help updates the selected date when the user changes the picker value
+        /// - Parameters:
+        ///     - pickerView: the selected UIPickerView
+        ///     - didSelectRow: the index of the row selected
+        /// - Returns: none
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             let selectedMonthRow = pickerView.selectedRow(inComponent: 0)
             let selectedYearRow = pickerView.selectedRow(inComponent: 1)
@@ -51,11 +70,18 @@ struct MonthYearPickerView: UIViewRepresentable {
         }
     }
 
+    /// This function manages the coordinate of the picker
+    /// - Parameters:
+    ///     - none
+    /// - Returns: Coordinator
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
     }
 
-    // Create the UIPickerView
+    /// This function manages the UI view of the monthly picker, it is called inside of UIViewRepresentable library
+    /// - Parameters:
+    ///     - context: some Context
+    /// - Returns: picker of the monthly UI
     func makeUIView(context: Context) -> UIPickerView {
         let picker = UIPickerView()
         picker.delegate = context.coordinator
@@ -73,9 +99,11 @@ struct MonthYearPickerView: UIViewRepresentable {
         return picker
     }
 
-    // Handle picker updates
+    /// This function handle picker updates, no need for updates in this function as the picker will manage itself, but don't delete this function
+    /// - Parameters:
+    ///     - uiView: UIPickerView
+    ///     - context: some context
     func updateUIView(_ uiView: UIPickerView, context: Context) {
-        // No need for updates here as the picker will manage itself
     }
 }
 
