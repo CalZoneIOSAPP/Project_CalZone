@@ -34,6 +34,8 @@
 		5410532D2C8EFC11005A7F36 /* PopUpConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410532C2C8EFC11005A7F36 /* PopUpConfirmationView.swift */; };
 		541053402C8F5A37005A7F36 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5410533F2C8F5A37005A7F36 /* Localizable.xcstrings */; };
 		541053422C8F96AB005A7F36 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */; };
+		541053482C90491A005A7F36 /* LanguageSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053472C90491A005A7F36 /* LanguageSettingsView.swift */; };
+		5410534A2C90492B005A7F36 /* LanguageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
@@ -142,6 +144,8 @@
 		5410532C2C8EFC11005A7F36 /* PopUpConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpConfirmationView.swift; sourceTree = "<group>"; };
 		5410533F2C8F5A37005A7F36 /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		541053472C90491A005A7F36 /* LanguageSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingsView.swift; sourceTree = "<group>"; };
+		541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingsViewModel.swift; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -406,6 +410,7 @@
 			children = (
 				541053122C8C376B005A7F36 /* SettingsView.swift */,
 				541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */,
+				541053472C90491A005A7F36 /* LanguageSettingsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -414,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				541053142C8C3787005A7F36 /* SettingsViewModel.swift */,
+				541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -847,6 +853,7 @@
 				04F208662C4CDDBB007E78D2 /* CalendarView.swift in Sources */,
 				54D631052BF77D2400AD4A66 /* CardView1.swift in Sources */,
 				043097352BE6FE430016FCD8 /* NameCardListView.swift in Sources */,
+				541053482C90491A005A7F36 /* LanguageSettingsView.swift in Sources */,
 				54D631072BF77D2400AD4A66 /* CardView2.swift in Sources */,
 				047512BF2C6568DE005F223A /* FoodItemEditView.swift in Sources */,
 				54D631062BF77D2400AD4A66 /* OwnedNameCard.swift in Sources */,
@@ -926,6 +933,7 @@
 				54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */,
 				547999862BE41D65007A7CCE /* MenuViewModel.swift in Sources */,
 				541053212C8C53BF005A7F36 /* ChangePasswordSetting.swift in Sources */,
+				5410534A2C90492B005A7F36 /* LanguageSettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

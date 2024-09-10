@@ -192,13 +192,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lldkCal"
+            "value" : "%lld kCal"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld千卡"
+            "value" : "%lld 千卡"
           }
         }
       }
@@ -637,6 +637,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每日平均卡路里: %lld"
+          }
+        }
+      }
+    },
+    "Back" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "返回"
           }
         }
       }
@@ -1997,6 +2007,36 @@
         }
       }
     },
+    "Language" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " 语言"
+          }
+        }
+      }
+    },
+    "Language Changed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成功更改语言"
+          }
+        }
+      }
+    },
+    "Language Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言设置"
+          }
+        }
+      }
+    },
     "last name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2745,6 +2785,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请输入正确的电子邮件格式。"
+          }
+        }
+      }
+    },
+    "Please restart the application to apply the language change." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请重新打开应用程序以应用语言更改。"
           }
         }
       }
@@ -3516,6 +3566,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "超级活跃"
+          }
+        }
+      }
+    },
+    "System Language" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统语言"
           }
         }
       }

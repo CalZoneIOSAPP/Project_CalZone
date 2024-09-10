@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SettingsViewModel()
+    @StateObject var languageSettings = LanguageSettingsViewModel()
     
     
     var body: some View {
@@ -27,6 +28,8 @@ struct SettingsView: View {
                                 switch option {
                                 case .changePassword:
                                     viewModel.showChangePassword = true
+                                case .changeLanguage:
+                                    viewModel.showChangeLanguage = true
                                 }
                             }
                         }
@@ -48,6 +51,10 @@ struct SettingsView: View {
                 .fullScreenCover(isPresented: $viewModel.showChangePassword, content: {
                     ChangePasswordSetting(user: $viewModel.currentUser)
                 })
+                .fullScreenCover(isPresented: $viewModel.showChangeLanguage) {
+                    LanguageSettingsView()
+                        .environmentObject(languageSettings)
+                }
                 
             } // End of NavigationStack
         } // ZSTACK

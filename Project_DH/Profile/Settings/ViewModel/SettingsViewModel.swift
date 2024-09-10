@@ -12,6 +12,7 @@ class SettingsViewModel: ObservableObject {
     @Published var currentUser: User?
     // Triggers to show different pages.
     @Published var showChangePassword: Bool = false
+    @Published var showChangeLanguage: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     

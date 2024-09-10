@@ -66,11 +66,37 @@ enum SettingsOptions: Int, CaseIterable, Identifiable {
     var id: Int { return self.rawValue }
     
     case changePassword
+    case changeLanguage
     
     var title: String {
         switch self {
         case .changePassword:
             return NSLocalizedString("Change Password", comment: "")
+        case .changeLanguage:
+            return NSLocalizedString("Language", comment: "")
+        }
+    }
+}
+
+
+enum Language: String, CaseIterable {
+    case system = "System Language"
+    case english = "English"
+    case chinese = "Chinese"
+    
+    var code: String {
+        switch self {
+        case .system: return "System"
+        case .english: return "en"
+        case .chinese: return "zh-Hans"
+        }
+    }
+    
+    var displayName: String {
+        switch self {
+        case .system: return NSLocalizedString("System Language", comment: "")
+        case .english: return "English"
+        case .chinese: return "简体中文"
         }
     }
 }
@@ -98,7 +124,6 @@ enum PasswordChangeError: Error, LocalizedError {
         }
     }
 }
-
 
 
 enum ProfileOptions: Int, CaseIterable, Identifiable {
