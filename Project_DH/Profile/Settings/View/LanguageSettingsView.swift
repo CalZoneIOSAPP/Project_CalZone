@@ -20,14 +20,13 @@ struct LanguageSettingsView: View {
                     ForEach(Language.allCases, id: \.self) { language in
                         HStack {
                             Text(language.displayName)
-                                .font(.system(size: 18))
                             
                             Spacer()
                             
                             // Show checkmark if language is selected
                             if languageSettings.selectedLanguage == language {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.green)
+                                    .foregroundColor(.brandDarkGreen)
                             }
                         }
                         .contentShape(Rectangle())
@@ -52,7 +51,7 @@ struct LanguageSettingsView: View {
                             }
                         }) {
                             Text(NSLocalizedString("Save", comment: "")) // Done
-                                .foregroundColor(languageSettings.selectedLanguage != nil ? .brandGreen : .gray)
+                                .foregroundColor(languageSettings.selectedLanguage != nil ? .brandDarkGreen : .gray)
                             }
                             .disabled(languageSettings.selectedLanguage == nil) // Disable until a language is selected
                 )
@@ -60,7 +59,6 @@ struct LanguageSettingsView: View {
                 
             }
             .blur(radius: showRestartPopup ? 5 : 0)
-            
             
             if showRestartPopup {
                 PopUpMessageView(messageTitle: NSLocalizedString("Language Changed", comment: ""), message: NSLocalizedString("Please restart the application to apply the language change.", comment: ""), popupPositivity: .positive, isPresented: $showRestartPopup)
