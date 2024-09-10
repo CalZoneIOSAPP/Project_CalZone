@@ -431,6 +431,16 @@
         }
       }
     },
+    "Add" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加"
+          }
+        }
+      }
+    },
     "Add a Dish" : {
       "localizations" : {
         "cs" : {
@@ -777,6 +787,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡路比"
+          }
+        }
+      }
+    },
+    "Cally" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "凯丽"
           }
         }
       }
@@ -1133,6 +1153,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "创建卡片"
+          }
+        }
+      }
+    },
+    "Dashboard" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "面板"
           }
         }
       }
@@ -1506,6 +1536,16 @@
         }
       }
     },
+    "Explore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "探索"
+          }
+        }
+      }
+    },
     "Failed to change your password due to internal authentication error." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1642,28 +1682,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "朋友"
-          }
-        }
-      }
-    },
-    "Friends View" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Friends View"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Friends View"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "好友查看"
           }
         }
       }
@@ -2215,6 +2233,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "男性"
+          }
+        }
+      }
+    },
+    "Me" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我"
           }
         }
       }
@@ -4239,6 +4267,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日是您设定的目标日，无论您是否达到了目标，都可以继续设定您的下一个目标。"
+          }
+        }
+      }
+    },
+    "You will soon be able to connect with your friends." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您很快就能与您的朋友建立联系。"
           }
         }
       }

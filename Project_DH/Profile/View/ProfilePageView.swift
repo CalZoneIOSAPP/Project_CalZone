@@ -82,7 +82,7 @@ struct ProfilePageView: View {
                     }
                     .listRowSeparator(.hidden)
                     .listRowInsets(.init(top: 0, leading: 35, bottom: 0, trailing: 0))
-                    .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color.brandLightTurquoise).padding(.vertical, 3).padding(.horizontal, 10))
+                    .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color(.brandDarkGreen).opacity(0.2)).padding(.vertical, 3).padding(.horizontal, 10))
                     
                     Spacer()
                     
@@ -95,7 +95,7 @@ struct ProfilePageView: View {
                                 .font(.system(size: Fontsize().brand_button, weight: .bold))
                         }
                         .listRowInsets(.init(top: 0, leading: 30, bottom: 0, trailing: 0))
-                        .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color.brandLightTurquoise).padding(.horizontal, 10))
+                        .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color(.brandDarkGreen).opacity(0.2)).padding(.horizontal, 10))
                     }
                 }
                 .environment(\.defaultMinListRowHeight, 50)
@@ -107,7 +107,7 @@ struct ProfilePageView: View {
                 
                 
             }
-            .background(LinearGradient(gradient: Gradient(colors: [Color.brandLightTurquoise, Color.brandTurquoise]), startPoint: .leading, endPoint: .trailing))
+            .background(LinearGradient(gradient: Gradient(colors: [Color(.brandDarkGreen).opacity(0.6), Color(.brandDarkGreen).opacity(0.4)]), startPoint: .leading, endPoint: .trailing))
 
         } // END OF NAVIGATION STACK
         .fullScreenCover(isPresented: $showingProfileInfo, content: {

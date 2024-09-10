@@ -14,7 +14,12 @@ struct FriendsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Friends View")
+                Text("You will soon be able to connect with your friends.")
+                Image("friends")
+                    .resizable()
+                    .frame(width: 260, height: 260)
+                    .clipShape(Circle())
+                    .opacity(0.5)
             }
             .navigationTitle("Friends")
             .navigationBarTitleDisplayMode(.inline)

@@ -48,6 +48,7 @@ struct HeightSelectionView: View {
                     
                     // Interactive slider
                     Slider(value: $viewModel.height, in: 160...190, step: 1)
+                        .tint(Color.brandDarkGreen)
                         .rotationEffect(.degrees(-90))
                         .frame(width: 300, height: 80)
                         .padding(.trailing, 75)

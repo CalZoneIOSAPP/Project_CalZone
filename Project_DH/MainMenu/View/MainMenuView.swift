@@ -19,19 +19,30 @@ struct MainMenuView: View {
             TabView {
                 DashboardView()
                     .tabItem {
-                        Image(systemName: "person.crop.rectangle.fill")
+                        VStack {
+                            Image(systemName: "person.crop.rectangle.fill")
+                            Text("Dashboard")
+                        }
                     }
                     .tag(0)
                 
                 ChatSelectionView()
                     .tabItem {
-                        Image(systemName: "face.smiling.fill")
+                        VStack {
+                            Image(systemName: "face.smiling.fill")
+                            Text("Cally")
+                        }
                     }
                     .tag(1)
                 
                 MealInputView()
                     .tabItem {
-                        Image(systemName: "plus.app.fill")
+                        VStack {
+                            Image(systemName: "plus.app.fill")
+                            Text("Add")
+                        }
+                        .frame(width: 70)
+                        
                     }
                     .tag(2)
                 
@@ -47,13 +58,20 @@ struct MainMenuView: View {
                         .opacity(0.5)
                 }
                 .tabItem {
-                    Image(systemName: "bubble")
+                    VStack {
+                        Image(systemName: "bubble")
+                        Text("Explore")
+                    }
                 }
                 .tag(3)
                 
                 ProfilePageView()
                     .tabItem {
-                        Image(systemName: "person.crop.circle.fill")
+                        VStack {
+                            Image(systemName: "person.crop.circle.fill")
+                            Text("Me")
+                        }
+                        
                     }
                     .tag(4)
             }

@@ -23,6 +23,7 @@ struct SettingsView: View {
                                 Text(viewModel.currentUser?.passwordSet ?? false ? option.title : NSLocalizedString("Set New Password", comment: ""))
                                 Spacer()
                             }
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 // Show each edit window
                                 switch option {
