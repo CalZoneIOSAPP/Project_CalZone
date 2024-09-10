@@ -725,6 +725,12 @@
     },
     "Breakfast" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Breakfast"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -733,12 +739,12 @@
         }
       }
     },
-    "Breakfast 🥞: " : {
+    "Breakfast " : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "早餐 🥞: "
+            "value" : "早餐"
           }
         }
       }
@@ -1293,12 +1299,12 @@
         }
       }
     },
-    "Dinner 🍛: " : {
+    "Dinner " : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "晚餐 🍛: "
+            "value" : "晚餐"
           }
         }
       }
@@ -1410,6 +1416,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "电子邮件(必填)"
+          }
+        }
+      }
+    },
+    "Enjoy every bite while balancing nutrition and health!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纵享美味，同时保持您的营养与健康的平衡！"
           }
         }
       }
@@ -2121,12 +2137,12 @@
         }
       }
     },
-    "Lunch 🍲: " : {
+    "Lunch " : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "午餐 🍲: "
+            "value" : "午餐"
           }
         }
       }
@@ -3398,12 +3414,12 @@
         }
       }
     },
-    "Snacks 🍪: " : {
+    "Snacks " : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "点心/小吃 🍪: "
+            "value" : "点心/小吃"
           }
         }
       }
@@ -3756,6 +3772,33 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "为了更好地设定您的目标，我们需要根据您的个人信息计算卡路里数。您可以跳过这一步，稍后再添加您的个人信息。"
+          }
+        }
+      }
+    },
+    "Today's Meal Recap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today's Meal Recap"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日餐食总结"
+          }
+        }
+      }
+    },
+    "Total Calories" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总热量"
           }
         }
       }

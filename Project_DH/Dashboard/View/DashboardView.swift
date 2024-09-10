@@ -227,27 +227,27 @@ struct DashboardView: View {
         var snackContent = ""
         
         if !viewModel.breakfastItems.isEmpty {
-            breakfastContent = NSLocalizedString("Breakfast 🥞: ", comment: "") + viewModel.breakfastItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            breakfastContent = NSLocalizedString("Breakfast ", comment: "") + "🥞: " + viewModel.breakfastItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.lunchItems.isEmpty {
-            lunchContent = NSLocalizedString("Lunch 🍲: ", comment: "") + viewModel.lunchItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            lunchContent = NSLocalizedString("Lunch ", comment: "") + "🍲: " + viewModel.lunchItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.dinnerItems.isEmpty {
-            dinnerContent = NSLocalizedString("Dinner 🍛: ", comment: "") + viewModel.dinnerItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            dinnerContent = NSLocalizedString("Dinner ", comment: "") + "🍛: " + viewModel.dinnerItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         if !viewModel.snackItems.isEmpty {
-            snackContent = NSLocalizedString("Snacks 🍪: ", comment: "") + viewModel.snackItems.map { $0.foodName }.joined(separator: ", ") + "\n"
+            snackContent = NSLocalizedString("Snacks ", comment: "") + "🍪: " + viewModel.snackItems.map { $0.foodName }.joined(separator: ", ") + "\n"
         }
         
         let totalCalories = viewModel.sumCalories
         
         return """
-        🍽️ Today's Meal Recap 🍽️
+            🍽️ \(NSLocalizedString("Today's Meal Recap", comment: "")) 🍽️
 
-        \(breakfastContent)\(lunchContent)\(dinnerContent)\(snackContent)
-        ✨ Total Calories: \(totalCalories) kcal
+            \(breakfastContent)\(lunchContent)\(dinnerContent)\(snackContent)
+            ✨ \(NSLocalizedString("Total Calories", comment: "")): \(totalCalories) kcal
 
-        Enjoy every bite while balancing nutrition and health! 🍽️💪
+            \(NSLocalizedString("Enjoy every bite while balancing nutrition and health!", comment: ""))
         """
     }
     
@@ -273,7 +273,7 @@ struct DashboardView: View {
     /// - Returns: none
     func shareToInstagram() {
         let content = prepareSharingContent()
-        var activityItems: [Any] = [content] // Start with the text
+        let activityItems: [Any] = [content] // Start with the text
         
         let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         
