@@ -71,7 +71,7 @@ struct MealSectionView: View {
                         Button(role: .destructive) {
                             deleteFoodItem(foodItem: foodItem)
                         } label: {
-                            Label("Delete", systemImage: "trash.fill")
+                            Label(NSLocalizedString("Delete", comment: ""), systemImage: "trash.fill")
                         }
                         .tint(Color.brandRed)
                     }

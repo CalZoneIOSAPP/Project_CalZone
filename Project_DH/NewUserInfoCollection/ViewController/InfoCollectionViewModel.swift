@@ -20,14 +20,14 @@ class InfoCollectionViewModel: ObservableObject {
     @Published var targetMonth = 1
     @Published var targetDay = 1
     @Published var bmiValue: Double = 1.0
-    @Published var bmiLevel: String = "理想"
+    @Published var bmiLevel: String = NSLocalizedString("Ideal", comment: "")
     @Published var percentChanged: Int = 0
-    @Published var weightStatus: String = "非常好，您选择保持在当前体重！"
+    @Published var weightStatus: String = NSLocalizedString("Nice, you choose to keep as you are!", comment: "")
     // Height Selection
     @Published var height: Double = 175.0
     // Birthday Selection
     @Published var birthday: Date = Date()
-    @Published var selectedYear = 2024
+    @Published var selectedYear = 2000
     @Published var selectedMonth = 6
     @Published var selectedDay = 17
     @Published var age: Int = 0
@@ -67,6 +67,7 @@ class InfoCollectionViewModel: ObservableObject {
         targetYear = dateTools.getTodayYearComponent()
         targetMonth = dateTools.getTodayMonthComponent()
         targetDay = dateTools.getTodayDayComponent()
+        calculateAge()
     }
     
     
@@ -114,11 +115,11 @@ class InfoCollectionViewModel: ObservableObject {
     /// - Returns: none
     func getPercentChangeString() {
         if percentChanged > 0 {
-            weightStatus = "增重"
+            weightStatus = NSLocalizedString("gain weight", comment: "")
         } else if percentChanged < 0 {
-            weightStatus = "减重"
+            weightStatus = NSLocalizedString("loose weight", comment: "")
         } else {
-            weightStatus = "非常好，您选择保持在当前体重！"
+            weightStatus = NSLocalizedString("Nice, you choose to keep as you are!", comment: "")
         }
     }
     
@@ -166,13 +167,13 @@ class InfoCollectionViewModel: ObservableObject {
         bmiValue = Double(round(10 * bmiValue) / 10)
         
         if bmiValue <= 18.5 {
-            bmiLevel = "偏瘦"
+            bmiLevel = NSLocalizedString("Thin", comment: "")
         } else if bmiValue > 18.5 && bmiValue <= 25.0 {
-            bmiLevel = "理想"
+            bmiLevel = NSLocalizedString("Ideal", comment: "")
         } else if bmiValue > 25.0 && bmiValue <= 30.0 {
-            bmiLevel = "偏胖"
+            bmiLevel = NSLocalizedString("Overweight", comment: "")
         } else if bmiValue > 30.0 {
-            bmiLevel = "肥胖"
+            bmiLevel = NSLocalizedString("Obese", comment: "")
         }
     }
     

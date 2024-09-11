@@ -15,7 +15,7 @@ struct HeightSelectionView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("完成评测，为你生成专属方案")
+                Text("Complete the evaluation and generate a dedicated plan for you.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
 
@@ -28,13 +28,13 @@ struct HeightSelectionView: View {
                 Spacer()
 
                 // Question text
-                Text("你的身高是？")
+                Text("What is your height?")
                     .font(.title2)
                     .fontWeight(.medium)
                     .foregroundColor(.black)
                 
                 // Subtitle text
-                Text("精准身高数据将用于计算你的BMI")
+                Text("Accurate height data will be used to calculate your BMI")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.bottom, 20)
@@ -54,7 +54,7 @@ struct HeightSelectionView: View {
                         .padding(.trailing, 75)
                     
                     // Current height display
-                    Text("\(Int(viewModel.height)) 厘米")
+                    Text("\(Int(viewModel.height)) CM")
                         .font(.title)
                         .fontWeight(.medium)
                         .foregroundColor(.green)
@@ -66,7 +66,7 @@ struct HeightSelectionView: View {
                 Spacer()
 
                 NavigationLink(destination: WeightSelectionView(isShowing: $isShowing)) {
-                    Text("下一步")
+                    Text("Next Step")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)

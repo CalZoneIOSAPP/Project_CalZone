@@ -16,10 +16,10 @@ struct CollectionDoneView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 VStack(spacing: 20) {
-                    Text("恭喜，我们更了解您了！")
+                    Text("Congratulations, we know you better!")
                         .font(.title2)
                     
-                    Text("精确体重数据将用于计算你的BMI")
+                    Text("Accurate height data will be used to calculate your BMI")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -38,7 +38,7 @@ struct CollectionDoneView: View {
                 
                 // BMI Result Section
                 VStack(spacing: 15) {
-                    Text("根据您的信息，我们为您计算出了推荐卡路里")
+                    Text("Based on your information, we calculated the recommended calorie number.")
                         .font(.headline)
                     
                     // BMI Value
@@ -49,7 +49,7 @@ struct CollectionDoneView: View {
                             viewModel.calculateTargetCalories()
                         }
                     
-                    Text("该卡路里只是推荐数量，根据您的日常体能消耗，将有所变动。您在进入APP后也可以自行更改")
+                    Text("This calorie recommendation will vary depending on your daily energy consumption. You can also change it after entering the application.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -61,7 +61,7 @@ struct CollectionDoneView: View {
                 .shadow(radius: 5)
                 .frame(maxHeight: 300)
                 
-                Text("是否保存您的信息？")
+                Text("Do you wish to save your personal information?")
                     .font(.title2)
                     .foregroundColor(.brandDarkGreen)
                     
@@ -72,7 +72,7 @@ struct CollectionDoneView: View {
                         Button(action: {
                             viewModel.saveSelected = true
                         }) {
-                            Text("保存(推荐)")
+                            Text("Save (Recommended)")
                                 .foregroundColor(.brandDarkGreen)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -85,7 +85,7 @@ struct CollectionDoneView: View {
                         Button(action: {
                             viewModel.saveSelected = false
                         }) {
-                            Text("不保存")
+                            Text("Don't Save")
                                 .foregroundColor(.brandDarkGreen)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -97,7 +97,7 @@ struct CollectionDoneView: View {
                 }
                 .padding(.horizontal, 25)
                 
-                Text("不保存信息则无法享受完整的应用功能, 卡路里功能不受影响")
+                Text("You will not be able to enjoy the full functionality of the app unless you save your data.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)
@@ -115,7 +115,7 @@ struct CollectionDoneView: View {
                         }
                     }
                 }) {
-                    Text("开始美食之旅")
+                    Text("Start Your Journey")
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)
                         .padding()

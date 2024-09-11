@@ -17,7 +17,7 @@ struct WeightSelectionView: View {
             VStack(spacing: 20) {
                 
                 // Subtitle
-                Text("完成评测，为你生成专属方案")
+                Text("Complete the evaluation and generate a dedicated plan for you.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.top)
@@ -31,10 +31,10 @@ struct WeightSelectionView: View {
                 
                 // Weight Input Section
                 VStack(spacing: 20) {
-                    Text("你的体重是？")
+                    Text("What is your weight?")
                         .font(.title2)
                     
-                    Text("精确体重数据将用于计算你的BMI")
+                    Text("Accurate height data will be used to calculate your BMI")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .padding(.bottom, 30)
@@ -53,7 +53,7 @@ struct WeightSelectionView: View {
                     }
                     .padding(.horizontal)
                     
-                    Text(String(format: "%.1f 公斤", viewModel.weight))
+                    Text(String(format: NSLocalizedString("%.1f Kg", comment: ""), viewModel.weight))
                         .font(.largeTitle)
                         .bold()
                 }
@@ -61,33 +61,33 @@ struct WeightSelectionView: View {
                 
                 // BMI Result Section
                 VStack(spacing: 15) {
-                    Text("你的BMI")
+                    Text("Your BMI")
                         .font(.headline)
                     
                     // BMI Indicator
                     HStack {
-                        Text("偏瘦")
-                            .foregroundColor(viewModel.bmiLevel == "偏瘦" ? .brandDarkGreen : .gray)
+                        Text("Thin")
+                            .foregroundColor(viewModel.bmiLevel == NSLocalizedString("Thin", comment: "") ? .brandDarkGreen : .gray)
                         Spacer()
-                        Text("理想")
-                            .foregroundColor(viewModel.bmiLevel == "理想" ? .brandDarkGreen : .gray)
+                        Text("Ideal")
+                            .foregroundColor(viewModel.bmiLevel == NSLocalizedString("Ideal", comment: "") ? .brandDarkGreen : .gray)
                         Spacer()
-                        Text("偏胖")
-                            .foregroundColor(viewModel.bmiLevel == "偏胖" ? .brandDarkGreen : .gray)
+                        Text("Overweight")
+                            .foregroundColor(viewModel.bmiLevel == NSLocalizedString("Overweight", comment: "") ? .brandDarkGreen : .gray)
                         Spacer()
-                        Text("肥胖")
-                            .foregroundColor(viewModel.bmiLevel == "肥胖" ? .brandDarkGreen : .gray)
+                        Text("Obese")
+                            .foregroundColor(viewModel.bmiLevel == NSLocalizedString("Obese", comment: "") ? .brandDarkGreen : .gray)
                     }
                     .padding(.horizontal)
                     
                     // BMI Value
                     Text(LocalizedStringKey(String("\(viewModel.bmiValue) \(viewModel.bmiLevel)")))
                         .font(.title2)
-                        .foregroundColor(viewModel.bmiLevel == "偏瘦" ? .brandBlue :
-                                         viewModel.bmiLevel == "理想" ? .brandGreen:
-                                         viewModel.bmiLevel == "偏胖" ? .brandOrange : .brandRed)
+                        .foregroundColor(viewModel.bmiLevel == NSLocalizedString("Thin", comment: "") ? .brandBlue :
+                                         viewModel.bmiLevel == NSLocalizedString("Ideal", comment: "") ? .brandGreen:
+                                         viewModel.bmiLevel == NSLocalizedString("Overweight", comment: "") ? .brandOrange : .brandRed)
                     
-                    Text("标准体重，进阶管理需注意提升代谢水平，可采取16:8饮食法，配合运动。")
+                    Text("For a standard weight, you should pay attention to improving metabolic levels. A 16:8 diet can be adopted in combination with exercise.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -101,7 +101,7 @@ struct WeightSelectionView: View {
                 Spacer()
                 
                 NavigationLink(destination: TargetWeightView(isShowing: $isShowing)) {
-                    Text("下一步")
+                    Text("Next Step")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)

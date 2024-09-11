@@ -54,7 +54,7 @@ class AuthServices {
             do {
                 try await UserServices.sharedUser.fetchCurrentUserData()
             } catch {
-                try await self.uploadUserAuthData(email: result.user.email!, userName: NSLocalizedString("Cool Person", comment: "") + "\(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true, passwordSet: false)
+                try await self.uploadUserAuthData(email: result.user.email!, userName: NSLocalizedString("Cool Person", comment: "") + " \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true, passwordSet: false)
                 try await UserServices.sharedUser.fetchCurrentUserData()
                 print("WARNING: Credential is provided, but failed to fetch user. Creating a new user object in the database. \nSource: AuthServices/login()")
             }
@@ -62,7 +62,7 @@ class AuthServices {
         } catch {
             // TODO: Make sure this is also true for Apple Sign In
             let result = try await Auth.auth().signIn(with: credential)
-            try await self.uploadUserAuthData(email: result.user.email!, userName: NSLocalizedString("Cool Person", comment: "") + "\(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true, passwordSet: false)
+            try await self.uploadUserAuthData(email: result.user.email!, userName: NSLocalizedString("Cool Person", comment: "") + " \(result.user.uid.lowercased().prefix(6))", id: result.user.uid, firstTimeUser: true, passwordSet: false)
             try await UserServices.sharedUser.fetchCurrentUserData()
             print("ERROR: Failed to sign in with credential. \nSource: AuthServices/login() \n\(error.localizedDescription)")
         }

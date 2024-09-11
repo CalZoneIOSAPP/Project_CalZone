@@ -24,7 +24,7 @@ struct ActivityLevelView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("完成评测，为你生成专属方案")
+                Text("Complete the evaluation and generate a dedicated plan for you.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 
@@ -50,41 +50,41 @@ struct ActivityLevelView: View {
                     ActivityLevelOption(
                         title: NSLocalizedString("Sedentary", comment: "Activity level description"),
                         subtitle: NSLocalizedString("Sitting, e.g. an office worker", comment: "Activity level details"),
-                        isSelected: viewModel.activityLevel == "Sedentary"
+                        isSelected: viewModel.activityLevel == NSLocalizedString("Sedentary", comment: "")
                     ) {
-                        viewModel.activityLevel = "Sedentary"
+                        viewModel.activityLevel = NSLocalizedString("Sedentary", comment: "")
                     }
                     
                     ActivityLevelOption(
-                        title: NSLocalizedString("Slightly active", comment: "Activity level description"),
+                        title: NSLocalizedString("Slightly Active", comment: "Activity level description"),
                         subtitle: NSLocalizedString("Standing and light movement, e.g. teacher", comment: "Activity level details"),
-                        isSelected: viewModel.activityLevel == "Slightly active"
+                        isSelected: viewModel.activityLevel == NSLocalizedString("Slightly Active", comment: "")
                     ) {
-                        viewModel.activityLevel = "Slightly active"
+                        viewModel.activityLevel = NSLocalizedString("Slightly Active", comment: "")
                     }
                     
                     ActivityLevelOption(
-                        title: NSLocalizedString("Moderately active", comment: "Activity level description"),
+                        title: NSLocalizedString("Moderately Active", comment: "Activity level description"),
                         subtitle: NSLocalizedString("Walking and light movement, e.g. conductor", comment: "Activity level details"),
-                        isSelected: viewModel.activityLevel == "Moderately active"
+                        isSelected: viewModel.activityLevel == NSLocalizedString("Moderately Active", comment: "")
                     ) {
-                        viewModel.activityLevel = "Moderately active"
+                        viewModel.activityLevel = NSLocalizedString("Moderately Active", comment: "")
                     }
                     
                     ActivityLevelOption(
-                        title: NSLocalizedString("Very active", comment: "Activity level description"),
+                        title: NSLocalizedString("Very Active", comment: "Activity level description"),
                         subtitle: NSLocalizedString("Physical labor or active job, e.g. construction worker", comment: "Activity level details"),
-                        isSelected: viewModel.activityLevel == "Very active"
+                        isSelected: viewModel.activityLevel == NSLocalizedString("Very Active", comment: "")
                     ) {
-                        viewModel.activityLevel = "Very active"
+                        viewModel.activityLevel = NSLocalizedString("Very Active", comment: "")
                     }
                     
                     ActivityLevelOption(
-                        title: NSLocalizedString("Super active", comment: "Activity level description"),
+                        title: NSLocalizedString("Super Active", comment: "Activity level description"),
                         subtitle: NSLocalizedString("Your daily life is based on exercise, very hard physical job, or training three times a day", comment: "Activity level details"),
-                        isSelected: viewModel.activityLevel == "Super active"
+                        isSelected: viewModel.activityLevel == NSLocalizedString("Super Active", comment: "")
                     ) {
-                        viewModel.activityLevel = "Super active"
+                        viewModel.activityLevel = NSLocalizedString("Super Active", comment: "")
                     }
                 }
 
@@ -92,7 +92,7 @@ struct ActivityLevelView: View {
                 Spacer()
 
                 NavigationLink(destination: CollectionDoneView(isShowing: $isShowing)) {
-                    Text("下一步")
+                    Text("Next Step")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)
@@ -102,6 +102,8 @@ struct ActivityLevelView: View {
                 }
                 .padding(.bottom, 30)
                 .padding(.horizontal)
+                .disabled(viewModel.activityLevel == "")
+                .opacity(viewModel.activityLevel == "" ? 0.7 : 1)
             } // VStack
             .background(.brandBackgroundGreen)
             .navigationBarBackButtonHidden()

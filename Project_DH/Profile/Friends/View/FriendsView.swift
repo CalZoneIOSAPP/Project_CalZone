@@ -15,6 +15,9 @@ struct FriendsView: View {
         NavigationStack {
             VStack {
                 Text("You will soon be able to connect with your friends.")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                    .padding()
                 Image("friends")
                     .resizable()
                     .frame(width: 260, height: 260)

@@ -20,7 +20,16 @@ struct SettingsView: View {
                     Section {
                         ForEach(SettingsOptions.allCases){ option in
                             HStack {
-                                Text(viewModel.currentUser?.passwordSet ?? false ? option.title : NSLocalizedString("Set New Password", comment: ""))
+                                if option.title == NSLocalizedString("Change Password", comment: "") {
+                                    if let passwordSet = viewModel.currentUser?.passwordSet, passwordSet == false {
+                                        Text(NSLocalizedString("Set New Password", comment: ""))
+                                    } else {
+                                        Text(option.title)
+                                    }
+                                } else {
+                                    Text(option.title)
+                                }
+                                
                                 Spacer()
                             }
                             .contentShape(Rectangle())

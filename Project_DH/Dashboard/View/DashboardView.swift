@@ -310,13 +310,13 @@ func getGreeting() -> String {
 
     switch hour {
     case 0..<12:
-        return "Good morning"
+        return NSLocalizedString("Good morning", comment: "")
     case 12..<17:
-        return "Good afternoon"
+        return NSLocalizedString("Good afternoon", comment: "")
     case 17..<24:
-        return "Good evening"
+        return NSLocalizedString("Good evening", comment: "")
     default:
-        return "Hello"
+        return NSLocalizedString("Hello", comment: "")
     }
 }
 

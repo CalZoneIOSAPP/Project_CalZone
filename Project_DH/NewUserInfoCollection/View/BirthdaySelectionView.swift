@@ -16,7 +16,7 @@ struct BirthdaySelectionView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 // Subtitle
-                Text("完成评测，为你生成专属方案")
+                Text("Complete the evaluation and generate a dedicated plan for you.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 
@@ -29,7 +29,7 @@ struct BirthdaySelectionView: View {
                 
                 // Birthday Section
                 VStack(spacing: 20) {
-                    Text("你的出生日期是?")
+                    Text("What is your birthday?")
                         .font(.title2)
                         .fontWeight(.medium)
                         .foregroundColor(.black)
@@ -37,8 +37,8 @@ struct BirthdaySelectionView: View {
                     // Date Picker (year, month, day)
                     HStack {
                         Picker(selection: $viewModel.selectedYear, label: Text("")) {
-                            ForEach(1997...2003, id: \.self) { year in
-                                Text("\(year)年").tag(year)
+                            ForEach(1920...2024, id: \.self) { year in
+                                Text("Year \(year)").tag(year)
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -46,7 +46,7 @@ struct BirthdaySelectionView: View {
                         
                         Picker(selection: $viewModel.selectedMonth, label: Text("")) {
                             ForEach(1...12, id: \.self) { month in
-                                Text("\(month)月").tag(month)
+                                Text("Month \(month)").tag(month)
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -54,7 +54,7 @@ struct BirthdaySelectionView: View {
                         
                         Picker(selection: $viewModel.selectedDay, label: Text("")) {
                             ForEach(1...31, id: \.self) { day in
-                                Text("\(day)日").tag(day)
+                                Text("Day \(day)").tag(day)
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -79,7 +79,7 @@ struct BirthdaySelectionView: View {
                         .font(.largeTitle)
                         .foregroundColor(.brandGreen)
                     
-                    Text("基础代谢高、身体活动水平高，拥有体重管理的先天优势！")
+                    Text("With high basal metabolism and high level of physical activity, you have an innate advantage in weight management!")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -89,7 +89,7 @@ struct BirthdaySelectionView: View {
                 Spacer()
                 
                 NavigationLink(destination: ActivityLevelView(isShowing: $isShowing)) {
-                    Text("下一步")
+                    Text("Next Step")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)

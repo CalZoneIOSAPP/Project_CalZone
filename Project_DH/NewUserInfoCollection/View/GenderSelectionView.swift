@@ -16,7 +16,7 @@ struct GenderSelectionView: View {
         NavigationStack {
             VStack {
                 // Description
-                Text("完成评测，为你生成专属方案")
+                Text("Complete the evaluation and generate a dedicated plan for you.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.top, 10)
@@ -30,11 +30,11 @@ struct GenderSelectionView: View {
                 Spacer()
                 
                 // Question
-                Text("你的生理性别是？")
+                Text("What is your biological gender?")
                     .font(.title2)
                     .padding(.top, 20)
                 
-                Text("生理性别和激素会影响我们身体代谢食物的方式")
+                Text("Biological gender can affect how our bodies metabolize.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)
@@ -56,7 +56,7 @@ struct GenderSelectionView: View {
                                     .padding()
                                     .background(.brandDarkGreen.opacity(viewModel.gender == NSLocalizedString("female", comment: "") ? 0.5 : 0.2))
                                     .clipShape(Circle())
-                                Text("女性")
+                                Text("Female")
                                     .font(.title3)
                                     .foregroundColor(.black)
                             }
@@ -74,7 +74,7 @@ struct GenderSelectionView: View {
                                     .padding()
                                     .background(.brandDarkGreen.opacity(viewModel.gender == NSLocalizedString("male", comment: "") ? 0.5 : 0.2))
                                     .clipShape(Circle())
-                                Text("男性")
+                                Text("Male")
                                     .font(.title3)
                                     .foregroundColor(.black)
                             }
@@ -86,7 +86,7 @@ struct GenderSelectionView: View {
                 Spacer()
                 
                 NavigationLink(destination: HeightSelectionView(isShowing: $isShowing)) {
-                    Text("下一步")
+                    Text("Next Step")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)

@@ -8,6 +8,12 @@
             "state" : "new",
             "value" : ""
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " "
+          }
         }
       }
     },
@@ -21,7 +27,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : " "
           }
         }
@@ -45,6 +51,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "(%@%%)"
+          }
+        }
+      }
+    },
+    "%.1f Kg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.1f 公斤"
           }
         }
       }
@@ -115,6 +131,16 @@
         }
       }
     },
+    "%lld CM" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 厘米"
+          }
+        }
+      }
+    },
     "%lld kCal" : {
       "localizations" : {
         "cs" : {
@@ -133,28 +159,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 千卡"
-          }
-        }
-      }
-    },
-    "%lld 厘米" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%lld CM"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld CM"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 厘米"
           }
         }
       }
@@ -199,72 +203,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 千卡"
-          }
-        }
-      }
-    },
-    "%lld年" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%lldYears"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lldYears"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld年"
-          }
-        }
-      }
-    },
-    "%lld日" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%lld日"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld日"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld日"
-          }
-        }
-      }
-    },
-    "%lld月" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%lldMonth"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lldMonth"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld月"
           }
         }
       }
@@ -375,6 +313,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "帐户信息"
+          }
+        }
+      }
+    },
+    "Accurate height data will be used to calculate your BMI" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精确体重数据将用于计算你的BMI"
           }
         }
       }
@@ -661,6 +609,16 @@
         }
       }
     },
+    "Based on your information, we calculated the recommended calorie number." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据您的信息，我们为您计算出了推荐卡路里"
+          }
+        }
+      }
+    },
     "Be careful, you exceeded your calorie limit!" : {
       "localizations" : {
         "cs" : {
@@ -699,6 +657,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "生理性别"
+          }
+        }
+      }
+    },
+    "Biological gender can affect how our bodies metabolize." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生理性别和激素会影响我们身体代谢食物的方式"
           }
         }
       }
@@ -1093,6 +1061,26 @@
         }
       }
     },
+    "Complete the evaluation and generate a dedicated plan for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成评测，为你生成专属方案"
+          }
+        }
+      }
+    },
+    "Congratulations, we know you better!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恭喜，我们更了解您了！"
+          }
+        }
+      }
+    },
     "Congratulations, you made it!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1227,6 +1215,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天"
+          }
+        }
+      }
+    },
+    "Day %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日"
           }
         }
       }
@@ -1367,6 +1365,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不同意"
+          }
+        }
+      }
+    },
+    "Do you wish to save your personal information?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是否保存您的信息？"
+          }
+        }
+      }
+    },
+    "Don't Save" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不保存"
           }
         }
       }
@@ -1642,6 +1660,16 @@
         }
       }
     },
+    "For a standard weight, you should pay attention to improving metabolic levels. A 16:8 diet can be adopted in combination with exercise." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标准体重，进阶管理需注意提升代谢水平，可采取16:8饮食法，配合运动。"
+          }
+        }
+      }
+    },
     "forgot_password" : {
       "localizations" : {
         "cs" : {
@@ -1686,6 +1714,16 @@
         }
       }
     },
+    "gain weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增重"
+          }
+        }
+      }
+    },
     "get_started" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1705,6 +1743,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "让我们开始吧！"
+          }
+        }
+      }
+    },
+    "Good afternoon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下午好"
+          }
+        }
+      }
+    },
+    "Good evening" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚上好"
+          }
+        }
+      }
+    },
+    "Good morning" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早上好"
           }
         }
       }
@@ -1780,6 +1848,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "身高"
+          }
+        }
+      }
+    },
+    "Hello" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您好"
           }
         }
       }
@@ -1879,6 +1957,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我同意条款和条件"
+          }
+        }
+      }
+    },
+    "Ideal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "理想"
           }
         }
       }
@@ -2175,6 +2263,16 @@
         }
       }
     },
+    "loose weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减重"
+          }
+        }
+      }
+    },
     "lunch" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2279,24 +2377,8 @@
         }
       }
     },
-    "Moderately active" : {
-      "comment" : "Activity level description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Moderately active"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中度活跃"
-          }
-        }
-      }
-    },
     "Moderately Active" : {
+      "comment" : "Activity level description",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2334,6 +2416,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "月"
+          }
+        }
+      }
+    },
+    "Month %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld月"
           }
         }
       }
@@ -2468,6 +2560,26 @@
         }
       }
     },
+    "Next Step" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一步"
+          }
+        }
+      }
+    },
+    "Nice, you choose to keep as you are!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非常好，您选择保持在当前体重！"
+          }
+        }
+      }
+    },
     "No Chats..." : {
       "localizations" : {
         "cs" : {
@@ -2531,6 +2643,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "没有帐户？"
+          }
+        }
+      }
+    },
+    "Obese" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肥胖"
           }
         }
       }
@@ -2607,6 +2729,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "或"
+          }
+        }
+      }
+    },
+    "Overweight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏胖"
           }
         }
       }
@@ -3046,6 +3178,16 @@
         }
       }
     },
+    "Save (Recommended)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存(推荐)"
+          }
+        }
+      }
+    },
     "Save Meal                                                     " : {
       "localizations" : {
         "cs" : {
@@ -3445,24 +3587,8 @@
         }
       }
     },
-    "Slightly active" : {
-      "comment" : "Activity level description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slightly active"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "稍微活跃"
-          }
-        }
-      }
-    },
     "Slightly Active" : {
+      "comment" : "Activity level description",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3541,6 +3667,16 @@
         }
       }
     },
+    "Start Your Journey" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始美食之旅"
+          }
+        }
+      }
+    },
     "Success" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3571,24 +3707,8 @@
         }
       }
     },
-    "Super active" : {
-      "comment" : "Activity level description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Super active"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "超级活跃"
-          }
-        }
-      }
-    },
     "Super Active" : {
+      "comment" : "Activity level description",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3828,6 +3948,26 @@
         }
       }
     },
+    "Thin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏瘦"
+          }
+        }
+      }
+    },
+    "This calorie recommendation will vary depending on your daily energy consumption. You can also change it after entering the application." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该卡路里只是推荐数量，根据您的日常体能消耗，将有所变动。您在进入APP后也可以自行更改"
+          }
+        }
+      }
+    },
     "Time to have a short break from what you are doing, get a cup of tea or coffee." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3990,24 +4130,8 @@
         }
       }
     },
-    "Very active" : {
-      "comment" : "Activity level description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Very active"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "非常活跃"
-          }
-        }
-      }
-    },
     "Very Active" : {
+      "comment" : "Activity level description",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4145,6 +4269,76 @@
         }
       }
     },
+    "What is your biological gender?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的生理性别是什么？"
+          }
+        }
+      }
+    },
+    "What is your birthday?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的生日是？"
+          }
+        }
+      }
+    },
+    "What is your height?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的身高是多少？"
+          }
+        }
+      }
+    },
+    "What is your target weight?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的目标重量是多少？"
+          }
+        }
+      }
+    },
+    "What is your weight?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的体重是?"
+          }
+        }
+      }
+    },
+    "When would you like to achieve your goal?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你想在哪一天到达目标体重?"
+          }
+        }
+      }
+    },
+    "With high basal metabolism and high level of physical activity, you have an innate advantage in weight management!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基础代谢高、身体活动水平高，拥有体重管理的先天优势！"
+          }
+        }
+      }
+    },
     "year" : {
       "localizations" : {
         "en" : {
@@ -4181,6 +4375,16 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Year %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld年"
           }
         }
       }
@@ -4271,6 +4475,32 @@
         }
       }
     },
+    "You will %@ %lld%%！We believe you can make it. 💪 We will assist you to to achieve it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You will %1$@ %2$lld%%！We believe you can make it. 💪 We will assist you to to achieve it."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将%1$@%2$lld%%！相信您一定可以做到 💪，我们会陪您一起加油！"
+          }
+        }
+      }
+    },
+    "You will not be able to enjoy the full functionality of the app unless you save your data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不保存信息则无法享受完整的应用功能, 卡路里功能不受影响。"
+          }
+        }
+      }
+    },
     "You will soon be able to connect with your friends." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4299,6 +4529,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您即将可以分享您的美食之旅。"
+          }
+        }
+      }
+    },
+    "Your BMI" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的BMI"
           }
         }
       }
@@ -4398,644 +4638,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的原密码不正确。"
-          }
-        }
-      }
-    },
-    "下一步" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Next Step"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next Step"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下一步"
-          }
-        }
-      }
-    },
-    "不保存" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Don't Save"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Don't Save"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不保存"
-          }
-        }
-      }
-    },
-    "不保存信息则无法享受完整的应用功能, 卡路里功能不受影响" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "You will not be able to enjoy the full functionality of the app unless you save your data."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You will not be able to enjoy the full functionality of the app unless you save your data."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不保存信息则无法享受完整的应用功能, 卡路里功能不受影响。"
-          }
-        }
-      }
-    },
-    "你想在哪一天到达目标体重?" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "When would you like to achieve your goal?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "When would you like to achieve your goal?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您希望何时达成目标?"
-          }
-        }
-      }
-    },
-    "你的BMI" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Your BMI"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your BMI"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的BMI"
-          }
-        }
-      }
-    },
-    "你的体重是？" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "你的体重是?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的体重是?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的体重是?"
-          }
-        }
-      }
-    },
-    "你的出生日期是?" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "What is your birthday?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What is your birthday?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的生日是？"
-          }
-        }
-      }
-    },
-    "你的生理性别是？" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "What is your biological gender?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What is your biological gender?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的生理性别是什么？"
-          }
-        }
-      }
-    },
-    "你的目标体重是？" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "What is your target weight?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What is your target weight?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的目标重量是多少？"
-          }
-        }
-      }
-    },
-    "你的身高是？" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "What is your height?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What is your height?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的身高是多少？"
-          }
-        }
-      }
-    },
-    "保存(推荐)" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Save (Recommended)"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save (Recommended)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存(推荐)"
-          }
-        }
-      }
-    },
-    "偏瘦" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Thin"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thin"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偏瘦"
-          }
-        }
-      }
-    },
-    "偏胖" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Overweight"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overweight"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偏胖"
-          }
-        }
-      }
-    },
-    "基础代谢高、身体活动水平高，拥有体重管理的先天优势！" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "With high basal metabolism and high level of physical activity, you have an innate advantage in weight management!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With high basal metabolism and high level of physical activity, you have an innate advantage in weight management!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "基础代谢高、身体活动水平高，拥有体重管理的先天优势！"
-          }
-        }
-      }
-    },
-    "女性" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Female"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Female"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "女性"
-          }
-        }
-      }
-    },
-    "完成评测，为你生成专属方案" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Complete the evaluation and generate a dedicated plan for you."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Complete the evaluation and generate a dedicated plan for you."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完成评测，为你生成专属方案"
-          }
-        }
-      }
-    },
-    "将%@ %lld%%！相信您一定可以做到 💪，我们会陪您一起加油！" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "You will %1$@ %2$lld%%！We believe you can make it. 💪，We will assist you to to achieve it."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You will %1$@ %2$lld%%！We believe you can make it. 💪，We will assist you to to achieve it."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将%1$@%2$lld%%！相信您一定可以做到 💪，我们会陪您一起加油！"
-          }
-        }
-      }
-    },
-    "开始美食之旅" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Start Your Journey"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start Your Journey"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开始美食之旅"
-          }
-        }
-      }
-    },
-    "恭喜，我们更了解您了！" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Congratulations, we know you better!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Congratulations, we know you better!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "恭喜，我们更了解您了！"
-          }
-        }
-      }
-    },
-    "是否保存您的信息？" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Do you wish to save your personal information?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Do you wish to save your personal information?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "是否保存您的信息？"
-          }
-        }
-      }
-    },
-    "标准体重，进阶管理需注意提升代谢水平，可采取16:8饮食法，配合运动。" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "For a standard weight, you should pay attention to improving metabolic levels. A 16:8 diet can be adopted in combination with exercise."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "For a standard weight, you should pay attention to improving metabolic levels. A 16:8 diet can be adopted in combination with exercise."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "标准体重，进阶管理需注意提升代谢水平，可采取16:8饮食法，配合运动。"
-          }
-        }
-      }
-    },
-    "根据您的信息，我们为您计算出了推荐卡路里" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Based on your information, we calculated the recommended calorie number."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Based on your information, we calculated the recommended calorie number."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据您的信息，我们为您计算出了推荐卡路里"
-          }
-        }
-      }
-    },
-    "理想" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Ideal"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ideal"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "理想"
-          }
-        }
-      }
-    },
-    "生理性别和激素会影响我们身体代谢食物的方式" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Biological gender can affect how our bodies metabolize."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Biological gender can affect how our bodies metabolize."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "生理性别和激素会影响我们身体代谢食物的方式"
-          }
-        }
-      }
-    },
-    "男性" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Male"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Male"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "男性"
-          }
-        }
-      }
-    },
-    "精准身高数据将用于计算你的BMI" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Accurate height data will be used to calculate your BMI"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accurate height data will be used to calculate your BMI"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "精准的身高数据将用于计算你的BMI"
-          }
-        }
-      }
-    },
-    "精确体重数据将用于计算你的BMI" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "精确体重数据将用于计算你的BMI"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "精确体重数据将用于计算你的BMI"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "精确体重数据将用于计算你的BMI"
-          }
-        }
-      }
-    },
-    "肥胖" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Obese"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Obese"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "肥胖"
-          }
-        }
-      }
-    },
-    "该卡路里只是推荐数量，根据您的日常体能消耗，将有所变动。您在进入APP后也可以自行更改" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "This calorie recommendation and will vary depending on your daily energy consumption. You can also change it after entering the application."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This calorie recommendation and will vary depending on your daily energy consumption. You can also change it after entering the application."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该卡路里只是推荐数量，根据您的日常体能消耗，将有所变动。您在进入APP后也可以自行更改"
           }
         }
       }

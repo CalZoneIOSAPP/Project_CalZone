@@ -17,7 +17,7 @@ struct TargetWeightView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 // Subtitle
-                Text("完成评测，为你生成专属方案")
+                Text("Complete the evaluation and generate a dedicated plan for you.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 
@@ -29,7 +29,7 @@ struct TargetWeightView: View {
                 
                 // Target Weight Input Section
                 VStack(spacing: 10) {
-                    Text("你的目标体重是？")
+                    Text("What is your target weight?")
                         .font(.title2)
                     
                     Image(.targetIcon)
@@ -52,14 +52,14 @@ struct TargetWeightView: View {
                     }
                     .padding(.horizontal)
                     
-                    Text(String(format: "%.1f 公斤", viewModel.weightTarget))
+                    Text(String(format: NSLocalizedString("%.1f Kg", comment: ""), viewModel.weightTarget))
                         .font(.largeTitle)
                         .bold()
                 }
                 
                 // Target Date Selection
                 VStack(spacing: 5) {
-                    Text("你想在哪一天到达目标体重?")
+                    Text("When would you like to achieve your goal?")
                         .font(.title2)
                         .foregroundColor(.black)
                     
@@ -67,14 +67,14 @@ struct TargetWeightView: View {
                     HStack {
                         Picker(selection: $viewModel.targetYear, label: Text("")) {
                             ForEach(DateTools().getTodayYearComponent()...DateTools().getTodayYearComponent()+100, id: \.self) { year in
-                                Text("\(year)年").tag(year)
+                                Text("Year \(year)").tag(year)
                             }
                         }
                         .frame(maxWidth: .infinity)
                         
                         Picker(selection: $viewModel.targetMonth, label: Text("")) {
                             ForEach(1...12, id: \.self) { month in
-                                Text("\(month)月").tag(month)
+                                Text("Month \(month)").tag(month)
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -82,7 +82,7 @@ struct TargetWeightView: View {
                         
                         Picker(selection: $viewModel.targetDay, label: Text("")) {
                             ForEach(1...31, id: \.self) { day in
-                                Text("\(day)日").tag(day)
+                                Text("Day \(day)").tag(day)
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -100,10 +100,9 @@ struct TargetWeightView: View {
                 }
                 .padding()
                 
-                
                 // Motivational Text Section
                 VStack(spacing: 10) {
-                    Text(viewModel.percentChanged == 0 ? "\(viewModel.weightStatus)" : "将\(viewModel.weightStatus) \(viewModel.percentChanged)%！相信您一定可以做到 💪，我们会陪您一起加油！")
+                    Text(viewModel.percentChanged == 0 ? "\(viewModel.weightStatus)" : "You will \(viewModel.weightStatus) \(viewModel.percentChanged)%！We believe you can make it. 💪 We will assist you to to achieve it.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
@@ -117,7 +116,7 @@ struct TargetWeightView: View {
                 Spacer()
                 
                 NavigationLink(destination: BirthdaySelectionView(isShowing: $isShowing)) {
-                    Text("下一步")
+                    Text("Next Step")
                         .font(.headline)
                         .foregroundColor(.brandDarkGreen)
                         .frame(maxWidth: .infinity)
