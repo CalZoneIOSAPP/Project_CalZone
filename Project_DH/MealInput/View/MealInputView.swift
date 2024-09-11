@@ -121,11 +121,10 @@ struct MealInputView: View {
                                         Spacer()
                                         
                                         Text("\(DateTools().formattedDate(viewModel.selectedDate))")
-                                            .textInputAutocapitalization(.never)
-                                            .keyboardType(.emailAddress)
-                                            .font(.title3)
+                                            .font(.headline)
+                                            .foregroundColor(.gray)
+                                            .padding()
                                             .multilineTextAlignment(.center)
-                                            .padding(.vertical, 30)
                                     }
                                     
                                     // Slider to pick percentage of the calories.
