@@ -114,7 +114,10 @@ struct StatsChartView: View {
         }
     }
     
-    // Date format for weekly view (MM/dd)
+    /// This function define the date format for weekly view
+    /// - Parameters:
+    ///     - none
+    /// - Returns: DateFormatter:  a date formatter for weekly view
     private var weekDateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "M/d" // Month/Day format
@@ -122,14 +125,20 @@ struct StatsChartView: View {
         return formatter
     }
 
-    // Date format for monthly view (dd)
+    /// This function define the date format for monthly view
+    /// - Parameters:
+    ///     - none
+    /// - Returns: DateFormatter:  a date formatter for monthly view
     private var monthDateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d" // Day format
+        formatter.dateFormat = "d"
         return formatter
     }
 
-    // Helper to check whether the current view is weekly or monthly
+    /// This function help to check whether the current view is weekly or monthly
+    /// - Parameters:
+    ///     - none
+    /// - Returns: Bool:  true for weekly view, false for monthly view
     private var isWeekView: Bool {
         return viewModel.pickerMode == .week
     }
