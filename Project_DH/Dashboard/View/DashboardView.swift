@@ -11,18 +11,19 @@ import SwiftUI
 struct DashboardView: View {
 
     @Environment(\.openURL) var openURL
-    @ObservedObject var viewModel = DashboardViewModel()
+    @StateObject var viewModel = DashboardViewModel()
+    
     @State private var originalDate: Date = Date()
     @State private var showingPopover = false
     @State private var isGreetingVisible: Bool = true
     @State private var loadedFirstTime = false
     @State private var showEditPopup = false
     @State private var selectedFoodItem: FoodItem?
+    @State private var showWeightEdit: Bool = false
     
     // For sharing only
     @State private var sharedImages: [UIImage] = []
     @State private var isLoadingShare = false
-    
     
     var body: some View {
         ZStack {
@@ -103,11 +104,21 @@ struct DashboardView: View {
                     }
                     viewModel.selectedDate = Date()
                 }
+                
             } // End of Navigation Stack
+            .blur(radius: showWeightEdit ? 3 : 0)    
+            .disabled(showWeightEdit)
             
             if showEditPopup {
                 FoodItemEditView(foodItem: $selectedFoodItem, foodItemList: $viewModel.selectedFoodList, isPresented: $showEditPopup, calorieNum: $viewModel.sumCalories, allItems: false, deletable: false, viewModel: viewModel)
             }
+            
+            if showWeightEdit {
+                InfoEditView(showWindow: $showWeightEdit)
+                    .padding(.horizontal, 30)
+            }
+
+            
         } // End of ZStack
     }
     
@@ -162,6 +173,14 @@ struct DashboardView: View {
     // Social Media Share Section
     var socialMediaShareSection: some View {
         HStack {
+            
+            Button {
+                // Show weight edit view
+                showWeightEdit = true
+            } label: {
+                Label("Update your weight.", systemImage: "plus.circle")
+            }
+
             Spacer()
             Button(action: {
                 isLoadingShare = true
@@ -178,7 +197,7 @@ struct DashboardView: View {
                 }
             }
         }
-        .padding(.trailing)
+        .padding(.horizontal)
     }
 
     

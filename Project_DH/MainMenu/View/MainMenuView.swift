@@ -93,6 +93,11 @@ struct MainMenuView: View {
             
         }
         .ignoresSafeArea(.keyboard)
+        .onAppear {
+            Task{
+                try await UserServices.sharedUser.fetchCurrentUserData()
+            }
+        }
         
     }
     

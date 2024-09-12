@@ -164,13 +164,26 @@ class ProfileViewModel: ObservableObject {
     /// - Parameters:
     ///     - date: The starting date.
     /// - Returns: Number of weeks.
-    func weeksFromDate(date: Date) -> Int{
+    func weeksFromDate(date: Date) -> Int {
         let todayDate = Date()
         let calendar = Calendar.current
         let targetDate = date
         let daysDifference = calendar.dateComponents([.day], from: todayDate, to: targetDate).day ?? 0
         let weeksDifference = daysDifference/7
         return weeksDifference
+    }
+    
+    
+    /// This function calculates the number of days from today's Date.
+    /// - Parameters:
+    ///     - date: The starting date.
+    /// - Returns: Number of days.
+    func daysFromDate(date: Date) -> Int {
+        let todayDate = Date()
+        let calendar = Calendar.current
+        let targetDate = date
+        let days = calendar.dateComponents([.day], from: todayDate, to: targetDate).day ?? 0
+        return days
     }
     
     

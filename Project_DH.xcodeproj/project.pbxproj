@@ -37,6 +37,8 @@
 		541053422C8F96AB005A7F36 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */; };
 		541053482C90491A005A7F36 /* LanguageSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053472C90491A005A7F36 /* LanguageSettingsView.swift */; };
 		5410534A2C90492B005A7F36 /* LanguageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */; };
+		5410534C2C92D9D9005A7F36 /* InfoCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410534B2C92D9D9005A7F36 /* InfoCellView.swift */; };
+		5410534E2C92E97C005A7F36 /* InfoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410534D2C92E97C005A7F36 /* InfoEditView.swift */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
@@ -148,6 +150,8 @@
 		541053412C8F96AB005A7F36 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		541053472C90491A005A7F36 /* LanguageSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingsView.swift; sourceTree = "<group>"; };
 		541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingsViewModel.swift; sourceTree = "<group>"; };
+		5410534B2C92D9D9005A7F36 /* InfoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCellView.swift; sourceTree = "<group>"; };
+		5410534D2C92E97C005A7F36 /* InfoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoEditView.swift; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -561,6 +565,8 @@
 				54A59C412C550FF200617B83 /* PopUpMessageView.swift */,
 				541053242C8DA647005A7F36 /* FoodCard.swift */,
 				5410532C2C8EFC11005A7F36 /* PopUpConfirmationView.swift */,
+				5410534B2C92D9D9005A7F36 /* InfoCellView.swift */,
+				5410534D2C92E97C005A7F36 /* InfoEditView.swift */,
 			);
 			path = ViewComponents;
 			sourceTree = "<group>";
@@ -877,6 +883,7 @@
 				5474F66A2C7770B500BF86F4 /* DateTools.swift in Sources */,
 				54F18F352C88EFB2001E6A38 /* InfoCollectionViewModel.swift in Sources */,
 				54E9D6D22C76726200CFD7A0 /* TopShadow.swift in Sources */,
+				5410534C2C92D9D9005A7F36 /* InfoCellView.swift in Sources */,
 				54FB02822C4BD907004D8451 /* ChatView.swift in Sources */,
 				0497CA4A2C87C08D00A6FE84 /* WeekSelectionView.swift in Sources */,
 				54A59C422C550FF200617B83 /* PopUpMessageView.swift in Sources */,
@@ -915,6 +922,7 @@
 				54F18F152C850B27001E6A38 /* PrivacyPolicyView.swift in Sources */,
 				541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */,
 				5479997F2BE3E04F007A7CCE /* dividerOr.swift in Sources */,
+				5410534E2C92E97C005A7F36 /* InfoEditView.swift in Sources */,
 				5410532D2C8EFC11005A7F36 /* PopUpConfirmationView.swift in Sources */,
 				043097332BE6FBD60016FCD8 /* LibraryView.swift in Sources */,
 				54B449992BDD407B00E35D49 /* Project_DHApp.swift in Sources */,

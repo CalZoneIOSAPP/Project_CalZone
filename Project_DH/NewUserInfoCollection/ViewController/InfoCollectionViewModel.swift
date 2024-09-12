@@ -98,7 +98,7 @@ class InfoCollectionViewModel: ObservableObject {
     /// - Returns: none
     @MainActor
     func saveInfoToUser() async throws{
-        try await UserServices.sharedUser.uploadUserInitialLoginInfo(gender: gender, weight: weight, weightTarget: weightTarget, bmi: bmiValue, birthday: birthday, activityLevel: activityLevel, calories: calories)
+        try await UserServices.sharedUser.uploadUserInitialLoginInfo(gender: gender, weight: weight, weightTarget: weightTarget, achievementDate: dateTools.constructDate(year: targetYear, month: targetMonth, day: targetDay)!, height: height, bmi: bmiValue, birthday: birthday, activityLevel: activityLevel, calories: calories)
     }
     
     

@@ -35,10 +35,10 @@ class DashboardViewModel: ObservableObject {
     @Published var showEditPopup: Bool = false
     @Published var selectedFoodItem: FoodItem?
     @Published var selectedFoodList: [FoodItem] = []
+    @Published var weightToEdit: String = ""
     
     @Published var mealServices = MealServices()
     private var db = Firestore.firestore()
-    
     
     
     /// This function fetches all meals for a given user id.
@@ -49,7 +49,7 @@ class DashboardViewModel: ObservableObject {
     /// - Returns: none
     /// - Note: To fetch meals for a specific date, set dateBased to true. If you want to fetch meals for current day, then leave date to nil or set it to Date()
     @MainActor
-    func fetchMeals(for userId: String,  with dateBased: Bool, on date: Date? = nil) async throws {
+    func fetchMeals(for userId: String, with dateBased: Bool, on date: Date? = nil) async throws {
         var dateToFetch: Date?
         if dateBased {
             dateToFetch = date ?? Date()

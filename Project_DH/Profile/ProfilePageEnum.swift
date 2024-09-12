@@ -9,6 +9,32 @@
 import SwiftUI
 
 
+enum AllUserFields: Int, CaseIterable, Identifiable {
+    var id: Int { return self.rawValue }
+
+    case username
+    case lastName
+    case firstName
+    case email
+    case birthday
+    case profileImageUrl
+    case firstTimeUser
+    case passwordSet
+    case description
+    case followerNum
+    
+    case gender
+    case weight
+    case weightTarget
+    case height
+    case bmi
+    case activityLevel
+    case achievementDate
+    case targetCalories
+
+}
+
+
 enum popupPositivity: Int, CaseIterable, Identifiable {
     var id: Int { return self.rawValue }
     

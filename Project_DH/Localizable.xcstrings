@@ -33,6 +33,16 @@
         }
       }
     },
+    "-" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-"
+          }
+        }
+      }
+    },
     "(%@%%)" : {
       "localizations" : {
         "cs" : {
@@ -60,7 +70,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%.1f 公斤"
+            "value" : "%.1f 千克"
           }
         }
       }
@@ -681,6 +691,16 @@
         }
       }
     },
+    "BMI" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BMI指数"
+          }
+        }
+      }
+    },
     "body weight" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1229,6 +1249,16 @@
         }
       }
     },
+    "Days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天"
+          }
+        }
+      }
+    },
     "Delete" : {
       "localizations" : {
         "cs" : {
@@ -1550,6 +1580,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "输入新密码"
+          }
+        }
+      }
+    },
+    "Enter your new weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入体重..."
           }
         }
       }
@@ -2109,6 +2149,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡路里: %@"
+          }
+        }
+      }
+    },
+    "Kg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千克"
           }
         }
       }
@@ -3091,6 +3141,16 @@
         }
       }
     },
+    "Remaining \nDays" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距离目标"
+          }
+        }
+      }
+    },
     "remaining_seconds" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3807,6 +3867,16 @@
         }
       }
     },
+    "Target \nWeight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目标体重"
+          }
+        }
+      }
+    },
     "target body weight" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4056,6 +4126,16 @@
         }
       }
     },
+    "Update your weight." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新体重"
+          }
+        }
+      }
+    },
     "User Agreement and Privacy Policy" : {
       "localizations" : {
         "cs" : {
@@ -4227,6 +4307,16 @@
         }
       }
     },
+    "Weight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前体重"
+          }
+        }
+      }
+    },
     "welcome_back" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4288,6 +4378,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的生日是？"
+          }
+        }
+      }
+    },
+    "What is your current weight?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您当前的体重是多少？"
           }
         }
       }

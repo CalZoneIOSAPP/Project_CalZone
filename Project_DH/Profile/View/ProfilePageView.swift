@@ -23,49 +23,40 @@ struct ProfilePageView: View {
         NavigationStack {
             // TODO: Make this HeaderView
             VStack {
-                HStack(spacing: 30) {
-                    Button { // Move to EditProfileView
-                        showingProfileInfo = true
-    //                        .toolbar(.hidden, for: .tabBar)
-                    } label: {
-                        if let _ = user?.profileImageUrl{
-                            CircularProfileImageView(user: user, width: 80, height: 80, showCircle: true)
-                        } else {
-                            ZStack{
-                                Circle()
-                                    .stroke(lineWidth: 1)
-                                    .foregroundColor(.gray)
-                                    .frame(width: 80, height: 80)
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundStyle(Color(.systemGray4))
-                            }
-                        }
-                    }
-                    .padding(.leading, 40)
-                    
-                    VStack(spacing: 10) {
-                        Text(user?.userName ?? "Username")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                        
-                        Button { // Show profile preview button
-                            showingProfilePreview = true
-                        } label: {
-                            Text(LocalizedStringKey("Profile Preview"))
-                                .font(.footnote)
-                                .fontWeight(.semibold)
-                                .frame(width: 130, height: 25)
-                                .foregroundStyle(.brandDarkGreen)
-                                .background(Color(.systemGray6))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
+                // Header
+                headerView
+                    .padding(.vertical, 20)
+                
+                HStack(spacing: 10) {
+                    Spacer()
+                    if let bmi = viewModel.currentUser?.bmi {
+                        InfoCellView(title: NSLocalizedString("BMI", comment: ""), info: String(bmi))
+                    } else {
+                        InfoCellView(title: NSLocalizedString("BMI", comment: ""), info: "-")
                     }
                     
+                    if let weight = viewModel.currentUser?.weight {
+                        InfoCellView(title: NSLocalizedString("Weight", comment: ""), info: String(weight), unit: NSLocalizedString("Kg", comment: ""))
+                    } else {
+                        InfoCellView(title: NSLocalizedString("Weight", comment: ""), info: "-")
+                    }
+                    
+                    if let weightTarget = viewModel.currentUser?.weightTarget {
+                        InfoCellView(title: NSLocalizedString("Target \nWeight", comment: ""), info: String(weightTarget), unit: NSLocalizedString("Kg", comment: ""))
+                    } else {
+                        InfoCellView(title: NSLocalizedString("Target \nWeight", comment: ""), info: "-")
+                    }
+                    
+                    if let achievementDate = viewModel.currentUser?.achievementDate {
+                        let days = viewModel.daysFromDate(date: achievementDate)
+                        InfoCellView(title: NSLocalizedString("Remaining \nDays", comment: ""), info: String(days), unit: NSLocalizedString("Days", comment: ""))
+                    } else {
+                        InfoCellView(title: NSLocalizedString("Remaining \nDays", comment: ""), info: "-")
+                    }
                     Spacer()
                 }
-                .padding(.vertical, 40)
+                .padding(.bottom, 30)
+                
                 
                 List {
                     Section { // Choices
@@ -127,7 +118,60 @@ struct ProfilePageView: View {
                 SettingsView()
             }
         }
+        .onAppear {
+            print("NOTE: On Appear in Profile Page")
+            Task {
+                try await UserServices.sharedUser.fetchCurrentUserData()
+            }
+        }
     }
+    
+    
+    var headerView: some View {
+        HStack(spacing: 30) {
+            Button { // Move to EditProfileView
+                showingProfileInfo = true
+//                        .toolbar(.hidden, for: .tabBar)
+            } label: {
+                if let _ = user?.profileImageUrl{
+                    CircularProfileImageView(user: user, width: 80, height: 80, showCircle: true)
+                } else {
+                    ZStack{
+                        Circle()
+                            .stroke(lineWidth: 1)
+                            .foregroundColor(.gray)
+                            .frame(width: 80, height: 80)
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .foregroundStyle(Color(.systemGray4))
+                    }
+                }
+            }
+            .padding(.leading, 40)
+            
+            VStack(spacing: 10) {
+                Text(user?.userName ?? "Username")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                
+                Button { // Show profile preview button
+                    showingProfilePreview = true
+                } label: {
+                    Text(LocalizedStringKey("Profile Preview"))
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .frame(width: 130, height: 25)
+                        .foregroundStyle(.brandDarkGreen)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            
+            Spacer()
+        }
+    }
+    
 }
 
 

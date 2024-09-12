@@ -95,22 +95,23 @@ struct ProgressBarView: View {
 
             // Progress Text
             if let _ = user.targetCalories {
-                VStack {
+                VStack(spacing: 16) {
                     
                     Text("\(curCal)Cal")
                         .font(.custom("cal", size: 25.0))
                         .foregroundColor(color)
                     
                     Divider()
-                        .padding(.horizontal, 30)
-                        .bold()
+                        .frame(minHeight: 3)
+                        .overlay(Color.brandDarkGreen)
+                        .opacity(0.4)
+                        .padding(.horizontal, 40)
                     
                     Text(String(format: "%.0f%%", min(Double(curCal) / Double(targetCal), 1.0) * 100.0))
                         .font(.title2)
                         .foregroundColor(color)
-                    
-                    
                 }
+                .padding(.bottom, 20)
             } else {
                 VStack {
                     Text("Target not setup.")
