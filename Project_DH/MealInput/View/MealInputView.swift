@@ -50,7 +50,7 @@ struct MealInputView: View {
                         } else {
                             VStack {
                                 ZStack{
-                                    FoodPictureView(image: viewModel.image ?? UIImage(resource: .plus))
+                                    FoodPictureView(image: viewModel.image ?? UIImage(resource: .addMeal))
                                         .onChange(of: viewModel.image) {
                                             if viewModel.image != UIImage(resource: .plus){
                                                 if let user = profileViewModel.currentUser {
