@@ -153,6 +153,9 @@ class UserServices {
         case .height:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["height": infoToChange])
             self.currentUser?.height = infoToChange as? Double
+        case .bmi:
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["bmi": infoToChange])
+            self.currentUser?.bmi = infoToChange as? Double
         case .activityLevel:
             try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["activityLevel": infoToChange])
             self.currentUser?.activityLevel = infoToChange as? String

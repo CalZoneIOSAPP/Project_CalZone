@@ -141,18 +141,19 @@ struct EditProfileView: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                viewModel.firebaseFieldName = option.firebaseFieldName
-                                viewModel.curStateDietary = option
-                                viewModel.editInfoWindowTitle = option.title
-                                viewModel.editInfoWindowPlaceHolder = option.placeholder
-                                viewModel.showEditWindow = true
-                                viewModel.inputType = option.inputStyle
-                                viewModel.options = option.options?.options
-                                viewModel.optionMaxWidth = option.options?.maxWidth ?? 220
+                                if option.firebaseFieldName != "bmi" {
+                                    viewModel.firebaseFieldName = option.firebaseFieldName
+                                    viewModel.curStateDietary = option
+                                    viewModel.editInfoWindowTitle = option.title
+                                    viewModel.editInfoWindowPlaceHolder = option.placeholder
+                                    viewModel.showEditWindow = true
+                                    viewModel.inputType = option.inputStyle
+                                    viewModel.options = option.options?.options
+                                    viewModel.optionMaxWidth = option.options?.maxWidth ?? 220
+                                }
                             }
                         }
                     }
-                    
                 }
                 .disabled(viewModel.showEditWindow)
             }

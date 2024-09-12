@@ -56,6 +56,7 @@ struct InfoEditView: View {
                         try await UserServices.sharedUser.updateDietaryOptions(with: Double(viewModel.weightToEdit), enumInfo: .weight)
                         try await UserServices.sharedUser.fetchCurrentUserData()
                         try await viewModel.profileViewModel.calculateAndSaveTargetCalories()
+                        try await viewModel.profileViewModel.calculateAndSaveBMI()
                     }
                     showWindow = false
                 } label: {

@@ -701,6 +701,12 @@
         }
       }
     },
+    "bmi value" : {
+
+    },
+    "BMI Value" : {
+
+    },
     "body weight" : {
       "localizations" : {
         "zh-Hans" : {

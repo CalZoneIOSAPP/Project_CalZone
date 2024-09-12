@@ -122,6 +122,8 @@ class ProfileViewModel: ObservableObject {
                 try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .weightTarget)
             case .height:
                 try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .height)
+            case .bmi:
+                try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .bmi)
             case .activityLevel:
                 try await UserServices.sharedUser.updateDietaryOptions(with: optionStrInfo!, enumInfo: .activityLevel)
             case .achievementDate:
@@ -143,6 +145,18 @@ class ProfileViewModel: ObservableObject {
         if infoAvailableForCalorieCalculation(for: currentUser) {
             let calories = calculateTargetCalories(user: currentUser!)
             try await updateInfo(with: nil, with: .targetCalories, strInfo: String(calories), optionStrInfo: nil, dateInfo: nil, doubleInfo: nil)
+        }
+    }
+    
+    
+    /// This function has the main logic for calculating BMI and checks when is it valid to do calculation. The BMI number is saved to Firebase after the calculation.
+    /// - Parameters: none
+    /// - Returns: none
+    @MainActor
+    func calculateAndSaveBMI() async throws {
+        if infoAvailableForBMICalculation(for: currentUser!) {
+            let bmi = calculateBMI(weight: (currentUser?.weight!)!, height: (currentUser?.height!)!)
+            try await updateInfo(with: nil, with: .bmi, strInfo: nil, optionStrInfo: nil, dateInfo: nil, doubleInfo: bmi)
         }
     }
     
@@ -225,6 +239,19 @@ class ProfileViewModel: ObservableObject {
     }
     
     
+    /// Calculates the BMI value  based on the user input.
+    /// - Parameters: 
+    ///     - weight: The weight of the user in kg.
+    ///     - height: The height of the user in cm.
+    /// - Returns: none
+    func calculateBMI(weight: Double, height: Double) -> Double {
+        var bmiValue = 0.0
+        bmiValue = weight / pow((height/100.0), 2)
+        bmiValue = Double(round(10 * bmiValue) / 10)
+        return bmiValue
+    }
+    
+    
     /// This function decides whether the user meets all requirements to calculate the target calorie number.
     /// - Parameters:
     ///     - user: The user to check against.
@@ -232,6 +259,19 @@ class ProfileViewModel: ObservableObject {
     func infoAvailableForCalorieCalculation(for user: User?) -> Bool {
         if let user = user, let gender = user.gender, let height = user.height, let weight = user.weight, let weightTarget = user.weightTarget, let activityLevel = user.activityLevel, let _ = user.birthday, let _ = user.achievementDate {
             if gender == "" || height == 0.0 || weight == 0.0 || weightTarget == 0.0 || activityLevel == "" {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            return false
+        }
+    }
+    
+    
+    func infoAvailableForBMICalculation(for user: User?) -> Bool {
+        if let user = user, let height = user.height, let weight = user.weight {
+            if height == 0.0 || weight == 0.0 {
                 return false
             } else {
                 return true
@@ -292,6 +332,12 @@ class ProfileViewModel: ObservableObject {
         case .height:
             if let height = currentUser?.height {
                 return String(height)
+            } else {
+                return ""
+            }
+        case .bmi:
+            if let bmi = currentUser?.bmi {
+                return String(bmi)
             } else {
                 return ""
             }

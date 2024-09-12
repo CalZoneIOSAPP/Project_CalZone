@@ -265,6 +265,7 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
     case weightTarget
     case height
     case activityLevel
+    case bmi
     case achievementDate
     case targetCalories
 
@@ -286,6 +287,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return NSLocalizedString("Date of Achievement", comment: "")
         case .targetCalories:
             return NSLocalizedString("Target Calories", comment: "")
+        case .bmi:
+            return NSLocalizedString("BMI Value", comment: "")
         }
     }
     
@@ -307,6 +310,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return "achievementDate"
         case .targetCalories:
             return "targetCalories"
+        case .bmi:
+            return "bmi"
         }
     }
     
@@ -328,7 +333,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return NSLocalizedString("achievement date", comment: "")
         case .targetCalories:
             return NSLocalizedString("target calories", comment: "")
-
+        case .bmi:
+            return NSLocalizedString("bmi value", comment: "")
         }
     }
     
@@ -350,8 +356,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .pickerStyle
         case .targetCalories:
             return .numPad
-
-
+        case .bmi:
+            return .decimalsPad
         }
     }
     
@@ -361,7 +367,7 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .gender
         case .activityLevel:
             return .activityLevel
-        case .weight, .weightTarget, .height, .targetCalories, .achievementDate:
+        case .weight, .weightTarget, .height, .targetCalories, .achievementDate, .bmi :
             return nil
         }
     }
