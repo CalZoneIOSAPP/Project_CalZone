@@ -26,6 +26,12 @@ struct StatsChartView: View {
                     Text("No data available for the selected period.")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
+                    PerformanceCardView(
+                            weeklyData: viewModel.weeklyData,  // Pass your weekly data as [(String, Int)]
+                            maxCalories: Int(user?.targetCalories ?? "2000") ?? 2000, // Handle the optional maxCalories
+                            isWeekView: isWeekView
+                        )
+                    
                     Text("Total Calories: \(viewModel.totalCalories)")
                         .font(.headline)
                         .padding(.bottom, 5)
@@ -99,7 +105,8 @@ struct StatsChartView: View {
     /// - Returns: dateString: a formatted date string
     private func formattedDate(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "M/d/yy"
+        // dateFormatter.dateFormat = "M/d/yy"
+        dateFormatter.dateFormat = "yyyy/M/d"
         if let date = dateFormatter.date(from: dateString) {
             return isWeekView ? weekDateFormatter.string(from: date) : monthDateFormatter.string(from: date)
         } else {
@@ -110,7 +117,7 @@ struct StatsChartView: View {
     // Date format for weekly view (MM/dd)
     private var weekDateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd" // Month/Day format
+        formatter.dateFormat = "M/d" // Month/Day format
         
         return formatter
     }
@@ -118,7 +125,7 @@ struct StatsChartView: View {
     // Date format for monthly view (dd)
     private var monthDateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd" // Day format
+        formatter.dateFormat = "d" // Day format
         return formatter
     }
 
