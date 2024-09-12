@@ -25,7 +25,17 @@ struct ChatSelectionView: View {
                     case .loading, .none:
                         Text("Loading Chats...")
                     case .noResults:
-                        Text("No Chats...")
+                        VStack {
+                            Text("No Chats...")
+                                .font(.headline)
+                                .foregroundStyle(.gray)
+                                .padding(.bottom, 20)
+                            Image("chatbubble")
+                                .resizable()
+                                .frame(width: 200, height: 200)
+                                .clipShape(Circle())
+                                .opacity(0.5)
+                        }
                     case .resultsFound:
                         List {
                             ForEach(viewModel.chats) { chat in

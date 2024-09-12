@@ -39,22 +39,27 @@ struct DashboardView: View {
                     } else if viewModel.meals.isEmpty {
                         dashboardHeader
                         
-                        dashboardUtilitiesSection
-                            .padding(.bottom)
-                        
                         Spacer()
+                        
+                        dashboardUtilitiesSection
+                            .padding(.bottom, 20)
+                        
+                        Image("noMeal")
+                            .resizable()
+                            .frame(width: 250, height: 250)
+                            .clipShape(Circle())
+                            .opacity(0.5)
                         
                         Text("Start by adding a meal...")
                             .font(.headline)
                             .foregroundColor(.gray)
                             .padding()
                         
-                        Image("noMeal")
+                        Image(systemName: "arrow.down")
                             .resizable()
-                            .frame(width: 250, height: 250)
-                            .padding(.bottom, 30)
-                            .clipShape(Circle())
+                            .frame(width: 25, height: 40)
                             .opacity(0.5)
+                            .padding(.top, 20)
                         
                         Spacer()
                         
@@ -181,7 +186,7 @@ struct DashboardView: View {
                 // Show weight edit view
                 showWeightEdit = true
             } label: {
-                Label("Update your weight.", systemImage: "plus.circle")
+                Label("Update Weight", systemImage: "plus.circle")
             }
 
             Spacer()
@@ -196,7 +201,7 @@ struct DashboardView: View {
                 if isLoadingShare {
                     ProgressView()  // Show loading spinner
                 } else {
-                    Label("Share Daily Meals", systemImage: "square.and.arrow.up")
+                    Label("Share", systemImage: "square.and.arrow.up")
                 }
             }
             .disabled(viewModel.meals.isEmpty)

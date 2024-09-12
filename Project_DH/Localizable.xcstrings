@@ -3543,24 +3543,12 @@
         }
       }
     },
-    "Share Daily Meals" : {
+    "Share" : {
       "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Share Daily Meals"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share Daily Meals"
-          }
-        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分享每日饮食"
+            "value" : "分享"
           }
         }
       }
@@ -4126,7 +4114,7 @@
         }
       }
     },
-    "Update your weight." : {
+    "Update Weight" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
