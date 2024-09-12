@@ -39,6 +39,9 @@ struct DashboardView: View {
                     } else if viewModel.meals.isEmpty {
                         dashboardHeader
                         
+                        dashboardUtilitiesSection
+                            .padding(.bottom)
+                        
                         Spacer()
                         
                         Text("Start by adding a meal...")
@@ -58,7 +61,7 @@ struct DashboardView: View {
                     } else {
                         ScrollView {
                             dashboardHeader
-                            socialMediaShareSection
+                            dashboardUtilitiesSection
                                 .padding(.bottom)
                             mealSections
                         }
@@ -171,7 +174,7 @@ struct DashboardView: View {
     
     
     // Social Media Share Section
-    var socialMediaShareSection: some View {
+    var dashboardUtilitiesSection: some View {
         HStack {
             
             Button {
@@ -196,6 +199,7 @@ struct DashboardView: View {
                     Label("Share Daily Meals", systemImage: "square.and.arrow.up")
                 }
             }
+            .disabled(viewModel.meals.isEmpty)
         }
         .padding(.horizontal)
     }
