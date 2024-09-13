@@ -132,7 +132,6 @@ struct StatsChartView: View {
     private var weekDateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "M/d" // Month/Day format
-        
         return formatter
     }
 
@@ -142,7 +141,7 @@ struct StatsChartView: View {
     /// - Returns: DateFormatter:  a date formatter for monthly view
     private var monthDateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d"
+        formatter.dateFormat = "M/d"
         return formatter
     }
 

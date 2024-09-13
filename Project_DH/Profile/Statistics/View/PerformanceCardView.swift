@@ -67,14 +67,26 @@ struct PerformanceCardView: View {
                         }
                         .frame(height: 100) // Fixed height for all bars
                         
-                        // Weekday name under the column, centered
-                        Text(formatDateString(data.day)) // Format the date
-                            .font(.footnote)
-                            .bold()
-                            .frame(width: 30) // Same width as column to center it
-                            .lineLimit(1) // Ensure the date is shown on one line
-                            .minimumScaleFactor(0.7) // Scale down text if necessary
-                            .offset(x: -6)
+                        
+                        if isWeekView {
+                            Text(formatDateString(data.day)) // Format the date
+                                .font(.footnote)
+                                .bold()
+                                .frame(width: 30) // Same width as column to center it
+                                .lineLimit(1) // Ensure the date is shown on one line
+                                .minimumScaleFactor(0.7) // Scale down text if necessary
+                                .offset(x: -6)
+                        }
+                        else {
+                            Text("Week of \(formatDateString(data.day))") // Format the date
+                                .font(.footnote)
+                                .bold()
+                                .frame(width: 50, alignment: .center)
+                                .lineLimit(1) // Ensure the date is shown on one line
+                                .minimumScaleFactor(0.4) // Scale down text if necessary
+                                .offset(x: -8)
+                        }
+                        
                     }
                 }
             }
@@ -118,7 +130,7 @@ struct PerformanceCardView: View {
     /// - Returns: DateFormatter:  a date formatter for monthly view
     private var monthDateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d"
+        formatter.dateFormat = "M/d"
         return formatter
     }
 }
