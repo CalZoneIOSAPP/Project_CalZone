@@ -795,6 +795,9 @@
         }
       }
     },
+    "Calorie Consumptioin" : {
+
+    },
     "Calorie Limit: %@" : {
       "localizations" : {
         "cs" : {
@@ -2921,9 +2924,6 @@
           }
         }
       }
-    },
-    "Performance" : {
-
     },
     "Photo Library" : {
       "localizations" : {

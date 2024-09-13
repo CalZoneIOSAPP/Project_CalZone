@@ -14,19 +14,22 @@ struct PerformanceCardView: View {
     
     @State private var selectedDay: String? = nil
     @State private var selectedCalories: Int? = nil
+    @State private var animateValues: [Bool] = Array(repeating: false, count: 7) // Animation states
     
     var isWeekView: Bool // Pass this to determine date format
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Title of the card
-            Text("Performance")
+            Text("Calorie Consumptioin")
                 .font(.title2)
                 .bold()
                 .padding(.leading, 8)
             
             HStack(spacing: 8) {
-                ForEach(weeklyData, id: \.day) { data in
+                ForEach(0..<weeklyData.count, id: \.self) { index in
+                    let data = weeklyData[index]
+
                     VStack {
                         GeometryReader { geometry in
                             let height = geometry.size.height
@@ -35,14 +38,30 @@ struct PerformanceCardView: View {
                             
                             VStack {
                                 Spacer()
+                                
                                 Rectangle()
-                                    .fill(columnColor)
-                                    .frame(height: fillHeight) // Dynamically adjust based on calories
-                                    .cornerRadius(4)
-                                    .onTapGesture {
-                                        selectedDay = data.day
-                                        selectedCalories = data.calories
+                                .fill(columnColor)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.gray.opacity(0.2)) // Gray background
+                                )
+                                .frame(height: animateValues[index] ? fillHeight : 0) // Animate height
+                                .cornerRadius(4)
+                                .overlay(
+                                    // Add a black rounded corner border to the Rectangle
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Color.black, lineWidth: 1) // Black border with rounded corners
+                                )
+                                .onTapGesture {
+                                    selectedDay = data.day
+                                    selectedCalories = data.calories
+                                }
+                                .onAppear {
+                                    // Animate with delay based on index
+                                    withAnimation(.easeInOut(duration: 0.8).delay(Double(index) * 0.1)) {
+                                        animateValues[index] = true
                                     }
+                                }
                             }
                             .frame(width: 30, height: height)
                         }
@@ -63,7 +82,7 @@ struct PerformanceCardView: View {
             .background(Color.white)
             .cornerRadius(15)
             .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
-            
+                
         }
         .padding(.horizontal)
     }
@@ -110,8 +129,8 @@ struct PerformanceCardView_Previews: PreviewProvider {
         PerformanceCardView(
             weeklyData: [
                 ("2024/9/1", 1500),
-                ("2024/9/2", 1800),
-                ("2024/9/3", 2200),
+                ("2024/9/2", 0),
+                ("2024/9/3", 2000),
                 ("2024/9/4", 2500),
                 ("2024/9/5", 1800),
                 ("2024/9/6", 1600),

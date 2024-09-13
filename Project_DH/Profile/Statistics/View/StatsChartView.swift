@@ -26,19 +26,30 @@ struct StatsChartView: View {
                     Text("No data available for the selected period.")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
+                    VStack{
+                        Text("Total Calories: \(viewModel.totalCalories)")
+                            .font(.headline)
+                        
+                        Text("Average Calories per day: \(viewModel.averageCalories)")
+                            .font(.subheadline)
+                    }
+                    .padding()
+                    .frame(width: 365)
+                    .background(
+                        Image("Cloud")
+                            .resizable()
+                            .scaledToFill()
+                    )
+                    .cornerRadius(15)
+                    .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
+                    .padding(.bottom, 5)
+                    
                     PerformanceCardView(
                             weeklyData: viewModel.weeklyData,  // Pass your weekly data as [(String, Int)]
                             maxCalories: Int(user?.targetCalories ?? "2000") ?? 2000, // Handle the optional maxCalories
                             isWeekView: isWeekView
                         )
-                    
-                    Text("Total Calories: \(viewModel.totalCalories)")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    
-                    Text("Average Calories per day: \(viewModel.averageCalories)")
-                        .font(.subheadline)
-                        .padding(.bottom, 5)
+                    .padding()
                     
                     Chart {
                         ForEach(viewModel.weeklyData, id: \.0) { entry in
@@ -65,8 +76,8 @@ struct StatsChartView: View {
                     .frame(height: 300)
                     .padding()
                 }
-                // Spacer() Uncomment this will pull the chart to the top
-            }
+                Spacer()
+            }   // end of VStack
             .navigationTitle("My Statistics")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
