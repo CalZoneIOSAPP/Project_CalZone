@@ -128,50 +128,66 @@ struct ProfilePageView: View {
     
     
     var headerView: some View {
-        HStack(spacing: 30) {
-            Button { // Move to EditProfileView
-                showingProfileInfo = true
-//                        .toolbar(.hidden, for: .tabBar)
-            } label: {
-                if let _ = user?.profileImageUrl{
-                    CircularProfileImageView(user: user, width: 80, height: 80, showCircle: true)
-                } else {
-                    ZStack{
-                        Circle()
-                            .stroke(lineWidth: 1)
-                            .foregroundColor(.gray)
-                            .frame(width: 80, height: 80)
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                            .foregroundStyle(Color(.systemGray4))
+        
+        ZStack {
+            HStack(spacing: 30) {
+                Button { // Move to EditProfileView
+                    showingProfileInfo = true
+    //                        .toolbar(.hidden, for: .tabBar)
+                } label: {
+                    if let _ = user?.profileImageUrl{
+                        CircularProfileImageView(user: user, width: 80, height: 80, showCircle: true)
+                    } else {
+                        ZStack{
+                            Circle()
+                                .stroke(lineWidth: 1)
+                                .foregroundColor(.gray)
+                                .frame(width: 80, height: 80)
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundStyle(Color(.systemGray4))
+                        }
                     }
                 }
-            }
-            .padding(.leading, 40)
-            
-            VStack(spacing: 10) {
-                Text(user?.userName ?? "Username")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                .padding(.leading, 45)
                 
-                Button { // Show profile preview button
-                    showingProfilePreview = true
-                } label: {
-                    Text(LocalizedStringKey("Profile Preview"))
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                        .frame(width: 130, height: 25)
-                        .foregroundStyle(.brandDarkGreen)
-                        .background(Color(.systemGray6))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
+                Spacer()
             }
             
-            Spacer()
+            HStack {
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(user?.userName ?? "Username")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+    //                Button { // Show profile preview button
+    //                    showingProfilePreview = true
+    //                } label: {
+    //                    Text(LocalizedStringKey("Profile Preview"))
+    //                        .font(.footnote)
+    //                        .fontWeight(.semibold)
+    //                        .frame(width: 130, height: 25)
+    //                        .foregroundStyle(.brandDarkGreen)
+    //                        .background(Color(.systemGray6))
+    //                        .clipShape(RoundedRectangle(cornerRadius: 10))
+    //                }
+                    HStack {
+                        Text(NSLocalizedString("Membership:", comment: ""))
+                            .font(.headline)
+                            .foregroundStyle(.gray)
+                        
+                        Text(NSLocalizedString("BETA", comment: ""))
+                            .font(.headline)
+                            .foregroundStyle(.gray)
+                    }
+                }
+                .padding(.leading, 45)
+            }
+            
         }
     }
-    
 }
 
 
