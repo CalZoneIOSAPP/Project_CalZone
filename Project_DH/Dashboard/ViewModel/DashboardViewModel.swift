@@ -177,6 +177,7 @@ class DashboardViewModel: ObservableObject {
     ///     - targetMealType: the meal type list we are moving to (ex. breakfast, dinner ..)
     ///     - foodItemId: the food item id we are moving
     /// - Returns: none
+    @MainActor
     func moveFoodItem(to targetMealType: String, foodItemId: String) async throws{
         if let foodItem = getFoodItem(by: foodItemId) {
             // Determine if a new meal needs to be created
