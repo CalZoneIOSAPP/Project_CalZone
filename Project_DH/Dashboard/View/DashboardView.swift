@@ -126,7 +126,7 @@ struct DashboardView: View {
             .disabled(showWeightEdit)
             
             if showEditPopup {
-                FoodItemEditView(foodItem: $selectedFoodItem, foodItemList: $viewModel.selectedFoodList, isPresented: $showEditPopup, calorieNum: $viewModel.sumCalories, allItems: false, deletable: false, viewModel: viewModel)
+                FoodItemEditView(viewModel: viewModel, foodItem: $selectedFoodItem, foodItemList: $viewModel.selectedFoodList, isPresented: $showEditPopup, calorieNum: $viewModel.sumCalories, allItems: false, deletable: false)
             }
             
             if showWeightEdit {

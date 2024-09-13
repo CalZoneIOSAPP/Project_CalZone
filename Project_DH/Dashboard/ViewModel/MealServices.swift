@@ -41,15 +41,24 @@ class MealServices: ObservableObject {
         }
         
         let querySnapshot = try await query.getDocuments()
+        // Mapping meal types for localization
+//        let mealTypeMapping: [String: String] = [
+//            "早餐": NSLocalizedString("breakfast", comment: ""),
+//            "午餐": NSLocalizedString("lunch", comment: ""),
+//            "晚餐": NSLocalizedString("dinner", comment: ""),
+//            "点心/小吃": NSLocalizedString("snack", comment: "")
+//        ]
         self.meals = querySnapshot.documents.compactMap { document in
             var meal = try? document.data(as: Meal.self)
             
-            if let mealType = meal?.mealType{
-                meal?.mealType = NSLocalizedString(mealType, comment: "")
+            if let mealType = meal?.mealType {
+                // Check if the mealType exists in the mapping, if so, localize it
+                meal?.mealType = DataMapping().mealTypeMapping[mealType] ?? mealType
             }
             
             return meal
         }
+
     }
     
     

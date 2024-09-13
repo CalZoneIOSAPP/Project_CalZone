@@ -652,7 +652,14 @@
       }
     },
     "BETA" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BETA"
+          }
+        }
+      }
     },
     "biological gender" : {
       "localizations" : {
@@ -705,10 +712,24 @@
       }
     },
     "bmi value" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BMI指数"
+          }
+        }
+      }
     },
     "BMI Value" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BMI指数"
+          }
+        }
+      }
     },
     "body weight" : {
       "localizations" : {
@@ -798,8 +819,25 @@
         }
       }
     },
-    "Calorie Consumptioin" : {
-
+    "Calorie Bomb of the Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周的热量炸弹"
+          }
+        }
+      }
+    },
+    "Calorie Consumption" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "能量摄入"
+          }
+        }
+      }
     },
     "Calorie Limit: %@" : {
       "localizations" : {
@@ -863,6 +901,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡路里："
+          }
+        }
+      }
+    },
+    "Calories: " : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "热量:"
           }
         }
       }
@@ -2430,7 +2478,14 @@
       }
     },
     "Membership:" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会员:"
+          }
+        }
+      }
     },
     "minute" : {
       "localizations" : {
@@ -2685,6 +2740,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "该选定时间段没有数据。"
+          }
+        }
+      }
+    },
+    "No dishes found this week..." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到本周的美食..."
           }
         }
       }
@@ -3087,29 +3152,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在分析您的美食..."
-          }
-        }
-      }
-    },
-    "Profile Preview" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Profile Preview"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profile Preview"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "个人资料预览"
           }
         }
       }
@@ -4123,6 +4165,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "总卡路里︰ %lld"
+          }
+        }
+      }
+    },
+    "Total Dishes: %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "美食数量: %lld"
           }
         }
       }

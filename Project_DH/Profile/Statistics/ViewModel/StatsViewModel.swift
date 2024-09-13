@@ -16,6 +16,9 @@ class StatsViewModel: ObservableObject {
     @Published var averageCalories = 0
     @Published var pickerMode: PickerMode = .week // Track if week or month is selected
     
+    // MVP Food Card
+    @Published var topCalorieFood: FoodItem?
+    
     private var db = Firestore.firestore()
 
     

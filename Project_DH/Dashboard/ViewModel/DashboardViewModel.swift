@@ -38,6 +38,12 @@ class DashboardViewModel: ObservableObject {
     @Published var weightToEdit: String = ""
     
     @Published var mealServices = MealServices()
+    
+    // MealOverviewView
+    @Published var totalCaloriesInFoodList = 0
+    
+    private var globalFunctions = GlobalFx() // IMPORT GLOBAL FUNCTIONS
+    
     private var db = Firestore.firestore()
     
     
@@ -148,6 +154,9 @@ class DashboardViewModel: ObservableObject {
             if fetchAllItems {
                 allFoodItems.append(contentsOf: foodItems)
             }
+            
+            let mealType = NSLocalizedString(mealType, comment: "")
+            
             switch mealType.lowercased() {
             case NSLocalizedString("breakfast", comment: ""):
                 breakfastItems = foodItems

@@ -22,10 +22,15 @@ struct PerformanceCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Title of the card
-            Text("Calorie Consumptioin")
-                .font(.title2)
-                .bold()
-                .padding(.leading, 8)
+            HStack {
+                Text("Calorie Consumption")
+                    .font(.title2)
+                    .bold()
+                    .foregroundStyle(Color(.black).opacity(0.7))
+                    .padding(.leading, 8)
+                Spacer()
+            }
+            
             
             HStack(spacing: 8) {
                 ForEach(0..<weeklyData.count, id: \.self) { index in
@@ -117,7 +122,6 @@ struct PerformanceCardView: View {
                                 .minimumScaleFactor(0.4) // Scale down text if necessary
                                 .offset(x: -8)
                         }
-                        
                     }
                 }
             }

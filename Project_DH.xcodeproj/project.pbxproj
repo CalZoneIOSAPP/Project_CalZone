@@ -51,6 +51,8 @@
 		541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D91CE2BE800FA000DED2B /* TopViewController.swift */; };
 		542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */; };
 		543AC1222BF27A7E004CC8E1 /* FirstTimeSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */; };
+		5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */; };
+		5441A52C2C944A13006CAA27 /* GlobalFx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A52B2C944A13006CAA27 /* GlobalFx.swift */; };
 		545700FC2C6E43C5008110D1 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545700FB2C6E43C5008110D1 /* ProgressBarView.swift */; };
 		5474F6682C7740A400BF86F4 /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474F6672C7740A400BF86F4 /* DropDownMenu.swift */; };
 		5474F66A2C7770B500BF86F4 /* DateTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474F6692C7770B500BF86F4 /* DateTools.swift */; };
@@ -162,6 +164,8 @@
 		541D91CE2BE800FA000DED2B /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardTools.swift; sourceTree = "<group>"; };
 		543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeSignInView.swift; sourceTree = "<group>"; };
+		5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCalorieFoodView.swift; sourceTree = "<group>"; };
+		5441A52B2C944A13006CAA27 /* GlobalFx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFx.swift; sourceTree = "<group>"; };
 		545700FB2C6E43C5008110D1 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		5474F6672C7740A400BF86F4 /* DropDownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenu.swift; sourceTree = "<group>"; };
 		5474F6692C7770B500BF86F4 /* DateTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTools.swift; sourceTree = "<group>"; };
@@ -400,6 +404,7 @@
 				04CF2CC32C92A5B1006D67E8 /* PerformanceCardView.swift */,
 				0497CA492C87C08D00A6FE84 /* WeekSelectionView.swift */,
 				04D519B02C8A23C20096DE24 /* MonthYearPickerView.swift */,
+				5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -532,6 +537,7 @@
 				54F18F192C85B7D5001E6A38 /* UserGuide */,
 				540CB16B2C4D05490033F69F /* ImageModule */,
 				043097362BE701430016FCD8 /* MockData */,
+				5441A52B2C944A13006CAA27 /* GlobalFx.swift */,
 				5479997B2BE3DF7D007A7CCE /* FirebaseConstants.swift */,
 				547999752BE3DE70007A7CCE /* AlertContent.swift */,
 				547999772BE3DE9E007A7CCE /* StringExtension.swift */,
@@ -854,6 +860,7 @@
 				541053292C8ED83F005A7F36 /* AppDelegate.swift in Sources */,
 				541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */,
 				541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */,
+				5441A52C2C944A13006CAA27 /* GlobalFx.swift in Sources */,
 				541D352E2BE3D7E600AF38AF /* RegisterViewModel.swift in Sources */,
 				54F18F2D2C88CED5001E6A38 /* TargetWeightView.swift in Sources */,
 				5474F6682C7740A400BF86F4 /* DropDownMenu.swift in Sources */,
@@ -923,6 +930,7 @@
 				541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */,
 				5479997F2BE3E04F007A7CCE /* dividerOr.swift in Sources */,
 				5410534E2C92E97C005A7F36 /* InfoEditView.swift in Sources */,
+				5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */,
 				5410532D2C8EFC11005A7F36 /* PopUpConfirmationView.swift in Sources */,
 				043097332BE6FBD60016FCD8 /* LibraryView.swift in Sources */,
 				54B449992BDD407B00E35D49 /* Project_DHApp.swift in Sources */,

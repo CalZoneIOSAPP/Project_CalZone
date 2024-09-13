@@ -9,13 +9,13 @@ import SwiftUI
 import Kingfisher
 
 struct FoodItemEditView: View {
+    @ObservedObject var viewModel: DashboardViewModel
     @Binding var foodItem: FoodItem?
     @Binding var foodItemList: [FoodItem]
     @Binding var isPresented: Bool
     @Binding var calorieNum: Int
     var allItems: Bool
     var deletable: Bool
-    @ObservedObject var viewModel: DashboardViewModel
     @State private var originalFoodName: String = ""
     @State private var originalCalorieNumber: Int = 0
     @State private var originalCalorieSum: Int = 0
@@ -136,6 +136,11 @@ struct FoodItemEditView: View {
             }
         }// End of ZStack
         .dismissKeyboardOnTap()
+        .onDisappear {
+            originalFoodName = ""
+            originalCalorieNumber = 0
+            originalCalorieSum = 0
+        }
     }
     
     
@@ -193,7 +198,7 @@ struct FoodItemEditView: View {
 
 
         var body: some View {
-            FoodItemEditView(foodItem: $foodItem, foodItemList: $foodItemList, isPresented: $isPresented, calorieNum: $calorieNum, allItems: false, deletable: true, viewModel: viewModel)
+            FoodItemEditView(viewModel: viewModel, foodItem: $foodItem, foodItemList: $foodItemList, isPresented: $isPresented, calorieNum: $calorieNum, allItems: false, deletable: true)
         }
     }
     return Preview()

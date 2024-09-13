@@ -37,6 +37,33 @@ struct UserConst {
     let profileImageUrl = "profileImageUrl"
     let description = "description"
     let followerNum = "followerNum"
+}
+
+
+
+// For Localization Purposes
+// Use this in functions where it is trying to pull information from the Firebase.
+// The default language is English. So when the received string is not English, it will map to one of the following.
+struct DataMapping {
     
+    let mealTypeMapping: [String: String] = [
+        "早餐": NSLocalizedString("breakfast", comment: ""),
+        "午餐": NSLocalizedString("lunch", comment: ""),
+        "晚餐": NSLocalizedString("dinner", comment: ""),
+        "点心/小吃": NSLocalizedString("snack", comment: "")
+    ]
+    
+    let activityLevelMap: [String: String] = [
+        "久坐" : NSLocalizedString("Sedentary", comment: ""),
+        "稍微活跃" : NSLocalizedString("Slightly Active", comment: ""),
+        "中度活跃" : NSLocalizedString("Moderately Active", comment: ""),
+        "非常活跃" : NSLocalizedString("Very Active", comment: ""),
+        "超级活跃" : NSLocalizedString("Super Active", comment: "")
+    ]
+    
+    let genderMap: [String: String] = [
+        "男性": NSLocalizedString("male", comment: ""),
+        "女性": NSLocalizedString("female", comment: ""),
+    ]
     
 }

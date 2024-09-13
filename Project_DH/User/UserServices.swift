@@ -32,11 +32,12 @@ class UserServices {
         var user = try snapshot.data(as: User.self)
         
         if let gender = user.gender {
-            user.gender = NSLocalizedString(gender, comment: "")
+            // Check if the mealType exists in the mapping, if so, localize it
+            user.gender = DataMapping().genderMap[gender] ?? gender
         }
         
         if let activityLevel = user.activityLevel {
-            user.activityLevel = NSLocalizedString(activityLevel, comment: "")
+            user.activityLevel = DataMapping().activityLevelMap[activityLevel] ?? activityLevel
         }
         
         self.currentUser = user

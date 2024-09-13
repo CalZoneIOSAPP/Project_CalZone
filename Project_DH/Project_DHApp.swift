@@ -16,6 +16,7 @@ struct Project_MeApp: App {
     
     init() {
         FirebaseApp.configure()
+        
         do {
             try setupTips()
         } catch {

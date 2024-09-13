@@ -18,7 +18,7 @@ struct StatsChartView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 if viewModel.isLoading {
                     ProgressView("Loading data...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -50,6 +50,10 @@ struct StatsChartView: View {
                             isWeekView: isWeekView
                         )
                     .padding()
+                    
+                    // MVP FOOD :)
+                    TopCalorieFoodView()
+                        .padding()
                     
                     Chart {
                         ForEach(viewModel.weeklyData, id: \.0) { entry in
