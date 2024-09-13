@@ -178,7 +178,7 @@ struct FoodItemEditView: View {
         }
         
         // Check if this was the only item with the same mealId
-        let remainingItemsWithSameMealId = foodItemList.filter { $0.mealId == foodItem.mealId }
+        let remainingItemsWithSameMealId = viewModel.allFoodItems.filter { $0.mealId == foodItem.mealId }
         if remainingItemsWithSameMealId.isEmpty {
             print("NOTE: Deleting the meal, because there is no more food items.")
             viewModel.deleteMeal(mealID: foodItem.mealId)
