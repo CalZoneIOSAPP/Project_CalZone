@@ -11,6 +11,7 @@ import SwiftUI
 struct DropDownMenu: View {
     @Binding var selection: String?
     @State private var showOptions: Bool = false
+    @State private var disableOption: Bool = true
     
     var hint: String
     var options: [String]
@@ -47,10 +48,11 @@ struct DropDownMenu: View {
                 .background(scheme == .dark ? .black : .white)
                 .contentShape(.rect)
                 .onTapGesture {
+                    disableOption.toggle()
                     withAnimation(.snappy) {
+                        showOptions.toggle()
                         index += 1
                         zIndex = index
-                        showOptions.toggle()
                     }
                 }
                 .zIndex(10)
@@ -92,6 +94,7 @@ struct DropDownMenu: View {
                 .frame(height: 40)
                 .contentShape(.rect)
                 .onTapGesture {
+                    disableOption = true
                     withAnimation(.snappy) {
                         selection = option
                         showOptions = false
@@ -101,6 +104,7 @@ struct DropDownMenu: View {
         }
         .padding(.horizontal, 15)
         .transition(.move(edge: anchor == .top ? .bottom : .top))
+        .disabled(disableOption)
     }
     
     
