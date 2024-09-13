@@ -118,12 +118,6 @@ struct ProfilePageView: View {
                 SettingsView()
             }
         }
-        .onAppear {
-            print("NOTE: On Appear in Profile Page")
-            Task {
-                try await UserServices.sharedUser.fetchCurrentUserData()
-            }
-        }
     }
     
     

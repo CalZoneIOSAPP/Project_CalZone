@@ -24,7 +24,7 @@ struct FoodItemEditView: View {
     var body: some View {
         ZStack {
             // Background overlay to detect taps outside the card
-            Color.black.opacity(0.4)
+            Color.white.opacity(0.1)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
                     if let foodItem = foodItem {

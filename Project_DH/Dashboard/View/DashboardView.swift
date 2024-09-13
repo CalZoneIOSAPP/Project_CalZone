@@ -28,93 +28,101 @@ struct DashboardView: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                VStack {
-                    if viewModel.isLoading && loadedFirstTime == false {
-                        ProgressView("Loading...")
-                            .padding()
-                            .onAppear {
-                                loadedFirstTime = true
-                            }
-                        
-                    } else if viewModel.meals.isEmpty {
-                        dashboardHeader
-                        
-                        Spacer()
-                        
-                        dashboardUtilitiesSection
-                            .padding(.bottom, 20)
-                        
-                        Image("noMeal")
-                            .resizable()
-                            .frame(width: 250, height: 250)
-                            .clipShape(Circle())
-                            .opacity(0.5)
-                        
-                        Text("Start by adding a meal...")
-                            .font(.headline)
-                            .foregroundColor(.gray)
-                            .padding()
-                        
-                        Image(systemName: "arrow.down")
-                            .resizable()
-                            .frame(width: 25, height: 40)
-                            .opacity(0.5)
-                            .padding(.top, 20)
-                        
-                        Spacer()
-                        
-                    } else {
-                        ScrollView {
+                GeometryReader { _ in
+                    VStack {
+                        if viewModel.isLoading && loadedFirstTime == false {
+                            ProgressView("Loading...")
+                                .padding()
+                                .onAppear {
+                                    loadedFirstTime = true
+                                }
+                            
+                        } else if viewModel.meals.isEmpty {
                             dashboardHeader
+                            
+                            Spacer()
+                            
                             dashboardUtilitiesSection
-                                .padding(.bottom)
-                            mealSections
-                        }
-                        .refreshable { // Pull down to refresh
-                            loadedFirstTime = true
-                            viewModel.isRefreshing = true
-                            viewModel.sumCalories = 0
-                            Task {
-                                if let uid = viewModel.profileViewModel.currentUser?.uid {
-                                    try await viewModel.fetchMeals(for: uid, with: true, on: viewModel.selectedDate)
+                                .padding(.bottom, 20)
+                            
+                            Image("noMeal")
+                                .resizable()
+                                .frame(width: 250, height: 250)
+                                .clipShape(Circle())
+                                .opacity(0.5)
+                            
+                            Text("Start by adding a meal...")
+                                .font(.headline)
+                                .foregroundColor(.gray)
+                                .padding()
+                            
+                            Image(systemName: "arrow.down")
+                                .resizable()
+                                .frame(width: 25, height: 40)
+                                .opacity(0.5)
+                                .padding(.top, 20)
+                            
+                            Spacer()
+                            
+                        } else {
+                            ScrollView {
+                                dashboardHeader
+                                dashboardUtilitiesSection
+                                    .padding(.bottom)
+                                mealSections
+                            }
+                            .refreshable { // Pull down to refresh
+                                loadedFirstTime = true
+                                viewModel.isRefreshing = true
+                                viewModel.sumCalories = 0
+                                Task {
+                                    if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                        try await viewModel.fetchMeals(for: uid, with: true, on: viewModel.selectedDate)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                .navigationTitle("CalBite")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar(content: {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingPopover, viewModel: viewModel, fetchOnDone: true)
-                    }
-                })
-                .onAppear { // Fetch meal items when view appears.
-                    print("NOTE: Fetching in Dashboard View On Appear.")
-                    viewModel.sumCalories = 0
-                    viewModel.selectedDate = Date()
-                    Task {
-                        if let uid = viewModel.profileViewModel.currentUser?.uid {
-                            try await viewModel.fetchMeals(for: uid, with: true)
+                    .navigationTitle("CalBite")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar(content: {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingPopover, viewModel: viewModel, fetchOnDone: true)
+                        }
+                    })
+                    // Fetch meal items when uid changes.
+                    .onChange(of: viewModel.profileViewModel.currentUser?.uid) { _, newValue in
+                        print("NOTE: Fetching in Dashboard View On Change.")
+                        viewModel.sumCalories = 0
+                        Task {
+                            if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                try await viewModel.fetchMeals(for: uid, with: true)
+                            }
                         }
                     }
-                    viewModel.selectedDate = Date()
-                }
-                // Fetch meal items when uid changes.
-                .onChange(of: viewModel.profileViewModel.currentUser?.uid) { _, newValue in
-                    print("NOTE: Fetching in Dashboard View On Change.")
-                    viewModel.sumCalories = 0
-                    viewModel.selectedDate = Date()
-                    Task {
-                        if let uid = viewModel.profileViewModel.currentUser?.uid {
-                            try await viewModel.fetchMeals(for: uid, with: true)
+                    // Fetch meal items when date changes and when not selecting date.
+                    .onChange(of: viewModel.selectedDate) { _, newValue in
+                        if !showingPopover {
+                            print("NOTE: Fetching meals after changing date.")
+                            viewModel.sumCalories = 0
+                            Task {
+                                if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                    try await viewModel.fetchMeals(for: uid, with: true)
+                                }
+                            }
                         }
                     }
-                    viewModel.selectedDate = Date()
-                }
+                    .onDisappear {
+                        viewModel.sumCalories = 0
+                        viewModel.selectedDate = Date()
+                    }
+                    
+                }// Geometry Reader
+                .ignoresSafeArea(.keyboard, edges: .all)
+
                 
             } // End of Navigation Stack
-            .blur(radius: showWeightEdit ? 3 : 0)    
+            .blur(radius: showWeightEdit || showEditPopup ? 3 : 0)
             .disabled(showWeightEdit)
             
             if showEditPopup {
