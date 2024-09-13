@@ -59,7 +59,7 @@ struct MainMenuView: View {
                 }
                 .tabItem {
                     VStack {
-                        Image(systemName: "bubble")
+                        Image(systemName: "safari.fill")
                         Text("Explore")
                     }
                 }
