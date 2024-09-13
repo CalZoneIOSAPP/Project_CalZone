@@ -14,7 +14,8 @@ struct PerformanceCardView: View {
     
     @State private var selectedDay: String? = nil
     @State private var selectedCalories: Int? = nil
-    @State private var animateValues: [Bool] = Array(repeating: false, count: 7) // Animation states
+    @State private var animateValues: [Bool] = Array(repeating: false, count: 7)
+    @State private var showValue: Bool = false
     
     var isWeekView: Bool // Pass this to determine date format
     
@@ -55,6 +56,13 @@ struct PerformanceCardView: View {
                                 .onTapGesture {
                                     selectedDay = data.day
                                     selectedCalories = data.calories
+                                    showValue = true
+                                    // Set a timer to hide the value after 2 seconds
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        withAnimation {
+                                            showValue = false
+                                        }
+                                    }
                                 }
                                 .onAppear {
                                     // Animate with delay based on index
@@ -62,6 +70,29 @@ struct PerformanceCardView: View {
                                         animateValues[index] = true
                                     }
                                 }
+                                .overlay(
+                                    // Show the calorie number in a RoundedRectangle if tapped
+                                    Group {
+                                        if selectedDay == data.day && showValue {
+                                            VStack {
+                                                Text("\(data.calories)")
+                                                    .font(.caption)
+                                                    .lineLimit(1)
+                                                    .padding(5)
+                                                    .frame(width: 50)
+                                                    .background(
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .fill(Color.white)
+                                                            .shadow(radius: 3)
+                                                    )
+                                                    .offset(y: -40) // Adjust position above the bar
+                                                    .transition(.opacity) // Add fade transition
+                                                    
+                                            }
+                                           
+                                        }
+                                    }
+                                )
                             }
                             .frame(width: 30, height: height)
                         }
