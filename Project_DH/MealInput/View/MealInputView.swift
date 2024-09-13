@@ -13,7 +13,7 @@ import Combine
 struct MealInputView: View {
     @StateObject var viewModel = MealInputViewModel()
     @StateObject var profileViewModel = ProfileViewModel()
-    @StateObject var dashboardViewModel = DashboardViewModel()
+    @ObservedObject var dashboardViewModel = DashboardViewModel()
     @State private var isConfirmationDialogPresented: Bool = false
     @State private var isImagePickerPresented: Bool = false
     @State private var sourceType: SourceType = .camera
@@ -52,7 +52,7 @@ struct MealInputView: View {
                                 ZStack{
                                     FoodPictureView(image: viewModel.image ?? UIImage(resource: .addMeal))
                                         .onChange(of: viewModel.image) {
-                                            if viewModel.image != UIImage(resource: .plus){
+                                            if viewModel.image != UIImage(resource: .addMeal){
                                                 if let user = profileViewModel.currentUser {
                                                     Task {
                                                         do {
@@ -82,7 +82,7 @@ struct MealInputView: View {
                                                 .frame(width: 200, height: 40)
                                                 .background((Color.white).opacity(0.9).shadow(.drop(color: .primary.opacity(0.15), radius: 4)), in: .rect(cornerRadius: 5))
                                                 .padding()
-                                                .opacity(viewModel.image == UIImage(resource: .plus) || viewModel.image == nil ? 0 : 1)
+                                                .opacity(viewModel.image == UIImage(resource: .addMeal) || viewModel.image == nil ? 0 : 1)
                                             }
                                             Spacer()
                                         }
@@ -168,7 +168,7 @@ struct MealInputView: View {
                                                     print("ERROR: Save meal button \n\(error.localizedDescription)")
                                                 }
                                             }
-                                            viewModel.image = UIImage(resource: .plus)
+                                            viewModel.image = UIImage(resource: .addMeal)
                                             viewModel.imageChanged = false
                                         }
                                     } label: {
@@ -261,6 +261,7 @@ struct FoodPictureView: View {
             .resizable().scaledToFill()
             .frame(maxWidth: 500, maxHeight: 300)
             .clipShape(RoundedRectangle(cornerRadius: 0))
+            .opacity(image == UIImage(resource: .addMeal) ? 0.5 : 1)
     }
 }
 

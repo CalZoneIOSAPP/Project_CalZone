@@ -137,7 +137,7 @@ struct ImageManipulation {
     /// - Returns: Optional UI Image which is downsized.
     static func downSizeImage(for image: UIImage) -> UIImage? {
         // Resize the image to the target size
-        let newPercent = 0.4
+        let newPercent = 0.2
         let imageSize = image.size
         let processedImage = resizeImage(image: image, targetSize: CGSize(width: imageSize.width * newPercent, height: imageSize.height * newPercent))
         

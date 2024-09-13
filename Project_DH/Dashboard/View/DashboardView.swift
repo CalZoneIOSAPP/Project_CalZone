@@ -90,6 +90,15 @@ struct DashboardView: View {
                             CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingPopover, viewModel: viewModel, fetchOnDone: true)
                         }
                     })
+                    .onAppear {
+                        viewModel.sumCalories = 0
+                        viewModel.selectedDate = Date()
+                        Task {
+                            if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                try await viewModel.fetchMeals(for: uid, with: true)
+                            }
+                        }
+                    }
                     // Fetch meal items when uid changes.
                     .onChange(of: viewModel.profileViewModel.currentUser?.uid) { _, newValue in
                         print("NOTE: Fetching in Dashboard View On Change.")
@@ -101,17 +110,17 @@ struct DashboardView: View {
                         }
                     }
                     // Fetch meal items when date changes and when not selecting date.
-                    .onChange(of: viewModel.selectedDate) { _, newValue in
-                        if !showingPopover {
-                            print("NOTE: Fetching meals after changing date.")
-                            viewModel.sumCalories = 0
-                            Task {
-                                if let uid = viewModel.profileViewModel.currentUser?.uid {
-                                    try await viewModel.fetchMeals(for: uid, with: true)
-                                }
-                            }
-                        }
-                    }
+//                    .onChange(of: viewModel.selectedDate) { _, newValue in
+//                        if showingPopover == false {
+//                            print("NOTE: Fetching meals after changing date.")
+//                            viewModel.sumCalories = 0
+//                            Task {
+//                                if let uid = viewModel.profileViewModel.currentUser?.uid {
+//                                    try await viewModel.fetchMeals(for: uid, with: true)
+//                                }
+//                            }
+//                        }
+//                    }
                     .onDisappear {
                         viewModel.sumCalories = 0
                         viewModel.selectedDate = Date()

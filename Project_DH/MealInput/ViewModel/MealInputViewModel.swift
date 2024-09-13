@@ -237,12 +237,11 @@ class MealInputViewModel: ObservableObject {
         }
         
         let mealType = selectedMealType!
-        
         print("NOTE: MealType is \(mealType). \nSource: MealInputViewModel/saveFoodItem()")
         checkForExistingMeal(userId: userId, mealType: mealType, date: date) { existingMeal in
             if let meal = existingMeal {
                 self.createFoodItem(mealId: meal.id!, imageUrl: imageUrl, completion: completion)
-                print("NOTE: I am creating a new food item! \nSource: MealInputViewModel/saveFoodItem()")
+                print("NOTE: Creating a new food item! \nSource: MealInputViewModel/saveFoodItem()")
             } else {
                 self.createNewMeal(userId: userId, mealType: mealType, date: date) { newMealId in
                     if let mealId = newMealId {
@@ -365,7 +364,7 @@ class MealInputViewModel: ObservableObject {
     /// - Returns: none
     func clearInputs() {
         print("NOTE: Clearing Inputs")
-        self.image = UIImage(resource: .plus)
+        self.image = UIImage(resource: .addMeal)
         self.selectedDate = Date()
         self.imageChanged = false
         self.predictedCalories = nil
