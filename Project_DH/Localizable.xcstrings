@@ -4169,6 +4169,16 @@
         }
       }
     },
+    "Total Calories: %lld kCal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总卡路里: %lld 千卡"
+          }
+        }
+      }
+    },
     "Total Dishes: %lld" : {
       "localizations" : {
         "zh-Hans" : {

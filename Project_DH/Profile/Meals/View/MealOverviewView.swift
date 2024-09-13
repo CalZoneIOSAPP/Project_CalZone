@@ -23,7 +23,7 @@ struct MealOverviewView: View {
                                 .font(.title3)
                                 .foregroundStyle(Color(.black).opacity(0.7))
                                 .bold()
-                            Text("Total Calories: \(viewModel.totalCaloriesInFoodList)")
+                            Text("Total Calories: \(viewModel.totalCaloriesInFoodList) kCal")
                                 .font(.headline)
                                 .foregroundStyle(Color.black.opacity(0.7))
                         }
