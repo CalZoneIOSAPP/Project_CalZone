@@ -88,5 +88,21 @@ struct DateTools {
     }
     
     
+    /// Checks if the given day is today.
+    /// - Parameters:
+    ///     - date: The given date to compare.
+    /// - Returns: If the date given is today's date.
+    func isToday(_ date: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        // Extract only the year, month, and day components from the current and selected date
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        let selectedComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        
+        // Compare the components
+        return todayComponents == selectedComponents
+    }
+    
+    
 }
 

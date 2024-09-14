@@ -10,7 +10,7 @@ import Kingfisher
 
 
 struct MealSectionView: View {
-    
+    @EnvironmentObject var control: ControllerModel
     @ObservedObject var viewModel = DashboardViewModel()
     var title: String
     @Binding var foodItems: [FoodItem]
@@ -143,6 +143,8 @@ struct MealSectionView: View {
         Task {
             try await viewModel.checkCalorieTarget()
         }
+        
+        control.refetchMeal = true
     }
     
     

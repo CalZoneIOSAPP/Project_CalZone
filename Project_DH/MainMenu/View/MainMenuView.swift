@@ -13,11 +13,13 @@ struct MainMenuView: View {
     @State private var isShowingInfoCollection: Bool = true
     @StateObject var profileViewModel = ProfileViewModel()
     @StateObject var infoViewModel = InfoCollectionViewModel()
+    @StateObject var controller = ControllerModel()
     
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView {
                 DashboardView()
+                    .environmentObject(controller)
                     .tabItem {
                         VStack {
                             Image(systemName: "person.crop.rectangle.fill")
@@ -36,6 +38,7 @@ struct MainMenuView: View {
                     .tag(1)
                 
                 MealInputView()
+                    .environmentObject(controller)
                     .tabItem {
                         VStack {
                             Image(systemName: "plus.app.fill")

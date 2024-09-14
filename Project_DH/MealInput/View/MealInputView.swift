@@ -11,6 +11,7 @@ import PhotosUI
 import Combine
 
 struct MealInputView: View {
+    @EnvironmentObject var control: ControllerModel
     @StateObject var viewModel = MealInputViewModel()
     @StateObject var profileViewModel = ProfileViewModel()
     @ObservedObject var dashboardViewModel = DashboardViewModel()
@@ -162,6 +163,7 @@ struct MealInputView: View {
                                                             print("ERROR: Save meal button \n\(error.localizedDescription)")
                                                         } else {
                                                             print("SUCCESS: Food Saved!")
+                                                            control.refetchMeal = true
                                                         }
                                                     }
                                                 } catch {
@@ -268,6 +270,7 @@ struct FoodPictureView: View {
 
 #Preview {
     MealInputView()
+        .environmentObject(ControllerModel())
 }
 
 

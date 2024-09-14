@@ -53,6 +53,7 @@
 		543AC1222BF27A7E004CC8E1 /* FirstTimeSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */; };
 		5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */; };
 		5441A52C2C944A13006CAA27 /* GlobalFx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A52B2C944A13006CAA27 /* GlobalFx.swift */; };
+		5441A52E2C95907B006CAA27 /* ControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A52D2C95907B006CAA27 /* ControllerModel.swift */; };
 		545700FC2C6E43C5008110D1 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545700FB2C6E43C5008110D1 /* ProgressBarView.swift */; };
 		5474F6682C7740A400BF86F4 /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474F6672C7740A400BF86F4 /* DropDownMenu.swift */; };
 		5474F66A2C7770B500BF86F4 /* DateTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5474F6692C7770B500BF86F4 /* DateTools.swift */; };
@@ -166,6 +167,7 @@
 		543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeSignInView.swift; sourceTree = "<group>"; };
 		5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCalorieFoodView.swift; sourceTree = "<group>"; };
 		5441A52B2C944A13006CAA27 /* GlobalFx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFx.swift; sourceTree = "<group>"; };
+		5441A52D2C95907B006CAA27 /* ControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerModel.swift; sourceTree = "<group>"; };
 		545700FB2C6E43C5008110D1 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		5474F6672C7740A400BF86F4 /* DropDownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenu.swift; sourceTree = "<group>"; };
 		5474F6692C7770B500BF86F4 /* DateTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTools.swift; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 			isa = PBXGroup;
 			children = (
 				547999852BE41D65007A7CCE /* MenuViewModel.swift */,
+				5441A52D2C95907B006CAA27 /* ControllerModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 				541053232C8CFF34005A7F36 /* PopupMessage.swift in Sources */,
 				5479997F2BE3E04F007A7CCE /* dividerOr.swift in Sources */,
 				5410534E2C92E97C005A7F36 /* InfoEditView.swift in Sources */,
+				5441A52E2C95907B006CAA27 /* ControllerModel.swift in Sources */,
 				5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */,
 				5410532D2C8EFC11005A7F36 /* PopUpConfirmationView.swift in Sources */,
 				043097332BE6FBD60016FCD8 /* LibraryView.swift in Sources */,

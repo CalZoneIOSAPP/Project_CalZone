@@ -9,7 +9,8 @@ import SwiftUI
 
 
 struct DashboardView: View {
-
+    @EnvironmentObject var control: ControllerModel
+    
     @Environment(\.openURL) var openURL
     @StateObject var viewModel = DashboardViewModel()
     
@@ -90,40 +91,33 @@ struct DashboardView: View {
                             CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingPopover, viewModel: viewModel, fetchOnDone: true)
                         }
                     })
-                    .onAppear {
-                        viewModel.sumCalories = 0
-                        viewModel.selectedDate = Date()
-                        Task {
-                            if let uid = viewModel.profileViewModel.currentUser?.uid {
-                                try await viewModel.fetchMeals(for: uid, with: true)
+                    .onChange(of: control.refetchMeal, { _, newValue in
+                        print(control.refetchMeal)
+                        if control.refetchMeal == true {
+                            Task {
+                                viewModel.sumCalories = 0
+                                if let uid = viewModel.profileViewModel.currentUser?.uid {
+                                    try await viewModel.fetchMeals(for: uid, with: true)
+                                    control.refetchMeal = false
+                                }
                             }
                         }
-                    }
+                    })
                     // Fetch meal items when uid changes.
                     .onChange(of: viewModel.profileViewModel.currentUser?.uid) { _, newValue in
                         print("NOTE: Fetching in Dashboard View On Change.")
-                        viewModel.sumCalories = 0
                         Task {
+                            viewModel.sumCalories = 0
                             if let uid = viewModel.profileViewModel.currentUser?.uid {
                                 try await viewModel.fetchMeals(for: uid, with: true)
                             }
                         }
                     }
-                    // Fetch meal items when date changes and when not selecting date.
-//                    .onChange(of: viewModel.selectedDate) { _, newValue in
-//                        if showingPopover == false {
-//                            print("NOTE: Fetching meals after changing date.")
-//                            viewModel.sumCalories = 0
-//                            Task {
-//                                if let uid = viewModel.profileViewModel.currentUser?.uid {
-//                                    try await viewModel.fetchMeals(for: uid, with: true)
-//                                }
-//                            }
-//                        }
-//                    }
                     .onDisappear {
-                        viewModel.sumCalories = 0
-                        viewModel.selectedDate = Date()
+                        if !DateTools().isToday(viewModel.selectedDate) {
+                            control.refetchMeal = true
+                            viewModel.selectedDate = Date()
+                        }
                     }
                     
                 }// Geometry Reader
@@ -181,15 +175,19 @@ struct DashboardView: View {
         VStack {
             if !viewModel.breakfastItems.isEmpty {
                 MealSectionView(viewModel: viewModel, title: NSLocalizedString("Breakfast", comment: ""), foodItems: $viewModel.breakfastItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                    .environmentObject(control)
             }
             if !viewModel.lunchItems.isEmpty {
                 MealSectionView(viewModel: viewModel, title: NSLocalizedString("Lunch", comment: ""), foodItems: $viewModel.lunchItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                    .environmentObject(control)
             }
             if !viewModel.dinnerItems.isEmpty {
                 MealSectionView(viewModel: viewModel, title: NSLocalizedString("Dinner", comment: ""), foodItems: $viewModel.dinnerItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                    .environmentObject(control)
             }
             if !viewModel.snackItems.isEmpty {
                 MealSectionView(viewModel: viewModel, title: NSLocalizedString("Snack", comment: ""), foodItems: $viewModel.snackItems, calorieNum: $viewModel.sumCalories, showEditPopup: $showEditPopup, selectedFoodItem: $selectedFoodItem)
+                    .environmentObject(control)
             }
         }
     }
@@ -368,10 +366,12 @@ func getGreeting() -> String {
 
 #Preview("English") {
     DashboardView()
+        .environmentObject(ControllerModel())
 }
 
 
 #Preview("Chinese") {
     DashboardView()
         .environment(\.locale, Locale(identifier: "zh-Hans"))
+        .environmentObject(ControllerModel())
 }
