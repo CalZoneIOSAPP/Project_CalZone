@@ -113,7 +113,7 @@ struct FoodItemEditView: View {
                             .font(.headline)
                     }
                     .frame(maxWidth: 200, minHeight: 40)
-                    .background(Color(.brandLightGreen).opacity(0.3))
+                    .background(Color(.brandLightGreen).opacity(0.6))
                     .foregroundColor(.brandDarkGreen)
                     .cornerRadius(8)
                     .padding(.bottom, 5)

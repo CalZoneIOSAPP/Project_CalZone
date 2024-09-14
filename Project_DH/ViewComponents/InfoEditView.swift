@@ -16,7 +16,15 @@ struct InfoEditView: View {
             Text(NSLocalizedString("What is your current weight?", comment: ""))
                 .font(.headline)
                 .foregroundStyle(.gray)
-                .padding(.top, 20)
+                .padding(.top, 30)
+            
+            Spacer()
+            
+            Text(NSLocalizedString("Based on your new body weight, we will recalculate the recommended calories for you.", comment: ""))
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.gray)
+                .padding(.horizontal, 25)
             
             Spacer()
             
@@ -42,12 +50,10 @@ struct InfoEditView: View {
                     Text("Cancel")
                 }
                 .fontWeight(.semibold)
-                .foregroundStyle(.white)
                 .frame(width: 130, height: 45)
-                .background(.brandRed)
+                .background(Color(.brandRed).opacity(0.3))
+                .foregroundColor(.brandRed)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.bottom, 30)
-                .shadow(radius: 3)
                 
                 Spacer()
                 
@@ -63,20 +69,20 @@ struct InfoEditView: View {
                     Text("Save")
                 }
                 .fontWeight(.semibold)
-                .foregroundStyle(.white)
                 .frame(width: 130, height: 45)
-                .background(.brandDarkGreen)
+                .background(Color(.brandLightGreen).opacity(0.6))
+                .foregroundColor(.brandDarkGreen)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.bottom, 30)
-                .shadow(radius: 3)
                 
                 Spacer()
             }
             .frame(height: 50)
-            .padding(.bottom, 20)
+            
+            Spacer()
+            
             
         } // VStack
-        .frame(height: 250)
+        .frame(height: 300)
         .background(.white)
         .cornerRadius(8)
         .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)

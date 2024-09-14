@@ -59,7 +59,7 @@ struct PopUpConfirmationView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(.brandRed).opacity(0.6))
+                        .background(Color(.brandRed).opacity(0.3))
                         .foregroundStyle(Color(.brandRed))
                         .cornerRadius(8)
                 }

@@ -42,12 +42,11 @@ struct CalendarView: View {
                         selectedDate = originalDate
                         showingPopover = false
                     }
-                    .frame(width: 70)
+                    .frame(width: 90)
                     .padding(10)
-                    .background(Color(.white))
+                    .background(Color(.brandRed).opacity(0.3))
                     .foregroundColor(Color(.brandRed))
                     .cornerRadius(8)
-                    .shadow(radius: 2)
                     
                     Spacer().frame(width: 20)
 
@@ -61,14 +60,13 @@ struct CalendarView: View {
                         }
                         showingPopover = false
                     }
-                    .frame(width: 70)
+                    .frame(width: 90)
                     .padding(10)
-                    .background(Color(.brandDarkGreen))
-                    .foregroundColor(.white)
+                    .background(Color(.brandLightGreen).opacity(0.6))
+                    .foregroundColor(Color(.brandDarkGreen))
                     .cornerRadius(8)
-                    .shadow(radius: 2)
                 }
-                .padding(.top)
+                .padding(.bottom, 30)
             }
             .presentationDetents([.height(500)])
         }

@@ -629,6 +629,16 @@
         }
       }
     },
+    "Based on your new body weight, we will recalculate the recommended calories for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据您提供的新体重，我们将重新为您计算推荐的卡路里摄入量。"
+          }
+        }
+      }
+    },
     "Be careful, you exceeded your calorie limit!" : {
       "localizations" : {
         "cs" : {
@@ -810,7 +820,14 @@
       }
     },
     "Calculate based on Info" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据体征计算"
+          }
+        }
+      }
     },
     "Cally" : {
       "localizations" : {

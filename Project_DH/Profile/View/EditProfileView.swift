@@ -264,11 +264,10 @@ struct EditProfileView: View {
                         .font(.headline)
                 }
                 .frame(maxWidth: 250, minHeight: 40)
-                .background(Color(.brandLightGreen).opacity(0.3))
+                .background(Color(.brandLightGreen).opacity(0.6))
                 .foregroundColor(.brandDarkGreen)
                 .cornerRadius(8)
                 .padding(.bottom, 5)
-                .shadow(radius: 3)
                 
 
             }
