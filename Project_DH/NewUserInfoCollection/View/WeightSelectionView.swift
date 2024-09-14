@@ -9,8 +9,11 @@ import SwiftUI
 
 struct WeightSelectionView: View {
     @EnvironmentObject var viewModel: InfoCollectionViewModel
+//    @StateObject var viewModel = InfoCollectionViewModel()
     @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
+    
+    @State private var config: WheelPicker.Config = .init(count: 180, steps: 10, spacing: 10, multiplier: 1)
     
     var body: some View {
         NavigationStack {
@@ -39,23 +42,28 @@ struct WeightSelectionView: View {
                         .foregroundColor(.gray)
                         .padding(.bottom, 30)
                     
+                    HStack(alignment: .lastTextBaseline, spacing: 5, content: {
+                        Text(verbatim: "\(viewModel.weight)")
+                            .font(.largeTitle)
+                            .bold()
+                            .contentTransition(.numericText(value: viewModel.weight))
+                            .animation(.snappy, value: viewModel.weight)
+                        
+                        Text(NSLocalizedString("Kg", comment: ""))
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .textScale(.secondary)
+                            .foregroundStyle(.gray)
+                        
+                    })
                     // Weight Slider
-                    HStack {
-                        Text("30")
-                            .foregroundColor(.gray)
-                        Slider(value: $viewModel.weight, in: 30...120, step: 0.1)
-                            .tint(.brandDarkGreen)
-                            .onChange(of: viewModel.weight) { _, newValue in
-                                viewModel.calculateBMI()
-                            }
-                        Text("120")
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.horizontal)
+                    WheelPicker(config: config, value: $viewModel.weight)
+                        .frame(height: 60)
+                        .onChange(of: viewModel.weight) { _, newValue in
+                            print(viewModel.weight)
+                            viewModel.calculateBMI()
+                        }
                     
-                    Text(String(format: NSLocalizedString("%.1f Kg", comment: ""), viewModel.weight))
-                        .font(.largeTitle)
-                        .bold()
                 }
                 .padding(.bottom, 30)
                 

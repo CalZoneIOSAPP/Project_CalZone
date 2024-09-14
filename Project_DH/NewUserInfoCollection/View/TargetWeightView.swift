@@ -37,6 +37,10 @@ struct TargetWeightView: View {
                         .frame(width: 120, height: 120)
                         .clipShape(Circle())
                     
+                    Text(String(format: NSLocalizedString("%.1f Kg", comment: ""), viewModel.weightTarget))
+                        .font(.largeTitle)
+                        .bold()
+                    
                     // Target Weight Slider
                     HStack {
                         Text("30")
@@ -51,10 +55,6 @@ struct TargetWeightView: View {
                             .foregroundColor(.gray)
                     }
                     .padding(.horizontal)
-                    
-                    Text(String(format: NSLocalizedString("%.1f Kg", comment: ""), viewModel.weightTarget))
-                        .font(.largeTitle)
-                        .bold()
                 }
                 
                 // Target Date Selection

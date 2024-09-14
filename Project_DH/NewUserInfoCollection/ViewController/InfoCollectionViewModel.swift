@@ -13,7 +13,7 @@ class InfoCollectionViewModel: ObservableObject {
     // Gender Selection
     @Published var gender: String = NSLocalizedString("female", comment: "")
     // Weight Selection
-    @Published var weight: Double = 66.6
+    @Published var weight: CGFloat = 66.6
     // Target Weight Selection
     @Published var weightTarget: Double = 75.0
     @Published var targetYear = 2000
@@ -24,7 +24,8 @@ class InfoCollectionViewModel: ObservableObject {
     @Published var percentChanged: Int = 0
     @Published var weightStatus: String = NSLocalizedString("Nice, you choose to keep as you are!", comment: "")
     // Height Selection
-    @Published var height: Double = 175.0
+    @Published var height: Double = 175
+    @Published var heightPicker: Int = 175
     // Birthday Selection
     @Published var birthday: Date = Date()
     @Published var selectedYear = 2000
