@@ -92,7 +92,7 @@ struct GenderSelectionView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(.brandLightGreen)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                 }
                 .padding(.bottom, 30)
                 .padding(.horizontal)

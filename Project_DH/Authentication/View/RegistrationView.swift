@@ -29,6 +29,7 @@ struct RegistrationView: View {
                     
                     Text("get_started")
                         .font(.title2)
+                        .foregroundStyle(.gray)
                         .padding(.bottom, 80)
                         .shadow(color: Color.black.opacity(0.1), radius: 2)
                     

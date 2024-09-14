@@ -30,6 +30,7 @@ struct SignInView: View {
                     
                     Text("welcome_back")
                         .font(.title2)
+                        .foregroundStyle(.gray)
                         .shadow(color: Color.black.opacity(0.1), radius: 2)
                     
                     Spacer()

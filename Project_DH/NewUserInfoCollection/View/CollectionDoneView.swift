@@ -77,7 +77,7 @@ struct CollectionDoneView: View {
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(.brandLightGreen)
-                                .cornerRadius(10)
+                                .cornerRadius(12)
                                 .opacity(viewModel.saveSelected ? 1 : 0.5)
                         }
                     }
@@ -90,7 +90,7 @@ struct CollectionDoneView: View {
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(.brandLightGreen)
-                                .cornerRadius(10)
+                                .cornerRadius(12)
                                 .opacity(viewModel.saveSelected ? 0.5 : 1)
                         }
                     }
@@ -120,10 +120,10 @@ struct CollectionDoneView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(.brandLightGreen)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                 }
                 .padding(.bottom, 30)
-                .padding(.horizontal)
+                .padding(.horizontal, 40)
             }
             .background(.brandBackgroundGreen)
             .navigationBarBackButtonHidden()

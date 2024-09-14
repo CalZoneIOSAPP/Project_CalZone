@@ -98,10 +98,10 @@ struct ActivityLevelView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(.brandLightGreen)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                 }
                 .padding(.bottom, 30)
-                .padding(.horizontal)
+                .padding(.horizontal, 40)
                 .disabled(viewModel.activityLevel == "")
                 .opacity(viewModel.activityLevel == "" ? 0.7 : 1)
             } // VStack

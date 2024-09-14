@@ -167,7 +167,7 @@ struct EditProfileView: View {
             
             if viewModel.showEditWindow {
                 EditInfoView
-                    .background(Color(.systemGray6))
+                    .background(Color(.white))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .shadow(radius: 5)
                     .frame(maxWidth: 300, maxHeight: viewModel.editInfoWindowTitle == "Activity Level" ? 420 : viewModel.inputType == .pickerStyle ? 350 : 200)

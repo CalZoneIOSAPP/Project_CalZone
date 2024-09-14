@@ -63,7 +63,7 @@ struct ForgotPasswordView: View {
                 .foregroundStyle(.white)
                 .frame(width: 310, height: 45)
                 .background(.brandDarkGreen)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.vertical)
                 
                 Spacer()

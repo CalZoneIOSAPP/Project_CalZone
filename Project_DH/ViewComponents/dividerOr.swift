@@ -16,6 +16,9 @@ struct dividerOr: View {
             }
             .padding(.horizontal, 10)
             Text("OR")
+                .font(.headline)
+                .bold()
+                .foregroundStyle(.gray)
             VStack {
                 Divider()
             }

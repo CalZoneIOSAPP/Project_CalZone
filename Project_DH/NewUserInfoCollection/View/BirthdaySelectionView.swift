@@ -95,10 +95,10 @@ struct BirthdaySelectionView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(.brandLightGreen)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                 }
                 .padding(.bottom, 30)
-                .padding(.horizontal)
+                .padding(.horizontal, 40)
             }
             .background(.brandBackgroundGreen)
             .navigationBarBackButtonHidden()
