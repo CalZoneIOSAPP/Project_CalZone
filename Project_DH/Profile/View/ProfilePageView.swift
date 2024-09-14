@@ -68,7 +68,7 @@ struct ProfilePageView: View {
                                     .foregroundStyle(Color(.black))
                                     .font(.system(size: Fontsize().brand_button))
                             }
-                            .padding(.vertical, 19)
+                            .padding(.vertical, 20)
                         }
                     }
                     .listRowSeparator(.hidden)
@@ -89,7 +89,7 @@ struct ProfilePageView: View {
                     }
                 }
                 .background(Color(.white).opacity(0.13))
-                .shadow(color: Color.black.opacity(0.15), radius: 2)
+                .shadow(color: Color.brandDarkGreen.opacity(0.2), radius: 2)
                 .environment(\.defaultMinListRowHeight, 50)
                 .scrollDisabled(true)
                 .scrollContentBackground(.hidden)

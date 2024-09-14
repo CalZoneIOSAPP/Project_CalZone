@@ -421,20 +421,8 @@
         }
       }
     },
-    "ADD A MEAL" : {
+    "Add a Meal" : {
       "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "ADD A MEAL"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ADD A MEAL"
-          }
-        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",

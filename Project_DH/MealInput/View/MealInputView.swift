@@ -204,7 +204,7 @@ struct MealInputView: View {
                             }
                             .disabled(viewModel.showMessageWindow)
                             .blur(radius: viewModel.showMessageWindow || viewModel.showInputError || viewModel.showUsageError ? 5 : 0)
-                            .navigationTitle("ADD A MEAL")
+                            .navigationTitle("Add a Meal")
                             .navigationBarTitleDisplayMode(.inline)
                             .disabled(savePressed)
                             

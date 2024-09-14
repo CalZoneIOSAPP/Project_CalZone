@@ -36,7 +36,7 @@ struct RegistrationView: View {
                     VStack{
                         HStack {
                             Image(systemName: "person")
-                                .padding(.leading, 15)
+                                .padding(.leading, 12)
                             TextField("username", text: $authViewModel.username)
                                 .textInputAutocapitalization(.never)
                                 .font(.subheadline)
@@ -126,7 +126,7 @@ struct RegistrationView: View {
                     .foregroundStyle(.white)
                     .frame(width: 310, height: 45)
                     .background(.brandDarkGreen)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.bottom, 30)
                     .shadow(radius: 3)
                     .disabled(authViewModel.processingRegistration)

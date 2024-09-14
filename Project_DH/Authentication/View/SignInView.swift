@@ -104,7 +104,7 @@ struct SignInView: View {
                     .foregroundStyle(.white)
                     .frame(width: 300, height: 45)
                     .background(.brandDarkGreen)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.vertical)
                     .shadow(radius: 3)
                     .disabled(authViewModel.processingSignIn)
@@ -131,8 +131,8 @@ struct SignInView: View {
                             print("FAILED SIGNING IN WITH APPLE \(error)")
                         }
                     }
-                    .frame(width: 293, height: 40)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .frame(width: 300, height: 45)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.top, 8)
                     .shadow(radius: 3)
                     .disabled(authViewModel.processingSignIn)
@@ -151,22 +151,22 @@ struct SignInView: View {
                             }
                         }
                     }label: {
-                        HStack {
+                        HStack(spacing: -5) {
                             Image(.googleLogo)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 50)
+                                .frame(width: 40)
                             Text("google_sign_in")
-                                .font(.custom("googlefont", fixedSize: 15.5))
+                                .font(.custom("googlefont", fixedSize: 17))
                                 .foregroundStyle(Color(.systemGray))
-                                .padding(.trailing)
+                                
                         }
                     }
                     .fontWeight(.semibold)
                     .foregroundStyle(.white)
-                    .frame(width: 293, height: 40)
+                    .frame(width: 300, height: 45)
                     .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.bottom, 40)
                     .shadow(radius: 3)
                     .disabled(authViewModel.processingSignIn)
