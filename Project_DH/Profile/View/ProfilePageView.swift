@@ -68,15 +68,14 @@ struct ProfilePageView: View {
                                     .foregroundStyle(Color(.black))
                                     .font(.system(size: Fontsize().brand_button))
                             }
-                            .padding(.vertical)
+                            .padding(.vertical, 19)
                         }
                     }
                     .listRowSeparator(.hidden)
                     .listRowInsets(.init(top: 0, leading: 35, bottom: 0, trailing: 0))
-                    .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color(.brandDarkGreen).opacity(0.2)).padding(.vertical, 3).padding(.horizontal, 10))
+                    .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color(.white)).padding(.vertical, 5).padding(.horizontal, 10))
                     
-                    Spacer()
-                    
+                                        
                     Section {
                         Button {
                             AuthServices.sharedAuth.signOut()
@@ -86,9 +85,11 @@ struct ProfilePageView: View {
                                 .font(.system(size: Fontsize().brand_button, weight: .bold))
                         }
                         .listRowInsets(.init(top: 0, leading: 30, bottom: 0, trailing: 0))
-                        .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color(.brandDarkGreen).opacity(0.2)).padding(.horizontal, 10))
+                        .listRowBackground(RoundedRectangle(cornerRadius: 12).fill(Color(.white)).padding(.horizontal, 10))
                     }
                 }
+                .background(Color(.white).opacity(0.13))
+                .shadow(color: Color.black.opacity(0.15), radius: 2)
                 .environment(\.defaultMinListRowHeight, 50)
                 .scrollDisabled(true)
                 .scrollContentBackground(.hidden)
@@ -98,7 +99,7 @@ struct ProfilePageView: View {
                 
                 
             }
-            .background(LinearGradient(gradient: Gradient(colors: [Color(.brandDarkGreen).opacity(0.6), Color(.brandDarkGreen).opacity(0.4)]), startPoint: .leading, endPoint: .trailing))
+            .background(Color(.brandLightGreen).opacity(0.65))
 
         } // END OF NAVIGATION STACK
         .fullScreenCover(isPresented: $showingProfileInfo, content: {
@@ -134,7 +135,6 @@ struct ProfilePageView: View {
                     } else {
                         ZStack{
                             Circle()
-                                .stroke(lineWidth: 1)
                                 .foregroundColor(.gray)
                                 .frame(width: 80, height: 80)
                             Image(systemName: "person.circle.fill")

@@ -29,7 +29,6 @@ struct CircularProfileImageView: View {
         ZStack {
             if showCircle{
                 Circle()
-                    .stroke(lineWidth: 2)
                     .foregroundColor(.gray)
                     .frame(width: width, height: height)
             }
