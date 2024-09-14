@@ -18,7 +18,7 @@ struct ProgressBarView: View {
     
     var body: some View {
         VStack {
-            if let targetCalories = user.targetCalories, Int(targetCalories)! > 0 {
+            if let targetCalories = user.targetCalories, Int(targetCalories) ?? 0 > 0 {
                 if  let _ = user.weight, let _ = user.weightTarget {
                     if user.loseWeight() {
                         Text("Calorie Limit: \(targetCalories)")

@@ -35,19 +35,19 @@ struct ProfilePageView: View {
                         InfoCellView(title: NSLocalizedString("BMI", comment: ""), info: "-")
                     }
                     
-                    if let weight = viewModel.currentUser?.weight {
+                    if let weight = viewModel.currentUser?.weight, weight > 0.0 {
                         InfoCellView(title: NSLocalizedString("Weight", comment: ""), info: String(weight), unit: NSLocalizedString("Kg", comment: ""))
                     } else {
                         InfoCellView(title: NSLocalizedString("Weight", comment: ""), info: "-")
                     }
                     
-                    if let weightTarget = viewModel.currentUser?.weightTarget {
+                    if let weightTarget = viewModel.currentUser?.weightTarget, weightTarget > 0.0 {
                         InfoCellView(title: NSLocalizedString("Target \nWeight", comment: ""), info: String(weightTarget), unit: NSLocalizedString("Kg", comment: ""))
                     } else {
                         InfoCellView(title: NSLocalizedString("Target \nWeight", comment: ""), info: "-")
                     }
                     
-                    if let achievementDate = viewModel.currentUser?.achievementDate {
+                    if let achievementDate = viewModel.currentUser?.achievementDate, let targetCal = viewModel.currentUser?.targetCalories, targetCal != "" {
                         let days = viewModel.daysFromDate(date: achievementDate)
                         InfoCellView(title: NSLocalizedString("Remaining \nDays", comment: ""), info: String(days), unit: NSLocalizedString("Days", comment: ""))
                     } else {

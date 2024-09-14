@@ -254,6 +254,25 @@ struct EditProfileView: View {
             }
             .zIndex(10000.0) // Making sure that the drop down will list will be on top.
             
+            if viewModel.curStateDietary == .targetCalories {
+                Button {
+                    Task {
+                        try await viewModel.calculateAndSaveTargetCalories()
+                    }
+                } label: {
+                    Text("Calculate based on Info")
+                        .font(.headline)
+                }
+                .frame(maxWidth: 250, minHeight: 40)
+                .background(Color(.brandLightGreen).opacity(0.3))
+                .foregroundColor(.brandDarkGreen)
+                .cornerRadius(8)
+                .padding(.bottom, 5)
+                .shadow(radius: 3)
+                
+
+            }
+            
             Spacer()
             
             Divider()
@@ -271,7 +290,9 @@ struct EditProfileView: View {
                         let doubleInfo = infoToDouble()
                         
                         try await viewModel.updateInfo(with: viewModel.curStateAccount, with: viewModel.curStateDietary, strInfo: viewModel.strToChange, optionStrInfo: viewModel.optionSelection, dateInfo: viewModel.dateToChange, doubleInfo: doubleInfo)
-                        try await viewModel.calculateAndSaveTargetCalories()
+                        if viewModel.curStateDietary != .targetCalories {
+                            try await viewModel.calculateAndSaveTargetCalories()
+                        }
                         resetFields()
                     }
                     viewModel.showEditWindow = false

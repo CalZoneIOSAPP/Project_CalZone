@@ -82,7 +82,7 @@ class DashboardViewModel: ObservableObject {
     /// - Returns: Bool
     @MainActor
     func checkCalorieTarget() async throws {
-        if let calTarget = profileViewModel.currentUser?.targetCalories {
+        if let calTarget = profileViewModel.currentUser?.targetCalories, calTarget != "" {
 //            print("NOTE: FIRST TRUE \(calTarget), \(self.sumCalories)")
             if Int(calTarget) == 0 {
 //                print("NOTE: 0 calories")

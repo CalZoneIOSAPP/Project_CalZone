@@ -144,6 +144,7 @@ class ProfileViewModel: ObservableObject {
     func calculateAndSaveTargetCalories() async throws {
         if infoAvailableForCalorieCalculation(for: currentUser) {
             let calories = calculateTargetCalories(user: currentUser!)
+            strToChange = String(calories)
             try await updateInfo(with: nil, with: .targetCalories, strInfo: String(calories), optionStrInfo: nil, dateInfo: nil, doubleInfo: nil)
         }
     }
@@ -318,19 +319,19 @@ class ProfileViewModel: ObservableObject {
                 return ""
             }
         case .weight:
-            if let weight = currentUser?.weight {
+            if let weight = currentUser?.weight, weight > 0.0 {
                 return String(weight)
             } else {
                 return ""
             }
         case .weightTarget:
-            if let weightTarget = currentUser?.weightTarget {
+            if let weightTarget = currentUser?.weightTarget, weightTarget > 0.0 {
                 return String(weightTarget)
             } else {
                 return ""
             }
         case .height:
-            if let height = currentUser?.height {
+            if let height = currentUser?.height, height > 0.0 {
                 return String(height)
             } else {
                 return ""
@@ -354,7 +355,7 @@ class ProfileViewModel: ObservableObject {
                 return ""
             }
         case .targetCalories:
-            if let calories = currentUser?.targetCalories {
+            if let calories = currentUser?.targetCalories, Double(calories) ?? 0.0 > 0.0 {
                 return calories
             } else {
                 return ""
