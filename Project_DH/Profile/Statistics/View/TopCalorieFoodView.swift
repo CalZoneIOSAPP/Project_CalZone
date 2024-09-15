@@ -11,11 +11,12 @@ import Kingfisher
 struct TopCalorieFoodView: View {
     @Binding var foodItem: FoodItem?
     @Binding var user: User?
+    @State var isWeek: Bool
     
     var body: some View {
         VStack {
             HStack {
-                Text("Calorie Bomb of the Week")
+                Text(textToPresent)
                     .font(.title2)
                     .bold()
                     .foregroundStyle(Color(.black).opacity(0.7))
@@ -72,6 +73,18 @@ struct TopCalorieFoodView: View {
         .frame(maxHeight: 200)
         .padding(.horizontal)
     } // End of Body
+    
+    
+    /// This function use to choose the right text to display
+    /// - Parameters:
+    ///     - none
+    /// - Returns: String: the right text
+    private var textToPresent: String {
+        if isWeek {
+           return "Calorie Bomb of the Week"
+        }
+        return "Calorie Bomb of the Month"
+    }
 }
 
 #Preview {
@@ -79,7 +92,7 @@ struct TopCalorieFoodView: View {
         @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple", imageURL: "Cloud", percentage: 100)
         
         var body: some View {
-            TopCalorieFoodView(foodItem: $foodItem, user: .constant(User(email: "adminjimmy@gmail.com")))
+            TopCalorieFoodView(foodItem: $foodItem, user: .constant(User(email: "adminjimmy@gmail.com")), isWeek: false)
         }
     }
     return Preview()

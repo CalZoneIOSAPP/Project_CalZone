@@ -58,7 +58,7 @@ struct StatsChartView: View {
                     .padding()
                     
                     // MVP FOOD
-                    TopCalorieFoodView(foodItem: $viewModel.topCalorieFood, user: $user)
+                    TopCalorieFoodView(foodItem: $viewModel.topCalorieFood, user: $user, isWeek: isWeekView)
                         .padding()
                 }
                 Spacer()
