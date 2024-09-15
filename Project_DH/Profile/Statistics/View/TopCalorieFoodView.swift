@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct TopCalorieFoodView: View {
-    var foodItem: FoodItem?
+    @Binding var foodItem: FoodItem?
+    @Binding var user: User?
     
     var body: some View {
         VStack {
@@ -39,10 +41,11 @@ struct TopCalorieFoodView: View {
                     Spacer()
                     
                     .padding(.leading, 2)
-                    Image(systemName: "birthday.cake.fill")
+                    KFImage(URL(string: foodItem.imageURL))
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 120)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     
                 } else {
                     VStack {
@@ -65,12 +68,19 @@ struct TopCalorieFoodView: View {
             .background(Color.white)
             .cornerRadius(15)
             .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
-        }
+        } // End of VStack
         .frame(maxHeight: 200)
         .padding(.horizontal)
-    }
+    } // End of Body
 }
 
 #Preview {
-    TopCalorieFoodView()
+    struct Preview: View {
+        @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple", imageURL: "Cloud", percentage: 100)
+        
+        var body: some View {
+            TopCalorieFoodView(foodItem: $foodItem, user: .constant(User(email: "adminjimmy@gmail.com")))
+        }
+    }
+    return Preview()
 }

@@ -57,16 +57,28 @@ struct StatsChartView: View {
                     )
                     .padding()
                     
-                    // MVP FOOD :)
-                    TopCalorieFoodView()
+                    // MVP FOOD
+                    TopCalorieFoodView(foodItem: $viewModel.topCalorieFood, user: $user)
                         .padding()
                 }
                 Spacer()
             } // End of Scroll View
             .navigationTitle("My Statistics")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.brandDarkGreen)
+                            .imageScale(.large)
+                    }
+                }
+            }
             .onAppear {
                 fetchDataForSelectedWeek()
+                viewModel.fetchTopCalorieFoodForInterval(userId: user?.id, interval: selectedWeek)
             }
         } // End of NavigationStack
     }

@@ -214,4 +214,88 @@ class StatsViewModel: ObservableObject {
             }
         }
     }
+    
+    /// Fetch the food item with the highest calories in a date interval (weekly or monthly)
+    /// - Parameters:
+    ///   - userId: The ID of the user.
+    ///   - interval: The DateInterval for which to search for the top calorie food item.
+    func fetchTopCalorieFoodForInterval(userId: String?, interval: DateInterval) {
+        isLoading = true
+        guard let userId = userId else {
+            print("No userId found when fetching Top Calorie Food For Interval!")
+            return
+        }
+        
+        // Step 1: Fetch meals within the interval
+        let mealsQuery = db.collection("meal")
+            .whereField("userId", isEqualTo: userId)
+            .whereField("date", isGreaterThanOrEqualTo: interval.start)
+            .whereField("date", isLessThan: interval.end)
+        
+        mealsQuery.getDocuments { querySnapshot, error in
+            if let error = error {
+                print("ERROR: Failed to fetch meals for interval: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.topCalorieFood = nil
+                    self.isLoading = false
+                }
+                return
+            }
+            
+            guard let mealDocuments = querySnapshot?.documents, !mealDocuments.isEmpty else {
+                DispatchQueue.main.async {
+                    self.topCalorieFood = nil // No meals found
+                    self.isLoading = false
+                }
+                return
+            }
+
+            // Step 2: Extract meal IDs from the fetched meals
+            let mealIds = mealDocuments.compactMap { $0.documentID }
+            
+            // Ensure there are meal IDs before querying foodItems
+            guard !mealIds.isEmpty else {
+                DispatchQueue.main.async {
+                    self.topCalorieFood = nil // No meals found
+                    self.isLoading = false
+                }
+                return
+            }
+
+            // Step 3: Query food items for these meals
+            let foodItemsQuery = self.db.collection("foodItems")
+                .whereField("mealId", in: mealIds)
+            
+            foodItemsQuery.getDocuments { foodQuerySnapshot, error in
+                if let error = error {
+                    print("ERROR: Failed to fetch food items: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        self.topCalorieFood = nil
+                        self.isLoading = false
+                    }
+                    return
+                }
+                
+                // Step 4: Identify the food item with the highest calories
+                var maxCalorieFood: FoodItem? = nil
+                var maxCalories = 0
+                
+                if let foodDocuments = foodQuerySnapshot?.documents {
+                    for document in foodDocuments {
+                        if let foodItem = try? document.data(as: FoodItem.self), foodItem.calorieNumber > maxCalories {
+                            maxCalories = foodItem.calorieNumber
+                            maxCalorieFood = foodItem
+                        }
+                    }
+                }
+                
+                // Step 5: Update the view model with the top calorie food item
+                DispatchQueue.main.async {
+                    self.topCalorieFood = maxCalorieFood
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+
 }

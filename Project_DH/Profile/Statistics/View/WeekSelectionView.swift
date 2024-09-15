@@ -69,12 +69,16 @@ struct WeekSelectionView: View {
                             if let uid = user?.uid {
                                 viewModel.pickerMode = .week
                                 viewModel.fetchCaloriesForWeek(userId: uid, weekInterval: selectedWeek)
+                                viewModel.fetchTopCalorieFoodForInterval(userId: uid, interval: selectedWeek)
                             }
                         } else if pickerMode == .month {
                             selectedMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: selectedMonth)) ?? Date()
                             if let uid = user?.uid {
                                 viewModel.pickerMode = .month
                                 viewModel.fetchCaloriesForMonth(userId: uid, monthStart: selectedMonth)
+                                if let monthInterval = dateIntervalForMonth(selectedMonth: selectedMonth) {
+                                    viewModel.fetchTopCalorieFoodForInterval(userId: uid, interval: monthInterval)
+                                }
                             }
                         }
                         showingPopover = false
@@ -108,7 +112,30 @@ struct WeekSelectionView: View {
         }
         return formatter.string(from: date)
     }
+    
+    
+    /// This function generates the date interval for the month
+    /// - Parameters:
+    ///     - date: the date of the first day on selected month
+    /// - Returns: DateInterval: DateInterval for that month
+    private func dateIntervalForMonth(selectedMonth: Date) -> DateInterval? {
+        let calendar = Calendar.current
+        // Step 1: Get the start date of the month
+        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: selectedMonth)) else {
+            return nil
+        }
+        // Step 2: Get the end date of the month (last second of the last day)
+        guard let range = calendar.range(of: .day, in: .month, for: startOfMonth),
+              let endOfMonth = calendar.date(byAdding: .day, value: range.count - 1, to: startOfMonth) else {
+            return nil
+        }
+        // Step 3: Create a DateInterval from the start to the end of the month
+        let dateInterval = DateInterval(start: startOfMonth, end: endOfMonth)
+
+        return dateInterval
+    }
 }
+
 
 // A view for week picker only in StatsChartView Only
 struct WeekPicker: View {
