@@ -12,6 +12,8 @@ struct HeightSelectionView: View {
 //    @StateObject var viewModel = InfoCollectionViewModel()
     @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
+    
+    @State private var config: WheelPicker.Config = .init(count: 40, steps: 5, spacing: 25, multiplier: 5, vertical: true, indicatorThickness: 4, indicatorLength: 75)
 
     var body: some View {
         NavigationStack {
@@ -39,30 +41,35 @@ struct HeightSelectionView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.bottom, 20)
-
+                
+                Spacer()
+                
                 // Ruler slider
                 ZStack {
-                    // Background ruler
-                    Image("ruler") // replace with actual image if needed
+                    Image("rulerEmpty") // replace with actual image if needed
                         .resizable()
-                        .frame(width: 400, height: 300)
+                        .frame(width: 500, height: 400)
+                        .offset(x:0)
                     
-                    // Interactive slider
-                    Slider(value: $viewModel.height, in: 160...190, step: 1)
-                        .tint(Color.brandDarkGreen)
-                        .rotationEffect(.degrees(-90))
-                        .frame(width: 300, height: 80)
-                        .padding(.trailing, 75)
-                    
-                    // Current height display
-                    Text("\(Int(viewModel.height)) CM")
-                        .font(.title)
-                        .fontWeight(.medium)
-                        .foregroundColor(.green)
-                        .offset(x: 110, y: 0)
+                    HStack(alignment: .lastTextBaseline, spacing: 5, content: {
+                        Text(verbatim: "\(Int(viewModel.height))")
+                            .font(.largeTitle)
+                            .bold()
+                            .contentTransition(.numericText(value: viewModel.height))
+                            .animation(.snappy(duration: 0.1), value: viewModel.height)
+                        
+                        Text(NSLocalizedString("Cm", comment: ""))
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .textScale(.secondary)
+                            .foregroundStyle(.gray)
+                        
+                    })
+                    .padding(.leading, 250)
+                    // Weight Slider
+                    WheelPicker(config: config, value: $viewModel.height)
+                        .frame(width: 300, height: 250)
                 }
-                .frame(height: 300)
-                .padding(.bottom, 20)
                 
                 Spacer()
 

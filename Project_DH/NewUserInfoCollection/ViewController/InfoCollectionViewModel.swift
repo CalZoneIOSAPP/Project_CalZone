@@ -15,7 +15,7 @@ class InfoCollectionViewModel: ObservableObject {
     // Weight Selection
     @Published var weight: CGFloat = 66.6
     // Target Weight Selection
-    @Published var weightTarget: Double = 75.0
+    @Published var weightTarget: CGFloat = 75.0
     @Published var targetYear = 2000
     @Published var targetMonth = 1
     @Published var targetDay = 1
@@ -24,8 +24,7 @@ class InfoCollectionViewModel: ObservableObject {
     @Published var percentChanged: Int = 0
     @Published var weightStatus: String = NSLocalizedString("Nice, you choose to keep as you are!", comment: "")
     // Height Selection
-    @Published var height: Double = 175
-    @Published var heightPicker: Int = 175
+    @Published var height: CGFloat = 175
     // Birthday Selection
     @Published var birthday: Date = Date()
     @Published var selectedYear = 2000

@@ -29,14 +29,15 @@ struct WheelPicker: View {
                             .background(remainder == 0 ? Color.primary : .gray)
                             .frame(width: 0, height: remainder == 0 ? 20 : 10, alignment: .center)
                             .frame(maxHeight: 20, alignment: .bottom)
-                            .overlay(alignment: .bottom) {
+                            .overlay(alignment: config.vertical ? .top : .bottom) {
                                 if remainder == 0 && config.showsText {
                                     Text("\((index/config.steps) * config.multiplier)")
-                                        .font(.caption)
+                                        .font(.subheadline)
                                         .fontWeight(.semibold)
                                         .textScale(.secondary)
                                         .fixedSize()
-                                        .offset(y: 20)
+                                        .offset(x: config.vertical ? -25 : 0, y: config.vertical ? 0 : 20)
+                                        .rotationEffect(config.vertical ? .degrees(-90) : .degrees(0))
                                 }
                             }
                     }
@@ -56,8 +57,9 @@ struct WheelPicker: View {
             }))
             .overlay(alignment: .center, content: {
                 Rectangle()
-                    .frame(width: 1, height: 40)
-                    .padding(.bottom, 20)
+                    .frame(width: config.indicatorThickness, height: config.indicatorLength)
+                    .padding(.bottom, config.vertical ? 60 : 40)
+                
             })
             .safeAreaPadding(.horizontal, horizontalPadding)
             .onAppear {
@@ -66,6 +68,7 @@ struct WheelPicker: View {
                 }
             }
         }
+        .rotationEffect(config.vertical ? .degrees(90) : .degrees(0))
     }
     
     struct Config: Equatable {
@@ -74,6 +77,9 @@ struct WheelPicker: View {
         var spacing: CGFloat = 5
         var multiplier: Int = 10
         var showsText: Bool = true
+        var vertical: Bool = false
+        var indicatorThickness: CGFloat = 1
+        var indicatorLength: CGFloat = 40
     }
 }
 

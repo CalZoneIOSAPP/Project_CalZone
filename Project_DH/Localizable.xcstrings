@@ -66,6 +66,7 @@
       }
     },
     "%.1f Kg" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -142,6 +143,7 @@
       }
     },
     "%lld CM" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -240,6 +242,7 @@
       }
     },
     "30" : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -284,6 +287,7 @@
       }
     },
     "120" : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -831,6 +835,7 @@
       }
     },
     "Calorie Bomb of the Week" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1131,6 +1136,9 @@
         }
       }
     },
+    "Cm" : {
+
+    },
     "Complete" : {
       "localizations" : {
         "cs" : {
@@ -1311,6 +1319,9 @@
           }
         }
       }
+    },
+    "Day" : {
+
     },
     "Day %lld" : {
       "localizations" : {
@@ -4558,6 +4569,9 @@
           }
         }
       }
+    },
+    "Year" : {
+
     },
     "Year %lld" : {
       "localizations" : {

@@ -13,7 +13,7 @@ struct WeightSelectionView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
-    @State private var config: WheelPicker.Config = .init(count: 180, steps: 10, spacing: 10, multiplier: 1)
+    @State private var config: WheelPicker.Config = .init(count: 180, steps: 10, spacing: 10, multiplier: 1, indicatorThickness: 4, indicatorLength: 40)
     
     var body: some View {
         NavigationStack {
@@ -32,22 +32,21 @@ struct WeightSelectionView: View {
                 
                 Spacer()
                 
+                Text("What is your weight?")
+                    .font(.title2)
+                
+                Text("Accurate height data will be used to calculate your BMI")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 30)
+                
                 // Weight Input Section
-                VStack(spacing: 20) {
-                    Text("What is your weight?")
-                        .font(.title2)
-                    
-                    Text("Accurate height data will be used to calculate your BMI")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 30)
-                    
+                VStack {
                     HStack(alignment: .lastTextBaseline, spacing: 5, content: {
                         Text(verbatim: "\(viewModel.weight)")
                             .font(.largeTitle)
                             .bold()
                             .contentTransition(.numericText(value: viewModel.weight))
-                            .animation(.snappy, value: viewModel.weight)
                         
                         Text(NSLocalizedString("Kg", comment: ""))
                             .font(.title2)
@@ -56,16 +55,29 @@ struct WeightSelectionView: View {
                             .foregroundStyle(.gray)
                         
                     })
-                    // Weight Slider
-                    WheelPicker(config: config, value: $viewModel.weight)
-                        .frame(height: 60)
-                        .onChange(of: viewModel.weight) { _, newValue in
-                            print(viewModel.weight)
-                            viewModel.calculateBMI()
-                        }
+                    ZStack {
+                        Image("rulerEmpty") // replace with actual image if needed
+                            .resizable()
+                            .scaledToFill()
+                            .rotationEffect(.degrees(90))
+                            .frame(height: 100)
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 20)
+                            .offset(y: 10)
+                        
+                        // Weight Slider
+                        WheelPicker(config: config, value: $viewModel.weight)
+                            .frame(width: 320, height: 80)
+                            .onChange(of: viewModel.weight) { _, newValue in
+                                print(viewModel.weight)
+                                viewModel.calculateBMI()
+                            }
+                    }
+                    .offset(y: -20)
+                    
                     
                 }
-                .padding(.bottom, 30)
+                .padding(.bottom, 10)
                 
                 // BMI Result Section
                 VStack(spacing: 15) {
