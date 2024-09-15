@@ -1,5 +1,5 @@
 //
-//  PerformanceCardView.swift
+//  CalorieStatsView.swift
 //  Project_DH
 //
 //  Created by mac on 2024/9/11.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PerformanceCardView: View {
+struct CalorieStatsView: View {
     let weeklyData: [(day: String, calories: Int)] // Use already formatted date strings
     let maxCalories: Int // Maximum calories for comparison
     
@@ -167,7 +167,7 @@ struct PerformanceCardView: View {
 // Preview for testing
 struct PerformanceCardView_Previews: PreviewProvider {
     static var previews: some View {
-        PerformanceCardView(
+        CalorieStatsView(
             weeklyData: [
                 ("9/1", 1500),
                 ("9/2", 0),

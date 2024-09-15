@@ -50,7 +50,7 @@ struct StatsChartView: View {
                     .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
                     .padding(.bottom, 5)
                     
-                    PerformanceCardView(
+                    CalorieStatsView(
                         weeklyData: viewModel.weeklyData,  // Pass your weekly data as [(String, Int)]
                         maxCalories: Int(user?.targetCalories ?? "5000") ?? 5000, // Handle the optional maxCalories
                         isWeekView: isWeekView

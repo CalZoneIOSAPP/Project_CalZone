@@ -15,7 +15,7 @@
 		0497CA442C85784100A6FE84 /* StatsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA432C85784100A6FE84 /* StatsChartView.swift */; };
 		0497CA4A2C87C08D00A6FE84 /* WeekSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA492C87C08D00A6FE84 /* WeekSelectionView.swift */; };
 		0497CA4E2C87D54800A6FE84 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497CA4D2C87D54800A6FE84 /* StatsViewModel.swift */; };
-		04CF2CC42C92A5B1006D67E8 /* PerformanceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CF2CC32C92A5B1006D67E8 /* PerformanceCardView.swift */; };
+		04CF2CC42C92A5B1006D67E8 /* CalorieStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CF2CC32C92A5B1006D67E8 /* CalorieStatsView.swift */; };
 		04D519B12C8A23C20096DE24 /* MonthYearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D519B02C8A23C20096DE24 /* MonthYearPickerView.swift */; };
 		04EB98A52C54B759001621A6 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB98A42C54B759001621A6 /* Meal.swift */; };
 		04EB98A72C54BA08001621A6 /* MealServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB98A62C54BA08001621A6 /* MealServices.swift */; };
@@ -132,7 +132,7 @@
 		0497CA432C85784100A6FE84 /* StatsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsChartView.swift; sourceTree = "<group>"; };
 		0497CA492C87C08D00A6FE84 /* WeekSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSelectionView.swift; sourceTree = "<group>"; };
 		0497CA4D2C87D54800A6FE84 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
-		04CF2CC32C92A5B1006D67E8 /* PerformanceCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceCardView.swift; sourceTree = "<group>"; };
+		04CF2CC32C92A5B1006D67E8 /* CalorieStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalorieStatsView.swift; sourceTree = "<group>"; };
 		04D519B02C8A23C20096DE24 /* MonthYearPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthYearPickerView.swift; sourceTree = "<group>"; };
 		04EB98A42C54B759001621A6 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		04EB98A62C54BA08001621A6 /* MealServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealServices.swift; sourceTree = "<group>"; };
@@ -405,7 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				0497CA432C85784100A6FE84 /* StatsChartView.swift */,
-				04CF2CC32C92A5B1006D67E8 /* PerformanceCardView.swift */,
+				04CF2CC32C92A5B1006D67E8 /* CalorieStatsView.swift */,
 				0497CA492C87C08D00A6FE84 /* WeekSelectionView.swift */,
 				04D519B02C8A23C20096DE24 /* MonthYearPickerView.swift */,
 				5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */,
@@ -884,7 +884,7 @@
 				5474F6712C77C31800BF86F4 /* SecureFieldView.swift in Sources */,
 				542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */,
 				54F18F1B2C85B7E1001E6A38 /* Tip.swift in Sources */,
-				04CF2CC42C92A5B1006D67E8 /* PerformanceCardView.swift in Sources */,
+				04CF2CC42C92A5B1006D67E8 /* CalorieStatsView.swift in Sources */,
 				541053252C8DA647005A7F36 /* FoodCard.swift in Sources */,
 				54F18F2B2C88C6D7001E6A38 /* WeightSelectionView.swift in Sources */,
 				0497CA442C85784100A6FE84 /* StatsChartView.swift in Sources */,
