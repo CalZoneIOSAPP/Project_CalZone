@@ -31,7 +31,6 @@ struct PerformanceCardView: View {
                 Spacer()
             }
             
-            
             HStack(spacing: 8) {
                 ForEach(0..<weeklyData.count, id: \.self) { index in
                     let data = weeklyData[index]
@@ -40,96 +39,91 @@ struct PerformanceCardView: View {
                         GeometryReader { geometry in
                             let height = geometry.size.height
                             let fillHeight = min((CGFloat(data.calories) / CGFloat(maxCalories)) * height, height)
-                            let columnColor: Color = data.calories > maxCalories ? .red : .green
+                            let columnColor: Color = data.calories > maxCalories ? Color(.brandRed) : Color(.brandGreen).opacity(0.8)
                             
                             VStack {
                                 Spacer()
                                 
-                                Rectangle()
-                                .fill(columnColor)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.gray.opacity(0.2)) // Gray background
-                                )
-                                .frame(height: animateValues[index] ? fillHeight : 0) // Animate height
-                                .cornerRadius(4)
-                                .overlay(
-                                    // Add a black rounded corner border to the Rectangle
+                                ZStack(alignment: .bottom) {
                                     RoundedRectangle(cornerRadius: 4)
-                                        .stroke(Color.black, lineWidth: 1) // Black border with rounded corners
-                                )
-                                .onTapGesture {
-                                    selectedDay = data.day
-                                    selectedCalories = data.calories
-                                    showValue = true
-                                    // Set a timer to hide the value after 2 seconds
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        withAnimation {
-                                            showValue = false
-                                        }
-                                    }
-                                }
-                                .onAppear {
-                                    // Animate with delay based on index
-                                    withAnimation(.easeInOut(duration: 0.8).delay(Double(index) * 0.1)) {
-                                        animateValues[index] = true
-                                    }
-                                }
-                                .overlay(
-                                    // Show the calorie number in a RoundedRectangle if tapped
-                                    Group {
-                                        if selectedDay == data.day && showValue {
-                                            VStack {
-                                                Text("\(data.calories)")
-                                                    .font(.caption)
-                                                    .lineLimit(1)
-                                                    .padding(5)
-                                                    .frame(width: 50)
-                                                    .background(
-                                                        RoundedRectangle(cornerRadius: 10)
-                                                            .fill(Color.white)
-                                                            .shadow(radius: 3)
-                                                    )
-                                                    .offset(y: -40) // Adjust position above the bar
-                                                    .transition(.opacity) // Add fade transition
-                                                    
+                                        .foregroundStyle(Color(.brandLightGreen).opacity(0.2))
+                                        .frame(width: 30, height: 150)
+                                        .overlay(
+                                            // Add a black rounded corner border to the Rectangle
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .stroke(Color(.gray).opacity(0.2), lineWidth: 1) // Black border with rounded corners
+                                        )
+                                    
+                                    Rectangle()
+                                        .fill(columnColor)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill(Color.gray.opacity(0.2)) // Gray background
+                                        )
+                                        .frame(height: animateValues[index] ? fillHeight : 0) // Animate height
+                                        .frame(width: 29)
+                                        .cornerRadius(4)
+                                        .onTapGesture {
+                                            selectedDay = data.day
+                                            selectedCalories = data.calories
+                                            showValue = true
+                                            // Set a timer to hide the value after 2 seconds
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                                withAnimation {
+                                                    showValue = false
+                                                }
                                             }
-                                           
                                         }
-                                    }
-                                )
+                                        .onAppear {
+                                            // Animate with delay based on index
+                                            withAnimation(.easeInOut(duration: 0.8).delay(Double(index) * 0.1)) {
+                                                animateValues[index] = true
+                                            }
+                                        }
+                                        .overlay(
+                                            // Show the calorie number in a RoundedRectangle if tapped
+                                            Group {
+                                                if selectedDay == data.day && showValue {
+                                                    VStack {
+                                                        Text("\(data.calories)")
+                                                            .font(.caption)
+                                                            .lineLimit(1)
+                                                            .padding(5)
+                                                            .frame(width: 50)
+                                                            .background(
+                                                                RoundedRectangle(cornerRadius: 10)
+                                                                    .fill(Color.white)
+                                                                    .shadow(radius: 3)
+                                                            )
+                                                            .offset(y: -40) // Adjust position above the bar
+                                                            .transition(.opacity) // Add fade transition
+                                                            
+                                                    }
+                                                   
+                                                }
+                                            }
+                                        )
+                                } // ZStack with Rectangular bars
+                                
+                                Text("\(formatDateString(data.day))") // Format the date
+                                    .font(.caption)
+                                    .bold()
+                                    .frame(width: 50, alignment: .center)
+                                    .lineLimit(1) // Ensure the date is shown on one line
                             }
-                            .frame(width: 30, height: height)
+                            .frame(height: height)
                         }
-                        .frame(height: 100) // Fixed height for all bars
+                        .frame(height: 150) // Fixed height for all bars
                         
                         
-                        if isWeekView {
-                            Text(formatDateString(data.day)) // Format the date
-                                .font(.footnote)
-                                .bold()
-                                .frame(width: 30) // Same width as column to center it
-                                .lineLimit(1) // Ensure the date is shown on one line
-                                .minimumScaleFactor(0.7) // Scale down text if necessary
-                                .offset(x: -6)
-                        }
-                        else {
-                            Text("Week of \(formatDateString(data.day))") // Format the date
-                                .font(.footnote)
-                                .bold()
-                                .frame(width: 50, alignment: .center)
-                                .lineLimit(1) // Ensure the date is shown on one line
-                                .minimumScaleFactor(0.45) // Scale down text if necessary
-                                .offset(x: -12)
-                        }
                     }
+                    .frame(height: 200) // Fixed height for all bars
                 }
             }
             .padding()
             .background(Color.white)
             .cornerRadius(15)
             .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
-                
         }
         .padding(.horizontal)
     }
@@ -180,6 +174,8 @@ struct PerformanceCardView_Previews: PreviewProvider {
                 ("9/3", 2000),
                 ("9/4", 2500),
                 ("9/5", 1800),
+                ("9/6", 100),
+                ("9/7", 500),
             ],
             maxCalories: 2200,
             isWeekView: false // Change to false for monthly view

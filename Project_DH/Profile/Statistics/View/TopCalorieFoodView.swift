@@ -81,9 +81,9 @@ struct TopCalorieFoodView: View {
     /// - Returns: String: the right text
     private var textToPresent: String {
         if isWeek {
-           return "Calorie Bomb of the Week"
+           return NSLocalizedString("Calorie Bomb of the Week", comment: "")
         }
-        return "Calorie Bomb of the Month"
+        return NSLocalizedString("Calorie Bomb of the Month", comment: "")
     }
 }
 
