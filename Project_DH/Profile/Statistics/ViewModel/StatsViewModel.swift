@@ -221,6 +221,8 @@ class StatsViewModel: ObservableObject {
     ///   - interval: The DateInterval for which to search for the top calorie food item.
     func fetchTopCalorieFoodForInterval(userId: String?, interval: DateInterval) {
         isLoading = true
+        topCalorieFood = nil
+        
         guard let userId = userId else {
             print("No userId found when fetching Top Calorie Food For Interval!")
             return
