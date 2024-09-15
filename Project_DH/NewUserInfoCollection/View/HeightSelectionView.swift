@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HeightSelectionView: View {
-    @EnvironmentObject var viewModel: InfoCollectionViewModel
-//    @StateObject var viewModel = InfoCollectionViewModel()
+//    @EnvironmentObject var viewModel: InfoCollectionViewModel
+    @StateObject var viewModel = InfoCollectionViewModel()
     @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     

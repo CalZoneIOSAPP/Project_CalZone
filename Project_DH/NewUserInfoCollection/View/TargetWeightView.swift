@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TargetWeightView: View {
-    @EnvironmentObject var viewModel: InfoCollectionViewModel
-//    @StateObject var viewModel = InfoCollectionViewModel() // For preview canvas only.
+//    @EnvironmentObject var viewModel: InfoCollectionViewModel
+    @StateObject var viewModel = InfoCollectionViewModel() // For preview canvas only.
     @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
@@ -33,6 +33,7 @@ struct TargetWeightView: View {
                 
                 Text("What is your target weight?")
                     .font(.title2)
+                    .padding(.bottom, 30)
                 
                 // Target Weight Input Section
                 ZStack {
@@ -77,6 +78,7 @@ struct TargetWeightView: View {
                     Text("When would you like to achieve your goal?")
                         .font(.title2)
                         .foregroundColor(.black)
+                        .padding(.bottom, 20)
                     
                     Spacer()
                     

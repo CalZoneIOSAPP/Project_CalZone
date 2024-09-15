@@ -55,6 +55,7 @@ struct WheelPicker: View {
                     value = (CGFloat(newValue) / CGFloat(config.steps)) * CGFloat(config.multiplier)
                 }
             }))
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 1), trigger: value)
             .overlay(alignment: .center, content: {
                 RoundedRectangle(cornerRadius: 2)
                     .frame(width: config.indicatorThickness, height: config.indicatorLength)

@@ -69,7 +69,6 @@ struct WeightSelectionView: View {
                         WheelPicker(config: config, value: $viewModel.weight)
                             .frame(width: 320, height: 80)
                             .onChange(of: viewModel.weight) { _, newValue in
-                                print(viewModel.weight)
                                 viewModel.calculateBMI()
                             }
                     }
