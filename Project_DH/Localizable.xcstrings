@@ -597,6 +597,9 @@
         }
       }
     },
+    "Average Calories per week: %lld" : {
+
+    },
     "Back" : {
       "localizations" : {
         "zh-Hans" : {
@@ -870,6 +873,7 @@
       }
     },
     "Calories" : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -1244,6 +1248,7 @@
       }
     },
     "Date" : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -2731,6 +2736,7 @@
       }
     },
     "No data available for the selected period." : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

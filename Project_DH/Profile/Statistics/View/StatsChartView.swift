@@ -18,20 +18,26 @@ struct StatsChartView: View {
     
     var body: some View {
         NavigationStack {
+            WeekSelectionView(selectedWeek: $selectedWeek, selectedMonth: $selectedMonth, showingPopover: $showingPopover, user: $user, viewModel: viewModel)
+            .padding()
+            
             ScrollView {
                 if viewModel.isLoading {
                     ProgressView("Loading data...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if viewModel.totalCalories == 0 {
-                    Text("No data available for the selected period.")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     VStack{
                         Text("Total Calories: \(viewModel.totalCalories)")
                             .font(.headline)
-                        
-                        Text("Average Calories per day: \(viewModel.averageCalories)")
-                            .font(.subheadline)
+                        if isWeekView {
+                            Text("Average Calories per day: \(viewModel.averageCalories)")
+                                .font(.subheadline)
+                        }
+                        else {
+                            Text("Average Calories per week: \(viewModel.averageCalories)")
+                                .font(.subheadline)
+                        }
+                       
                     }
                     .padding()
                     .frame(width: 365)
@@ -45,59 +51,20 @@ struct StatsChartView: View {
                     .padding(.bottom, 5)
                     
                     PerformanceCardView(
-                            weeklyData: viewModel.weeklyData,  // Pass your weekly data as [(String, Int)]
-                            maxCalories: Int(user?.targetCalories ?? "2000") ?? 2000, // Handle the optional maxCalories
-                            isWeekView: isWeekView
-                        )
+                        weeklyData: viewModel.weeklyData,  // Pass your weekly data as [(String, Int)]
+                        maxCalories: Int(user?.targetCalories ?? "5000") ?? 5000, // Handle the optional maxCalories
+                        isWeekView: isWeekView
+                    )
                     .padding()
                     
                     // MVP FOOD :)
                     TopCalorieFoodView()
                         .padding()
-                    
-                    Chart {
-                        ForEach(viewModel.weeklyData, id: \.0) { entry in
-                            LineMark(
-                                x: .value("Date", formattedDate(entry.0)),
-                                y: .value("Calories", entry.1)
-                            )
-                            .foregroundStyle(.blue)
-                            
-                            BarMark(
-                                x: .value("Date", formattedDate(entry.0)),
-                                y: .value("Calories", entry.1)
-                            )
-                            .foregroundStyle(.green)
-                            .annotation(position: .top) {
-                                if entry.1 > 0 {
-                                    Text("\(entry.1)")
-                                        .font(.caption)
-                                        .foregroundColor(.black)
-                                }
-                            }
-                        }
-                    }
-                    .frame(height: 300)
-                    .padding()
                 }
                 Spacer()
-            }   // end of VStack
+            } // End of Scroll View
             .navigationTitle("My Statistics")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.brandDarkGreen)
-                            .imageScale(.large)
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    WeekSelectionView(selectedWeek: $selectedWeek, selectedMonth: $selectedMonth, showingPopover: $showingPopover, user: $user, viewModel: viewModel)
-                }
-            }
             .onAppear {
                 fetchDataForSelectedWeek()
             }

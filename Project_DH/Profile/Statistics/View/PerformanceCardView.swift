@@ -119,8 +119,8 @@ struct PerformanceCardView: View {
                                 .bold()
                                 .frame(width: 50, alignment: .center)
                                 .lineLimit(1) // Ensure the date is shown on one line
-                                .minimumScaleFactor(0.4) // Scale down text if necessary
-                                .offset(x: -8)
+                                .minimumScaleFactor(0.45) // Scale down text if necessary
+                                .offset(x: -12)
                         }
                     }
                 }
@@ -175,16 +175,14 @@ struct PerformanceCardView_Previews: PreviewProvider {
     static var previews: some View {
         PerformanceCardView(
             weeklyData: [
-                ("2024/9/1", 1500),
-                ("2024/9/2", 0),
-                ("2024/9/3", 2000),
-                ("2024/9/4", 2500),
-                ("2024/9/5", 1800),
-                ("2024/9/6", 1600),
-                ("2024/9/7", 2000)
+                ("9/1", 1500),
+                ("9/2", 0),
+                ("9/3", 2000),
+                ("9/4", 2500),
+                ("9/5", 1800),
             ],
             maxCalories: 2200,
-            isWeekView: true // Change to false for monthly view
+            isWeekView: false // Change to false for monthly view
         )
     }
 }
