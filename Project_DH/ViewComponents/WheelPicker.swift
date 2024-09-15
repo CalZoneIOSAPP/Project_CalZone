@@ -56,7 +56,7 @@ struct WheelPicker: View {
                 }
             }))
             .overlay(alignment: .center, content: {
-                Rectangle()
+                RoundedRectangle(cornerRadius: 2)
                     .frame(width: config.indicatorThickness, height: config.indicatorLength)
                     .padding(.bottom, config.vertical ? 60 : 40)
                 
@@ -78,7 +78,7 @@ struct WheelPicker: View {
         var multiplier: Int = 10
         var showsText: Bool = true
         var vertical: Bool = false
-        var indicatorThickness: CGFloat = 1
+        var indicatorThickness: CGFloat = 4
         var indicatorLength: CGFloat = 40
     }
 }
