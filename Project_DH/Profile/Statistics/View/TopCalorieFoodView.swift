@@ -33,19 +33,22 @@ struct TopCalorieFoodView: View {
                         Text(foodItem.foodName)
                             .font(.headline)
                             .foregroundStyle(.gray)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 10)
+                        Spacer()
                         Text(NSLocalizedString("Calories: ", comment: "") + "\(foodItem.calorieNumber)")
                             .font(.subheadline)
                             .foregroundStyle(.gray)
                         Spacer()
                     }
+                    .frame(width: 150)
                     
                     Spacer()
                     
-                    .padding(.leading, 2)
                     KFImage(URL(string: foodItem.imageURL))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 80, height: 80)
+                        .frame(maxWidth: 200, maxHeight: 280)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     
                 } else {
@@ -53,24 +56,27 @@ struct TopCalorieFoodView: View {
                         Text("No dishes found this week...")
                             .font(.headline)
                             .foregroundStyle(.gray)
+                            .padding(.top, 10)
                         Spacer()
                     }
-                    .padding(.leading, 2)
                     
                     Spacer()
                     
-                    Image(systemName: "birthday.cake.fill")
+                    Image("noMeal")
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 120)
+                        .aspectRatio(contentMode: .fill)
+                        .opacity(0.6)
+                        .frame(maxWidth: 200, maxHeight: 280)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
-            .padding()
+            .padding(.all, 10)
+            .frame(maxHeight: 300)
             .background(Color.white)
             .cornerRadius(15)
             .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
         } // End of VStack
-        .frame(maxHeight: 200)
+        
         .padding(.horizontal)
     } // End of Body
     
@@ -89,7 +95,7 @@ struct TopCalorieFoodView: View {
 
 #Preview {
     struct Preview: View {
-        @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple", imageURL: "Cloud", percentage: 100)
+        @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple Apple Apple Apple", imageURL: "Cloud", percentage: 100)
         
         var body: some View {
             TopCalorieFoodView(foodItem: $foodItem, user: .constant(User(email: "adminjimmy@gmail.com")), isWeek: false)
