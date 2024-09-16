@@ -13,6 +13,8 @@ struct TopCalorieFoodView: View {
     @Binding var user: User?
     @State var isWeek: Bool
     
+    @State private var consumptionDate: String = ""
+    
     var body: some View {
         VStack {
             HStack {
@@ -36,12 +38,36 @@ struct TopCalorieFoodView: View {
                             .multilineTextAlignment(.center)
                             .padding(.top, 10)
                         Spacer()
-                        Text(NSLocalizedString("Calories: ", comment: "") + "\(foodItem.calorieNumber)")
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
+                        
+                        HStack {
+                            Text(NSLocalizedString("Calories: ", comment: "") + "\(foodItem.calorieNumber)")
+                                .font(.subheadline)
+                                .foregroundStyle(.gray)
+                            Spacer()
+                        }
+                        .padding(.bottom, 15)
+                        
+                        HStack {
+                            Text(NSLocalizedString("Consumed on: ", comment: "") + "\n\(consumptionDate)")
+                                .font(.subheadline)
+                                .foregroundStyle(.gray)
+                            Spacer()
+                        }
+                        
                         Spacer()
                     }
+                    .padding(.leading, 10)
                     .frame(width: 150)
+                    .onAppear {
+                        if let uid = user?.uid {
+                            Task {
+                                let topCalorieMeal = try await MealServices().fetchMeal(by: foodItem.mealId, for: uid)
+                                consumptionDate = DateTools().formattedDate(topCalorieMeal?.date ?? Date())
+                            }
+                           
+                        }
+                        
+                    }
                     
                     Spacer()
                     

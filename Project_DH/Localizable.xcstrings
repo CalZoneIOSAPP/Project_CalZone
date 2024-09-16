@@ -852,7 +852,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "热量:"
+            "value" : "热量: "
           }
         }
       }
@@ -1141,6 +1141,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "恭喜，您已达到卡路里目标！"
+          }
+        }
+      }
+    },
+    "Consumed on: " : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食用日期:"
           }
         }
       }
