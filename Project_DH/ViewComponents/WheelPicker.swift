@@ -29,6 +29,7 @@ struct WheelPicker: View {
                             .background(remainder == 0 ? Color.primary : .gray)
                             .frame(width: 0, height: remainder == 0 ? 20 : 10, alignment: .center)
                             .frame(maxHeight: 20, alignment: .bottom)
+                            .rotationEffect(config.vertical ? .degrees(180) : .degrees(0))
                             .overlay(alignment: config.vertical ? .top : .bottom) {
                                 if remainder == 0 && config.showsText {
                                     Text("\((index/config.steps) * config.multiplier)")
@@ -37,7 +38,7 @@ struct WheelPicker: View {
                                         .textScale(.secondary)
                                         .fixedSize()
                                         .offset(x: config.vertical ? -25 : 0, y: config.vertical ? 0 : 20)
-                                        .rotationEffect(config.vertical ? .degrees(-90) : .degrees(0))
+                                        .rotationEffect(config.vertical ? .degrees(90) : .degrees(0))
                                 }
                             }
                     }
@@ -60,6 +61,7 @@ struct WheelPicker: View {
                 RoundedRectangle(cornerRadius: 2)
                     .frame(width: config.indicatorThickness, height: config.indicatorLength)
                     .padding(.bottom, config.vertical ? 60 : 40)
+                    .rotationEffect(config.vertical ? .degrees(180) : .degrees(0))
                 
             })
             .safeAreaPadding(.horizontal, horizontalPadding)
@@ -69,7 +71,7 @@ struct WheelPicker: View {
                 }
             }
         }
-        .rotationEffect(config.vertical ? .degrees(90) : .degrees(0))
+        .rotationEffect(config.vertical ? .degrees(-90) : .degrees(0))
     }
     
     struct Config: Equatable {

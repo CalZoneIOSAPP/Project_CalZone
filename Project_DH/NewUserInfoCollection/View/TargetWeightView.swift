@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TargetWeightView: View {
-//    @EnvironmentObject var viewModel: InfoCollectionViewModel
-    @StateObject var viewModel = InfoCollectionViewModel() // For preview canvas only.
+    @EnvironmentObject var viewModel: InfoCollectionViewModel
+//    @StateObject var viewModel = InfoCollectionViewModel() // For preview canvas only.
     @Environment(\.dismiss) private var dismiss
     @Binding var isShowing: Bool
     
