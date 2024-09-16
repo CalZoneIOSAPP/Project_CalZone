@@ -26,6 +26,13 @@ struct DashboardView: View {
     @State private var sharedImages: [UIImage] = []
     @State private var isLoadingShare = false
     
+    
+    let welcomeTip = WelcomeTip()
+    let selectDateTip = SelectDateTip()
+    let currentCalTip = CurrentCaloriesTip()
+    let changeWeightTip = ChangeWeightTip()
+    
+    
     var body: some View {
         ZStack {
             NavigationStack {
@@ -85,10 +92,12 @@ struct DashboardView: View {
                         }
                     }
                     .navigationTitle("CalBite")
+                    .popoverTip(welcomeTip)
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar(content: {
                         ToolbarItem(placement: .topBarTrailing) {
                             CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingPopover, viewModel: viewModel, fetchOnDone: true)
+                                .popoverTip(selectDateTip)
                         }
                     })
                     .onChange(of: control.refetchMeal, { _, newValue in
@@ -148,6 +157,7 @@ struct DashboardView: View {
         VStack(alignment: .center) {
             ProgressBarView(user: viewModel.profileViewModel.currentUser ?? User.MOCK_USER, currentCalories: viewModel.sumCalories)
                 .padding(.bottom, -30)
+                .popoverTip(currentCalTip)
         
             if viewModel.exceededCalorieTarget {
                 if let user = viewModel.profileViewModel.currentUser {
@@ -203,6 +213,7 @@ struct DashboardView: View {
             } label: {
                 Label("Update Weight", systemImage: "plus.circle")
             }
+            .popoverTip(changeWeightTip)
 
             Spacer()
             Button(action: {

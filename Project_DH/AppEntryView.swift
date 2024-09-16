@@ -14,6 +14,9 @@ struct AppEntryView: View {
         Group {
             if viewModel.userSession != nil { // If the user session is active
                 MainMenuView()
+                    .onAppear {
+                        print("ALREADY HAVE USER SESSION \(String(describing: viewModel.userSession?.uid))")
+                    }
             } else {
                 SignInView()
             }

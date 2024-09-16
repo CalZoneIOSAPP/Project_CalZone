@@ -24,6 +24,9 @@ struct MealInputView: View {
     @State private var originalDate: Date = Date()
     
     let saveToOtherDateTip = SaveToOtherDateTip()
+    let addMealTip = AddMealPhotoTip()
+    let mealTypeTip = MealTypeTip()
+    let saveTip = SaveMealTip()
     
     
     enum SourceType {
@@ -52,6 +55,7 @@ struct MealInputView: View {
                             VStack {
                                 ZStack{
                                     FoodPictureView(image: viewModel.image ?? UIImage(resource: .addMeal))
+                                        .popoverTip(addMealTip)
                                         .onChange(of: viewModel.image) {
                                             if viewModel.image != UIImage(resource: .addMeal){
                                                 if let user = profileViewModel.currentUser {
@@ -146,6 +150,7 @@ struct MealInputView: View {
                                     DropDownMenu(selection: $viewModel.selectedMealType, hint: viewModel.determineMealType(), options: [.breakfast, .lunch, .dinner, .snack], anchor: .top)
                                         .padding(.bottom, 40)
                                         .disabled(viewModel.isProcessingMealInfo || savePressed)
+                                        .popoverTip(mealTypeTip)
                                     
                                     // Save Meal Button
                                     Button {
@@ -185,6 +190,7 @@ struct MealInputView: View {
                                     .shadow(radius: 3)
                                     .disabled(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed)
                                     .opacity(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed ? 0.6 : 1.0)
+                                    .popoverTip(saveTip)
                                     
                                     // Reset inputs
                                     Button {

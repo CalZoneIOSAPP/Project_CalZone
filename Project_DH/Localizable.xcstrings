@@ -367,6 +367,9 @@
         }
       }
     },
+    "Add your delicious meal." : {
+
+    },
     "Address" : {
       "localizations" : {
         "cs" : {
@@ -388,6 +391,12 @@
           }
         }
       }
+    },
+    "After you are done with adding your meal, click the save button." : {
+
+    },
+    "After you measured your new body weight, you can change it here." : {
+
     },
     "ago" : {
       "localizations" : {
@@ -995,6 +1004,9 @@
         }
       }
     },
+    "Change your body weight." : {
+
+    },
     "Choose an option" : {
       "localizations" : {
         "cs" : {
@@ -1038,6 +1050,9 @@
           }
         }
       }
+    },
+    "Click here to add a new conversation." : {
+
     },
     "Close" : {
       "localizations" : {
@@ -2427,6 +2442,9 @@
         }
       }
     },
+    "Meet your diet advisor, Cally." : {
+
+    },
     "Membership:" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2587,6 +2605,9 @@
           }
         }
       }
+    },
+    "New Conversation" : {
+
     },
     "New password and confirm password do not match." : {
       "localizations" : {
@@ -3256,6 +3277,9 @@
         }
       }
     },
+    "Save your dish." : {
+
+    },
     "second" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3772,6 +3796,9 @@
         }
       }
     },
+    "Tap here to add a dish. You can either take a photo, or upload one which you posted." : {
+
+    },
     "Tap here to add a new dish to your day." : {
       "localizations" : {
         "cs" : {
@@ -4011,6 +4038,9 @@
           }
         }
       }
+    },
+    "This is your dashboard where you can monitor your daily calorie(kCal) intake." : {
+
     },
     "Time to have a short break from what you are doing, get a cup of tea or coffee." : {
       "localizations" : {
@@ -4254,6 +4284,9 @@
         }
       }
     },
+    "We will by default select a meal type based on your time, but you can manually adjust it here." : {
+
+    },
     "Week" : {
       "localizations" : {
         "cs" : {
@@ -4307,6 +4340,9 @@
           }
         }
       }
+    },
+    "Welcome to CalBite!" : {
+
     },
     "welcome_back" : {
       "extractionState" : "manual",
@@ -4412,6 +4448,9 @@
           }
         }
       }
+    },
+    "When did you eat?" : {
+
     },
     "When would you like to achieve your goal?" : {
       "localizations" : {
@@ -4524,6 +4563,9 @@
           }
         }
       }
+    },
+    "You can ask any questions related to food, nutrition and diet." : {
+
     },
     "You Consumed %lld Calories Today" : {
       "localizations" : {
