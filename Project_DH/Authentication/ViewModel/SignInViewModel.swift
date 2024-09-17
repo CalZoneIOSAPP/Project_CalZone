@@ -154,12 +154,12 @@ class SignInViewModel: ObservableObject {
         
         // Delegate handling for the request
         let delegate = await AppleSignInDelegate()
-        authorizationController.delegate = delegate
-        authorizationController.presentationContextProvider = delegate
         
         // Present the sign-in UI and await the result
         return try await withCheckedThrowingContinuation { continuation in
             Task { @MainActor in
+                authorizationController.delegate = delegate
+                authorizationController.presentationContextProvider = delegate
                 delegate.continuation = continuation
                 authorizationController.performRequests()
             }

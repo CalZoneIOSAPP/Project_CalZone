@@ -109,8 +109,14 @@ struct MealInputView: View {
                                 .fullScreenCover(isPresented: $isImagePickerPresented) {
                                     if sourceType == .camera{
                                         FoodImagePicker(isPresented: $isImagePickerPresented, image: $viewModel.image, sourceType: .camera)
+                                            .onDisappear {
+                                                isImagePickerPresented = false
+                                            }
                                     }else{
                                         FoodPhotoPicker(selectedImage: $viewModel.image, pickedPhoto: $pickedPhoto)
+                                            .onDisappear {
+                                                isImagePickerPresented = false
+                                            }
                                     }
                                 }
                                 .padding(.bottom)
