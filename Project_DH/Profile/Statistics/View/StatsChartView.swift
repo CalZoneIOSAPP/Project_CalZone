@@ -51,15 +51,20 @@ struct StatsChartView: View {
                     .padding(.bottom, 5)
                     
                     CalorieStatsView(
-                        weeklyData: viewModel.weeklyData,  // Pass your weekly data as [(String, Int)]
-                        maxCalories: Int(user?.targetCalories ?? "5000") ?? 5000, // Handle the optional maxCalories
+                        weeklyData: viewModel.weeklyData,
+                        maxCalories: Int(user?.targetCalories ?? "5000") ?? 5000,
                         isWeekView: isWeekView
                     )
                     .padding()
                     
-                    // MVP FOOD
-                    TopCalorieFoodView(foodItem: $viewModel.topCalorieFood, user: $user, isWeek: isWeekView)
-                        .padding()
+                    // Display TopCalorieFoodView or ProgressView while loading
+                    if viewModel.isLoadingTopCalorieFood {
+                        ProgressView("Loading top calorie food...")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        TopCalorieFoodView(foodItem: $viewModel.topCalorieFood, user: $user, isWeek: isWeekView)
+                            .padding()
+                    }
                 }
                 Spacer()
             } // End of Scroll View

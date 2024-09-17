@@ -12,6 +12,7 @@ import FirebaseFirestore
 class StatsViewModel: ObservableObject {
     @Published var weeklyData: [(String, Int)] = []
     @Published var isLoading = true
+    @Published var isLoadingTopCalorieFood = false  // For TopCalorieFoodView
     @Published var totalCalories = 0
     @Published var averageCalories = 0
     @Published var pickerMode: PickerMode = .week // Track if week or month is selected
@@ -215,12 +216,13 @@ class StatsViewModel: ObservableObject {
         }
     }
     
+    
     /// Fetch the food item with the highest calories in a date interval (weekly or monthly)
     /// - Parameters:
     ///   - userId: The ID of the user.
     ///   - interval: The DateInterval for which to search for the top calorie food item.
     func fetchTopCalorieFoodForInterval(userId: String?, interval: DateInterval) {
-        isLoading = true
+        isLoadingTopCalorieFood = true
         topCalorieFood = nil
         
         guard let userId = userId else {
@@ -239,7 +241,7 @@ class StatsViewModel: ObservableObject {
                 print("ERROR: Failed to fetch meals for interval: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     self.topCalorieFood = nil
-                    self.isLoading = false
+                    self.isLoadingTopCalorieFood = false
                 }
                 return
             }
@@ -247,7 +249,7 @@ class StatsViewModel: ObservableObject {
             guard let mealDocuments = querySnapshot?.documents, !mealDocuments.isEmpty else {
                 DispatchQueue.main.async {
                     self.topCalorieFood = nil // No meals found
-                    self.isLoading = false
+                    self.isLoadingTopCalorieFood = false
                 }
                 return
             }
@@ -259,7 +261,7 @@ class StatsViewModel: ObservableObject {
             guard !mealIds.isEmpty else {
                 DispatchQueue.main.async {
                     self.topCalorieFood = nil // No meals found
-                    self.isLoading = false
+                    self.isLoadingTopCalorieFood = false
                 }
                 return
             }
@@ -273,7 +275,7 @@ class StatsViewModel: ObservableObject {
                     print("ERROR: Failed to fetch food items: \(error.localizedDescription)")
                     DispatchQueue.main.async {
                         self.topCalorieFood = nil
-                        self.isLoading = false
+                        self.isLoadingTopCalorieFood = false
                     }
                     return
                 }
@@ -294,7 +296,7 @@ class StatsViewModel: ObservableObject {
                 // Step 5: Update the view model with the top calorie food item
                 DispatchQueue.main.async {
                     self.topCalorieFood = maxCalorieFood
-                    self.isLoading = false
+                    self.isLoadingTopCalorieFood = false
                 }
             }
         }
