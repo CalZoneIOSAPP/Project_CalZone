@@ -280,16 +280,23 @@ class UserServices {
                     return PopupMessage(message: NSLocalizedString("Re-authentication failed for Google user.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
                 }
             } else if user.providerData.first(where: { $0.providerID == "apple.com" }) != nil {
+                print("APPLE REAUTH")
                 // Re-authenticate Apple users
                 do {
+                    print("BEFORE AUTHORIZATION")
                     let authorization = try await signInViewModel.getASAuthorization()
-                    try await signInViewModel.reauthenticateApple(authorization) // Re-authenticate with Apple
+                    print("AFTER AUTHORIZATION: \(authorization)")
+                    let nonce = signInViewModel.nonce ?? "" // Fetch the nonce used during sign-in
+                    print("NONCE: \(nonce)")
+                    try await signInViewModel.reauthenticateApple(authorization)
+                    print("Reached here")
                 } catch {
                     return PopupMessage(message: NSLocalizedString("Re-authentication failed for Apple user.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))
                 }
             }
             // After successful re-authentication, update the password
             do {
+                print("BEFORE PASS CHANGE")
                 try await user.updatePassword(to: newPassword)
                 try await updatePasswordSet()
                 try await UserServices.sharedUser.fetchCurrentUserData()

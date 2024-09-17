@@ -141,22 +141,28 @@ class SignInViewModel: ObservableObject {
     /// - Parameters: none
     /// - Returns: ASAuthorization object.
     func getASAuthorization() async throws -> ASAuthorization {
+        nonce = randomNonceString()
+        
         // Create the Apple ID request
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.fullName, .email]
         
+        request.nonce = sha256(nonce ?? randomNonceString())
+
         // Set up the Apple ID authorization controller with the request
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         
         // Delegate handling for the request
-        let delegate = AppleSignInDelegate()
+        let delegate = await AppleSignInDelegate()
         authorizationController.delegate = delegate
         authorizationController.presentationContextProvider = delegate
         
         // Present the sign-in UI and await the result
         return try await withCheckedThrowingContinuation { continuation in
-            delegate.continuation = continuation
-            authorizationController.performRequests()
+            Task { @MainActor in
+                delegate.continuation = continuation
+                authorizationController.performRequests()
+            }
         }
     }
     
@@ -230,11 +236,10 @@ struct GoogleSignInModel {
 }
 
 
-
+@MainActor
 class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
 
     var continuation: CheckedContinuation<ASAuthorization, Error>?
-
     
     ///  The function handles the success of Apple Sign-in request.
     /// - Parameters:
