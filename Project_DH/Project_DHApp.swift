@@ -39,7 +39,10 @@ struct Project_MeApp: App {
     /// - Parameters: none
     /// - Returns: none
     private func setupTips() throws {
-        try Tips.configure([.displayFrequency(.immediate), .datastoreLocation(.applicationDefault)])
+        try Tips.configure([
+            .displayFrequency(.immediate),
+            .datastoreLocation(.applicationDefault),
+        ])
     }
     
     

@@ -55,7 +55,7 @@ struct MealInputView: View {
                             VStack {
                                 ZStack{
                                     FoodPictureView(image: viewModel.image ?? UIImage(resource: .addMeal))
-                                        .popoverTip(addMealTip)
+//                                        .popoverTip(addMealTip)
                                         .onChange(of: viewModel.image) {
                                             if viewModel.image != UIImage(resource: .addMeal){
                                                 if let user = profileViewModel.currentUser {
@@ -150,7 +150,7 @@ struct MealInputView: View {
                                     DropDownMenu(selection: $viewModel.selectedMealType, hint: viewModel.determineMealType(), options: [.breakfast, .lunch, .dinner, .snack], anchor: .top)
                                         .padding(.bottom, 40)
                                         .disabled(viewModel.isProcessingMealInfo || savePressed)
-                                        .popoverTip(mealTypeTip)
+//                                        .popoverTip(mealTypeTip)
                                     
                                     // Save Meal Button
                                     Button {
@@ -190,7 +190,7 @@ struct MealInputView: View {
                                     .shadow(radius: 3)
                                     .disabled(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed)
                                     .opacity(!viewModel.imageChanged || viewModel.isProcessingMealInfo || savePressed ? 0.6 : 1.0)
-                                    .popoverTip(saveTip)
+//                                    .popoverTip(saveTip)
                                     
                                     // Reset inputs
                                     Button {
@@ -240,7 +240,7 @@ struct MealInputView: View {
                             CalendarView(selectedDate: $viewModel.selectedDate, originalDate: $originalDate, showingPopover: $showingDatePicker, viewModel: dashboardViewModel, fetchOnDone: false)
                                 .disabled(viewModel.isProcessingMealInfo || savePressed)
                                 .opacity(viewModel.isProcessingMealInfo || savePressed ? 0 : 1.0)
-                                .popoverTip(saveToOtherDateTip)
+//                                .popoverTip(saveToOtherDateTip)
                         }
                     })
                 } // End of VStack

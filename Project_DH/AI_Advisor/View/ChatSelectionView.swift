@@ -103,7 +103,6 @@ struct ChatSelectionView: View {
                 } // End of Group
                 .blur(radius: viewModel.showEditWindow ? 5 : 0)
                 .navigationTitle("Health Advisor")
-                .popoverTip(genAITip)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -118,8 +117,8 @@ struct ChatSelectionView: View {
                         } label: {
                             Image(systemName: "square.and.pencil")
                                 .foregroundStyle(.brandDarkGreen)
+                                .popoverTip(addChatTip)
                         }
-                        .popoverTip(addChatTip)
                     }
                 })
                 .sheet(item: $selectedChatId) { chatId in
