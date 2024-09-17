@@ -21,6 +21,10 @@ struct AppEntryView: View {
                 SignInView()
             }
         }
+        .onAppear {
+            // Clear any cached or persisted user session data if needed
+            viewModel.checkForUserSessionOnLaunch()
+        }
     }
 }
 

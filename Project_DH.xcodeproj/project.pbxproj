@@ -96,6 +96,7 @@
 		54D6310A2BF77DA000AD4A66 /* NameCardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D631082BF77DA000AD4A66 /* NameCardInfo.swift */; };
 		54D6310B2BF77DA000AD4A66 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D631092BF77DA000AD4A66 /* CardType.swift */; };
 		54D6310D2BF77DF500AD4A66 /* CardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D6310C2BF77DF500AD4A66 /* CardListViewModel.swift */; };
+		54DF96A42C9A1CE3007648B8 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DF96A32C9A1CE3007648B8 /* NetworkMonitor.swift */; };
 		54E926B62BEE47D6001ACDD8 /* ImageTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E926B52BEE47D6001ACDD8 /* ImageTools.swift */; };
 		54E926B82BEE4835001ACDD8 /* ImageServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E926B72BEE4835001ACDD8 /* ImageServices.swift */; };
 		54E9D6D02C76721E00CFD7A0 /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E9D6CF2C76721E00CFD7A0 /* RoundedCornerShape.swift */; };
@@ -208,6 +209,7 @@
 		54D631082BF77DA000AD4A66 /* NameCardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCardInfo.swift; sourceTree = "<group>"; };
 		54D631092BF77DA000AD4A66 /* CardType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
 		54D6310C2BF77DF500AD4A66 /* CardListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardListViewModel.swift; sourceTree = "<group>"; };
+		54DF96A32C9A1CE3007648B8 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		54E926B52BEE47D6001ACDD8 /* ImageTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTools.swift; sourceTree = "<group>"; };
 		54E926B72BEE4835001ACDD8 /* ImageServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServices.swift; sourceTree = "<group>"; };
 		54E9D6CF2C76721E00CFD7A0 /* RoundedCornerShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 		547999742BE3DE63007A7CCE /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				54DF96A22C9A1CD0007648B8 /* NetworkTools */,
 				54F18F192C85B7D5001E6A38 /* UserGuide */,
 				540CB16B2C4D05490033F69F /* ImageModule */,
 				043097362BE701430016FCD8 /* MockData */,
@@ -675,6 +678,14 @@
 				54B4499F2BDD407C00E35D49 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		54DF96A22C9A1CD0007648B8 /* NetworkTools */ = {
+			isa = PBXGroup;
+			children = (
+				54DF96A32C9A1CE3007648B8 /* NetworkMonitor.swift */,
+			);
+			path = NetworkTools;
 			sourceTree = "<group>";
 		};
 		54E9D6D52C773A3900CFD7A0 /* Legacy */ = {
@@ -900,6 +911,7 @@
 				54FB02822C4BD907004D8451 /* ChatView.swift in Sources */,
 				0497CA4A2C87C08D00A6FE84 /* WeekSelectionView.swift in Sources */,
 				54A59C422C550FF200617B83 /* PopUpMessageView.swift in Sources */,
+				54DF96A42C9A1CE3007648B8 /* NetworkMonitor.swift in Sources */,
 				541D35322BE3D7E600AF38AF /* RegistrationView.swift in Sources */,
 				540CB1652C4BE71F0033F69F /* DashboardViewModel.swift in Sources */,
 				547FE76E2C4A55BF00C80790 /* ProfilePageView.swift in Sources */,

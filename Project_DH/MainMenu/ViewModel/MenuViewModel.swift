@@ -36,9 +36,20 @@ class MenuViewModel: ObservableObject {
     }
     
     
+    /// This function calls the user data fetching logic in UserServices.
+    /// - Parameters: none
+    /// - Returns: none
     @MainActor
     func fetchUserData() async throws{
         try await UserServices.sharedUser.fetchCurrentUserData()
+    }
+    
+    
+    /// This function calls the user checking logic in UserServices.
+    /// - Parameters: none
+    /// - Returns: none
+    func checkForUserSessionOnLaunch() {
+        AuthServices.sharedAuth.checkUserSession()
     }
     
     

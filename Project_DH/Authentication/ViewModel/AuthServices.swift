@@ -22,7 +22,56 @@ class AuthServices {
         Task { try await UserServices.sharedUser.fetchCurrentUserData() } // Get user data
     }
     
-
+    
+    /// Check if there's a valid user session at app launch (Takes care of app deletion)
+    /// - Parameters: none
+    /// - Returns: none
+    func checkUserSession() {
+        // Check if it's the first launch after reinstallation
+        if isFirstLaunchAfterReinstall() {
+            // Force sign out and set the flag
+            signOutUser()
+            setFirstLaunchFlag()
+        } else if let currentUser = Auth.auth().currentUser {
+            // If a valid session exists, retain the session
+            self.userSession = currentUser
+        } else {
+            // No session, ensure user is logged out and needs to sign in
+            self.userSession = nil
+        }
+    }
+    
+    
+    /// Function to sign out the firebase user session.
+    /// - Parameters: none
+    /// - Returns: none
+    func signOutUser() {
+        do {
+            try Auth.auth().signOut()
+            self.userSession = nil
+        } catch {
+            print("Error signing out: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    /// Check if this is the first launch after reinstall
+    /// - Parameters: none
+    /// - Returns: Boolean value whether it is the first launch after reinstall.
+    private func isFirstLaunchAfterReinstall() -> Bool {
+        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "HasLaunchedBefore")
+        return isFirstLaunch
+    }
+    
+    
+    /// Set the first launch flag, so when the user opens the app after first time, it will not automatically sign out Firebase user session.
+    /// - Parameters: none
+    /// - Returns: none
+    private func setFirstLaunchFlag() {
+        UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
+    }
+    
+    
     /// Sign in using email and password. Async function.
     /// - Parameters:
     ///     - withEmail: The email address of the user.

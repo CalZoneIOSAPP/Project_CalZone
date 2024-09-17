@@ -27,6 +27,27 @@ struct LaunchScreenView: View {
                     }
             }
         }
+        .onAppear {
+            checkNetworkPermissions()
+        }
+
+    }
+    
+    
+    /// Function to check the network permission. In case it will prompt the user for network permissions.
+    /// - Parameters: none
+    /// - Returns: none
+    func checkNetworkPermissions() {
+        // A basic network request that triggers permissions
+        let url = URL(string: "https://www.google.com")!
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error checking network: \(error.localizedDescription)")
+            } else {
+                print("Network check successful.")
+            }
+        }
+        task.resume()
     }
 
     
