@@ -55,9 +55,12 @@ class ProfileViewModel: ObservableObject {
     /// - Parameters: none
     /// - Returns: none
     private func setupUser() {
-        UserServices.sharedUser.$currentUser.sink { [weak self] user in
-            self?.currentUser = user
-        }.store(in: &cancellables)
+        UserServices.sharedUser.$currentUser
+            .receive(on: DispatchQueue.main) // Ensure that updates happen on the main thread
+            .sink { [weak self] user in
+                self?.currentUser = user
+            }
+            .store(in: &cancellables)
     }
     
     

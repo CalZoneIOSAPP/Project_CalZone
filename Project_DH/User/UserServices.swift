@@ -82,12 +82,17 @@ class UserServices {
     /// - Parameters:
     ///     - with: The image url to save to Firebase.
     /// - Returns: none
-    @MainActor
     func updateUserProfileImage(with imageUrl: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
-            "profileImageUrl": imageUrl
-        ])
+
+        // Use Firestore updates in a Task to ensure they run on a background thread
+        try await Task {
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
+                "profileImageUrl": imageUrl
+            ])
+        }.value
+
+        // Since self.currentUser is updated on the main actor, keep it isolated here
         self.currentUser?.profileImageUrl = imageUrl
     }
     
@@ -100,7 +105,19 @@ class UserServices {
     @MainActor
     func updateUserName(with userName: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["userName": userName])
+        
+        // Perform the Firestore update with explicit return type for the continuation
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["userName": userName]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ())
+                }
+            }
+        }
+
+        // Ensure this UI update is safely within the main actor context
         self.currentUser?.userName = userName
     }
     
@@ -113,24 +130,69 @@ class UserServices {
     @MainActor
     func updateAccountOptions<T>(with infoToChange: T, enumInfo: AccountOptions) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
+
+        // Perform the Firestore update off the main actor
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            let dataToUpdate: [String: Any]
+
+            switch enumInfo {
+            case .username:
+                guard let newUsername = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for username", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["userName": newUsername]
+            case .lastName:
+                guard let newLastName = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for lastName", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["lastName": newLastName]
+            case .firstName:
+                guard let newFirstName = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for firstName", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["firstName": newFirstName]
+            case .email:
+                guard let newEmail = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for email", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["email": newEmail]
+            case .birthday:
+                guard let newBirthday = infoToChange as? Date else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for birthday", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["birthday": newBirthday]
+            }
+
+            // Update Firestore
+            Firestore.firestore().collection(Collection().user).document(currentUid).updateData(dataToUpdate) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ())
+                }
+            }
+        }
+
+        // Update local currentUser safely on the main actor
         switch enumInfo {
         case .username:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["userName": infoToChange])
             self.currentUser?.userName = infoToChange as? String
         case .lastName:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["lastName": infoToChange])
             self.currentUser?.lastName = infoToChange as? String
         case .firstName:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["firstName": infoToChange])
             self.currentUser?.firstName = infoToChange as? String
         case .email:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["email": infoToChange])
             self.currentUser?.email = infoToChange as! String
         case .birthday:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["birthday": infoToChange])
             self.currentUser?.birthday = infoToChange as? Date
         }
     }
+
     
     
     /// The generic function to update user's dietary information to Firebase.
@@ -141,33 +203,93 @@ class UserServices {
     @MainActor
     func updateDietaryOptions<T>(with infoToChange: T, enumInfo: DietaryInfoOptions) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        // Perform the Firestore update off the main actor
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            let dataToUpdate: [String: Any]
+
+            switch enumInfo {
+            case .gender:
+                guard let newGender = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for gender", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["gender": newGender]
+            case .weight:
+                guard let newWeight = infoToChange as? Double else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for weight", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["weight": newWeight]
+            case .weightTarget:
+                guard let newWeightTarget = infoToChange as? Double else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for weightTarget", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["weightTarget": newWeightTarget]
+            case .height:
+                guard let newHeight = infoToChange as? Double else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for height", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["height": newHeight]
+            case .bmi:
+                guard let newBmi = infoToChange as? Double else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for bmi", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["bmi": newBmi]
+            case .activityLevel:
+                guard let newActivityLevel = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for activityLevel", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["activityLevel": newActivityLevel]
+            case .achievementDate:
+                guard let newAchievementDate = infoToChange as? Date else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for achievementDate", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["achievementDate": newAchievementDate]
+            case .targetCalories:
+                guard let newTargetCalories = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for targetCalories", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["targetCalories": newTargetCalories]
+            }
+
+            // Update Firestore
+            Firestore.firestore().collection(Collection().user).document(currentUid).updateData(dataToUpdate) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ())
+                }
+            }
+        }
+
+        // Update local currentUser safely on the main actor
         switch enumInfo {
         case .gender:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["gender": infoToChange])
             self.currentUser?.gender = infoToChange as? String
         case .weight:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["weight": infoToChange])
             self.currentUser?.weight = infoToChange as? Double
         case .weightTarget:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["weightTarget": infoToChange])
             self.currentUser?.weightTarget = infoToChange as? Double
         case .height:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["height": infoToChange])
             self.currentUser?.height = infoToChange as? Double
         case .bmi:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["bmi": infoToChange])
             self.currentUser?.bmi = infoToChange as? Double
         case .activityLevel:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["activityLevel": infoToChange])
             self.currentUser?.activityLevel = infoToChange as? String
         case .achievementDate:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["achievementDate": infoToChange])
             self.currentUser?.achievementDate = infoToChange as? Date
         case .targetCalories:
-            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["targetCalories": infoToChange])
             self.currentUser?.targetCalories = infoToChange as? String
         }
     }
+
     
     
     /// This function deletes a field value from Firebase Firestore with a given field name.
@@ -177,9 +299,21 @@ class UserServices {
     @MainActor
     func deleteFieldValue(field: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
-            field: FieldValue.delete()
-        ])
+        
+        // Perform Firestore delete operation
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
+                field: FieldValue.delete()
+            ]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ())
+                }
+            }
+        }
+
+        // Fetch updated user data
         try await UserServices.sharedUser.fetchCurrentUserData()
     }
     
@@ -190,10 +324,22 @@ class UserServices {
     @MainActor
     func updateFirstTimeLogin() async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["firstTimeUser" : false])
+
+        // Perform Firestore update off the main thread
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["firstTimeUser": false]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ())
+                }
+            }
+        }
+
+        // Update local currentUser
         self.currentUser?.firstTimeUser = false
     }
-    
+
     
     /// Sets the status of whether the password for the account is setup.
     /// - Parameters: none
@@ -201,7 +347,16 @@ class UserServices {
     @MainActor
     func updatePasswordSet() async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData(["passwordSet" : true])
+        
+        // Perform Firestore operation in a Task to ensure it's not on the main actor
+        try await Task.detached {
+            try await Firestore.firestore()
+                .collection(Collection().user)
+                .document(currentUid)
+                .updateData(["passwordSet": true])
+        }.value
+        
+        // Update UI-related state on the main actor
         self.currentUser?.firstTimeUser = true
     }
     
@@ -217,21 +372,39 @@ class UserServices {
     ///     - calories: User's target calorie number.
     /// - Returns: none
     @MainActor
-    func uploadUserInitialLoginInfo(gender: String, weight: Double, weightTarget: Double, achievementDate: Date, height: Double, bmi: Double, birthday: Date, activityLevel: String, calories: Int) async throws {
+    func uploadUserInitialLoginInfo(
+        gender: String,
+        weight: Double,
+        weightTarget: Double,
+        achievementDate: Date,
+        height: Double,
+        bmi: Double,
+        birthday: Date,
+        activityLevel: String,
+        calories: Int
+    ) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
-            "gender" : gender,
-            "weight" : weight,
-            "weightTarget" : weightTarget,
-            "achievementDate" : achievementDate,
-            "height" : height,
-            "bmi" : bmi,
-            "birthday" : birthday,
-            "activityLevel" : activityLevel,
-            "targetCalories" : String(calories)
-        ])
+        
+        // Perform Firestore operation in a detached task to avoid sending non-Sendable types in the main actor
+        try await Task.detached {
+            // Convert Date objects to Firestore-compatible types, such as Timestamp
+            try await Firestore.firestore().collection(Collection().user).document(currentUid).updateData([
+                "gender": gender,
+                "weight": weight,
+                "weightTarget": weightTarget,
+                "achievementDate": Timestamp(date: achievementDate),  // Ensure Date compatibility
+                "height": height,
+                "bmi": bmi,
+                "birthday": Timestamp(date: birthday),  // Ensure Date compatibility
+                "activityLevel": activityLevel,
+                "targetCalories": String(calories)  // Ensure numeric data is serialized correctly
+            ])
+        }.value
+        
+        // Fetch the user data on the main actor after the Firestore operation completes
         try await UserServices.sharedUser.fetchCurrentUserData()
     }
+
     
     
     /// This function updates the users password. If the user does not have a password yet, it will set the password. If the user has a password, then changes it.

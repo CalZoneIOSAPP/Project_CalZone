@@ -268,8 +268,6 @@ struct EditProfileView: View {
                 .foregroundColor(.brandDarkGreen)
                 .cornerRadius(8)
                 .padding(.bottom, 5)
-                
-
             }
             
             Spacer()
