@@ -783,6 +783,7 @@
       }
     },
     "Calorie Bomb of the Month" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -793,6 +794,7 @@
       }
     },
     "Calorie Bomb of the Week" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -857,6 +859,7 @@
       }
     },
     "Calories: " : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1161,6 +1164,7 @@
       }
     },
     "Consumed on: " : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1169,6 +1173,9 @@
           }
         }
       }
+    },
+    "Consumed on: %@" : {
+
     },
     "Cool Person" : {
       "localizations" : {

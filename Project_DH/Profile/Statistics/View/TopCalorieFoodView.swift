@@ -5,6 +5,8 @@
 //  Created by Yongxiang Jin on 9/13/24.
 //
 
+
+
 import SwiftUI
 import Kingfisher
 
@@ -14,59 +16,59 @@ struct TopCalorieFoodView: View {
     @State var isWeek: Bool
     
     @State private var consumptionDate: String = ""
+    @State private var animateView = false // State to control animation
     
     var body: some View {
         VStack {
             HStack {
                 Text(textToPresent)
-                    .font(.title2)
-                    .bold()
-                    .foregroundStyle(Color(.black).opacity(0.7))
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(LinearGradient(colors: [.brandDarkGreen, .green], startPoint: .top, endPoint: .bottom))
                     .padding(.leading, 8)
+                    .opacity(animateView ? 1 : 0) // Animation applied
+                    .offset(y: animateView ? 0 : -10) // Slide in animation
+                    .animation(.easeInOut(duration: 0.5), value: animateView)
                 Spacer()
             }
-
             
-            // MVP Food of the week
             HStack {
                 if let foodItem = foodItem {
-                    // Show MVP Food
-                    VStack {
+                    // Show MVP Food with animation
+                    VStack(alignment: .leading, spacing: 8) {
                         Text(foodItem.foodName)
                             .font(.headline)
-                            .foregroundStyle(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.top, 10)
-                        Spacer()
+                            .foregroundStyle(.primary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.6)
                         
-                        HStack {
-                            Text(NSLocalizedString("Calories: ", comment: "") + "\(foodItem.calorieNumber)")
-                                .font(.subheadline)
-                                .foregroundStyle(.gray)
-                            Spacer()
-                        }
-                        .padding(.bottom, 15)
+                        Text("Calories: \(foodItem.calorieNumber)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.6)
                         
-                        HStack {
-                            Text(NSLocalizedString("Consumed on: ", comment: "") + "\n\(consumptionDate)")
-                                .font(.subheadline)
-                                .foregroundStyle(.gray)
-                            Spacer()
-                        }
-                        
-                        Spacer()
+                        Text("Consumed on: \(consumptionDate)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.4)
                     }
-                    .padding(.leading, 10)
-                    .frame(width: 150)
+                    .padding(12)
+                    .background(Color(UIColor.systemGray6))
+                    .cornerRadius(12)
+                    .shadow(radius: 5)
+                    .frame(width: 140, height: 140) // Match size to image
+                    .opacity(animateView ? 1 : 0)
+                    .offset(x: animateView ? 0 : -20) // Slide in from left
+                    .animation(.easeInOut(duration: 0.5).delay(0.2), value: animateView)
                     .onAppear {
                         if let uid = user?.uid {
                             Task {
                                 let topCalorieMeal = try await MealServices().fetchMeal(by: foodItem.mealId, for: uid)
                                 consumptionDate = DateTools().formattedDate(topCalorieMeal?.date ?? Date())
                             }
-                           
                         }
-                        
                     }
                     
                     Spacer()
@@ -74,16 +76,21 @@ struct TopCalorieFoodView: View {
                     KFImage(URL(string: foodItem.imageURL))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: 200, maxHeight: 280)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                    
+                        .frame(width: 140, height: 140)
+                        .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+                        .shadow(radius: 10)
+                        .opacity(animateView ? 1 : 0)
+                        .offset(x: animateView ? 0 : 20) // Slide in from right
+                        .animation(.easeInOut(duration: 0.5).delay(0.4), value: animateView) // Delayed animation
                 } else {
                     VStack {
                         Text("No dishes found this week...")
                             .font(.headline)
-                            .foregroundStyle(.gray)
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.6)
                             .padding(.top, 10)
-                        Spacer()
                     }
                     
                     Spacer()
@@ -91,40 +98,37 @@ struct TopCalorieFoodView: View {
                     Image("noMeal")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
+                        .frame(width: 140, height: 140)
+                        .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
                         .opacity(0.6)
-                        .frame(maxWidth: 200, maxHeight: 280)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
             .padding(.all, 10)
-            .frame(maxHeight: 300)
             .background(Color.white)
             .cornerRadius(15)
             .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
-        } // End of VStack
-        
-        .padding(.horizontal)
-    } // End of Body
-    
-    
-    /// This function use to choose the right text to display
-    /// - Parameters:
-    ///     - none
-    /// - Returns: String: the right text
-    private var textToPresent: String {
-        if isWeek {
-           return NSLocalizedString("Calorie Bomb of the Week", comment: "")
         }
-        return NSLocalizedString("Calorie Bomb of the Month", comment: "")
+        .padding(.horizontal)
+        .onAppear {
+            withAnimation {
+                animateView = true // Start animation when view appears
+            }
+        }
+    }
+    
+    /// Choose the right text to display
+    private var textToPresent: String {
+        return isWeek ? "Calorie Bomb of the Week" : "Calorie Bomb of the Month"
     }
 }
 
 #Preview {
     struct Preview: View {
-        @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 200, foodName: "Apple Apple Apple Apple", imageURL: "Cloud", percentage: 100)
+        @State var foodItem: FoodItem? = FoodItem(mealId: "1", calorieNumber: 2000, foodName: "Triple Cheese Pizza", imageURL: "https://example.com/pizza.jpg", percentage: 100)
         
         var body: some View {
-            TopCalorieFoodView(foodItem: $foodItem, user: .constant(User(email: "adminjimmy@gmail.com")), isWeek: false)
+            TopCalorieFoodView(foodItem: $foodItem, user: .constant(User(email: "adminjimmy@gmail.com")), isWeek: true)
         }
     }
     return Preview()
