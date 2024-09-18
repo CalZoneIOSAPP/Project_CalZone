@@ -43,7 +43,7 @@ struct MealOverviewView: View {
                     
                     ScrollView {
                         if !viewModel.allFoodItems.isEmpty {
-                            ForEach(viewModel.allFoodItems.sorted(by: { $0.foodName > $1.foodName }), id: \.id) { food in
+                            ForEach(viewModel.allFoodItems, id: \.id) { food in
                                 FoodCard(imageURL: food.imageURL, title: food.foodName, user: viewModel.profileViewModel.currentUser ?? User.MOCK_USER, likeCount: 0)
                                     .onTapGesture {
                                         viewModel.selectedFoodItem = food
