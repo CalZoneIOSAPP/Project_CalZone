@@ -289,7 +289,13 @@ struct EditProfileView: View {
                     Task {
                         let doubleInfo = infoToDouble()
                         
-                        try await viewModel.updateInfo(with: viewModel.curStateAccount, with: viewModel.curStateDietary, strInfo: viewModel.strToChange, optionStrInfo: viewModel.optionSelection, dateInfo: viewModel.dateToChange, doubleInfo: doubleInfo)
+                        try await viewModel.updateInfo(with: viewModel.curStateAccount,
+                                                       with: viewModel.curStateDietary,
+                                                       strInfo: viewModel.strToChange,
+                                                       optionStrInfo: viewModel.optionSelection,
+                                                       dateInfo: viewModel.dateToChange,
+                                                       doubleInfo: doubleInfo)
+                        try await viewModel.calculateAndSaveBMI()
                         if viewModel.curStateDietary != .targetCalories {
                             try await viewModel.calculateAndSaveTargetCalories()
                         }
@@ -327,7 +333,7 @@ struct EditProfileView: View {
     /// - Parameters: none
     /// - Returns: The value changed to double.
     /// - Note: We collect user input in string, but some firebase values are stored in Double.
-    func infoToDouble() -> Double{
+    func infoToDouble() -> Double {
         if let state = viewModel.curStateDietary {
             if state == .height || state == .weight || state == .weightTarget {
                 if viewModel.strToChange != "" {

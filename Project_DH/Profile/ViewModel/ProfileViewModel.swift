@@ -96,7 +96,9 @@ class ProfileViewModel: ObservableObject {
     /// - Returns: none
     @MainActor
     func updateInfo(with accountEnum: AccountOptions?, with dietaryEnum: DietaryInfoOptions?, strInfo: String?, optionStrInfo: String?, dateInfo: Date?, doubleInfo: Double?) async throws {
-        guard strInfo != nil || dateInfo != nil || optionStrInfo != nil || doubleInfo != nil else { return }
+        if strInfo == nil && dateInfo == nil && optionStrInfo == nil && doubleInfo == nil {
+            return
+        }
         
         if accountEnum != nil {
             switch accountEnum {
@@ -118,7 +120,9 @@ class ProfileViewModel: ObservableObject {
         if dietaryEnum != nil{
             switch dietaryEnum {
             case .gender:
-                try await UserServices.sharedUser.updateDietaryOptions(with: optionStrInfo!, enumInfo: .gender)
+                if let optionStrInfo = optionStrInfo {
+                    try await UserServices.sharedUser.updateDietaryOptions(with: optionStrInfo, enumInfo: .gender)
+                } 
             case .weight:
                 try await UserServices.sharedUser.updateDietaryOptions(with: doubleInfo!, enumInfo: .weight)
             case .weightTarget:
@@ -210,6 +214,14 @@ class ProfileViewModel: ObservableObject {
     ///     - user: Target user for calorie calculation.
     /// - Returns: Number of calories.
     func calculateTargetCalories(user: User) -> Int {
+        print("Gender: \(String(describing: user.gender))")
+        print("Birthday: \(String(describing: user.birthday))")
+        print("Weight Target: \(String(describing: user.weightTarget))")
+        print("Weight: \(String(describing: user.weight))")
+        print("Height: \(String(describing: user.height))")
+        print("Activity Level: \(String(describing: user.activityLevel))")
+        print("Achievement Date: \(String(describing: user.achievementDate))")
+        
         let age = calculateAge(date: user.birthday!)
         let weightDiff = user.weightTarget! - user.weight!
         var userBMR: Double
@@ -218,9 +230,11 @@ class ProfileViewModel: ObservableObject {
         let h = 6.25 * user.height!
         
         if user.gender == NSLocalizedString("male", comment: "") {
+            print("Calculating for Gender Male")
             // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)+5
             userBMR = w + h - a + 5.0
         } else {
+            print("Calculating for Gender Female")
             // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)−161
             userBMR = w + h - a - 161.0
         }

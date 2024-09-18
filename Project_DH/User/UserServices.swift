@@ -142,30 +142,35 @@ class UserServices {
                     return
                 }
                 dataToUpdate = ["userName": newUsername]
+                currentUser?.userName = infoToChange as? String
             case .lastName:
                 guard let newLastName = infoToChange as? String else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for lastName", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["lastName": newLastName]
+                currentUser?.lastName = infoToChange as? String
             case .firstName:
                 guard let newFirstName = infoToChange as? String else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for firstName", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["firstName": newFirstName]
+                currentUser?.firstName = infoToChange as? String
             case .email:
                 guard let newEmail = infoToChange as? String else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for email", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["email": newEmail]
+                currentUser?.email = infoToChange as! String
             case .birthday:
                 guard let newBirthday = infoToChange as? Date else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for birthday", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["birthday": newBirthday]
+                currentUser?.birthday = infoToChange as? Date
             }
 
             // Update Firestore
@@ -176,20 +181,6 @@ class UserServices {
                     continuation.resume(returning: ())
                 }
             }
-        }
-
-        // Update local currentUser safely on the main actor
-        switch enumInfo {
-        case .username:
-            self.currentUser?.userName = infoToChange as? String
-        case .lastName:
-            self.currentUser?.lastName = infoToChange as? String
-        case .firstName:
-            self.currentUser?.firstName = infoToChange as? String
-        case .email:
-            self.currentUser?.email = infoToChange as! String
-        case .birthday:
-            self.currentUser?.birthday = infoToChange as? Date
         }
     }
 
@@ -215,48 +206,56 @@ class UserServices {
                     return
                 }
                 dataToUpdate = ["gender": newGender]
+                currentUser?.gender = infoToChange as? String
             case .weight:
                 guard let newWeight = infoToChange as? Double else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for weight", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["weight": newWeight]
+                currentUser?.weight = infoToChange as? Double
             case .weightTarget:
                 guard let newWeightTarget = infoToChange as? Double else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for weightTarget", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["weightTarget": newWeightTarget]
+                currentUser?.weightTarget = infoToChange as? Double
             case .height:
                 guard let newHeight = infoToChange as? Double else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for height", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["height": newHeight]
+                currentUser?.height = infoToChange as? Double
             case .bmi:
                 guard let newBmi = infoToChange as? Double else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for bmi", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["bmi": newBmi]
+                currentUser?.bmi = infoToChange as? Double
             case .activityLevel:
                 guard let newActivityLevel = infoToChange as? String else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for activityLevel", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["activityLevel": newActivityLevel]
+                currentUser?.activityLevel = infoToChange as? String
             case .achievementDate:
                 guard let newAchievementDate = infoToChange as? Date else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for achievementDate", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["achievementDate": newAchievementDate]
+                currentUser?.achievementDate = infoToChange as? Date
             case .targetCalories:
                 guard let newTargetCalories = infoToChange as? String else {
                     continuation.resume(throwing: NSError(domain: "Invalid type for targetCalories", code: 0, userInfo: nil))
                     return
                 }
                 dataToUpdate = ["targetCalories": newTargetCalories]
+                currentUser?.targetCalories = infoToChange as? String
             }
 
             // Update Firestore
@@ -267,26 +266,6 @@ class UserServices {
                     continuation.resume(returning: ())
                 }
             }
-        }
-
-        // Update local currentUser safely on the main actor
-        switch enumInfo {
-        case .gender:
-            self.currentUser?.gender = infoToChange as? String
-        case .weight:
-            self.currentUser?.weight = infoToChange as? Double
-        case .weightTarget:
-            self.currentUser?.weightTarget = infoToChange as? Double
-        case .height:
-            self.currentUser?.height = infoToChange as? Double
-        case .bmi:
-            self.currentUser?.bmi = infoToChange as? Double
-        case .activityLevel:
-            self.currentUser?.activityLevel = infoToChange as? String
-        case .achievementDate:
-            self.currentUser?.achievementDate = infoToChange as? Date
-        case .targetCalories:
-            self.currentUser?.targetCalories = infoToChange as? String
         }
     }
 
