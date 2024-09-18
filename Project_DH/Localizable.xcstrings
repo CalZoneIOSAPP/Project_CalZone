@@ -801,6 +801,26 @@
         }
       }
     },
+    "Calorie Bomb of the Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本月能量炸弹"
+          }
+        }
+      }
+    },
+    "Calorie Bomb of the Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周能量炸弹"
+          }
+        }
+      }
+    },
     "Calorie Consumption" : {
       "localizations" : {
         "zh-Hans" : {

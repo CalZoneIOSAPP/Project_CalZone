@@ -22,9 +22,9 @@ struct TopCalorieFoodView: View {
         VStack {
             HStack {
                 Text(textToPresent)
-                    .font(.title3)
+                    .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundStyle(LinearGradient(colors: [.brandDarkGreen, .green], startPoint: .top, endPoint: .bottom))
+                    .foregroundStyle(Color(.black).opacity(0.7))
                     .padding(.leading, 8)
                     .opacity(animateView ? 1 : 0) // Animation applied
                     .offset(y: animateView ? 0 : -10) // Slide in animation
@@ -119,7 +119,7 @@ struct TopCalorieFoodView: View {
     
     /// Choose the right text to display
     private var textToPresent: String {
-        return isWeek ? "Calorie Bomb of the Week" : "Calorie Bomb of the Month"
+        return isWeek ? NSLocalizedString("Calorie Bomb of the Week", comment: "") : NSLocalizedString("Calorie Bomb of the Month", comment: "") 
     }
 }
 

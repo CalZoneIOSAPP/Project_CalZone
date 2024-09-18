@@ -16,6 +16,7 @@ struct CalorieStatsView: View {
     @State private var selectedCalories: Int? = nil
     @State private var animateValues: [Bool] = Array(repeating: false, count: 7)
     @State private var showValue: Bool = false
+    @State private var animateView = false // State to control animation
     
     var isWeekView: Bool // Pass this to determine date format
     
@@ -28,6 +29,9 @@ struct CalorieStatsView: View {
                     .bold()
                     .foregroundStyle(Color(.black).opacity(0.7))
                     .padding(.leading, 8)
+                    .opacity(animateView ? 1 : 0) // Animation applied
+                    .offset(y: animateView ? 0 : -10) // Slide in animation
+                    .animation(.easeInOut(duration: 0.5), value: animateView)
                 Spacer()
             }
             
@@ -126,6 +130,11 @@ struct CalorieStatsView: View {
             .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
         }
         .padding(.horizontal)
+        .onAppear {
+            withAnimation {
+                animateView = true // Start animation when view appears
+            }
+        }
     }
     
     /// This function format the date from MM/DD/YY to MM/DD for weekly data, DD for monthly data
