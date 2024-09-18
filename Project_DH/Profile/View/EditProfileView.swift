@@ -265,11 +265,12 @@ struct EditProfileView: View {
                     Text("Calculate based on Info")
                         .font(.headline)
                 }
-                .frame(maxWidth: 250, minHeight: 40)
+                .frame(maxWidth: .infinity, minHeight: 40)
                 .background(Color(.brandLightGreen).opacity(0.6))
                 .foregroundColor(.brandDarkGreen)
                 .cornerRadius(8)
                 .padding(.bottom, 5)
+                .padding(.horizontal, 15)
             }
             
             Spacer()
