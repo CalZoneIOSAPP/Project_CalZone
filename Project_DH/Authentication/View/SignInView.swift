@@ -191,11 +191,15 @@ struct SignInView: View {
             }
             .ignoresSafeArea(.keyboard, edges: .all)
             .dismissKeyboardOnTap()
+            .onDisappear {
+                authViewModel.alertItem = nil
+            }
         } // End of Navigation Stack
         .navigationBarBackButtonHidden()
     }
     
 }
+
 
 #Preview {
     SignInView()
