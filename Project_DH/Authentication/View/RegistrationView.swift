@@ -76,7 +76,7 @@ struct RegistrationView: View {
                     
                     // MARK: ERROR MESSAGE
                     HStack {
-                        authViewModel.alertItem?.message ?? Text(" ")
+                        authViewModel.alertItem?.message ?? Text(authViewModel.createUserError)
                         Spacer()
                     }
                     .font(.footnote)

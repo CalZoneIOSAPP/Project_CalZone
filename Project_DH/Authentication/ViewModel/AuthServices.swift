@@ -144,9 +144,10 @@ class AuthServices {
     ///     - withEmail: the email address of the user
     ///     - password: the corresponding password for the user
     ///     - username: the username picked by the user
-    /// - Returns: none
+    /// - Returns: String of the error.
     @MainActor
-    func createUser(withEmail email: String, password: String, username: String) async throws {
+    func createUser(withEmail email: String, password: String, username: String) async throws -> String {
+        var err = " "
         do{
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
@@ -154,8 +155,10 @@ class AuthServices {
             try await UserServices.sharedUser.fetchCurrentUserData()
             print("CREATED USER \(result.user.uid)" )
         } catch {
-            print("ERROR: FAILED TO CREATE USER \nSource: AuthServices/createUser() \n\(error.localizedDescription)") //automatically gives us the "error" object by swift
+            err = error.localizedDescription
+            print("ERROR: FAILED TO CREATE USER \nSource: AuthServices/createUser() \n\(err)") //automatically gives us the "error" object by swift
         }
+        return err
     }
     
     

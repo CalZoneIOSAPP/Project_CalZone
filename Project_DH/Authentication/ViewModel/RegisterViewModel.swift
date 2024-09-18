@@ -21,6 +21,8 @@ class RegisterViewModel: ObservableObject {
     
     @Published var processingRegistration = false
     
+    @Published var createUserError: String = " "
+    
     // TODO: CREATE LOCAL USER OBJECT
 //    @Published var User
     
@@ -29,9 +31,13 @@ class RegisterViewModel: ObservableObject {
     /// This function triggers for user creation which was requested on the front end. Calls the corresponding function within the AuthServices.
     /// - Parameters: none
     /// - Returns: none
+    @MainActor
     func createUser() async throws {
         guard isValidForm else { return }
-        try await AuthServices.sharedAuth.createUser(withEmail: email, password: password, username: username)
+        let err = try await AuthServices.sharedAuth.createUser(withEmail: email, password: password, username: username)
+        if err.contains("The email address is already in use by another account.") {
+            createUserError = NSLocalizedString("The email address is already in use by another account.", comment: "")
+        }
     }
     
     
@@ -41,22 +47,29 @@ class RegisterViewModel: ObservableObject {
     var isValidForm: Bool {
         // check if we have all values in the profile forms
         guard !username.isEmpty && !email.isEmpty && !password.isEmpty else {
-            alertItem = AlertContent.invalidForm
+            DispatchQueue.main.async {
+                self.alertItem = AlertContent.invalidForm
+            }
             return false
         }
         // check if email string is valid: isValidEmail is a method which extends String
         guard email.isValidEmailFormat else {
-            alertItem = AlertContent.invalidEmail
+            DispatchQueue.main.async {
+                self.alertItem = AlertContent.invalidEmail
+            }
             return false
         }
-        
+
         guard password.count >= 6 else {
-            alertItem = AlertContent.invalidPassword
+            DispatchQueue.main.async {
+                self.alertItem = AlertContent.invalidPassword
+            }
             return false
         }
-        
+
         return true
     }
+
     
     
 }

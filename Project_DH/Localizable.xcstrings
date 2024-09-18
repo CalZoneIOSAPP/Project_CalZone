@@ -4038,6 +4038,16 @@
         }
       }
     },
+    "The email address is already in use by another account." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该电子邮件地址已被另一帐户使用。"
+          }
+        }
+      }
+    },
     "Thin" : {
       "localizations" : {
         "zh-Hans" : {
