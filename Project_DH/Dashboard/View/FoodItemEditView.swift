@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct FoodItemEditView: View {
-    @ObservedObject var viewModel: DashboardViewModel
+    @StateObject var viewModel: DashboardViewModel
     @Binding var foodItem: FoodItem?
     @Binding var foodItemList: [FoodItem]
     @Binding var isPresented: Bool
