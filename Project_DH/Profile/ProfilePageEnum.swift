@@ -193,7 +193,7 @@ enum AccountOptions: Int, CaseIterable, Identifiable {
         case .username:
             return NSLocalizedString("Change Username", comment: "")
         case .email:
-            return NSLocalizedString("Change Email", comment: "")
+            return NSLocalizedString("Email", comment: "")
         case .firstName:
             return NSLocalizedString("Change First Name", comment: "")
         case .lastName:

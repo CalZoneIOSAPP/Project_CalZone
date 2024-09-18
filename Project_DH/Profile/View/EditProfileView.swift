@@ -120,12 +120,14 @@ struct EditProfileView: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                viewModel.firebaseFieldName = option.firebaseFieldName
-                                viewModel.curStateAccount = option
-                                viewModel.editInfoWindowTitle = option.title
-                                viewModel.editInfoWindowPlaceHolder = option.placeholder
-                                viewModel.showEditWindow = true
-                                viewModel.inputType = option.inputStyle
+                                if option.firebaseFieldName != "email" {
+                                    viewModel.firebaseFieldName = option.firebaseFieldName
+                                    viewModel.curStateAccount = option
+                                    viewModel.editInfoWindowTitle = option.title
+                                    viewModel.editInfoWindowPlaceHolder = option.placeholder
+                                    viewModel.showEditWindow = true
+                                    viewModel.inputType = option.inputStyle
+                                }
                             }
                         }
                     }
