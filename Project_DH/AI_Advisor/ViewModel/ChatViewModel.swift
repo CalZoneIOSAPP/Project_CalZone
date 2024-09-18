@@ -111,7 +111,7 @@ class ChatViewModel: ObservableObject {
             }
             
             guard let remainingUses = usage.maxAssistantTokenNumRemaining, remainingUses > 0 else {
-                let warningMessage = "Apologies, Cally is a bit tired today and will not be available to provide more advice for you. If you would like to hear more from me, join the CalBite membership!"
+                let warningMessage = NSLocalizedString("Apologies, Cally is a bit tired today and will not be available to provide more advice for you. If you would like to hear more from me, join the CalBite membership!", comment: "")
                 messages.append(AppMessage(id: UUID().uuidString, text: warningMessage, role: .assistant))
                 return
             }

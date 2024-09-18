@@ -499,6 +499,16 @@
         }
       }
     },
+    "Apologies, Cally is a bit tired today and will not be available to provide more advice for you. If you would like to hear more from me, join the CalBite membership!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抱歉，凯丽今天有点累，暂时无法为您提供更多建议。如果您想听到更多我的建议，请加入 卡路比会员吧！"
+          }
+        }
+      }
+    },
     "Apologies..." : {
       "localizations" : {
         "zh-Hans" : {
