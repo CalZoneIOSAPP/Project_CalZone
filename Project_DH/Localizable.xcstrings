@@ -414,7 +414,11 @@
         }
       }
     },
+    "Agree" : {
+
+    },
     "Agree                             " : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -1409,7 +1413,11 @@
         }
       }
     },
+    "Disagree" : {
+
+    },
     "Disagree                        " : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

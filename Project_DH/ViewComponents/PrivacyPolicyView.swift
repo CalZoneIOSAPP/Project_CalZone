@@ -48,11 +48,13 @@ struct PrivacyPolicyView: View {
                 UserDefaults.standard.set(true, forKey: "hasAgreed")
                 onAgree()
             }) {
-                Text("Agree                             ")
-                    .foregroundColor(.white)
+                Text("Agree")
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(.brandDarkGreen))
+                    .background(Color(.brandLightGreen).opacity(0.6))
+                    .foregroundStyle(Color(.brandDarkGreen))
                     .cornerRadius(10)
+                    .padding(.horizontal, 10)
             }
             .padding(.bottom, -10)
             .padding(.top, 10)
@@ -61,11 +63,13 @@ struct PrivacyPolicyView: View {
                 // Exit the application
                 exit(0)
             }) {
-                Text("Disagree                        ")
-                    .foregroundColor(.white)
+                Text("Disagree")
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(.brandRed))
+                    .background(Color(.brandRed).opacity(0.3))
+                    .foregroundStyle(Color(.brandRed))
                     .cornerRadius(10)
+                    .padding(.horizontal, 10)
             }
             
         }

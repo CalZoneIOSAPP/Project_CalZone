@@ -39,6 +39,19 @@ struct PopUpConfirmationView: View {
             HStack {
                 Button(action: {
                     isPresented = false
+                }) {
+                    Text("Cancel")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(.brandRed).opacity(0.3))
+                        .foregroundStyle(Color(.brandRed))
+                        .cornerRadius(8)
+                }
+                .padding(.horizontal, 20)
+                
+                Button(action: {
+                    isPresented = false
                     actionBool = true
                     // Other actions
                 }) {
@@ -48,19 +61,6 @@ struct PopUpConfirmationView: View {
                         .padding()
                         .background(Color(.brandLightGreen).opacity(0.6))
                         .foregroundStyle(Color(.brandDarkGreen))
-                        .cornerRadius(8)
-                }
-                .padding(.horizontal, 20)
-                
-                Button(action: {
-                    isPresented = false
-                }) {
-                    Text("Cancel")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color(.brandRed).opacity(0.3))
-                        .foregroundStyle(Color(.brandRed))
                         .cornerRadius(8)
                 }
                 .padding(.horizontal, 20)
