@@ -117,7 +117,6 @@ struct ChatSelectionView: View {
                         } label: {
                             Image(systemName: "square.and.pencil")
                                 .foregroundStyle(.brandDarkGreen)
-                                .popoverTip(addChatTip)
                         }
                     }
                 })

@@ -368,7 +368,14 @@
       }
     },
     "Add your delicious meal." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加您的美食"
+          }
+        }
+      }
     },
     "Address" : {
       "localizations" : {
@@ -393,10 +400,24 @@
       }
     },
     "After you are done with adding your meal, click the save button." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成添加餐点后，点击保存按钮。"
+          }
+        }
+      }
     },
     "After you measured your new body weight, you can change it here." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测量新体重后，您可以在此进行更改。"
+          }
+        }
+      }
     },
     "ago" : {
       "localizations" : {
@@ -415,23 +436,7 @@
       }
     },
     "Agree" : {
-
-    },
-    "Agree                             " : {
-      "extractionState" : "stale",
       "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Agree"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agree"
-          }
-        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -786,28 +791,6 @@
         }
       }
     },
-    "Calorie Bomb of the Month" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本月的能量炸弹"
-          }
-        }
-      }
-    },
-    "Calorie Bomb of the Week" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本周的能量炸弹"
-          }
-        }
-      }
-    },
     "Calorie Consumption" : {
       "localizations" : {
         "zh-Hans" : {
@@ -858,17 +841,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡路里："
-          }
-        }
-      }
-    },
-    "Calories: " : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "热量: "
           }
         }
       }
@@ -1012,7 +984,14 @@
       }
     },
     "Change your body weight." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更改您的体重。"
+          }
+        }
+      }
     },
     "Choose an option" : {
       "localizations" : {
@@ -1059,7 +1038,14 @@
       }
     },
     "Click here to add a new conversation." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击此处来添加新聊天。"
+          }
+        }
+      }
     },
     "Close" : {
       "localizations" : {
@@ -1167,19 +1153,15 @@
         }
       }
     },
-    "Consumed on: " : {
-      "extractionState" : "stale",
+    "Consumed on: %@" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "食用日期:"
+            "value" : "食用日期: %@"
           }
         }
       }
-    },
-    "Consumed on: %@" : {
-
     },
     "Cool Person" : {
       "localizations" : {
@@ -1414,23 +1396,7 @@
       }
     },
     "Disagree" : {
-
-    },
-    "Disagree                        " : {
-      "extractionState" : "stale",
       "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Disagree"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disagree"
-          }
-        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2310,7 +2276,14 @@
       }
     },
     "Loading top calorie food..." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加载最高热量的食物..."
+          }
+        }
+      }
     },
     "Loading..." : {
       "localizations" : {
@@ -2461,7 +2434,14 @@
       }
     },
     "Meet your diet advisor, Cally." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "认识一下您的饮食顾问，凯丽。"
+          }
+        }
+      }
     },
     "Membership:" : {
       "localizations" : {
@@ -2625,7 +2605,14 @@
       }
     },
     "New Conversation" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新聊天"
+          }
+        }
+      }
     },
     "New password and confirm password do not match." : {
       "localizations" : {
@@ -3296,7 +3283,14 @@
       }
     },
     "Save your dish." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存您的美食。"
+          }
+        }
+      }
     },
     "second" : {
       "localizations" : {
@@ -3815,7 +3809,14 @@
       }
     },
     "Tap here to add a dish. You can either take a photo, or upload one which you posted." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击此处添加一道菜。您可以拍照，或上传您发布过的照片。"
+          }
+        }
+      }
     },
     "Tap here to add a new dish to your day." : {
       "localizations" : {
@@ -4058,7 +4059,14 @@
       }
     },
     "This is your dashboard where you can monitor your daily calorie(kCal) intake." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是您的仪表板，您可以在这里监控每日的卡路里（千卡）摄入量。"
+          }
+        }
+      }
     },
     "Time to have a short break from what you are doing, get a cup of tea or coffee." : {
       "localizations" : {
@@ -4303,7 +4311,14 @@
       }
     },
     "We will by default select a meal type based on your time, but you can manually adjust it here." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认情况下，我们将根据您的时间选择餐食类型，但您可以在此手动调整。"
+          }
+        }
+      }
     },
     "Week" : {
       "localizations" : {
@@ -4360,7 +4375,14 @@
       }
     },
     "Welcome to CalBite!" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欢迎来到卡路比！"
+          }
+        }
+      }
     },
     "welcome_back" : {
       "extractionState" : "manual",
@@ -4468,7 +4490,14 @@
       }
     },
     "When did you eat?" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您在哪个时间段想用了美食?"
+          }
+        }
+      }
     },
     "When would you like to achieve your goal?" : {
       "localizations" : {
@@ -4583,7 +4612,14 @@
       }
     },
     "You can ask any questions related to food, nutrition and diet." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您可以询问有关食物、营养和饮食的任何问题。"
+          }
+        }
+      }
     },
     "You Consumed %lld Calories Today" : {
       "localizations" : {
