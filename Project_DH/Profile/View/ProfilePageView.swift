@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct ProfilePageView: View {
-    
+    @EnvironmentObject var control: ControllerModel
     @StateObject var viewModel = ProfileViewModel()
     @State private var showingProfileInfo: Bool = false
     @State private var showingProfilePreview: Bool = false
@@ -113,6 +113,10 @@ struct ProfilePageView: View {
             // TODO: Handle other cases in the future!
             case .meals:
                 MealOverviewView()
+                    .environmentObject(control)
+                    .onDisappear {
+                        control.refetchMeal = true
+                    }
             case .friends:
                 FriendsView()
             case .settings:

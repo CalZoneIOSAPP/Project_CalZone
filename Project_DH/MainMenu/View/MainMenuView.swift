@@ -69,6 +69,7 @@ struct MainMenuView: View {
                 .tag(3)
                 
                 ProfilePageView()
+                    .environmentObject(controller)
                     .tabItem {
                         VStack {
                             Image(systemName: "person.crop.circle.fill")

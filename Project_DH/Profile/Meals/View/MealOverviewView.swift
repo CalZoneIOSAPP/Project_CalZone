@@ -45,6 +45,7 @@ struct MealOverviewView: View {
                         if !viewModel.allFoodItems.isEmpty {
                             ForEach(viewModel.allFoodItems, id: \.id) { food in
                                 FoodCard(imageURL: food.imageURL, title: food.foodName, user: viewModel.profileViewModel.currentUser ?? User.MOCK_USER, likeCount: 0)
+                                    .contentShape(Rectangle())
                                     .onTapGesture {
                                         viewModel.selectedFoodItem = food
                                         viewModel.showEditPopup = true
