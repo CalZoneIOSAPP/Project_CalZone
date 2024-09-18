@@ -24,11 +24,12 @@ class MealInputViewModel: ObservableObject {
     @Published var imageChanged = false
     @Published var showInputError = false
     @Published var showUsageError = false
+    @Published var showEstimationError = false
     @Published var sliderValue: Double = 100.0
     @Published var selectedMealType: MealType?
     @Published var selectedDate = Date()
     @Published var isProcessingMealInfo = false
-    
+    @Published var remainingEstimations = -1
     
     private let db = Firestore.firestore()
     private let functions = Functions.functions()
@@ -45,6 +46,56 @@ class MealInputViewModel: ObservableObject {
             return config
         }
         return nil
+    }
+    
+    
+    /// This function retrieves the remaining usage of calorie estimation.
+    /// - Parameters:
+    ///     - user:  The user which the usage belongs to.
+    /// - Returns: none
+    /// - Note: If there is no usage for the user yet, then it will create it.
+    @MainActor
+    func getRemainingUsage(for user: User) async throws {
+        print("Getting remaining usage for: \(String(describing: user.uid))")
+        
+        guard let userId = user.uid else {
+            return
+        }
+        
+        let usageDocRef = db.collection("usages").document(userId)
+        
+        do {
+            let document = try await usageDocRef.getDocument()
+            var usage: Usage
+            
+            if document.exists {
+                usage = try document.data(as: Usage.self)
+            } else {
+                print("Usage document does not exist. Creating a new usage document.")
+                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 10, maxAssistantTokenNumRemaining: 10000)
+
+                // Upload the new Usage document to Firestore
+                try usageDocRef.setData(from: usage)
+                print("New usage document successfully created")
+            }
+            
+            let currentTimestamp = Date()
+            let lastUsageTimestamp = usage.lastUsageTimestamp ?? Date.distantPast
+            
+            // Calculate the time interval between the last usage and now
+            let timeInterval = currentTimestamp.timeIntervalSince(lastUsageTimestamp)
+                
+            // Check if 24 hours (86400 seconds) have passed
+            if timeInterval >= 86400 {
+                // Reset the usage counters
+                usage.resetUsage(with: currentTimestamp)
+                try usageDocRef.setData(from: usage)
+            }
+            remainingEstimations = usage.maxCalorieAPIUsageNumRemaining ?? 0
+        } catch {
+            print("ERROR: Error decoding usage document: \(error)")
+        }
+        
     }
     
     
@@ -75,7 +126,7 @@ class MealInputViewModel: ObservableObject {
                 try usageDocRef.setData(from: usage)
                 print("New usage document successfully created")
             }
-            
+            remainingEstimations = usage.maxCalorieAPIUsageNumRemaining ?? 0
             // Get the current timestamp
             let currentTimestamp = Date()
             let lastUsageTimestamp = usage.lastUsageTimestamp ?? Date.distantPast
@@ -101,12 +152,12 @@ class MealInputViewModel: ObservableObject {
             await predictMealInfo(for: image!)
 
             // Decrement the remaining usage count if not showing error
-            if showInputError == false {
+            if showInputError == false && showEstimationError == false {
                 usage.maxCalorieAPIUsageNumRemaining = remainingUses - 1
             }
             
             try usageDocRef.setData(from: usage)
-
+            remainingEstimations = usage.maxCalorieAPIUsageNumRemaining ?? 0
         } catch {
             print("ERROR: Error decoding usage document: \(error)")
         }
@@ -126,6 +177,10 @@ class MealInputViewModel: ObservableObject {
                 try await generateCalories(for: image)
                 try await generateMealName(for: image)
                 imageChanged = true
+                print("CALORIES: \(calories as Any)")
+                if calories == "0" || !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: calories ?? "")) || calories == nil {
+                    showEstimationError = true
+                }
             }
             else {
                 // clear input

@@ -89,11 +89,20 @@ struct MealInputView: View {
                                 .font(.title2)
                                 .multilineTextAlignment(.center)
                             
-                            Text("\(DateTools().formattedDate(viewModel.selectedDate))")
-                                .font(.headline)
-                                .foregroundColor(.gray)
-                                .padding()
-                                .multilineTextAlignment(.center)
+                            HStack {
+                                Text("\(DateTools().formattedDate(viewModel.selectedDate))")
+                                    .font(.headline)
+                                    .foregroundColor(.gray)
+                                    .padding()
+                                    .multilineTextAlignment(.center)
+                                
+                                Text("Remaining Estimations: \(viewModel.remainingEstimations)")
+                                    .font(.headline)
+                                    .foregroundColor(.gray)
+                                    .padding()
+                                    .multilineTextAlignment(.center)
+                            }
+                            
                             
                             CalorieAmountPicker
                                 .frame(width: 270)
@@ -132,6 +141,14 @@ struct MealInputView: View {
                             .animation(.easeInOut, value: viewModel.showInputError)
                             .padding(.horizontal, 30)
                     }
+                    
+                    if viewModel.showEstimationError {
+                        PopUpMessageView(messageTitle: NSLocalizedString("Apologies", comment: ""), message: NSLocalizedString("It seems that we are unable to predict the number of calories. You can re-upload or retake the photo.", comment: ""), popupPositivity: .negative, isPresented: $viewModel.showEstimationError)
+                            .animation(.easeInOut, value: viewModel.showInputError)
+                            .padding(.horizontal, 30)
+                    }
+                    
+                    
                 } // ZStack
                 .toolbar(content: {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -144,6 +161,13 @@ struct MealInputView: View {
             } // Geometry Reader
             .ignoresSafeArea(.keyboard, edges: .all)
             .dismissKeyboardOnTap()
+            .onAppear {
+                if let user = profileViewModel.currentUser {
+                    Task {
+                        try await viewModel.getRemainingUsage(for: user)
+                    }
+                }
+            }
         } // End of Navigation Stack
         
     }// End of body

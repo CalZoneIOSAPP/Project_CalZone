@@ -2168,6 +2168,9 @@
         }
       }
     },
+    "It seems that we are unable to predict the number of calories. You can re-upload or retake the photo." : {
+
+    },
     "just now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3197,6 +3200,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "距离目标"
+          }
+        }
+      }
+    },
+    "Remaining Estimations: %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余识别次数: %lld"
           }
         }
       }
