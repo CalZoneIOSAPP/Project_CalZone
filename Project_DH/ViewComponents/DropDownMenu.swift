@@ -19,8 +19,8 @@ struct DropDownMenu: View {
     var maxWidth: CGFloat = 180
     var cornerRadius: CGFloat = 15
     @Environment(\.colorScheme) private var scheme
-    @SceneStorage("drop_down_zindex") private var index = 10000.0
-    @State private var zIndex: Double = 10000.0
+    @SceneStorage("drop_down_zindex") private var index = 1000.0
+    @State private var zIndex: Double = 1000.0
     
     var body: some View {
         GeometryReader  {
