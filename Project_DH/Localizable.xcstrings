@@ -2124,6 +2124,16 @@
         }
       }
     },
+    "Invalid email, please try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无效的电子邮件，请重试。"
+          }
+        }
+      }
+    },
     "Invalid Form" : {
       "localizations" : {
         "cs" : {
@@ -2169,7 +2179,14 @@
       }
     },
     "It seems that we are unable to predict the number of calories. You can re-upload or retake the photo." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们可能无法预测当前照片上的卡路里数。您可以重新上传或重新拍摄照片。"
+          }
+        }
+      }
     },
     "just now" : {
       "localizations" : {
