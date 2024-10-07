@@ -76,7 +76,7 @@ export const validFoodItem = functions.https.onCall(
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
         messages: [
           {
             role: "user",
@@ -118,7 +118,7 @@ export const generateCalories = functions.https.onCall(
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
         messages: [
           {
             role: "user",
@@ -137,6 +137,7 @@ export const generateCalories = functions.https.onCall(
             ],
           },
         ],
+        max_tokens: 30,
       });
       const calorieString = response.choices[0].message?.content?.trim();
       return {calories: calorieString};
@@ -157,15 +158,14 @@ export const generateMealName = functions.https.onCall(
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
         messages: [
           {
             role: "user",
             content: [
               {type: "text", text:
                 "You are a nutrition expert. Please predict the name " +
-                "of the food." + "Please only provide the name of the food." +
-                "Please only provide the name of the food."},
+                "of the food." + "Please only provide the name of the food."},
               {
                 type: "image_url",
                 image_url: {
