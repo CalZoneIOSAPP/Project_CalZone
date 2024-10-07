@@ -173,21 +173,7 @@ class MealInputViewModel: ObservableObject {
         isProcessingMealInfo = true
         do {
             print("NOTE: Prediction Started, please wait.")
-            if try await validFoodItem(for: image) { // check if the image contains food
-                try await generateCalories(for: image)
-                try await generateMealName(for: image)
-                imageChanged = true
-                print("CALORIES: \(calories as Any)")
-                if calories == "0" || !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: calories ?? "")) || calories == nil {
-                    showEstimationError = true
-                }
-            }
-            else {
-                // clear input
-                clearInputs()
-                showInputError = true
-            }
-            
+            try await analyzeFoodImage(for: image)
         } catch {
             print(error)
         }
@@ -195,83 +181,67 @@ class MealInputViewModel: ObservableObject {
     }
     
     
-    /// This function checks if the food item photo is a valid input.
-    /// - Parameters:
-    ///     - for: the image of the food item
-    /// - Returns: Boolean value whether the food item is a valid input to the AI model.
     @MainActor
-    func validFoodItem(for image: UIImage) async throws -> Bool {
-        print("NOTE: Validating for food items...")
+    func analyzeFoodImage(for image: UIImage) async throws {
+        print("NOTE: Analyzing the food image...")
+
+        // Step 1: Downsize the image
         let downsizedImg = ImageManipulation.downSizeImage(for: image)
-        
-        guard let imageUrl = try await FoodItemImageUploader.uploadImage(downsizedImg!) else {
-            throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to upload image to Firebase"])
-        }
-        
-        let result = try await functions.httpsCallable("validFoodItem").call(["imageUrl": imageUrl])
-        if let data = result.data as? [String: Any], let isValid = data["valid"] as? Bool {
-            try await ImageManipulation.deleteImageOnFirebase(imageURL: imageUrl)
-            return isValid
-        } else {
-            throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unexpected response from the server"])
-        }
-    }
-    
-    
-    /// This function calls the OpenAI API to estimate the calories in the given food item image.
-    /// - Parameters:
-    ///     - for: the image of the food item
-    /// - Returns: none
-    @MainActor
-    func generateCalories(for image: UIImage) async throws {
-        print("NOTE: Predicting Calories..")
-        let downsizedImg = ImageManipulation.downSizeImage(for: image)
-        
-        guard let imageUrl = try await FoodItemImageUploader.uploadImage(downsizedImg!) else {
-            throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to upload image to Firebase"])
-        }
-        
-        let result = try await functions.httpsCallable("generateCalories").call(["imageUrl": imageUrl])
-        if let data = result.data as? [String: Any], let calories = data["calories"] as? String {
-            await MainActor.run {
-                print("NOTE: Finished Predicting Calories: \(calories)")
-                let calorie_string = "\(calories)"
-                let cal_num = extractNumber(from: calorie_string)
-                self.calories = cal_num
-                self.predictedCalories = cal_num
-            }
-        } else {
-            throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unexpected response from the server"])
-        }
-        
-        try await ImageManipulation.deleteImageOnFirebase(imageURL: imageUrl)
-    }
-    
-    
-    /// This function calls the OpenAI API to estimate the name of the given food item image.
-    /// - Parameters:
-    ///     - for: the image of the food item
-    /// - Returns: none
-    @MainActor
-    func generateMealName(for image: UIImage) async throws {
-        print("NOTE: Generating the meal name.")
-        let downsizedImg = ImageManipulation.downSizeImage(for: image)
-        
+
+        // Step 2: Upload the image and get the URL
         guard let imageUrl = try await FoodItemImageUploader.uploadImage(downsizedImg!) else {
             throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to upload image to Firebase"])
         }
 
-        let result = try await functions.httpsCallable("generateMealName").call(["imageUrl": imageUrl])
-        if let data = result.data as? [String: Any], let mealName = data["mealName"] as? String {
+        // Step 3: Call the combined cloud function to analyze the image
+        let result = try await functions.httpsCallable("analyzeFoodImage").call(["imageUrl": imageUrl])
+
+        // Step 4: Handle the response
+        if let data = result.data as? [String: Any],
+           let isValid = data["valid"] as? Bool,
+           let calories = data["calories"] as? String,
+           let mealName = data["mealName"] as? String {
+            
+            // Step 5: Update the UI or variables based on the response
             await MainActor.run {
+                // Validation result
+                if isValid {
+                    print("NOTE: Food is valid.")
+                    imageChanged = true
+                    print("CALORIES: \(calories as Any)")
+                } else {
+                    // clear input
+                    print("NOTE: Food is invalid.")
+                    clearInputs()
+                    showInputError = true
+                    return
+                }
+
+                // Calorie result
+                let calorieString = "\(calories)"
+                let calNum = extractNumber(from: calorieString)
+                self.calories = calNum
+                self.predictedCalories = calNum
+
+                // Meal name result
                 self.mealName = mealName
+                print("NOTE: Predicted Meal Name: \(mealName)")
+                
+                if calories == "0" || !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: calories)) {
+                    print("ESTIMATION ERROR")
+                    self.calories = "0"
+                    showEstimationError = true
+                }
             }
+
         } else {
             throw NSError(domain: "AppErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unexpected response from the server"])
         }
-        
+
+        // Step 6: Clean up by deleting the image from Firebase
         try await ImageManipulation.deleteImageOnFirebase(imageURL: imageUrl)
     }
+
     
     
     /// This function saves the food item to Firebase.

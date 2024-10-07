@@ -188,3 +188,69 @@ export const generateMealName = functions.https.onCall(
     }
   }
 );
+
+// Function that merges the 3 functions above (ACTIVE RIGHT NOW).
+export const analyzeFoodImage = functions.https.onCall(
+  async (data) => {
+    const imageUrl = data.imageUrl;
+
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: `You are a nutrition expert. Based on the provided image,
+                please answer the following questions in the format below.
+                First, tell me if the image contains any types of food (YES/NO)
+                .
+                Second, estimate the number of calories in the picture. Provide
+                the calorie number as a single value only. Do not give a range.
+                If there is packaging information, utilize these information.
+                Third, predict the name of the food. 
+                Use the following format for the response:
+                Food: [YES/NO]
+                Calories: [calorie_number]
+                Meal: [food_name]`,
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: imageUrl,
+                },
+              },
+            ],
+          },
+        ],
+        max_tokens: 100, // Adjust tokens based on response size
+      });
+
+      const result = response.choices[0].message?.content?.trim();
+
+      // Parse the response string into structured data
+      const lines = result?.split("\n") || [];
+      const foodMatch = lines.find((line) => line.startsWith("Food:"));
+      const calorieMatch = lines.find((line) => line.startsWith("Calories:"));
+      const mealMatch = lines.find((line) => line.startsWith("Meal:"));
+
+      const valid = foodMatch?.split("Food: ")[1]?.trim() === "YES";
+      const calories = calorieMatch?.split("Calories: ")[1]?.trim();
+      const mealName = mealMatch?.split("Meal: ")[1]?.trim();
+
+      return {
+        valid,
+        calories,
+        mealName,
+      };
+    } catch (error) {
+      console.error("Error calling OpenAI API:", error);
+      throw new functions.https.HttpsError(
+        "internal",
+        "OpenAI API call failed"
+      );
+    }
+  }
+);
