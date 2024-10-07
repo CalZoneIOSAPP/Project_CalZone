@@ -59,15 +59,24 @@ struct FoodItemEditView: View {
                         HStack {
                             Text("Calories:")
                             Spacer()
-                            TextField("", value: Binding(
-                                get: { foodItem.calorieNumber },
+                            TextField("", text: Binding(
+                                get: { String(foodItem.calorieNumber) },
                                 set: { newValue in
                                     viewModel.wholeFoodItem = false
-                                    let difference = newValue - foodItem.calorieNumber
-                                    calorieNum += difference
-                                    foodItem.calorieNumber = newValue
+
+                                    // Check if the new string is empty
+                                    if newValue.isEmpty {
+                                        // If empty, set the calorie number to 0 or any default value
+                                        calorieNum -= foodItem.calorieNumber
+                                        foodItem.calorieNumber = 0
+                                    } else if let value = Int(newValue) {
+                                        // If it's a valid number, update calorie number
+                                        let difference = value - foodItem.calorieNumber
+                                        calorieNum += difference
+                                        foodItem.calorieNumber = value
+                                    }
                                 }
-                            ), formatter: NumberFormatter())
+                            ))
                             .keyboardType(.numberPad)
                         }
                         .foregroundStyle(Color(.black).opacity(0.6))
@@ -107,6 +116,9 @@ struct FoodItemEditView: View {
                                 try await viewModel.fetchMeals(for: viewModel.profileViewModel.currentUser?.uid ?? "", with: true, on: viewModel.selectedDate)
                             }
                             viewModel.wholeFoodItem = false
+                            originalFoodName = ""
+                            originalCalorieNumber = 0
+                            originalCalorieSum = 0
                         }
                     } label: {
                         Text("Save")
@@ -136,11 +148,6 @@ struct FoodItemEditView: View {
             }
         }// End of ZStack
         .dismissKeyboardOnTap()
-        .onDisappear {
-            originalFoodName = ""
-            originalCalorieNumber = 0
-            originalCalorieSum = 0
-        }
     }
     
     
