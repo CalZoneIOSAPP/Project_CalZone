@@ -124,7 +124,7 @@ export const generateCalories = functions.https.onCall(
             role: "user",
             content: [
               {type: "text", text:
-                "You are a nutrition expert. Please calculate the " +
+                "You are a nutrition expert. Please estimate the " +
                 "calories of the provided image." + "Please only " +
                 "provide the calorie number, do not give any textual" +
                 "explanation."},
