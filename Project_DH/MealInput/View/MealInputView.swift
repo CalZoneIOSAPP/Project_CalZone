@@ -56,6 +56,7 @@ struct MealInputView: View {
                                 CalorieTagOnImage
                             }
                             .onTapGesture{
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                                 isConfirmationDialogPresented = true
                             }
                             .confirmationDialog("Choose an option", isPresented: $isConfirmationDialogPresented) {
