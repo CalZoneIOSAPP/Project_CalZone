@@ -76,7 +76,7 @@ export const validFoodItem = functions.https.onCall(
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "user",
@@ -118,7 +118,7 @@ export const generateCalories = functions.https.onCall(
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "user",
@@ -157,7 +157,7 @@ export const generateMealName = functions.https.onCall(
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "user",
