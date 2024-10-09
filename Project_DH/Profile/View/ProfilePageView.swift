@@ -180,6 +180,9 @@ struct ProfilePageView: View {
                             .font(.headline)
                             .foregroundStyle(.gray)
                     }
+                    
+                    SubscriptionButton(user: user) // Add the subscription button here
+                        // .opacity(viewModel.currentUser?.isVIP == true ? 0 : 1) // Hide if already a VIP
                 }
                 .padding(.leading, 45)
             }
