@@ -4264,6 +4264,16 @@
         }
       }
     },
+    "Upgrade to VIP" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升级到VIP"
+          }
+        }
+      }
+    },
     "User Agreement and Privacy Policy" : {
       "localizations" : {
         "cs" : {
