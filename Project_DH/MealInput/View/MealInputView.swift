@@ -44,7 +44,14 @@ struct MealInputView: View {
                             Spacer()
                             HStack {
                                 Spacer()
-                                ProgressView("Processing your food :-)")
+                                VStack {
+                                    Image("cooking")
+                                        .resizable()
+                                        .frame(width: 260, height: 260)
+                                        .clipShape(Circle())
+                                        .opacity(0.5)
+                                    ProgressView("Processing your food :-)")
+                                }
                                 Spacer()
                             }
                             Spacer()

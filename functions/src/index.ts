@@ -35,7 +35,7 @@ type ChatCompletionMessage = {
 export const generateResponse = functions.https.onCall(
   async (data) => {
     const userMessages: ChatCompletionMessage[] = data.messages;
-    const model = data.model || "gpt-4-turbo";
+    const model = data.model || "gpt-3.5-turbo-0125";
 
     const prefixMessage: ChatCompletionMessage = {
       role: "system",
