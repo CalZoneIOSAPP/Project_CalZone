@@ -3,7 +3,7 @@
 //  Project_Me
 //
 //  Created by Yongxiang Jin on 4/27/24.
-//
+
 
 import SwiftUI
 import Firebase
@@ -13,6 +13,12 @@ import TipKit
 @main
 struct Project_MeApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    
+    // Idle Time Tracking
+    @Environment(\.scenePhase) var scenePhase
+    @State private var timer: Timer?
+    let idleThreshold: TimeInterval = 60 * 45 // 5 minutes idle time
     
     init() {
         FirebaseApp.configure()
@@ -31,7 +37,46 @@ struct Project_MeApp: App {
                 .onAppear {
                     requestNotificationPermission()
                 }
+                .onChange(of: scenePhase) { _, newPhase in
+                    print(newPhase)
+                    switch newPhase {
+                    case .background:
+                        startBackgroundTimer()
+                    case .active:
+                        cancelBackgroundTimer()
+                    default:
+                        break
+                    }
+                }
         }
+    }
+    
+    
+    ///  Starts the timer when the app is in the background.
+    /// - Parameters: none
+    /// - Returns: none
+    func startBackgroundTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: idleThreshold, repeats: false) { _ in
+            // Perform cleanup or logout logic here
+            logoutAndCleanup()
+        }
+    }
+
+    
+    ///  When app becomes active, turn off the timer.
+    /// - Parameters: none
+    /// - Returns: none
+    func cancelBackgroundTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    
+    ///  Exiting the application after inactivity.
+    /// - Parameters: none
+    /// - Returns: none
+    func logoutAndCleanup() {
+        exit(0)
     }
     
     
