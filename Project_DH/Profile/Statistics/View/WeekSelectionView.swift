@@ -155,6 +155,7 @@ struct WeekPicker: View {
                 selectedWeek = Calendar.current.dateInterval(of: .weekOfYear, for: newStartDate) ?? DateInterval()
             }
         }
+        .scrollIndicators(.hidden)
     }
 }
 

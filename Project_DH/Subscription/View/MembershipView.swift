@@ -58,6 +58,7 @@ struct MembershipView: View {
             .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
 
         }
+        .scrollIndicators(.hidden)
         .padding()
         
     }

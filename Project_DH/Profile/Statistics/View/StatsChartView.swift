@@ -68,6 +68,7 @@ struct StatsChartView: View {
                 }
                 Spacer()
             } // End of Scroll View
+            .scrollIndicators(.hidden)
             .navigationTitle("My Statistics")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

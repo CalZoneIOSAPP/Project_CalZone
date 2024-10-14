@@ -79,6 +79,7 @@ struct DashboardView: View {
                                     .padding(.bottom)
                                 mealSections
                             }
+                            .scrollIndicators(.hidden)
                             .refreshable { // Pull down to refresh
                                 loadedFirstTime = true
                                 viewModel.isRefreshing = true
@@ -89,6 +90,7 @@ struct DashboardView: View {
                                     }
                                 }
                             }
+                            
                         }
                     }
                     .navigationTitle("CalBite")

@@ -57,7 +57,7 @@ struct MealInputView: View {
                             Spacer()
                         }
                     } else {
-                        VStack {
+                        ScrollView {
                             ZStack { // Picture frame
                                 FoodItemPictureView
                                 CalorieTagOnImage
@@ -125,6 +125,7 @@ struct MealInputView: View {
                             ResetButton
                             
                         } // VStack (If not processing info)
+                        .scrollIndicators(.hidden)
                         .disabled(viewModel.showMessageWindow)
                         .blur(radius: viewModel.showMessageWindow || viewModel.showInputError || viewModel.showUsageError ? 5 : 0)
                         .navigationTitle("Add a Meal")
