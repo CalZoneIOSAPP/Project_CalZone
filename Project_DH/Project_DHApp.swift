@@ -38,7 +38,6 @@ struct Project_MeApp: App {
                     requestNotificationPermission()
                 }
                 .onChange(of: scenePhase) { _, newPhase in
-                    print(newPhase)
                     switch newPhase {
                     case .background:
                         startBackgroundTimer()
