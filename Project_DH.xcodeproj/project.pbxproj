@@ -41,6 +41,7 @@
 		5410534C2C92D9D9005A7F36 /* InfoCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410534B2C92D9D9005A7F36 /* InfoCellView.swift */; };
 		5410534E2C92E97C005A7F36 /* InfoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410534D2C92E97C005A7F36 /* InfoEditView.swift */; };
 		5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 5416B57E2C7CB2710004D888 /* FirebaseFunctions */; };
+		541A65152CBD395A0050B49A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 541A65142CBD395A0050B49A /* GoogleService-Info.plist */; };
 		541D352C2BE3D7E600AF38AF /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35202BE3D7E600AF38AF /* AuthServices.swift */; };
 		541D352D2BE3D7E600AF38AF /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35212BE3D7E600AF38AF /* SignInViewModel.swift */; };
 		541D352E2BE3D7E600AF38AF /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */; };
@@ -110,7 +111,6 @@
 		54F18F1B2C85B7E1001E6A38 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F1A2C85B7E1001E6A38 /* Tip.swift */; };
 		54F18F242C877699001E6A38 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F232C877699001E6A38 /* GenderSelectionView.swift */; };
 		54F18F262C877730001E6A38 /* InfoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F252C877730001E6A38 /* InfoCollectionView.swift */; };
-		54F18F292C88227B001E6A38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F18F282C88227B001E6A38 /* GoogleService-Info.plist */; };
 		54F18F2B2C88C6D7001E6A38 /* WeightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F2A2C88C6D7001E6A38 /* WeightSelectionView.swift */; };
 		54F18F2D2C88CED5001E6A38 /* TargetWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F2C2C88CED5001E6A38 /* TargetWeightView.swift */; };
 		54F18F2F2C88D0FF001E6A38 /* HeightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F18F2E2C88D0FF001E6A38 /* HeightSelectionView.swift */; };
@@ -159,6 +159,7 @@
 		541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingsViewModel.swift; sourceTree = "<group>"; };
 		5410534B2C92D9D9005A7F36 /* InfoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCellView.swift; sourceTree = "<group>"; };
 		5410534D2C92E97C005A7F36 /* InfoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoEditView.swift; sourceTree = "<group>"; };
+		541A65142CBD395A0050B49A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		541D35202BE3D7E600AF38AF /* AuthServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		541D35212BE3D7E600AF38AF /* SignInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		541D35222BE3D7E600AF38AF /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -225,7 +226,6 @@
 		54F18F1A2C85B7E1001E6A38 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		54F18F232C877699001E6A38 /* GenderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
 		54F18F252C877730001E6A38 /* InfoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCollectionView.swift; sourceTree = "<group>"; };
-		54F18F282C88227B001E6A38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54F18F2A2C88C6D7001E6A38 /* WeightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSelectionView.swift; sourceTree = "<group>"; };
 		54F18F2C2C88CED5001E6A38 /* TargetWeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetWeightView.swift; sourceTree = "<group>"; };
 		54F18F2E2C88D0FF001E6A38 /* HeightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightSelectionView.swift; sourceTree = "<group>"; };
@@ -670,8 +670,8 @@
 				547999742BE3DE63007A7CCE /* Utilities */,
 				54B4499E2BDD407C00E35D49 /* Preview Content */,
 				54E9D6D52C773A3900CFD7A0 /* Legacy */,
-				54F18F282C88227B001E6A38 /* GoogleService-Info.plist */,
 				54B4499C2BDD407C00E35D49 /* Assets.xcassets */,
+				541A65142CBD395A0050B49A /* GoogleService-Info.plist */,
 				541D91CD2BE7E09B000DED2B /* Project-DH-Info.plist */,
 				54C06B112BE9665D005D98A7 /* Project_DHDebug.entitlements */,
 				54F18F0D2C84E6BA001E6A38 /* PrivacyInfo.xcprivacy */,
@@ -873,9 +873,9 @@
 				541053422C8F96AB005A7F36 /* InfoPlist.xcstrings in Resources */,
 				54B449A02BDD407C00E35D49 /* Preview Assets.xcassets in Resources */,
 				541053402C8F5A37005A7F36 /* Localizable.xcstrings in Resources */,
-				54F18F292C88227B001E6A38 /* GoogleService-Info.plist in Resources */,
 				54B4499D2BDD407C00E35D49 /* Assets.xcassets in Resources */,
 				54F18F172C859EE1001E6A38 /* LaunchView.storyboard in Resources */,
+				541A65152CBD395A0050B49A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

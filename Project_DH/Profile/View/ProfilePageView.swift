@@ -123,6 +123,10 @@ struct ProfilePageView: View {
                 SettingsView()
             }
         }
+        .fullScreenCover(isPresented: $viewModel.showSubscriptionPage, content: {
+            MembershipView(showSubscription: $viewModel.showSubscriptionPage, user: $viewModel.currentUser)
+        })
+        
     }
     
     
@@ -181,7 +185,7 @@ struct ProfilePageView: View {
                             .foregroundStyle(.gray)
                     }
                     
-                    SubscriptionButton(user: user) // Add the subscription button here
+                    SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user) // Add the subscription button here
                         // .opacity(viewModel.currentUser?.isVIP == true ? 0 : 1) // Hide if already a VIP
                 }
                 .padding(.leading, 45)

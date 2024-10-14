@@ -9,13 +9,14 @@ import SwiftUI
 import StoreKit
 
 struct SubscriptionButton: View {
-    @StateObject var subscriptionManager = SubscriptionManager()
+    @Binding var showSubscribePage: Bool
     var user: User?
 
     var body: some View {
         Button(action: {
             // Start the subscription purchase process
-            subscriptionManager.purchaseVIP(for: user)
+            // subscriptionManager.purchaseVIP(for: user)
+            showSubscribePage = true
         }) {
             Text("Upgrade to VIP")
                 .font(.footnote)
@@ -26,10 +27,8 @@ struct SubscriptionButton: View {
                 .background(Color.brandDarkGreen)
                 .cornerRadius(8)
         }
-        .disabled(subscriptionManager.purchaseState == .purchasing)
-        .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
     }
 }
 #Preview {
-    SubscriptionButton()
+    SubscriptionButton(showSubscribePage: .constant(false))
 }

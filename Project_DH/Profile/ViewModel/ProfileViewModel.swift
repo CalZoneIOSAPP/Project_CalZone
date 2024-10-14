@@ -35,6 +35,9 @@ class ProfileViewModel: ObservableObject {
     @Published var options: [String]?
     @Published var optionMaxWidth: CGFloat = 220
     
+    // Subscription
+    @Published var showSubscriptionPage: Bool = false
+    
     private var cancellables = Set<AnyCancellable>()
     
     let activityLevelMap: [String: Double] = [

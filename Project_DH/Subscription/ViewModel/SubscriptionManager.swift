@@ -12,6 +12,7 @@ import Combine
 class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     @Published var products: [SKProduct] = []
     @Published var purchaseState: PurchaseState = .notPurchased
+    @Published var showSubscriptionPage: Bool = false
 
     private var productRequest: SKProductsRequest?
     private var currentProduct: SKProduct?
