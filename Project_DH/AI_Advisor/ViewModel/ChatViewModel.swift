@@ -34,20 +34,6 @@ class ChatViewModel: ObservableObject {
     }
     
     
-    /// This function loads the configuration information from the config.plist.
-    /// - Parameters: none
-    /// - Returns: The configuration in the form of dictionary [String : Any].
-    /// - Note: This is our way of getting the OpenAI API Key. This file is in gitignore.
-    func loadConfig() -> [String: Any]? {
-        if let path = Bundle.main.path(forResource: "config", ofType: "plist"),
-           let xml = FileManager.default.contents(atPath: path),
-           let config = try? PropertyListSerialization.propertyList(from: xml, options: .mutableContainersAndLeaves, format: nil) as? [String: Any] {
-            return config
-        }
-        return nil
-    }
-    
-    
     /// This function fetches all chat messages.
     /// - Parameters: none
     /// - Returns: none
