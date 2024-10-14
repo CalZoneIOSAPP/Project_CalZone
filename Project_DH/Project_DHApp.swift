@@ -47,6 +47,7 @@ struct Project_MeApp: App {
                         break
                     }
                 }
+                .environment(\.sizeCategory, .extraSmall) // global text size category
         }
     }
     

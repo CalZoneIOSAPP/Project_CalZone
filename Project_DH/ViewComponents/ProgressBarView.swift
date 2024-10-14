@@ -46,12 +46,12 @@ struct ProgressBarView: View {
                 
                 if currentCalories > Int(targetCalories)! {
                     semiCircleBar(curCal: Int(targetCalories)!, targetCal: Int(targetCalories)!)
-                    .padding(.horizontal, 90)
+                    .padding(.horizontal, 70)
                     .padding(.top, 20)
                 }
                 else {
                     semiCircleBar(curCal: currentCalories, targetCal: Int(targetCalories)!)
-                    .padding(.horizontal, 90)
+                    .padding(.horizontal, 70)
                     .padding(.top, 20)
                 }
                 
@@ -61,7 +61,7 @@ struct ProgressBarView: View {
                     .padding(.top, 10)
                 
                 semiCircleBar(curCal: 0, targetCal: 100)
-                .padding(.horizontal, 80)
+                .padding(.horizontal, 70)
                 .padding(.top, 20)
             }
         }
