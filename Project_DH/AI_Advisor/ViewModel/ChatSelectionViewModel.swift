@@ -29,32 +29,61 @@ class ChatSelectionViewModel: ObservableObject {
     /// - Parameters:
     ///     - user: the user that the function's search is based on
     /// - Returns: none
-    func fetchData(user: String?) {
-        if loadingState == .none {
-            loadingState = .loading
-            db.collection(Collection().chats).whereField("owner", isEqualTo: user ?? "").addSnapshotListener { [weak self] querySnapshot, error in
-                guard let self = self, let documents = querySnapshot?.documents, !documents.isEmpty else {
-                    self?.loadingState = .noResults
-                    return
-                }
-                
-                self.chats = documents.compactMap({ snapshot -> AppChat? in
-                    return try? snapshot.data(as: AppChat.self)
-                })
-                .sorted(by: {$0.lastMessageSent > $1.lastMessageSent})
-                
-                self.loadingState = .resultsFound
+    @MainActor
+    func fetchData(user: String?) async {
+        guard loadingState == .none else { return }
+
+        loadingState = .loading
+
+        do {
+            let querySnapshot = try await db.collection(Collection().chats)
+                .whereField("owner", isEqualTo: user ?? "")
+                .getDocuments()
+
+            let documents = querySnapshot.documents
+            if documents.isEmpty {
+                loadingState = .noResults
+                return
             }
+
+            chats = documents.compactMap { snapshot -> AppChat? in
+                return try? snapshot.data(as: AppChat.self)
+            }
+            .sorted(by: { $0.lastMessageSent > $1.lastMessageSent })
+
+            loadingState = .resultsFound
+        } catch {
+            print("ERROR: Error fetching chats: \(error.localizedDescription)")
+            loadingState = .noResults
         }
     }
-    
+
     
     /// This function creates a new chat and saves it to the Firebase.
     /// - Parameters:
     ///     - user: The user which the chat is saved to.
     /// - Returns: The document id where the chat is saved to.
+    @MainActor
     func createChat(user: String?) async throws -> String {
-        let document = try await db.collection(Collection().chats).addDocument(data: ["lastMessageSent" : Date(), "owner" : user ?? ""])
+        let chatData: [String: Any] = [
+            "lastMessageSent": Date(),
+            "owner": user ?? ""
+        ]
+        
+        let document = try await db.collection(Collection().chats).addDocument(data: chatData)
+        
+        // Create a new AppChat object manually and append it to the chats array
+        let newChat = AppChat(id: document.documentID, topic: nil,
+                              lastMessageSent: FirestoreDate(),
+                              owner: user ?? "")
+
+        chats.append(newChat)
+        
+        // Sort the chats array after adding the new chat
+        chats.sort(by: { $0.lastMessageSent > $1.lastMessageSent })
+
+        loadingState = .resultsFound
+
         return document.documentID
     }
     
@@ -68,6 +97,28 @@ class ChatSelectionViewModel: ObservableObject {
         db.collection(Collection().chats).document(id).delete()
     }
     
+    
+    @MainActor
+    func deleteChat(chat: AppChat) async {
+        guard let id = chat.id else { return }
+
+        do {
+            // Delete the chat document from Firestore
+            try await db.collection(Collection().chats).document(id).delete()
+
+            // Remove the chat from the local array
+            if let index = chats.firstIndex(where: { $0.id == id }) {
+                chats.remove(at: index)
+            }
+
+            // Handle case when no more chats are available
+            if chats.isEmpty {
+                loadingState = .noResults
+            }
+        } catch {
+            print("ERROR: Error deleting chat: \(error.localizedDescription)")
+        }
+    }
     
     /// This function uploads the chat title to Firebase.
     /// - Parameters:

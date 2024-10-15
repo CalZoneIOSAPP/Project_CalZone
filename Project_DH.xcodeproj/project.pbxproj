@@ -52,6 +52,7 @@
 		541D91CA2BE7DC75000DED2B /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 541D91C92BE7DC75000DED2B /* GoogleSignInSwift */; };
 		541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D91CE2BE800FA000DED2B /* TopViewController.swift */; };
 		542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */; };
+		54333E1D2CBEEAD5000FA0B9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 54333E1C2CBEEAD5000FA0B9 /* FirebaseCrashlytics */; };
 		543AC1222BF27A7E004CC8E1 /* FirstTimeSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */; };
 		5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */; };
 		5441A52C2C944A13006CAA27 /* GlobalFx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A52B2C944A13006CAA27 /* GlobalFx.swift */; };
@@ -253,6 +254,7 @@
 				54FB028B2C4BDAD9004D8451 /* OpenAI in Frameworks */,
 				5416B57F2C7CB2710004D888 /* FirebaseFunctions in Frameworks */,
 				541D91CA2BE7DC75000DED2B /* GoogleSignInSwift in Frameworks */,
+				54333E1D2CBEEAD5000FA0B9 /* FirebaseCrashlytics in Frameworks */,
 				547999682BE3DD80007A7CCE /* FirebaseFirestore in Frameworks */,
 				5479996A2BE3DD80007A7CCE /* FirebaseFirestoreSwift in Frameworks */,
 				0410AF142CB7213300BA73B6 /* StoreKit.framework in Frameworks */,
@@ -800,6 +802,7 @@
 				54B449912BDD407B00E35D49 /* Sources */,
 				54B449922BDD407B00E35D49 /* Frameworks */,
 				54B449932BDD407B00E35D49 /* Resources */,
+				54333E1B2CBEE67C000FA0B9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -819,6 +822,7 @@
 				541D91C92BE7DC75000DED2B /* GoogleSignInSwift */,
 				54FB028A2C4BDAD9004D8451 /* OpenAI */,
 				5416B57E2C7CB2710004D888 /* FirebaseFunctions */,
+				54333E1C2CBEEAD5000FA0B9 /* FirebaseCrashlytics */,
 			);
 			productName = Project_Me;
 			productReference = 54B449952BDD407B00E35D49 /* Project_DH.app */;
@@ -880,6 +884,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		54333E1B2CBEE67C000FA0B9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		54B449912BDD407B00E35D49 /* Sources */ = {
@@ -1280,6 +1309,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 541D91C62BE7DC75000DED2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		54333E1C2CBEEAD5000FA0B9 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 541D35362BE3DA2600AF38AF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		547999652BE3DD80007A7CCE /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

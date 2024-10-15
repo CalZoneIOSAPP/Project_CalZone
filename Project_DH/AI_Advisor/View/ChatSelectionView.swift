@@ -17,6 +17,8 @@ struct ChatSelectionView: View {
     @State private var showPopup: Bool = false
     @State private var deleteChat: Bool = false
     
+    @State var chatToDelete: AppChat?
+    
     let genAITip = GeneralAITip()
     let addChatTip = AddChatTip()
     
@@ -85,17 +87,12 @@ struct ChatSelectionView: View {
                                     Button {
                                         showPopup = true
                                         deleteChat = false
+                                        chatToDelete = chat
                                     } label: {
                                         Label("Delete", systemImage: "trash.fill")
                                     }
                                     .tint(Color.brandRed)
                                 }
-                                .onChange(of: deleteChat, { _, newValue in
-                                    if deleteChat == true {
-                                        viewModel.deleteChat(chat: chat)
-                                        deleteChat = false
-                                    }
-                                })
                             }
                         }
                         .disabled(viewModel.showEditWindow)
@@ -110,6 +107,7 @@ struct ChatSelectionView: View {
                             Task {
                                 do {
                                     _ = try await viewModel.createChat(user: profileViewModel.currentUser?.uid)
+                                    await viewModel.fetchData(user: profileViewModel.currentUser?.uid)
                                 } catch {
                                     print(error.localizedDescription)
                                 }
@@ -124,10 +122,18 @@ struct ChatSelectionView: View {
                     ChatView(viewModel: .init(chatId: chatId.id))
                 }
                 .onAppear{
-                    if viewModel.loadingState == .none {
-                        viewModel.fetchData(user: profileViewModel.currentUser?.uid)
+                    Task {
+                        await viewModel.fetchData(user: profileViewModel.currentUser?.uid)
                     }
                 }
+                .onChange(of: deleteChat, { _, newValue in
+                    if deleteChat == true {
+                        Task {
+                            await viewModel.deleteChat(chat: chatToDelete!)
+                            deleteChat = false
+                        }
+                    }
+                })
 //                .navigationDestination(for: String.self, destination: { chatId in
 //                    ChatView(viewModel: .init(chatId: chatId))
 //                })
@@ -151,6 +157,7 @@ struct ChatSelectionView: View {
             showPopup = false
             deleteChat = false
             selectedChatId = nil
+            viewModel.loadingState = .none
         }
         
     } // End of body
