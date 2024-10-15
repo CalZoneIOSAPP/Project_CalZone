@@ -15,7 +15,6 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     @Published var showSubscriptionPage: Bool = false
 
     private var productRequest: SKProductsRequest?
-    private var currentProduct: SKProduct?
 
     enum PurchaseState {
         case purchasing, purchased, notPurchased
@@ -31,9 +30,10 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         SKPaymentQueue.default().remove(self)
     }
 
-    /// Fetches available subscription products from App Store Connect.
+    /// Fetches available subscription products.
     func fetchProducts() {
-        let request = SKProductsRequest(productIdentifiers: ["com.yourapp.vip_subscription"]) // Replace with your product ID
+        let productIdentifiers: Set<String> = ["monthlyPlan", "quarterlyPlan", "yearlyPlan"] // Replace with actual IDs
+        let request = SKProductsRequest(productIdentifiers: productIdentifiers)
         request.delegate = self
         request.start()
     }
@@ -44,10 +44,10 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         }
     }
 
-    /// Initiates a purchase for the given product.
-    func purchaseVIP(for user: User?) {
-        guard let product = products.first else {
-            print("No products available for purchase.")
+    /// Initiates a purchase for the given product ID.
+    func purchaseVIP(productId: String) {
+        guard let product = products.first(where: { $0.productIdentifier == productId }) else {
+            print("Product with ID \(productId) not found.")
             return
         }
 
@@ -62,7 +62,9 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             case .purchased:
                 purchaseState = .purchased
                 SKPaymentQueue.default().finishTransaction(transaction)
-                // updateVIPStatus(for: transaction) TODO: Need to uncomment this when finish implementing the updateVIPStatus function
+                print("Purchase successful for product: \(transaction.payment.productIdentifier)")
+                // Uncomment and implement the backend update if needed:
+                // updateVIPStatus(for: transaction)
             case .failed:
                 purchaseState = .notPurchased
                 if let error = transaction.error {
@@ -79,6 +81,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         }
     }
 
+    
     /// Updates the VIP status in Firebase or your backend after a successful purchase.
     /*
     private func updateVIPStatus(for transaction: SKPaymentTransaction) {
@@ -96,9 +99,12 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         }
     }
     */
-
-    /// Restores any previous purchases. This is useful if the user changes devices or reinstalls the app.
+    
+    
+    /// Restore purchases if the user reinstalls the app or changes devices.
     func restorePurchases() {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
 }
+
+

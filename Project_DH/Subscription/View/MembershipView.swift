@@ -50,9 +50,9 @@ struct MembershipView: View {
             
             // Plans
             VStack(spacing: 26) {
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan", price: "$81", monthlyRate: "6.75/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan", price: "$24.3", monthlyRate: "8.1/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan", price: "$9", monthlyRate: " ~ a cup of coffee")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan", price: "$81", productId: "yearlyPlan", monthlyRate: "6.75/month")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan", price: "$24.3", productId: "quarterlyPlan", monthlyRate: "8.1/month")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan", price: "$9", productId: "monthlyPlan", monthlyRate: " ~ a cup of coffee")
             }
             .disabled(subscriptionManager.purchaseState == .purchasing)
             .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
@@ -69,6 +69,7 @@ struct PlanView: View {
     @Binding var user: User?
     var planName: String
     var price: String
+    var productId: String
     var monthlyRate: String?
     
     
@@ -79,7 +80,7 @@ struct PlanView: View {
                 .foregroundColor(.gray)
             
             Button {
-                subscriptionManager.purchaseVIP(for: user) // add subscription type
+                subscriptionManager.purchaseVIP(productId: productId) // add subscription type
             } label: {
                 HStack {
                     Text(price)
