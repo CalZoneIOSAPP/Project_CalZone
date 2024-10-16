@@ -107,8 +107,8 @@ struct Usage: Codable, Identifiable, Hashable {
     
     var lastUsageTimestamp: Date?
     
-    var maxCalorieAPIUsageNumRemaining: Int? = 10 // The number of times user can estimate calories.
-    var maxAssistantTokenNumRemaining: Int? = 10000 // The number of tokens available when user is using AI Assistant. (Not implemented yet. No need for now.)
+    var maxCalorieAPIUsageNumRemaining: Int? = 5 // The number of times user can estimate calories.
+    var maxAssistantTokenNumRemaining: Int? = 5000 // The number of tokens available when user is using AI Assistant. (Not implemented yet. No need for now.)
     
     var id: String { // Use this to work with instead of the uid
         return uid ?? NSUUID().uuidString
@@ -120,8 +120,8 @@ struct Usage: Codable, Identifiable, Hashable {
     ///     - currentTimestamp: The current timestamp as a new starting point  of 24 hours.
     /// - Returns: none
     mutating func resetUsage(with currentTimestamp: Date) {
-        maxCalorieAPIUsageNumRemaining = 10
-        maxAssistantTokenNumRemaining = 10000
+        maxCalorieAPIUsageNumRemaining = 5
+        maxAssistantTokenNumRemaining = 5000
         lastUsageTimestamp = currentTimestamp
     }
     

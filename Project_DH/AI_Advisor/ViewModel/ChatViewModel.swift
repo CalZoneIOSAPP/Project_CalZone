@@ -82,7 +82,7 @@ class ChatViewModel: ObservableObject {
             if document.exists {
                 usage = try document.data(as: Usage.self)
             } else {
-                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 10, maxAssistantTokenNumRemaining: 10000)
+                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 5, maxAssistantTokenNumRemaining: 5000)
                 try usageDocRef.setData(from: usage)
             }
             

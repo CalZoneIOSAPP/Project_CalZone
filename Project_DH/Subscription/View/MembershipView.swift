@@ -50,9 +50,9 @@ struct MembershipView: View {
             
             // Plans
             VStack(spacing: 26) {
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan", price: "$81", productId: "yearlyPlan", monthlyRate: "6.75/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan", price: "$24.3", productId: "quarterlyPlan", monthlyRate: "8.1/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan", price: "$9", productId: "monthlyPlan", monthlyRate: " ~ a cup of coffee")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan", price: "$44.99", productId: "yearlyPlan", monthlyRate: "3.75/month")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan", price: "$13.99", productId: "quarterlyPlan", monthlyRate: "4.66/month")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan", price: "$4.99", productId: "monthlyPlan", monthlyRate: " ~ a cup of coffee")
             }
             .disabled(subscriptionManager.purchaseState == .purchasing)
             .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)

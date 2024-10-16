@@ -58,7 +58,7 @@ class MealInputViewModel: ObservableObject {
                 usage = try document.data(as: Usage.self)
             } else {
                 print("Usage document does not exist. Creating a new usage document.")
-                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 10, maxAssistantTokenNumRemaining: 10000)
+                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 5, maxAssistantTokenNumRemaining: 5000)
 
                 // Upload the new Usage document to Firestore
                 try usageDocRef.setData(from: usage)
@@ -106,7 +106,7 @@ class MealInputViewModel: ObservableObject {
                 usage = try document.data(as: Usage.self) // No need for conditional binding
             } else {
                 print("Usage document does not exist. Creating a new usage document.")
-                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 10, maxAssistantTokenNumRemaining: 10000)
+                usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 5, maxAssistantTokenNumRemaining: 5000)
 
                 // Upload the new Usage document to Firestore
                 try usageDocRef.setData(from: usage)
