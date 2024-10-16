@@ -171,6 +171,14 @@ struct MealInputView: View {
             .ignoresSafeArea(.keyboard, edges: .all)
             .dismissKeyboardOnTap()
             .onAppear {
+                print(profileViewModel.currentUser as Any)
+                if let user = profileViewModel.currentUser {
+                    Task {
+                        try await viewModel.getRemainingUsage(for: user)
+                    }
+                }
+            }
+            .onChange(of: profileViewModel.currentUser) { _, newValue in
                 if let user = profileViewModel.currentUser {
                     Task {
                         try await viewModel.getRemainingUsage(for: user)
