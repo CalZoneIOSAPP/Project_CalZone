@@ -260,16 +260,44 @@
       }
     },
     "1. Once your account is deleted, you will lose all your account information." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦你的账户被删除，你将失去所有账户信息（包括图片，体征信息，聊天信息等）"
+          }
+        }
+      }
     },
     "2. You can re-login with Google or Apple ID." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可以使用 Google 或 Apple ID 重新登录。"
+          }
+        }
+      }
     },
     "3. Account info is retrievable within 7 days for Google or Apple users." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对于 Google 或 Apple 用户，账户信息可在 7 天内恢复。"
+          }
+        }
+      }
     },
     "4. For any assistance, contact us at: synapcompany@gmail.com" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如需任何帮助，请联系我们：synapcompany@gmail.com"
+          }
+        }
+      }
     },
     "100%" : {
       "localizations" : {
@@ -612,7 +640,14 @@
       }
     },
     "Are you sure?" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您确定吗？"
+          }
+        }
+      }
     },
     "Ask unlimited dietary and dining questions in a single day." : {
       "localizations" : {
@@ -687,7 +722,14 @@
       }
     },
     "Be aware that:" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请注意："
+          }
+        }
+      }
     },
     "Be careful, you exceeded your calorie limit!" : {
       "localizations" : {
@@ -2177,7 +2219,14 @@
       }
     },
     "I DON’T WANT TO LEAVE" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再让我想想"
+          }
+        }
+      }
     },
     "Ideal" : {
       "localizations" : {
@@ -4551,7 +4600,14 @@
       }
     },
     "We are sad to see you leave." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们很遗憾您将要离开卡路比"
+          }
+        }
+      }
     },
     "WE HOPE THAT YOU LIKED OUR FEATURES!" : {
       "localizations" : {
@@ -4865,7 +4921,14 @@
       }
     },
     "You are about to delete your account." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你即将删除你的账户。"
+          }
+        }
+      }
     },
     "You are doing well!" : {
       "localizations" : {
