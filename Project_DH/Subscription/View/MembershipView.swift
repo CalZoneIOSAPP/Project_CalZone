@@ -40,22 +40,42 @@ struct MembershipView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Text("JOIN THE CALBITE MEMBERSHIP FOR UNLIMITED USE OF ALL FUNCTIONALITIES.")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.brandDarkGreen)
-                    .padding(.horizontal)
+                // Feature Overview
+                VStack(spacing: 26) {
+                    Text("JOIN THE CALBITE MEMBERSHIP FOR UNLIMITED USE OF ALL FUNCTIONALITIES.")
+                        .font(.body)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .padding(.top, 15)
+                    
+                    FeatureView(featureName: NSLocalizedString("AI Assistant", comment: ""), featureDescription: NSLocalizedString("Ask unlimited dietary and dining questions in a single day.", comment: ""), icon: "person.fill")
+                    
+                    FeatureView(featureName: NSLocalizedString("Calorie Estimation", comment: ""), featureDescription: NSLocalizedString("Take unlimited photos and get the calorie estimations in a single day.", comment: ""), icon: "camera.fill")
+                        .padding(.bottom, 15)
+                }
+                .frame(minWidth: 350, maxHeight: 300)
+                .background(LinearGradient(gradient: Gradient(colors: [Color.brandLightGreen, Color.brandTurquoise]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 3)
+                .padding(.horizontal)
+                
+                
+                
             }
             .padding(.bottom, 40)
             
             // Plans
             VStack(spacing: 26) {
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan", price: "$44.99", productId: "yearlyPlan", monthlyRate: "3.75/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan", price: "$13.99", productId: "quarterlyPlan", monthlyRate: "4.66/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan", price: "$4.99", productId: "monthlyPlan", monthlyRate: " ~ a cup of coffee")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan (12 Months)", price: "$44.99", productId: "yearlyPlan", monthlyRate: "3.75/month")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan (3 Months)", price: "$13.99", productId: "quarterlyPlan", monthlyRate: "4.66/month")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan (1 Month)", price: "$4.99", productId: "monthlyPlan", monthlyRate: " ~ a cup of coffee")
             }
             .disabled(subscriptionManager.purchaseState == .purchasing)
             .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
+            
+            // Agreement text
+            AgreementText()
 
         }
         .scrollIndicators(.hidden)
@@ -63,6 +83,40 @@ struct MembershipView: View {
         
     }
 }
+
+
+struct FeatureView: View {
+    var featureName: String
+    var featureDescription: String
+    var icon: String
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundStyle(.brandDarkGreen)
+                
+                Text(featureName)
+                    .font(.body)
+                    .fontWeight(.bold)
+                
+                Spacer()
+            }
+            .padding(.bottom, 5)
+            
+            HStack {
+                Text(featureDescription)
+                    .font(.body)
+                    .foregroundStyle(.gray)
+                
+                Spacer()
+            }
+            
+        }
+        .padding(.horizontal)
+    }
+}
+
 
 struct PlanView: View {
     @StateObject var subscriptionManager: SubscriptionManager
@@ -101,6 +155,45 @@ struct PlanView: View {
             }
         }
         .padding(.horizontal)
+    }
+}
+
+
+
+struct AgreementText: View {
+    @Environment(\.openURL) var openURL
+    
+    var body: some View {
+        VStack {
+            Text("By proceeding you have read and agree to the ")
+                .multilineTextAlignment(.center)
+                .font(.subheadline)
+                .padding(.top)
+            
+            HStack {
+                Button(action: {
+                    openURL(URL(string: "https://gentle-citrine-a19.notion.site/CalBite-Privacy-and-Policy-df6c8f6d3bc3443692242b7a9a6c3890?pvs=74")!)
+                }) {
+                    Text("Privacy Policy")
+                        .foregroundColor(.blue)
+                        .font(.subheadline)
+                        .underline()
+                }
+                
+                Text("and")
+                    .multilineTextAlignment(.center)
+                    .font(.subheadline)
+                
+                Button(action: {
+                    openURL(URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                }) {
+                    Text("Terms and Conditions")
+                        .foregroundColor(.blue)
+                        .font(.subheadline)
+                        .underline()
+                }
+            }
+        }
     }
 }
 
