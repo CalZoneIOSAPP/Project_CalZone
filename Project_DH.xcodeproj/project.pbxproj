@@ -54,6 +54,7 @@
 		542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */; };
 		54333E1D2CBEEAD5000FA0B9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 54333E1C2CBEEAD5000FA0B9 /* FirebaseCrashlytics */; };
 		54333E272CC19DBA000FA0B9 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54333E262CC19DBA000FA0B9 /* DeleteAccountView.swift */; };
+		54333E292CC1A90A000FA0B9 /* DeleteAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54333E282CC1A90A000FA0B9 /* DeleteAccountViewModel.swift */; };
 		543AC1222BF27A7E004CC8E1 /* FirstTimeSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */; };
 		5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */; };
 		5441A52C2C944A13006CAA27 /* GlobalFx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A52B2C944A13006CAA27 /* GlobalFx.swift */; };
@@ -172,6 +173,7 @@
 		541D91CE2BE800FA000DED2B /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardTools.swift; sourceTree = "<group>"; };
 		54333E262CC19DBA000FA0B9 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
+		54333E282CC1A90A000FA0B9 /* DeleteAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountViewModel.swift; sourceTree = "<group>"; };
 		543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeSignInView.swift; sourceTree = "<group>"; };
 		5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCalorieFoodView.swift; sourceTree = "<group>"; };
 		5441A52B2C944A13006CAA27 /* GlobalFx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFx.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 			children = (
 				541053142C8C3787005A7F36 /* SettingsViewModel.swift */,
 				541053492C90492B005A7F36 /* LanguageSettingsViewModel.swift */,
+				54333E282CC1A90A000FA0B9 /* DeleteAccountViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				0497CA4A2C87C08D00A6FE84 /* WeekSelectionView.swift in Sources */,
 				54A59C422C550FF200617B83 /* PopUpMessageView.swift in Sources */,
 				54DF96A42C9A1CE3007648B8 /* NetworkMonitor.swift in Sources */,
+				54333E292CC1A90A000FA0B9 /* DeleteAccountViewModel.swift in Sources */,
 				541D35322BE3D7E600AF38AF /* RegistrationView.swift in Sources */,
 				540CB1652C4BE71F0033F69F /* DashboardViewModel.swift in Sources */,
 				547FE76E2C4A55BF00C80790 /* ProfilePageView.swift in Sources */,

@@ -179,6 +179,7 @@ class AuthServices {
     /// - Parameters:
     ///     - withEmail: The destination email address.
     /// - Returns: none
+    @MainActor
     func resetPassword(with email: String) async throws {
         do {
             try await Auth.auth().sendPasswordReset(withEmail: email)
@@ -186,6 +187,33 @@ class AuthServices {
         } catch {
             print("ERROR: FAILED TO SEND RESET EMAIL \nSource: AuthServices/resetPassword() \n\(error.localizedDescription)")
         }
+    }
+    
+    
+    func deleteAccount() -> (String, Bool, Bool){
+        var errorMessage = ""
+        var showAlert = false
+        var returnToSignIn = false
+        guard let user = Auth.auth().currentUser else {
+            errorMessage = "No user is logged in."
+            showAlert = true
+            return (errorMessage, showAlert, returnToSignIn)
+        }
+        
+        user.delete { error in
+            if let error = error {
+                // Handle the error if the user cannot be deleted (e.g., recent sign-in is required)
+                errorMessage = error.localizedDescription
+                showAlert = true
+            } else {
+                // User successfully deleted, you can add any post-deletion logic here
+                returnToSignIn = true
+                self.userSession = nil
+                UserServices.sharedUser.reset() // Set currentUser object to nil
+                print("User account deleted.")
+            }
+        }
+        return (errorMessage, showAlert, returnToSignIn)
     }
     
     
