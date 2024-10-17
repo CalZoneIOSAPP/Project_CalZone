@@ -264,7 +264,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一旦你的账户被删除，你将失去所有账户信息（包括图片，体征信息，聊天信息等）"
+            "value" : "1. 一旦你的账户被删除，你将失去所有账户信息（包括图片，体征信息，聊天信息等）"
           }
         }
       }
@@ -274,7 +274,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你可以使用 Google 或 Apple ID 重新登录。"
+            "value" : "2. 你可以使用 Google 或 Apple ID 重新登录。"
           }
         }
       }
@@ -284,7 +284,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "对于 Google 或 Apple 用户，账户信息可在 7 天内恢复。"
+            "value" : "3. 对于 Google 或 Apple 用户，账户信息可在 7 天内恢复。"
           }
         }
       }
@@ -294,7 +294,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如需任何帮助，请联系我们：synapcompany@gmail.com"
+            "value" : "4. 如需任何帮助，请联系我们：synapcompany@gmail.com"
           }
         }
       }
