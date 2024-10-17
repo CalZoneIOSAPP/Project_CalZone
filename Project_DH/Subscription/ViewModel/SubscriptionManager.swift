@@ -8,6 +8,7 @@
 import StoreKit
 import SwiftUI
 import Combine
+import Firebase
 
 class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     @Published var products: [SKProduct] = []
@@ -15,6 +16,9 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     @Published var showSubscriptionPage: Bool = false
 
     private var productRequest: SKProductsRequest?
+    private var selectedProductId: String? // Track which product is being purchased
+    private let profileViewModel = ProfileViewModel() // Access the user's email
+
 
     enum PurchaseState {
         case purchasing, purchased, notPurchased
@@ -63,8 +67,12 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                 purchaseState = .purchased
                 SKPaymentQueue.default().finishTransaction(transaction)
                 print("Purchase successful for product: \(transaction.payment.productIdentifier)")
-                // Uncomment and implement the backend update if needed:
-                // updateVIPStatus(for: transaction)
+                
+                // Update the firebase here
+                if let productId = selectedProductId {
+                    updateSubscriptionInFirebase(for: productId)
+                }
+                
             case .failed:
                 purchaseState = .notPurchased
                 if let error = transaction.error {
@@ -82,23 +90,50 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     }
 
     
-    /// Updates the VIP status in Firebase or your backend after a successful purchase.
-    /*
-    private func updateVIPStatus(for transaction: SKPaymentTransaction) {
-        // Ensure you have a way to update the user's status in your backend or database.
-        // For example, if using Firebase:
-        if let userId = user?.id {
-            let db = Firestore.firestore()
-            db.collection("users").document(userId).updateData(["isVIP": true]) { error in
-                if let error = error {
-                    print("Failed to update VIP status: \(error.localizedDescription)")
-                } else {
-                    print("User successfully upgraded to VIP!")
-                }
+    /// Update the user's subscription in Firebase.
+    private func updateSubscriptionInFirebase(for productId: String) {
+        guard let userEmail = profileViewModel.currentUser?.email else {
+            print("User email not available.")
+            return
+        }
+
+        let db = Firestore.firestore()
+        let data: [String: Any] = [
+            "email": userEmail,
+            "isVIP": true,
+            "type": productId,
+            "startDate": Timestamp(date: Date()),
+            "endDate": calculateEndDate(for: productId)
+        ]
+
+        db.collection("subscriptions").document(userEmail).setData(data, merge: true) { error in
+            if let error = error {
+                print("Failed to update subscription: \(error.localizedDescription)")
+            } else {
+                print("Subscription updated successfully.")
             }
         }
     }
-    */
+    
+    /// Calculate the end date based on the subscription type.
+    private func calculateEndDate(for productId: String) -> Timestamp {
+        let calendar = Calendar.current
+        var components = DateComponents()
+
+        switch productId {
+        case "monthlyPlan":
+            components.month = 1
+        case "quarterlyPlan":
+            components.month = 3
+        case "yearlyPlan":
+            components.year = 1
+        default:
+            components.month = 1
+        }
+
+        let endDate = calendar.date(byAdding: components, to: Date()) ?? Date()
+        return Timestamp(date: endDate)
+    }
     
     
     /// Restore purchases if the user reinstalls the app or changes devices.

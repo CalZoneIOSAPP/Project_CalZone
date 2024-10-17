@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Firebase
 
 struct ProfilePageView: View {
     @EnvironmentObject var control: ControllerModel
@@ -14,6 +14,9 @@ struct ProfilePageView: View {
     @State private var showingProfileInfo: Bool = false
     @State private var showingProfilePreview: Bool = false
     @State private var selectedView: ProfileOptions?
+    
+    // VIP Subscription Type
+    @State private var subscriptionType: String? = nil // Monthly, Quarterly, Yearly
     
     private var user: User? {
         return viewModel.currentUser
@@ -102,6 +105,9 @@ struct ProfilePageView: View {
             .background(Color(.brandLightGreen).opacity(0.65))
 
         } // END OF NAVIGATION STACK
+        .onAppear {
+            fetchUserSubscription()
+        }
         .fullScreenCover(isPresented: $showingProfileInfo, content: {
             EditProfileView(showingProfileInfo: $showingProfileInfo)
                 .environmentObject(viewModel)
@@ -180,17 +186,48 @@ struct ProfilePageView: View {
                             .font(.headline)
                             .foregroundStyle(.gray)
                         
-                        Text(NSLocalizedString("BETA", comment: ""))
-                            .font(.headline)
-                            .foregroundStyle(.gray)
+                        if let type = subscriptionType {
+                            Text(type)
+                                .font(.headline)
+                                .foregroundStyle(.gray)
+                        }
+                        else {
+                            Text(NSLocalizedString("BETA", comment: ""))
+                                .font(.headline)
+                                .foregroundStyle(.gray)
+                        }
                     }
                     
                     SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user) // Add the subscription button here
-                        // .opacity(viewModel.currentUser?.isVIP == true ? 0 : 1) // Hide if already a VIP
+                         .opacity(subscriptionType == nil ? 1 : 0) // Hide if already a VIP
                 }
                 .padding(.leading, 45)
             }
             
+        }
+    }
+    
+    
+    /// Fetches subscription status for current user
+    /// - Parameters:
+    ///   - none
+    private func fetchUserSubscription() {
+        guard let userEmail = user?.email else {
+            print("User email not available.")
+            return
+        }
+
+        let db = Firestore.firestore()
+        let docRef = db.collection("subscriptions").document(userEmail)
+
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists, let data = document.data() {
+                if let type = data["type"] as? String {
+                    self.subscriptionType = type.capitalized
+                }
+            } else {
+                print("No subscription found for user.")
+            }
         }
     }
 }
