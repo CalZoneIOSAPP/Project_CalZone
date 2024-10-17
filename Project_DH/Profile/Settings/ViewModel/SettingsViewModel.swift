@@ -13,6 +13,7 @@ class SettingsViewModel: ObservableObject {
     // Triggers to show different pages.
     @Published var showChangePassword: Bool = false
     @Published var showChangeLanguage: Bool = false
+    @Published var showDeleteAccount: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     

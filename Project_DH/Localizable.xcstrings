@@ -33,6 +33,16 @@
         }
       }
     },
+    " ~ a cup of coffee" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一杯咖啡"
+          }
+        }
+      }
+    },
     "-" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44,7 +54,14 @@
       }
     },
     "(%@)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(%@)"
+          }
+        }
+      }
     },
     "(%@%%)" : {
       "localizations" : {
@@ -196,6 +213,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 千卡"
+          }
+        }
+      }
+    },
+    "$3.75/month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月$3.75"
+          }
+        }
+      }
+    },
+    "$4.66/month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月$4.66"
           }
         }
       }
@@ -492,6 +529,26 @@
         }
       }
     },
+    "AI Assistant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI饮食顾问"
+          }
+        }
+      }
+    },
+    "and" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与"
+          }
+        }
+      }
+    },
     "Apologies" : {
       "localizations" : {
         "zh-Hans" : {
@@ -538,6 +595,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您确定要删除此聊天吗？"
+          }
+        }
+      }
+    },
+    "Ask unlimited dietary and dining questions in a single day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解锁每日不限次提问饮食和就餐相关问题"
           }
         }
       }
@@ -762,6 +829,16 @@
         }
       }
     },
+    "By proceeding you have read and agree to the " : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续操作即表示您已阅读并同意"
+          }
+        }
+      }
+    },
     "CalBite" : {
       "localizations" : {
         "cs" : {
@@ -830,6 +907,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "能量摄入"
+          }
+        }
+      }
+    },
+    "Calorie Estimation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI卡路里预测"
           }
         }
       }
@@ -1329,6 +1416,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除"
+          }
+        }
+      }
+    },
+    "Delete Account" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注销账户"
+          }
+        }
+      }
+    },
+    "DELETE ACCOUNT" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除账户"
           }
         }
       }
@@ -2192,7 +2299,14 @@
       }
     },
     "JOIN THE CALBITE MEMBERSHIP FOR UNLIMITED USE OF ALL FUNCTIONALITIES." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入卡路比会员，畅享所有功能的无限使用额度。"
+          }
+        }
+      }
     },
     "just now" : {
       "localizations" : {
@@ -2601,6 +2715,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 月"
+          }
+        }
+      }
+    },
+    "Monthly Plan (1 Month)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月度会员（1个月）"
           }
         }
       }
@@ -3173,6 +3297,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在分析您的美食..."
+          }
+        }
+      }
+    },
+    "Quarterly Plan (3 Months)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "季度会员（3个月）"
           }
         }
       }
@@ -3885,6 +4019,16 @@
         }
       }
     },
+    "Take unlimited photos and get the calorie estimations in a single day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解锁每日不限次拍照并获取卡路里估算"
+          }
+        }
+      }
+    },
     "Tap here to add a dish. You can either take a photo, or upload one which you posted." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4386,7 +4530,14 @@
       }
     },
     "WE HOPE THAT YOU LIKED OUR FEATURES!" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "很高兴您还满意我们的功能！"
+          }
+        }
+      }
     },
     "We understand the importance of user privacy. By pressing [Agree] will indicate that you have read and understood the updated privacy policy and conditions. Please spend some time to find out about our terms." : {
       "localizations" : {
@@ -4675,6 +4826,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld年"
+          }
+        }
+      }
+    },
+    "Yearly Plan (12 Months)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年度会员（12个月）"
           }
         }
       }

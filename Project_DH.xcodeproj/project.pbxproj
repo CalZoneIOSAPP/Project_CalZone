@@ -53,6 +53,7 @@
 		541D91CF2BE800FA000DED2B /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D91CE2BE800FA000DED2B /* TopViewController.swift */; };
 		542DF68F2C6F7FE1003A5568 /* KeyboardTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */; };
 		54333E1D2CBEEAD5000FA0B9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 54333E1C2CBEEAD5000FA0B9 /* FirebaseCrashlytics */; };
+		54333E272CC19DBA000FA0B9 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54333E262CC19DBA000FA0B9 /* DeleteAccountView.swift */; };
 		543AC1222BF27A7E004CC8E1 /* FirstTimeSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */; };
 		5441A52A2C943B25006CAA27 /* TopCalorieFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */; };
 		5441A52C2C944A13006CAA27 /* GlobalFx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441A52B2C944A13006CAA27 /* GlobalFx.swift */; };
@@ -170,6 +171,7 @@
 		541D91CD2BE7E09B000DED2B /* Project-DH-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Project-DH-Info.plist"; sourceTree = SOURCE_ROOT; };
 		541D91CE2BE800FA000DED2B /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		542DF68E2C6F7FE1003A5568 /* KeyboardTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardTools.swift; sourceTree = "<group>"; };
+		54333E262CC19DBA000FA0B9 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
 		543AC1212BF27A7E004CC8E1 /* FirstTimeSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeSignInView.swift; sourceTree = "<group>"; };
 		5441A5292C943B25006CAA27 /* TopCalorieFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCalorieFoodView.swift; sourceTree = "<group>"; };
 		5441A52B2C944A13006CAA27 /* GlobalFx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFx.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				541053122C8C376B005A7F36 /* SettingsView.swift */,
 				541053202C8C53BF005A7F36 /* ChangePasswordSetting.swift */,
 				541053472C90491A005A7F36 /* LanguageSettingsView.swift */,
+				54333E262CC19DBA000FA0B9 /* DeleteAccountView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1013,6 +1016,7 @@
 				54C06B152BEBA129005D98A7 /* TimeManager.swift in Sources */,
 				54FB02802C4BD8D9004D8451 /* ChatSelectionView.swift in Sources */,
 				547999862BE41D65007A7CCE /* MenuViewModel.swift in Sources */,
+				54333E272CC19DBA000FA0B9 /* DeleteAccountView.swift in Sources */,
 				541053212C8C53BF005A7F36 /* ChangePasswordSetting.swift in Sources */,
 				5410534A2C90492B005A7F36 /* LanguageSettingsViewModel.swift in Sources */,
 			);

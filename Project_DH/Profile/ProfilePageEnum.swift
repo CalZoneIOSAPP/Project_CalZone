@@ -93,6 +93,7 @@ enum SettingsOptions: Int, CaseIterable, Identifiable {
     
     case changePassword
     case changeLanguage
+    case deleteAccount
     
     var title: String {
         switch self {
@@ -100,6 +101,8 @@ enum SettingsOptions: Int, CaseIterable, Identifiable {
             return NSLocalizedString("Change Password", comment: "")
         case .changeLanguage:
             return NSLocalizedString("Language", comment: "")
+        case .deleteAccount:
+            return NSLocalizedString("Delete Account", comment: "")
         }
     }
 }

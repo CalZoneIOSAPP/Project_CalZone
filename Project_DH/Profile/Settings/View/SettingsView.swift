@@ -40,6 +40,8 @@ struct SettingsView: View {
                                     viewModel.showChangePassword = true
                                 case .changeLanguage:
                                     viewModel.showChangeLanguage = true
+                                case .deleteAccount:
+                                    viewModel.showDeleteAccount = true
                                 }
                             }
                         }
@@ -65,6 +67,10 @@ struct SettingsView: View {
                     LanguageSettingsView()
                         .environmentObject(languageSettings)
                 }
+                .fullScreenCover(isPresented: $viewModel.showDeleteAccount) {
+                    DeleteAccountView()
+                }
+                
                 
             } // End of NavigationStack
         } // ZSTACK

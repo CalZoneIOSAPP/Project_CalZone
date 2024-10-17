@@ -67,9 +67,9 @@ struct MembershipView: View {
             
             // Plans
             VStack(spacing: 26) {
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Yearly Plan (12 Months)", price: "$44.99", productId: "yearlyPlan", monthlyRate: "3.75/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Quarterly Plan (3 Months)", price: "$13.99", productId: "quarterlyPlan", monthlyRate: "4.66/month")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: "Monthly Plan (1 Month)", price: "$4.99", productId: "monthlyPlan", monthlyRate: " ~ a cup of coffee")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Yearly Plan (12 Months)", comment: ""), price: "$44.99", productId: "yearlyPlan", monthlyRate: NSLocalizedString("$3.75/month", comment: ""))
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Quarterly Plan (3 Months)", comment: ""), price: "$13.99", productId: "quarterlyPlan", monthlyRate: NSLocalizedString("$4.66/month", comment: ""))
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName:  NSLocalizedString("Monthly Plan (1 Month)", comment: ""), price: "$4.99", productId: "monthlyPlan", monthlyRate: NSLocalizedString(" ~ a cup of coffee", comment: ""))
             }
             .disabled(subscriptionManager.purchaseState == .purchasing)
             .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
