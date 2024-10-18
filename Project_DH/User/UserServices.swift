@@ -268,8 +268,45 @@ class UserServices {
             }
         }
     }
-
     
+    
+    /// This function deletes a document from Firebase Firestore which is not nested and only has 1 layer (root --> colleciton --> document).
+    /// - Parameters:
+    ///     - documentID: The document ID which you want to delete.
+    ///     - collectionID: The collection which the document is in.
+    /// - Returns: none
+    func deleteFirstLayerDocument(documentID: String, collectionID: String) async throws {
+        let db = Firestore.firestore()
+        let userDocRef = db.collection(collectionID).document(documentID)
+        do {
+            try await userDocRef.delete()
+            print("NOTE: Firebase document successfully deleted. \nSource: deleteFirstLayerDocument()")
+        } catch {
+            print("ERROR: Failed to delete Firebase document:  \nSource: deleteFirstLayerDocument() \nError: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    /// This function deletes all documents from Firebase Firestore where the field value meets the target value.
+    /// - Parameters:
+    ///     - collectionID: The collection where the documents are.
+    ///     - field: The field name to check for.
+    ///     - value: The value which filters out all the documents to delete.
+    /// - Returns: none
+    func deleteDocumentsBasedOnFieldValue(collectionID: String, field: String, value: String) async throws {
+        // Get a reference to Firestore
+        let db = Firestore.firestore()
+        
+        // Query the 'chats' collection where the 'owner' field equals the user's uid
+        let querySnapshot = try await db.collection(collectionID).whereField(field, isEqualTo: value).getDocuments()
+        
+        // Loop through the documents and delete them
+        for document in querySnapshot.documents {
+            try await document.reference.delete()
+        }
+        print("NOTE: All documents for value \(value) of field \(field) successfully deleted")
+    }
+
     
     /// This function deletes a field value from Firebase Firestore with a given field name.
     /// - Parameters:
@@ -294,6 +331,36 @@ class UserServices {
 
         // Fetch updated user data
         try await UserServices.sharedUser.fetchCurrentUserData()
+    }
+    
+    
+    /// This function deletes all foodItem pictures within a list of meals.
+    /// - Parameters:
+    ///     - meals: A list of meals which contains all the food items to delete.
+    /// - Returns: none
+    func deleteImagesForFoodItems(meals: [Meal]) async throws {
+        let db = Firestore.firestore()
+
+        // Loop through the list of meals
+        for meal in meals {
+            guard let mealId = meal.id else { continue }
+
+            // Query the 'foodItems' collection where 'mealId' matches the current mealID
+            let querySnapshot = try await db.collection("foodItems").whereField("mealId", isEqualTo: mealId).getDocuments()
+
+            // Loop through the documents that match the mealId
+            for document in querySnapshot.documents {
+                if let imageURL = document.data()["imageURL"] as? String {
+                    // Call the delete function from ImageManipulation
+                    do {
+                        try await ImageManipulation.deleteImageOnFirebase(imageURL: imageURL)
+                        print("Successfully deleted image for mealId: \(mealId)")
+                    } catch {
+                        print("Error deleting image for mealId \(mealId): \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
     }
     
     
@@ -383,7 +450,6 @@ class UserServices {
         // Fetch the user data on the main actor after the Firestore operation completes
         try await UserServices.sharedUser.fetchCurrentUserData()
     }
-
     
     
     /// This function updates the users password. If the user does not have a password yet, it will set the password. If the user has a password, then changes it.

@@ -19,16 +19,16 @@ struct ImageUploader {
     ///     - image: The image to upload.
     /// - Returns: Returns the optional url of the string which was saved to Firebase.
     static func uploadImage(_ image: UIImage) async throws -> String? {
-        guard let imageData = image.jpegData(compressionQuality: 0.2) else { return nil }
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return nil }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference(withPath: "/profile_images/\(filename)")
-//        print("NOTE: STORAGE REFERENCE RETRIEVED: \(storageRef)")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg" // Set the content type
         
         do {
-            let _ = try await storageRef.putDataAsync(imageData)
+            let _ = try await storageRef.putDataAsync(imageData, metadata: metadata)
             let url = try await storageRef.downloadURL()
-//            print("NOTE: UPLOADED USER PROFILE PHOTO WITH URL: \(url)")
-            clearCache()
+            clearCache() // clears the cache after sending the image.
             return url.absoluteString
         } catch {
             print("ERROR: FAILED TO UPLOAD PROFILE PHOTO! \nSource: uploadImage() \n\(error.localizedDescription) ")

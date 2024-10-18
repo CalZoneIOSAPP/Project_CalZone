@@ -88,6 +88,12 @@ class ProfileViewModel: ObservableObject {
             print("ERROR: FAILED TO GET imageURL! \nSource: updateProfileImage() ")
             return
         }
+        
+        guard let profileURL = currentUser?.profileImageUrl else {
+            try await UserServices.sharedUser.updateUserProfileImage(with: imageUrl)
+            return
+        }
+        try await ImageManipulation.deleteImageOnFirebase(imageURL: profileURL)
         try await UserServices.sharedUser.updateUserProfileImage(with: imageUrl)
     }
     

@@ -70,3 +70,18 @@ func extractNumber(from text: String) -> String? {
     // Return nil if no match is found
     return nil
 }
+
+
+/// Extracts the file name substring from a URL string.
+/// - Parameters:
+///     - from: The url.
+/// - Returns: Returns the optional string of the file name.
+func extractFileName(from url: String) -> String? {
+    // Find the part after the last "%2F" (encoded slash)
+    if let range = url.range(of: "%2F", options: .backwards) {
+        let substring = url[range.upperBound...]
+        return String(substring.split(separator: "?").first ?? "")
+    }
+    // Fallback if no "%2F" found, handle URLs that may already be decoded
+    return url.components(separatedBy: "/").last?.components(separatedBy: "?").first
+}

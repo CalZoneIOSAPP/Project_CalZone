@@ -190,7 +190,14 @@ class AuthServices {
     }
     
     
-    func deleteAccount() -> (String, Bool, Bool){
+    /// This function will delete the user's credentials on Firebase Authentication.
+    /// - Parameters:
+    ///     - none
+    /// - Returns:
+    ///     - String: error message
+    ///     - Bool: whether to show the alert
+    ///     - Bool: whether to return to the sign in page
+    func deleteAccount() -> (String, Bool, Bool) {
         var errorMessage = ""
         var showAlert = false
         var returnToSignIn = false
@@ -200,17 +207,41 @@ class AuthServices {
             return (errorMessage, showAlert, returnToSignIn)
         }
         
-        user.delete { error in
-            if let error = error {
-                // Handle the error if the user cannot be deleted (e.g., recent sign-in is required)
-                errorMessage = error.localizedDescription
-                showAlert = true
-            } else {
+        // Delete all user information on Firebase Database and Storage
+        Task {
+            let mealServices = MealServices()
+            try await mealServices.fetchMeals(for: user.uid)
+            let meals = mealServices.meals // All meals of the user
+            
+            try await UserServices.sharedUser.deleteFirstLayerDocument(documentID: user.uid, collectionID: "usages")
+            try await UserServices.sharedUser.deleteFirstLayerDocument(documentID: user.uid, collectionID: "subscriptions")
+            try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "chats", field: "owner", value: user.uid)
+            try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "meal", field: "userId", value: user.uid)
+            try await UserServices.sharedUser.deleteImagesForFoodItems(meals: meals) // Deleting food pictures associated with the food items
+            
+            // Deleting all foodItems.
+            for meal in meals {
+                guard let mealId = meal.id else { continue }
+                
+                try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "foodItems", field: "mealId", value: mealId)
+            }
+            
+            // Deleting profile image
+            if let profileImageUrl = UserServices.sharedUser.currentUser?.profileImageUrl {
+                try await ImageManipulation.deleteImageOnFirebase(imageURL: profileImageUrl)
+            }
+            try await UserServices.sharedUser.deleteFirstLayerDocument(documentID: user.uid, collectionID: "user")
+            
+            do {
+                try await user.delete()
                 // User successfully deleted, you can add any post-deletion logic here
                 returnToSignIn = true
                 self.userSession = nil
                 UserServices.sharedUser.reset() // Set currentUser object to nil
-                print("User account deleted.")
+            } catch {
+                // Handle the error if the user cannot be deleted (e.g., recent sign-in is required)
+                errorMessage = error.localizedDescription
+                showAlert = true
             }
         }
         return (errorMessage, showAlert, returnToSignIn)

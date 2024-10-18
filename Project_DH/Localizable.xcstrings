@@ -5192,6 +5192,16 @@
           }
         }
       }
+    },
+    "Your profile image is updated." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的头像已更新。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
