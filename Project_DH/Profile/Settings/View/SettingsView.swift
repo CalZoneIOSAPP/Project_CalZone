@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject var control: ControllerModel
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SettingsViewModel()
     @StateObject var languageSettings = LanguageSettingsViewModel()
@@ -69,6 +70,7 @@ struct SettingsView: View {
                 }
                 .fullScreenCover(isPresented: $viewModel.showDeleteAccount) {
                     DeleteAccountView()
+                        .environmentObject(control)
                 }
                 
                 

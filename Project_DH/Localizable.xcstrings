@@ -1522,6 +1522,9 @@
         }
       }
     },
+    "Deleting your account..." : {
+
+    },
     "Description" : {
       "localizations" : {
         "cs" : {
@@ -1810,6 +1813,9 @@
           }
         }
       }
+    },
+    "Enter your password to delete the account." : {
+
     },
     "Explore" : {
       "localizations" : {

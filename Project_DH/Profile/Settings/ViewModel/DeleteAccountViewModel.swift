@@ -17,6 +17,7 @@ class DeleteAccountViewModel: ObservableObject {
     @Published var showConfirmation = false
     @Published var deletionScheduled = false
     @Published var currentUser: User?
+    @Published var password: String = ""
     
     private var cancellables = Set<AnyCancellable>()
     

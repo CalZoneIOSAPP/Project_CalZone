@@ -174,7 +174,9 @@ struct MealInputView: View {
                 print(profileViewModel.currentUser as Any)
                 if let user = profileViewModel.currentUser {
                     Task {
-                        try await viewModel.getRemainingUsage(for: user)
+                        if !control.deletingAccount {
+                            try await viewModel.getRemainingUsage(for: user)
+                        }
                     }
                 }
             }

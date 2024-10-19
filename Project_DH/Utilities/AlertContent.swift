@@ -35,3 +35,15 @@ struct AlertContent {
                                             message: Text("Invalid email or password."),
                                             dismissButton: .default(Text("Ok")))
 }
+
+
+enum EmailMismatchError: Error {
+    case newAccountDetected(originalEmail: String, signedInEmail: String)
+    
+    var localizedDescription: String {
+        switch self {
+        case .newAccountDetected( _, _):
+            return "Email mismatch."
+        }
+    }
+}

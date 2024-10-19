@@ -280,9 +280,9 @@ class UserServices {
         let userDocRef = db.collection(collectionID).document(documentID)
         do {
             try await userDocRef.delete()
-            print("NOTE: Firebase document successfully deleted. \nSource: deleteFirstLayerDocument()")
+            print("NOTE: Firebase document \(documentID) successfully deleted. \nSource: deleteFirstLayerDocument()")
         } catch {
-            print("ERROR: Failed to delete Firebase document:  \nSource: deleteFirstLayerDocument() \nError: \(error.localizedDescription)")
+            print("ERROR: Failed to delete Firebase document \(documentID):  \nSource: deleteFirstLayerDocument() \nError: \(error.localizedDescription)")
         }
     }
     
@@ -292,8 +292,10 @@ class UserServices {
     ///     - collectionID: The collection where the documents are.
     ///     - field: The field name to check for.
     ///     - value: The value which filters out all the documents to delete.
+    ///     - subCollection: The name of the collection inside the document that is within the first layer collection.
     /// - Returns: none
-    func deleteDocumentsBasedOnFieldValue(collectionID: String, field: String, value: String) async throws {
+    /// - Note: This will at most delete one layer of sub-collection: collection --> documents (deleting this) --> collection (deleting this, including all documents within). This function will only delete one sub-collection.
+    func deleteDocumentsBasedOnFieldValue(collectionID: String, field: String, value: String, subCollection: String? = nil) async throws {
         // Get a reference to Firestore
         let db = Firestore.firestore()
         
@@ -302,6 +304,15 @@ class UserServices {
         
         // Loop through the documents and delete them
         for document in querySnapshot.documents {
+            if let subCollection = subCollection {
+                let subSnapshot = try await document.reference.collection(subCollection).getDocuments()
+                
+                // Delete the sub-collection documents
+                for subDoc in subSnapshot.documents {
+                    try await subDoc.reference.delete()
+                }
+            }
+            // Delete the document itself
             try await document.reference.delete()
         }
         print("NOTE: All documents for value \(value) of field \(field) successfully deleted")

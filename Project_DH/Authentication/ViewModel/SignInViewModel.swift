@@ -91,6 +91,9 @@ class SignInViewModel: ObservableObject {
     /// - Returns: none
     @MainActor
     func reauthenticateGoogle() async throws {
+        let originalUser = Auth.auth().currentUser
+        let originalEmail = originalUser?.email
+        
         guard let topVC = TopViewController.sharedTopController.topViewController() else {
             throw URLError(.cannotFindHost)
         }
@@ -103,7 +106,15 @@ class SignInViewModel: ObservableObject {
 
         let accessToken = signInResult.user.accessToken.tokenString
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        
+        // Check if the user from sign-in result has the same email as the original one
+        let signedInEmail = signInResult.user.profile?.email
+        let emailMissmatch = signedInEmail != originalEmail
 
+        if emailMissmatch {
+            throw EmailMismatchError.newAccountDetected(originalEmail: originalEmail ?? "", signedInEmail: signedInEmail ?? "")
+        }
+        
         // Re-authenticate the user
         try await Auth.auth().currentUser?.reauthenticate(with: credential)
         print("Re-authenticated with Google successfully")

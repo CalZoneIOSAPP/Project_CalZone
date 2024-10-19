@@ -57,7 +57,7 @@ struct ProgressBarView: View {
                 
             } else {
                 Text("You Consumed \(currentCalories) Calories Today")
-                    .font(.title)
+                    .font(.title3)
                     .padding(.top, 10)
                 
                 semiCircleBar(curCal: 0, targetCal: 100)

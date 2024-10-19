@@ -14,6 +14,7 @@ import FirebaseAuth
 
 /// This class handles the actions for the currently selected user, or new users which are about to sign up. Functions take care of the authentication networking tasks.
 class AuthServices {
+    @Published var signInViewModel = SignInViewModel()
     @Published var userSession: FirebaseAuth.User?
     static let sharedAuth = AuthServices()
     
@@ -197,54 +198,105 @@ class AuthServices {
     ///     - String: error message
     ///     - Bool: whether to show the alert
     ///     - Bool: whether to return to the sign in page
-    func deleteAccount() -> (String, Bool, Bool) {
+    @MainActor
+    func deleteAccount(password: String? = nil) async throws -> (String, Bool, Bool) {
         var errorMessage = ""
-        var showAlert = false
+        var showLoading = true
         var returnToSignIn = false
+        
         guard let user = Auth.auth().currentUser else {
             errorMessage = "No user is logged in."
-            showAlert = true
-            return (errorMessage, showAlert, returnToSignIn)
+            showLoading = false
+            return (errorMessage, showLoading, returnToSignIn)
+        }
+
+        guard let providerData = user.providerData.first else {
+            errorMessage = "Unable to determine authentication provider."
+            showLoading = false
+            return (errorMessage, showLoading, returnToSignIn)
         }
         
-        // Delete all user information on Firebase Database and Storage
-        Task {
+    // Delete all user information on Firebase Database and Storage
+        do {
+            // Reauthenticate based on provider
+            if providerData.providerID == EmailAuthProviderID {
+                // Email/Password provider
+                if let email = user.email, let password = password {
+                    let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+                    do {
+                        try await user.reauthenticate(with: credential)
+                    } catch {
+                        errorMessage = "Your password does not match your current account."
+                        showLoading = false
+                        return (errorMessage, showLoading, returnToSignIn)
+                    }
+                } else {
+                    errorMessage = "Error deleting your current account, please try again."
+                    showLoading = false
+                    return (errorMessage, showLoading, returnToSignIn)
+                }
+            } else if providerData.providerID == GoogleAuthProviderID {
+                // Google Sign-In provider
+                do {
+                    try await signInViewModel.reauthenticateGoogle()
+                } catch {
+                    print("ERROR AUTHENTICATING GOOGLE: \(error.localizedDescription)")
+                    errorMessage = "Your google account credential does not match this account, please try again."
+                    showLoading = false
+                    return (errorMessage, showLoading, returnToSignIn)
+                }
+                
+            } else if providerData.providerID == "apple.com" {
+                // Apple Sign-In provider
+                let authorization = try await signInViewModel.getASAuthorization()
+                let _ = signInViewModel.nonce ?? "" // Fetch the nonce used during sign-in
+                do {
+                    try await signInViewModel.reauthenticateApple(authorization)
+                } catch {
+                    errorMessage = "Your google account credential does not match this account, please try again."
+                    showLoading = false
+                    return (errorMessage, showLoading, returnToSignIn)
+                }
+            }
+            
+            // After successful reauthentication, proceed to delete user information
             let mealServices = MealServices()
             try await mealServices.fetchMeals(for: user.uid)
             let meals = mealServices.meals // All meals of the user
-            
+
             try await UserServices.sharedUser.deleteFirstLayerDocument(documentID: user.uid, collectionID: "usages")
             try await UserServices.sharedUser.deleteFirstLayerDocument(documentID: user.uid, collectionID: "subscriptions")
-            try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "chats", field: "owner", value: user.uid)
+            try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "chats", field: "owner", value: user.uid, subCollection: "message")
             try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "meal", field: "userId", value: user.uid)
             try await UserServices.sharedUser.deleteImagesForFoodItems(meals: meals) // Deleting food pictures associated with the food items
-            
+
             // Deleting all foodItems.
             for meal in meals {
                 guard let mealId = meal.id else { continue }
-                
                 try await UserServices.sharedUser.deleteDocumentsBasedOnFieldValue(collectionID: "foodItems", field: "mealId", value: mealId)
             }
-            
+
             // Deleting profile image
             if let profileImageUrl = UserServices.sharedUser.currentUser?.profileImageUrl {
                 try await ImageManipulation.deleteImageOnFirebase(imageURL: profileImageUrl)
             }
             try await UserServices.sharedUser.deleteFirstLayerDocument(documentID: user.uid, collectionID: "user")
-            
-            do {
-                try await user.delete()
-                // User successfully deleted, you can add any post-deletion logic here
-                returnToSignIn = true
-                self.userSession = nil
-                UserServices.sharedUser.reset() // Set currentUser object to nil
-            } catch {
-                // Handle the error if the user cannot be deleted (e.g., recent sign-in is required)
-                errorMessage = error.localizedDescription
-                showAlert = true
-            }
+
+            // Deleting the User on Firebase Auth
+            try await user.delete()
+
+            // User successfully deleted, handle post-deletion logic
+            returnToSignIn = true
+            self.userSession = nil
+            showLoading = true
+            UserServices.sharedUser.reset() // Set currentUser object to nil
+        } catch {
+            // Handle errors (reauthentication or deletion errors)
+            errorMessage = "Error deleting your account, please try again later or contact our support team."
+            showLoading = false
         }
-        return (errorMessage, showAlert, returnToSignIn)
+        
+        return (errorMessage, showLoading, returnToSignIn)
     }
     
     

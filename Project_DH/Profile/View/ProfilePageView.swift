@@ -127,6 +127,7 @@ struct ProfilePageView: View {
                 FriendsView()
             case .settings:
                 SettingsView()
+                    .environmentObject(control)
             }
         }
         .fullScreenCover(isPresented: $viewModel.showSubscriptionPage, content: {
@@ -226,7 +227,7 @@ struct ProfilePageView: View {
                     self.subscriptionType = type.capitalized
                 }
             } else {
-                print("No subscription found for user.")
+                print("NOTE: No subscription found for user. Source: fetchUserSubscription()")
             }
         }
     }
