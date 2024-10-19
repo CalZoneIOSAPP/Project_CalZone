@@ -1523,7 +1523,14 @@
       }
     },
     "Deleting your account..." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在删除您的帐户..."
+          }
+        }
+      }
     },
     "Description" : {
       "localizations" : {
@@ -1815,7 +1822,24 @@
       }
     },
     "Enter your password to delete the account." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请输入您的密码以删除帐户。"
+          }
+        }
+      }
+    },
+    "Error deleting your account, please try again later or contact our support team." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除您的帐户时出错，请稍后重试或联系我们的支持团队。"
+          }
+        }
+      }
     },
     "Explore" : {
       "localizations" : {
@@ -2971,6 +2995,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未找到本周的美食..."
+          }
+        }
+      }
+    },
+    "No user is logged in." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有用户登录。"
           }
         }
       }
@@ -4480,6 +4514,16 @@
         }
       }
     },
+    "Unable to determine authentication provider." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法确定身份验证程序。"
+          }
+        }
+      }
+    },
     "Update Weight" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5000,6 +5044,16 @@
         }
       }
     },
+    "You need to enter your CalBite account password to delete the account." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您需要输入您的 卡路比 帐户密码以删除帐户。"
+          }
+        }
+      }
+    },
     "You reached your recommended calorie limit." : {
       "localizations" : {
         "cs" : {
@@ -5159,6 +5213,16 @@
         }
       }
     },
+    "Your google account credential does not match this account, please try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的 Google 帐户验证信息与此帐户不匹配，请重试。"
+          }
+        }
+      }
+    },
     "Your image does not contain any food, please try again." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5195,6 +5259,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的原密码不正确。"
+          }
+        }
+      }
+    },
+    "Your password does not match your current account." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的密码与当前帐户不匹配。"
           }
         }
       }

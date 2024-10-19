@@ -151,9 +151,6 @@ struct DeleteAccountView: View {
                             if showPopup {
                                 PopUpMessageView(messageTitle: "Apologies", message: errorMessage!, popupPositivity: .informative, isPresented: $showPopup)
                                     .padding(.horizontal, 30)
-                                    .onAppear {
-                                        print("DISPLAYING ERROR MESSAGE")
-                                    }
                             }
                             
                         }

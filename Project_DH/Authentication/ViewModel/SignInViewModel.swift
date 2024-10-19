@@ -117,7 +117,6 @@ class SignInViewModel: ObservableObject {
         
         // Re-authenticate the user
         try await Auth.auth().currentUser?.reauthenticate(with: credential)
-        print("Re-authenticated with Google successfully")
     }
     
     
@@ -143,7 +142,6 @@ class SignInViewModel: ObservableObject {
 
             // Re-authenticate the user
             try await Auth.auth().currentUser?.reauthenticate(with: credential)
-            print("Re-authenticated with Apple successfully")
         }
     }
     

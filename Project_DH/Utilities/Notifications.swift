@@ -53,7 +53,7 @@ struct NotificationTool {
     /// - Returns: none
     static func scheduleAchievementNotification(for user: User) {
         guard let achievementDate = user.achievementDate else {
-            print("No achievement date found for the user.")
+            print("NOTE: No achievement date found for the user.")
             return
         }
 

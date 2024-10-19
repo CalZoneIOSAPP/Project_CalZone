@@ -84,9 +84,9 @@ class AuthServices {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
             try await UserServices.sharedUser.fetchCurrentUserData()
-            print("LOGGED IN USER WITH EMAIL AND PASSWORD \n\(result.user.uid)" )
+            print("NOTE: Logged in with email and password for user uid: \(result.user.uid)" )
         } catch {
-            print("ERROR: FAILED TO SIGN IN WITH EMAIL AND PASSWORD! \nSource: AuthServices/login() \n\(error)")
+            print("ERROR: Failed to sign in with email and password. \nSource: AuthServices/login() \n\(error.localizedDescription)")
         }
     }
 
@@ -99,7 +99,7 @@ class AuthServices {
     func login(credential: AuthCredential) async throws {
         do {
             let result = try await Auth.auth().signIn(with: credential)
-            print("LOGIN WITH CREDENTIAL: \nGOT RESULT: \(result.user.uid)")
+            print("NOTE: Logged in with credential: \(result.user.uid)")
             self.userSession = result.user
             do {
                 try await UserServices.sharedUser.fetchCurrentUserData()
@@ -205,18 +205,18 @@ class AuthServices {
         var returnToSignIn = false
         
         guard let user = Auth.auth().currentUser else {
-            errorMessage = "No user is logged in."
+            errorMessage = NSLocalizedString("No user is logged in.", comment: "")
             showLoading = false
             return (errorMessage, showLoading, returnToSignIn)
         }
 
         guard let providerData = user.providerData.first else {
-            errorMessage = "Unable to determine authentication provider."
+            errorMessage = NSLocalizedString("Unable to determine authentication provider.", comment: "")
             showLoading = false
             return (errorMessage, showLoading, returnToSignIn)
         }
         
-    // Delete all user information on Firebase Database and Storage
+        // Delete all user information on Firebase Database and Storage
         do {
             // Reauthenticate based on provider
             if providerData.providerID == EmailAuthProviderID {
@@ -226,12 +226,12 @@ class AuthServices {
                     do {
                         try await user.reauthenticate(with: credential)
                     } catch {
-                        errorMessage = "Your password does not match your current account."
+                        errorMessage = NSLocalizedString("Your password does not match your current account.", comment: "")
                         showLoading = false
                         return (errorMessage, showLoading, returnToSignIn)
                     }
                 } else {
-                    errorMessage = "Error deleting your current account, please try again."
+                    errorMessage = NSLocalizedString("You need to enter your CalBite account password to delete the account.", comment: "")
                     showLoading = false
                     return (errorMessage, showLoading, returnToSignIn)
                 }
@@ -240,8 +240,7 @@ class AuthServices {
                 do {
                     try await signInViewModel.reauthenticateGoogle()
                 } catch {
-                    print("ERROR AUTHENTICATING GOOGLE: \(error.localizedDescription)")
-                    errorMessage = "Your google account credential does not match this account, please try again."
+                    errorMessage = NSLocalizedString("Your google account credential does not match this account, please try again.", comment: "")
                     showLoading = false
                     return (errorMessage, showLoading, returnToSignIn)
                 }
@@ -253,7 +252,7 @@ class AuthServices {
                 do {
                     try await signInViewModel.reauthenticateApple(authorization)
                 } catch {
-                    errorMessage = "Your google account credential does not match this account, please try again."
+                    errorMessage = NSLocalizedString("Your google account credential does not match this account, please try again.", comment: "")
                     showLoading = false
                     return (errorMessage, showLoading, returnToSignIn)
                 }
@@ -292,7 +291,7 @@ class AuthServices {
             UserServices.sharedUser.reset() // Set currentUser object to nil
         } catch {
             // Handle errors (reauthentication or deletion errors)
-            errorMessage = "Error deleting your account, please try again later or contact our support team."
+            errorMessage = NSLocalizedString("Error deleting your account, please try again later or contact our support team.", comment: "")
             showLoading = false
         }
         
