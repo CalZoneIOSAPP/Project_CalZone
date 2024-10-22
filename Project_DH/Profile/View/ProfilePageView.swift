@@ -15,8 +15,6 @@ struct ProfilePageView: View {
     @State private var showingProfilePreview: Bool = false
     @State private var selectedView: ProfileOptions?
     
-    // VIP Subscription Type
-    @State private var subscriptionType: String? = nil // Monthly, Quarterly, Yearly
     
     private var user: User? {
         return viewModel.currentUser
@@ -106,7 +104,7 @@ struct ProfilePageView: View {
 
         } // END OF NAVIGATION STACK
         .onAppear {
-            fetchUserSubscription()
+            viewModel.fetchUserSubscription()
         }
         .fullScreenCover(isPresented: $showingProfileInfo, content: {
             EditProfileView(showingProfileInfo: $showingProfileInfo)
@@ -187,7 +185,7 @@ struct ProfilePageView: View {
                             .font(.headline)
                             .foregroundStyle(.gray)
                         
-                        if let type = subscriptionType {
+                        if let type = viewModel.subscriptionType {
                             Text(type)
                                 .font(.headline)
                                 .foregroundStyle(.gray)
@@ -200,47 +198,11 @@ struct ProfilePageView: View {
                     }
                     
                     SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user) // Add the subscription button here
-                         .opacity(subscriptionType == nil ? 1 : 0) // Hide if already a VIP
+                        .opacity(viewModel.subscriptionType == nil ? 1 : 0) // Hide if already a VIP
                 }
                 .padding(.leading, 45)
             }
             
-        }
-    }
-    
-    
-    /// Fetches subscription status for current user
-    /// - Parameters:
-    ///   - none
-    /// Fetches subscription status for the current user
-    /// Fetches subscription status for the current user
-    private func fetchUserSubscription() {
-        guard let userEmail = user?.email else {
-            print("User email not available.")
-            return
-        }
-
-        let db = Firestore.firestore()
-        
-        // Query the 'subscriptions' collection to find the document with the matching email
-        let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
-
-        query.getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error fetching subscription: \(error.localizedDescription)")
-            } else if let document = querySnapshot?.documents.first {
-                let data = document.data() // No need to use 'if let'
-                if let type = data["type"] as? String {
-                    self.subscriptionType = type.capitalized
-                    print("Fetched subscription type: \(self.subscriptionType ?? "None")")
-                } else {
-                    print("No subscription type found in the document.")
-                    self.subscriptionType = nil
-                }
-            } else {
-                print("NOTE: No subscription found for user. Source: fetchUserSubscription()")
-                self.subscriptionType = nil // Reset in case of no subscription
-            }
         }
     }
     

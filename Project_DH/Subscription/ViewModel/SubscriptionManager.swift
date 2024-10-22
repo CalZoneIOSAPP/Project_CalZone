@@ -34,6 +34,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         SKPaymentQueue.default().remove(self)
     }
 
+    
     /// Fetches available subscription products.
     func fetchProducts() {
         let productIdentifiers: Set<String> = ["monthlyPlan", "quarterlyPlan", "yearlyPlan"] // Replace with actual IDs
@@ -42,12 +43,14 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         request.start()
     }
 
+    
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         DispatchQueue.main.async {
             self.products = response.products
         }
     }
 
+    
     /// Initiates a purchase for the given product ID.
     func purchaseVIP(productId: String) {
         guard let product = products.first(where: { $0.productIdentifier == productId }) else {
@@ -63,6 +66,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         purchaseState = .purchasing
     }
 
+    
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
@@ -122,6 +126,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             }
         }
     }
+    
     
     /// Calculate the end date based on the subscription type.
     private func calculateEndDate(for productId: String) -> Timestamp {

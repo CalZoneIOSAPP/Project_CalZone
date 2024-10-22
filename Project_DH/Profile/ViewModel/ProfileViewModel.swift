@@ -16,6 +16,11 @@ import SwiftUI
 class ProfileViewModel: ObservableObject {
     // Main view
     @Published var currentUser: User?
+    @Published var subscriptionType: String? = nil
+    @Published var showSubscriptionPage: Bool = false
+    
+    private let db = Firestore.firestore()
+    
     @Published var profileImage: Image?
     @Published var userName = ""
     @Published var uiImage: UIImage?
@@ -35,9 +40,6 @@ class ProfileViewModel: ObservableObject {
     @Published var options: [String]?
     @Published var optionMaxWidth: CGFloat = 220
     
-    // Subscription
-    @Published var showSubscriptionPage: Bool = false
-    
     private var cancellables = Set<AnyCancellable>()
     
     let activityLevelMap: [String: Double] = [
@@ -51,7 +53,71 @@ class ProfileViewModel: ObservableObject {
     
     init() {
         setupUser()
+        fetchUserSubscription()
     }
+    
+    
+    /// Fetches subscription status for current user
+    /// - Parameters:
+    ///   - none
+    func fetchUserSubscription() {
+        guard let userEmail = currentUser?.email else {
+            print("User email not available.")
+            return
+        }
+
+        // Query Firestore for the user's subscription by email
+        let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
+
+        query.getDocuments { [weak self] (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching subscription: \(error.localizedDescription)")
+            } else if let document = querySnapshot?.documents.first {
+                let data = document.data()
+
+                if let type = data["type"] as? String {
+                    self?.subscriptionType = type.capitalized
+                    print("Fetched subscription type: \(self?.subscriptionType ?? "None")")
+                }
+
+                if let endDate = data["endDate"] as? Timestamp {
+                    self?.checkSubscriptionExpiry(endDate: endDate, documentId: document.documentID)
+                }
+            } else {
+                print("No subscription found.")
+                self?.subscriptionType = nil
+            }
+        }
+    }
+    
+    
+    /// Checks if the subscription has expired and deletes the document if necessary
+    private func checkSubscriptionExpiry(endDate: Timestamp, documentId: String) {
+        let currentDate = Date()
+
+        if endDate.dateValue() < currentDate {
+            print("Subscription has expired. Deleting document and updating user status.")
+
+            // Delete the subscription document from Firestore
+            db.collection("subscriptions").document(documentId).delete { [weak self] error in
+                if let error = error {
+                    print("Error deleting subscription: \(error.localizedDescription)")
+                } else {
+                    print("Subscription deleted successfully.")
+                    self?.updateVIPStatusLocally(isVIP: false)
+                }
+            }
+        }
+    }
+
+    /// Updates the user's VIP status locally
+    private func updateVIPStatusLocally(isVIP: Bool) {
+        guard let user = currentUser else { return }
+        // user.isVIP = isVIP
+        subscriptionType = nil // Reset subscription type if not VIP
+        print("Updated user VIP status to: \(isVIP)")
+    }
+    
     
     
     /// This function is called when setting up the user session.
