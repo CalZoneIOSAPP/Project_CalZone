@@ -54,6 +54,9 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             print("Product with ID \(productId) not found.")
             return
         }
+        
+        print("The productId is \(productId)");
+        selectedProductId = productId;
 
         let payment = SKPayment(product: product)
         SKPaymentQueue.default().add(payment)
@@ -69,7 +72,9 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                 print("Purchase successful for product: \(transaction.payment.productIdentifier)")
                 
                 // Update the firebase here
+                print("I am going to update info into firebase now!")
                 if let productId = selectedProductId {
+                    print("I am calling the update function here!")
                     updateSubscriptionInFirebase(for: productId)
                 }
                 
@@ -87,6 +92,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                 break
             }
         }
+        print("End of paymentQueue Function here!")
     }
 
     
@@ -96,7 +102,8 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             print("User email not available.")
             return
         }
-
+        print("The userEmail is \(userEmail)")
+        
         let db = Firestore.firestore()
         let data: [String: Any] = [
             "email": userEmail,
@@ -106,7 +113,8 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             "endDate": calculateEndDate(for: productId)
         ]
 
-        db.collection("subscriptions").document(userEmail).setData(data, merge: true) { error in
+        // Use auto-generated document ID
+        db.collection("subscriptions").addDocument(data: data) { error in
             if let error = error {
                 print("Failed to update subscription: \(error.localizedDescription)")
             } else {

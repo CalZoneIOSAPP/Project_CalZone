@@ -212,6 +212,8 @@ struct ProfilePageView: View {
     /// Fetches subscription status for current user
     /// - Parameters:
     ///   - none
+    /// Fetches subscription status for the current user
+    /// Fetches subscription status for the current user
     private func fetchUserSubscription() {
         guard let userEmail = user?.email else {
             print("User email not available.")
@@ -219,18 +221,29 @@ struct ProfilePageView: View {
         }
 
         let db = Firestore.firestore()
-        let docRef = db.collection("subscriptions").document(userEmail)
+        
+        // Query the 'subscriptions' collection to find the document with the matching email
+        let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
 
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists, let data = document.data() {
+        query.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching subscription: \(error.localizedDescription)")
+            } else if let document = querySnapshot?.documents.first {
+                let data = document.data() // No need to use 'if let'
                 if let type = data["type"] as? String {
                     self.subscriptionType = type.capitalized
+                    print("Fetched subscription type: \(self.subscriptionType ?? "None")")
+                } else {
+                    print("No subscription type found in the document.")
+                    self.subscriptionType = nil
                 }
             } else {
                 print("NOTE: No subscription found for user. Source: fetchUserSubscription()")
+                self.subscriptionType = nil // Reset in case of no subscription
             }
         }
     }
+    
 }
 
 
