@@ -207,12 +207,10 @@ struct ChatView: View {
         if let userId = profileViewModel.currentUser?.uid {
             Task {
                 do {
-                    if let isVIP = profileViewModel.isVIP {
-                        if isVIP {
-                            try await viewModel.sendMessageVIP(userId: userId)
-                        } else {
-                            try await viewModel.sendMessage(userId: userId)
-                        }
+                    if profileViewModel.isVIP {
+                        try await viewModel.sendMessageVIP(userId: userId)
+                    } else {
+                        try await viewModel.sendMessage(userId: userId)
                     }
                 } catch {
                     print("ERROR: Sending message in ChatView \n\(error.localizedDescription)\n")

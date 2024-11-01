@@ -17,7 +17,7 @@ class ProfileViewModel: ObservableObject {
     // Main view
     @Published var currentUser: User?
     @Published var subscriptionType: String? = nil
-    @Published var isVIP: Bool? = nil
+    @Published var isVIP: Bool = false
     @Published var showSubscriptionPage: Bool = false
     
     private let db = Firestore.firestore()
