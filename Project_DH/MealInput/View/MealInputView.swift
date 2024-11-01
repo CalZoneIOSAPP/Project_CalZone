@@ -103,12 +103,13 @@ struct MealInputView: View {
                                     .foregroundColor(.gray)
                                     .padding()
                                     .multilineTextAlignment(.center)
-                                
-                                Text("Remaining Estimations: \(viewModel.remainingEstimations)")
-                                    .font(.headline)
-                                    .foregroundColor(.gray)
-                                    .padding()
-                                    .multilineTextAlignment(.center)
+                                if !profileViewModel.isVIP {
+                                    Text("Remaining Estimations: \(viewModel.remainingEstimations)")
+                                        .font(.headline)
+                                        .foregroundColor(.gray)
+                                        .padding()
+                                        .multilineTextAlignment(.center)
+                                }
                             }
                             
                             
@@ -198,7 +199,12 @@ struct MealInputView: View {
                     if let user = profileViewModel.currentUser {
                         Task {
                             do {
-                                try await viewModel.getMealInfo(for: user)
+                                if profileViewModel.isVIP {
+                                    print("VIP USER - GETTING VIP MEAL INFO.")
+                                    try await viewModel.getMealInfoVIP()
+                                } else {
+                                    try await viewModel.getMealInfo(for: user)
+                                }
                             } catch {
                                 print("ERROR: Getting meal info.")
                             }

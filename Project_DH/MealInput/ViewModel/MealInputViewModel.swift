@@ -149,6 +149,17 @@ class MealInputViewModel: ObservableObject {
     }
     
     
+    /// This function handles the logic for checking the available usage and then getting the meal info for VIP users.
+    /// - Parameters: none
+    /// - Returns: none
+    @MainActor
+    func getMealInfoVIP() async throws {
+        do {
+            await predictMealInfo(for: image!)
+        }
+    }
+    
+    
     /// This function handles the logic for requesting the food item information from the AI.
     /// - Parameters:
     ///     - for: the image of the food item
