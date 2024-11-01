@@ -42,8 +42,7 @@ class MealInputViewModel: ObservableObject {
     /// - Note: If there is no usage for the user yet, then it will create it.
     @MainActor
     func getRemainingUsage(for user: User) async throws {
-        print("Getting remaining usage for: \(String(describing: user.uid))")
-        
+//        print("Getting remaining usage for: \(String(describing: user.uid))")
         guard let userId = user.uid else {
             return
         }
@@ -57,12 +56,12 @@ class MealInputViewModel: ObservableObject {
             if document.exists {
                 usage = try document.data(as: Usage.self)
             } else {
-                print("Usage document does not exist. Creating a new usage document.")
+                print("NOTE: Usage document does not exist. Creating a new usage document.")
                 usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 5, maxAssistantTokenNumRemaining: 5000)
 
                 // Upload the new Usage document to Firestore
                 try usageDocRef.setData(from: usage)
-                print("New usage document successfully created")
+                print("NOTE: New usage document successfully created")
             }
             
             let currentTimestamp = Date()
@@ -105,12 +104,12 @@ class MealInputViewModel: ObservableObject {
             if document.exists {
                 usage = try document.data(as: Usage.self) // No need for conditional binding
             } else {
-                print("Usage document does not exist. Creating a new usage document.")
+                print("NOTE: Usage document does not exist. Creating a new usage document.")
                 usage = Usage(uid: userId, lastUsageTimestamp: Date(), maxCalorieAPIUsageNumRemaining: 5, maxAssistantTokenNumRemaining: 5000)
 
                 // Upload the new Usage document to Firestore
                 try usageDocRef.setData(from: usage)
-                print("New usage document successfully created")
+                print("NOTE: New usage document successfully created")
             }
             remainingEstimations = usage.maxCalorieAPIUsageNumRemaining ?? 0
             // Get the current timestamp
@@ -161,7 +160,7 @@ class MealInputViewModel: ObservableObject {
             print("NOTE: Prediction Started, please wait.")
             try await analyzeFoodImage(for: image)
         } catch {
-            print(error)
+            print("ERROR: Failed to predict meal info \n\(error.localizedDescription)\n")
         }
         isProcessingMealInfo = false
     }
@@ -214,7 +213,7 @@ class MealInputViewModel: ObservableObject {
                 print("NOTE: Predicted Meal Name: \(mealName)")
                 
                 if calories == "0" || !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: calories)) {
-                    print("ESTIMATION ERROR")
+                    print("ERROR: Estimation error in analyzeFoodImage()")
                     self.calories = "0"
                     showEstimationError = true
                 }
@@ -239,7 +238,7 @@ class MealInputViewModel: ObservableObject {
     @MainActor
     func saveFoodItem(image: UIImage, userId: String, date: Date, completion: @escaping (Error?) -> Void) async throws {
         guard let imageUrl = try? await FoodItemImageUploader.uploadImage(image) else {
-            print("ERROR: FAILED TO GET imageURL! \nSource: saveFoodItem() ")
+            print("ERROR: Failed to get imageURL! \nSource: saveFoodItem()\n")
             return
         }
         
@@ -328,8 +327,8 @@ class MealInputViewModel: ObservableObject {
     /// - Returns: none
     func createNewMeal(userId: String, mealType: String, date: Date, completion: @escaping (String?) -> Void) {
         let meal = Meal(date: date, mealType: mealType, userId: userId)
-        print("Meal date is \(meal.date)")
-        print("Meal type is \(meal.mealType)")
+//        print("Meal date is \(meal.date)")
+//        print("Meal type is \(meal.mealType)")
         do {
             let newDocRef = try db.collection("meal").addDocument(from: meal)
             completion(newDocRef.documentID)

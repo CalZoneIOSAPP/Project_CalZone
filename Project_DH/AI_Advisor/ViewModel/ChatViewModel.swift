@@ -68,7 +68,8 @@ class ChatViewModel: ObservableObject {
     
     
     /// This function sends the message to the OpenAI's AI model, and appends the new message received from the model to the message list.
-    /// - Parameters: none
+    /// - Parameters:
+    ///     - userId: User's uid which the message belongs to.
     /// - Returns: none
     @MainActor
     func sendMessage(userId: String) async throws {
@@ -127,6 +128,48 @@ class ChatViewModel: ObservableObject {
                 try await generateResponse(for: newMessage)
                 usage.maxAssistantTokenNumRemaining? -= tokens
                 try usageDocRef.setData(from: usage)
+            } catch {
+                print("ERROR: Failed to generate response: \nSource: ChatViewModel/sendMessage() \n\(error.localizedDescription)")
+                throw error
+            }
+        } catch {
+            print("ERROR: Failed to send message: \nSource: ChatViewModel/sendMessage() \n\(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    
+    /// This function sends the message to the OpenAI's AI model, and appends the new message received from the model to the message list. This method is for VIP users.
+    /// - Parameters:
+    ///     - userId: User's uid which the message belongs to.
+    /// - Returns: none
+    @MainActor
+    func sendMessageVIP(userId: String) async throws {
+        // Ensure the usage data is available
+        do {
+            var newMessage = AppMessage(id: UUID().uuidString, text: messageText, role: .user)
+            
+            do {
+                let documentRef = try storeMessage(message: newMessage)
+                newMessage.id = documentRef.documentID
+            } catch {
+                print("ERROR: Retrieving document reference \nSource: ChatViewModel/sendMessage() \n\(error.localizedDescription) ")
+            }
+            
+            if messages.isEmpty {
+                setupNewChat()
+            } else {
+                // do nothing at this point
+            }
+            
+            await MainActor.run { [newMessage] in
+                messages.append(newMessage)
+                messageText = ""
+            }
+            
+            do {
+                // Attempt to generate a response
+                try await generateResponse(for: newMessage)
             } catch {
                 print("ERROR: Failed to generate response: \nSource: ChatViewModel/sendMessage() \n\(error.localizedDescription)")
                 throw error

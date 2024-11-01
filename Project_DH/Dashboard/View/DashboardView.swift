@@ -101,7 +101,6 @@ struct DashboardView: View {
                         }
                     })
                     .onChange(of: control.refetchMeal, { _, newValue in
-                        print(control.refetchMeal)
                         if control.refetchMeal == true {
                             Task {
                                 viewModel.sumCalories = 0

@@ -171,7 +171,6 @@ struct MealInputView: View {
             .ignoresSafeArea(.keyboard, edges: .all)
             .dismissKeyboardOnTap()
             .onAppear {
-                print(profileViewModel.currentUser as Any)
                 if let user = profileViewModel.currentUser {
                     Task {
                         if !control.deletingAccount {

@@ -109,7 +109,7 @@ struct ChatSelectionView: View {
                                     _ = try await viewModel.createChat(user: profileViewModel.currentUser?.uid)
                                     await viewModel.fetchData(user: profileViewModel.currentUser?.uid)
                                 } catch {
-                                    print(error.localizedDescription)
+                                    print("ERROR: Failed to create chat \nSource: ChatSelectionView \n\(error.localizedDescription)")
                                 }
                             }
                         } label: {

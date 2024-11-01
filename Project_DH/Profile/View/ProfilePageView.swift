@@ -104,7 +104,9 @@ struct ProfilePageView: View {
 
         } // END OF NAVIGATION STACK
         .onAppear {
-            viewModel.fetchUserSubscription()
+            Task {
+                try await viewModel.fetchUserSubscription()
+            }
         }
         .fullScreenCover(isPresented: $showingProfileInfo, content: {
             EditProfileView(showingProfileInfo: $showingProfileInfo)

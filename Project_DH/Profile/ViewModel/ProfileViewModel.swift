@@ -17,6 +17,7 @@ class ProfileViewModel: ObservableObject {
     // Main view
     @Published var currentUser: User?
     @Published var subscriptionType: String? = nil
+    @Published var isVIP: Bool? = nil
     @Published var showSubscriptionPage: Bool = false
     
     private let db = Firestore.firestore()
@@ -53,69 +54,77 @@ class ProfileViewModel: ObservableObject {
     
     init() {
         setupUser()
-        fetchUserSubscription()
+        Task {
+            try await fetchUserSubscription()
+        }
     }
     
     
     /// Fetches subscription status for current user
     /// - Parameters:
     ///   - none
-    func fetchUserSubscription() {
+    @MainActor
+    func fetchUserSubscription() async throws {
         guard let userEmail = currentUser?.email else {
-            print("User email not available.")
-            return
+            throw NSError(domain: "User email not available.", code: 0, userInfo: nil)
         }
 
         // Query Firestore for the user's subscription by email
         let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
 
-        query.getDocuments { [weak self] (querySnapshot, error) in
-            if let error = error {
-                print("Error fetching subscription: \(error.localizedDescription)")
-            } else if let document = querySnapshot?.documents.first {
+        do {
+            let querySnapshot = try await query.getDocuments()
+
+            if let document = querySnapshot.documents.first {
                 let data = document.data()
+                
+                if let isVIP = data["isVIP"] as? Bool {
+                    self.isVIP = isVIP
+                }
 
                 if let type = data["type"] as? String {
-                    self?.subscriptionType = type.capitalized
-                    print("Fetched subscription type: \(self?.subscriptionType ?? "None")")
+                    self.subscriptionType = type.capitalized
+                    print("NOTE: Fetched subscription type: \(self.subscriptionType ?? "None")")
                 }
 
                 if let endDate = data["endDate"] as? Timestamp {
-                    self?.checkSubscriptionExpiry(endDate: endDate, documentId: document.documentID)
+                    try await self.checkSubscriptionExpiry(endDate: endDate, documentId: document.documentID)
                 }
             } else {
-                print("No subscription found.")
-                self?.subscriptionType = nil
+                print("NOTE: No subscription found.")
+                self.subscriptionType = nil
             }
+        } catch {
+            throw error
         }
     }
     
     
     /// Checks if the subscription has expired and deletes the document if necessary
-    private func checkSubscriptionExpiry(endDate: Timestamp, documentId: String) {
+    @MainActor
+    private func checkSubscriptionExpiry(endDate: Timestamp, documentId: String) async throws {
         let currentDate = Date()
 
         if endDate.dateValue() < currentDate {
-            print("Subscription has expired. Deleting document and updating user status.")
+            print("NOTE: Subscription has expired. Deleting document and updating user status.")
 
             // Delete the subscription document from Firestore
-            db.collection("subscriptions").document(documentId).delete { [weak self] error in
-                if let error = error {
-                    print("Error deleting subscription: \(error.localizedDescription)")
-                } else {
-                    print("Subscription deleted successfully.")
-                    self?.updateVIPStatusLocally(isVIP: false)
-                }
+            do {
+                try await db.collection("subscriptions").document(documentId).delete()
+                print("NOTE: Subscription deleted successfully.")
+                self.updateVIPStatusLocally(isVIP: false)
+            } catch {
+                throw error
             }
         }
     }
 
     /// Updates the user's VIP status locally
     private func updateVIPStatusLocally(isVIP: Bool) {
-        guard let user = currentUser else { return }
+        guard let _ = currentUser else { return }
         // user.isVIP = isVIP
         subscriptionType = nil // Reset subscription type if not VIP
-        print("Updated user VIP status to: \(isVIP)")
+        print("NOTE: Updated user VIP status to: \(isVIP)")
     }
     
     
@@ -139,7 +148,7 @@ class ProfileViewModel: ObservableObject {
     /// - Note: This function doesn't perform the update logic, it is an interface for the frontend to call.
     func updateProfilePhoto() async throws {
         try await updateProfileImage()
-        print("UPDATE: USER PROFILE")
+        print("NOTE: Updated user profile.")
     }
     
     
@@ -151,7 +160,7 @@ class ProfileViewModel: ObservableObject {
     private func updateProfileImage() async throws {
         guard let image = self.uiImage else { return }
         guard let imageUrl = try? await ImageUploader.uploadImage(image) else {
-            print("ERROR: FAILED TO GET imageURL! \nSource: updateProfileImage() ")
+            print("ERROR: Failed to get imageURL! \nSource: updateProfileImage() ")
             return
         }
         
@@ -289,13 +298,13 @@ class ProfileViewModel: ObservableObject {
     ///     - user: Target user for calorie calculation.
     /// - Returns: Number of calories.
     func calculateTargetCalories(user: User) -> Int {
-        print("Gender: \(String(describing: user.gender))")
-        print("Birthday: \(String(describing: user.birthday))")
-        print("Weight Target: \(String(describing: user.weightTarget))")
-        print("Weight: \(String(describing: user.weight))")
-        print("Height: \(String(describing: user.height))")
-        print("Activity Level: \(String(describing: user.activityLevel))")
-        print("Achievement Date: \(String(describing: user.achievementDate))")
+//        print("Gender: \(String(describing: user.gender))")
+//        print("Birthday: \(String(describing: user.birthday))")
+//        print("Weight Target: \(String(describing: user.weightTarget))")
+//        print("Weight: \(String(describing: user.weight))")
+//        print("Height: \(String(describing: user.height))")
+//        print("Activity Level: \(String(describing: user.activityLevel))")
+//        print("Achievement Date: \(String(describing: user.achievementDate))")
         
         let age = calculateAge(date: user.birthday!)
         let weightDiff = user.weightTarget! - user.weight!
@@ -305,11 +314,9 @@ class ProfileViewModel: ObservableObject {
         let h = 6.25 * user.height!
         
         if user.gender == NSLocalizedString("male", comment: "") {
-            print("Calculating for Gender Male")
             // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)+5
             userBMR = w + h - a + 5.0
         } else {
-            print("Calculating for Gender Female")
             // BMR=10×weight (kg)+6.25×height (cm)−5×age (years)−161
             userBMR = w + h - a - 161.0
         }

@@ -32,7 +32,6 @@ struct LanguageSettingsView: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             languageSettings.selectedLanguage = language
-                            print(languageSettings.selectedLanguage as Any)
                         }
                     }
                 }

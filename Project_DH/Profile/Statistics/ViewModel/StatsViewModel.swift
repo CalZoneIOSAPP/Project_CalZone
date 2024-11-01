@@ -226,7 +226,7 @@ class StatsViewModel: ObservableObject {
         topCalorieFood = nil
         
         guard let userId = userId else {
-            print("No userId found when fetching Top Calorie Food For Interval!")
+            print("NOTE: No userId found when fetching Top Calorie Food For Interval!")
             return
         }
         

@@ -110,7 +110,5 @@ extension View {
 
 #Preview {
     PrivacyPolicyView(onAgree: {
-        // Provide a closure here for the onAgree action
-        print("User agreed to the privacy policy")
     })
 }

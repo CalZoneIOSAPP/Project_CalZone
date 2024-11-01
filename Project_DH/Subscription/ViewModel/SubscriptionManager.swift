@@ -58,7 +58,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             return
         }
         
-        print("The productId is \(productId)");
+        print("NOTE: The productId is \(productId)");
         selectedProductId = productId;
 
         let payment = SKPayment(product: product)
@@ -73,40 +73,35 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             case .purchased:
                 purchaseState = .purchased
                 SKPaymentQueue.default().finishTransaction(transaction)
-                print("Purchase successful for product: \(transaction.payment.productIdentifier)")
+                print("NOTE: Purchase successful for product: \(transaction.payment.productIdentifier)\n")
                 
                 // Update the firebase here
-                print("I am going to update info into firebase now!")
                 if let productId = selectedProductId {
-                    print("I am calling the update function here!")
                     updateSubscriptionInFirebase(for: productId)
                 }
                 
             case .failed:
                 purchaseState = .notPurchased
                 if let error = transaction.error {
-                    print("Transaction failed: \(error.localizedDescription)")
+                    print("ERROR: Transaction failed in paymentQueue \n\(error.localizedDescription)")
                 }
                 SKPaymentQueue.default().finishTransaction(transaction)
             case .restored:
                 purchaseState = .purchased
                 SKPaymentQueue.default().finishTransaction(transaction)
-                print("Purchase restored.")
             default:
                 break
             }
         }
-        print("End of paymentQueue Function here!")
     }
 
     
     /// Update the user's subscription in Firebase.
     private func updateSubscriptionInFirebase(for productId: String) {
         guard let userEmail = profileViewModel.currentUser?.email else {
-            print("User email not available.")
+            print("NOTE: User email not available. \nSource: SubscriptionManager.updateSubscriptionInFirebase()\n")
             return
         }
-        print("The userEmail is \(userEmail)")
         
         let db = Firestore.firestore()
         let data: [String: Any] = [
@@ -120,9 +115,9 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         // Use auto-generated document ID
         db.collection("subscriptions").addDocument(data: data) { error in
             if let error = error {
-                print("Failed to update subscription: \(error.localizedDescription)")
+                print("NOTE: Failed to update subscription: \(error.localizedDescription)")
             } else {
-                print("Subscription updated successfully.")
+                print("NOTE: Subscription updated successfully.")
             }
         }
     }

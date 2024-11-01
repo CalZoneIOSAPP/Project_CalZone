@@ -44,7 +44,7 @@ class UserServices {
         if let curUser = self.currentUser {
             NotificationTool.scheduleAchievementNotification(for: curUser)
         }
-        print("SUCCESS: USER DATA FETCHED \nSource: fetchCurrentUserData() \nUser ID: \(String(describing: user.uid))")
+//        print("SUCCESS: USER DATA FETCHED \nSource: fetchCurrentUserData() \nUser ID: \(String(describing: user.uid))")
     }
     
     
@@ -365,9 +365,9 @@ class UserServices {
                     // Call the delete function from ImageManipulation
                     do {
                         try await ImageManipulation.deleteImageOnFirebase(imageURL: imageURL)
-                        print("Successfully deleted image for mealId: \(mealId)")
+                        print("NOTE: Successfully deleted image for mealId: \(mealId)")
                     } catch {
-                        print("Error deleting image for mealId \(mealId): \(error.localizedDescription)")
+                        print("ERROR: Error deleting image for mealId \(mealId) \n\(error.localizedDescription)\n")
                     }
                 }
             }
@@ -512,7 +512,7 @@ class UserServices {
                 // Re-authenticate Apple users
                 do {
                     let authorization = try await signInViewModel.getASAuthorization()
-                    let nonce = signInViewModel.nonce ?? "" // Fetch the nonce used during sign-in
+                    let _ = signInViewModel.nonce ?? "" // Fetch the nonce used during sign-in
                     try await signInViewModel.reauthenticateApple(authorization)
                 } catch {
                     return PopupMessage(message: NSLocalizedString("Re-authentication failed for Apple user.", comment: ""), title: NSLocalizedString("Apologies...", comment: ""))

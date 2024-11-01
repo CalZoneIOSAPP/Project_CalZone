@@ -44,7 +44,7 @@ struct NotificationTool {
         let afternoonRequest = UNNotificationRequest(identifier: "afternoonNotification", content: afternoonNotificationContent, trigger: afternoonTrigger)
         center.add(afternoonRequest)
 
-        print("Notifications scheduled for 8:30 AM and 3:00 PM.")
+        print("NOTE: Notifications scheduled for 8:30 AM and 3:00 PM.")
     }
     
     
@@ -73,9 +73,9 @@ struct NotificationTool {
         
         center.add(request) { error in
             if let error = error {
-                print("Error scheduling notification: \(error)")
+                print("ERROR: Error scheduling notification: \(error)")
             } else {
-                print("Notification scheduled for achievement date: \(achievementDate)")
+                print("NOTE: Notification scheduled for achievement date: \(achievementDate)")
             }
         }
     }
