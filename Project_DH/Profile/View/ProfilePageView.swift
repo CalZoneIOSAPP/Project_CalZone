@@ -131,7 +131,7 @@ struct ProfilePageView: View {
             }
         }
         .fullScreenCover(isPresented: $viewModel.showSubscriptionPage, content: {
-            MembershipView(showSubscription: $viewModel.showSubscriptionPage, user: $viewModel.currentUser)
+            MembershipView(subscriptionManager: SubscriptionManager(profileViewModel: viewModel), showSubscription: $viewModel.showSubscriptionPage, user: $viewModel.currentUser, currentPlan: viewModel.subscriptionType)
         })
         
     }
@@ -199,8 +199,8 @@ struct ProfilePageView: View {
                         }
                     }
                     
-                    SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user) // Add the subscription button here
-                        .opacity(viewModel.subscriptionType == nil ? 1 : 0) // Hide if already a VIP
+                    SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user, subscriptionType: viewModel.subscriptionType)
+                        // .opacity(viewModel.subscriptionType == nil ? 1 : 0) // Hide if already a VIP
                 }
                 .padding(.leading, 45)
             }

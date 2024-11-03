@@ -9,9 +9,10 @@ import Foundation
 import SwiftUI
 
 struct MembershipView: View {
-    @StateObject var subscriptionManager = SubscriptionManager()
+    @StateObject var subscriptionManager: SubscriptionManager
     @Binding var showSubscription: Bool
     @Binding var user: User?
+    var currentPlan: String?
     
     var body: some View {
         ScrollView {
@@ -27,6 +28,7 @@ struct MembershipView: View {
                             .padding(.trailing, 15)
                     }
                 }
+                
                 
                 Image("activatePlan") // Replace with custom image if needed
                     .resizable()
@@ -60,19 +62,17 @@ struct MembershipView: View {
                 .shadow(radius: 3)
                 .padding(.horizontal)
                 
-                
-                
             }
             .padding(.bottom, 40)
             
             // Plans
             VStack(spacing: 26) {
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Yearly Plan (12 Months)", comment: ""), price: "$44.99", productId: "yearlyPlan", monthlyRate: NSLocalizedString("$3.75/month", comment: ""))
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Quarterly Plan (3 Months)", comment: ""), price: "$13.99", productId: "quarterlyPlan", monthlyRate: NSLocalizedString("$4.66/month", comment: ""))
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName:  NSLocalizedString("Monthly Plan (1 Month)", comment: ""), price: "$4.99", productId: "monthlyPlan", monthlyRate: NSLocalizedString(" ~ a cup of coffee", comment: ""))
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Yearly Plan (12 Months)", comment: ""), price: "$44.99", productId: "yearlyPlan", monthlyRate: NSLocalizedString("$3.75/month", comment: ""), isCurrentPlan: currentPlan == "Yearlyplan")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Quarterly Plan (3 Months)", comment: ""), price: "$13.99", productId: "quarterlyPlan", monthlyRate: NSLocalizedString("$4.66/month", comment: ""), isCurrentPlan: currentPlan == "Quarterlyplan")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName:  NSLocalizedString("Monthly Plan (1 Month)", comment: ""), price: "$4.99", productId: "monthlyPlan", monthlyRate: NSLocalizedString(" ~ a cup of coffee", comment: ""), isCurrentPlan: currentPlan == "Monthlyplan")
             }
-            .disabled(subscriptionManager.purchaseState == .purchasing)
-            .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
+            // .disabled(subscriptionManager.purchaseState == .purchasing)
+            // .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
             
             // Agreement text
             AgreementText()
@@ -125,6 +125,7 @@ struct PlanView: View {
     var price: String
     var productId: String
     var monthlyRate: String?
+    var isCurrentPlan: Bool
     
     
     var body: some View {
@@ -134,7 +135,9 @@ struct PlanView: View {
                 .foregroundColor(.gray)
             
             Button {
-                subscriptionManager.purchaseVIP(productId: productId) // add subscription type
+                if !isCurrentPlan {
+                    subscriptionManager.purchaseVIP(productId: productId)
+                }
             } label: {
                 HStack {
                     Text(price)
@@ -150,9 +153,10 @@ struct PlanView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.brandLightGreen)
+                .background(isCurrentPlan ? Color.gray : Color.brandLightGreen)
                 .cornerRadius(10)
             }
+            .disabled(isCurrentPlan)
         }
         .padding(.horizontal)
     }
@@ -200,6 +204,6 @@ struct AgreementText: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MembershipView(showSubscription: .constant(true), user: .constant(User.MOCK_USER))
+        MembershipView(subscriptionManager: SubscriptionManager(profileViewModel: ProfileViewModel()), showSubscription: .constant(true), user: .constant(User.MOCK_USER))
     }
 }

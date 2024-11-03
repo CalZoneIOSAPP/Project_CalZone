@@ -11,14 +11,16 @@ import StoreKit
 struct SubscriptionButton: View {
     @Binding var showSubscribePage: Bool
     var user: User?
+    var subscriptionType: String?
 
     var body: some View {
         Button(action: {
             // Start the subscription purchase process
             // subscriptionManager.purchaseVIP(for: user)
             showSubscribePage = true
+            print("The subscriptionType for the button is: \(String(describing: subscriptionType))")
         }) {
-            Text("Upgrade to VIP")
+            Text(subscriptionType == nil ? NSLocalizedString("Upgrade to VIP", comment: "") : NSLocalizedString("Switch Plan", comment: ""))
                 .font(.footnote)
                 .fontWeight(.semibold)
                 .padding(.horizontal, 16)
@@ -30,5 +32,5 @@ struct SubscriptionButton: View {
     }
 }
 #Preview {
-    SubscriptionButton(showSubscribePage: .constant(false))
+    SubscriptionButton(showSubscribePage: .constant(false), subscriptionType: "MonthlyPlan")
 }

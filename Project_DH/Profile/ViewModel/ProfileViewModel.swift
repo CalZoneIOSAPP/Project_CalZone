@@ -51,6 +51,7 @@ class ProfileViewModel: ObservableObject {
         NSLocalizedString("Super Active", comment: "") : 1.9
     ]
     
+    lazy var subscriptionManager: SubscriptionManager = SubscriptionManager(profileViewModel: self)
     
     init() {
         setupUser()
@@ -97,6 +98,8 @@ class ProfileViewModel: ObservableObject {
         } catch {
             throw error
         }
+        
+        print("I got a subscription: \(String(describing: self.subscriptionType))")
     }
     
     
