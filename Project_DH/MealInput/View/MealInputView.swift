@@ -112,7 +112,6 @@ struct MealInputView: View {
                                 }
                             }
                             
-                            
                             CalorieAmountPicker
                                 .frame(width: 270)
                                 .padding(.bottom, 30)
@@ -167,6 +166,11 @@ struct MealInputView: View {
                             .opacity(viewModel.isProcessingMealInfo || savePressed ? 0 : 1.0)
                     }
                 })
+                .onAppear {
+                    Task {
+                        try await profileViewModel.fetchUserSubscription()
+                    }
+                }
                 
             } // Geometry Reader
             .ignoresSafeArea(.keyboard, edges: .all)

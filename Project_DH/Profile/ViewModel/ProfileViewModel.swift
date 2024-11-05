@@ -80,6 +80,7 @@ class ProfileViewModel: ObservableObject {
                 let data = document.data()
                 
                 if let isVIP = data["isVIP"] as? Bool {
+                    print(isVIP)
                     self.isVIP = isVIP
                 }
 
