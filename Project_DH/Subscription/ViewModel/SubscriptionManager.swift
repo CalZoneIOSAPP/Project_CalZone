@@ -16,8 +16,9 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     @Published var showSubscriptionPage: Bool = false
     
     private var productRequest: SKProductsRequest?
-    private var selectedProductId: String? // Track which product is being purchased
+    private var selectedProductId: String?
     private let profileViewModel : ProfileViewModel
+    private var purchaseCompletion: (() -> Void)?
 
     enum PurchaseState {
         case purchasing, purchased, notPurchased
@@ -49,13 +50,14 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     }
 
     /// Initiates a purchase for the given product ID.
-    func purchaseVIP(productId: String) {
+    func purchaseVIP(productId: String, completion: @escaping () -> Void) {
         guard let product = products.first(where: { $0.productIdentifier == productId }) else {
             print("Product with ID \(productId) not found.")
             return
         }
 
         selectedProductId = productId
+        purchaseCompletion = completion
         let payment = SKPayment(product: product)
         SKPaymentQueue.default().add(payment)
         purchaseState = .purchasing
@@ -74,6 +76,10 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                     updateSubscriptionInFirebase(for: productId)
                 }
                 
+                // Call the completion handler to notify of purchase completion
+                purchaseCompletion?()
+                purchaseCompletion = nil
+                
                 // Refetch user subscription after successful purchase
                 Task {
                     try await profileViewModel.fetchUserSubscription() // Notify ProfileViewModel to refresh
@@ -85,6 +91,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                     print("Transaction failed: \(error.localizedDescription)")
                 }
                 SKPaymentQueue.default().finishTransaction(transaction)
+                purchaseCompletion = nil
 
             case .restored:
                 purchaseState = .purchased
@@ -96,6 +103,47 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                 break
             }
         }
+    }
+    
+    
+    // Cancels the current membership by updating Firebase
+    func cancelMembership(completion: @escaping () -> Void) {
+        guard let userEmail = profileViewModel.currentUser?.email else {
+            print("User email not available.")
+            return
+        }
+        
+        let db = Firestore.firestore()
+        
+        let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
+        query.getDocuments { snapshot, error in
+            if let error = error {
+                print("Failed to fetch subscriptions: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = snapshot?.documents.first else {
+                print("No subscription found for user: \(userEmail)")
+                return
+            }
+            
+            document.reference.delete() { error in
+                if let error = error{
+                    print("Failed to delete subscription: \(error.localizedDescription)")
+                    return
+                } else {
+                    print("Successfully deleted subscription.")
+                    
+                    DispatchQueue.main.async {
+                        self.purchaseState = .notPurchased
+                        self.profileViewModel.subscriptionType = nil
+                        self.profileViewModel.isVIP = false
+                        completion()
+                    }
+                }
+            }
+        }
+        
     }
 
     /// Update the user's subscription in Firebase.

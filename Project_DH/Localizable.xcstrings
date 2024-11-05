@@ -1091,6 +1091,16 @@
         }
       }
     },
+    "Cancel Membership" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消会员"
+          }
+        }
+      }
+    },
     "Change Birthday" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2682,6 +2692,16 @@
         }
       }
     },
+    "Manage Plan" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理会员"
+          }
+        }
+      }
+    },
     "Me" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4108,9 +4128,6 @@
           }
         }
       }
-    },
-    "Switch Plan" : {
-
     },
     "System Language" : {
       "localizations" : {

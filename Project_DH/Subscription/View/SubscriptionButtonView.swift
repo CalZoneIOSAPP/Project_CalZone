@@ -15,12 +15,10 @@ struct SubscriptionButton: View {
 
     var body: some View {
         Button(action: {
-            // Start the subscription purchase process
-            // subscriptionManager.purchaseVIP(for: user)
             showSubscribePage = true
             print("The subscriptionType for the button is: \(String(describing: subscriptionType))")
         }) {
-            Text(subscriptionType == nil ? NSLocalizedString("Upgrade to VIP", comment: "") : NSLocalizedString("Switch Plan", comment: ""))
+            Text(subscriptionType == nil ? NSLocalizedString("Upgrade to VIP", comment: "") : NSLocalizedString("Manage Plan", comment: ""))
                 .font(.footnote)
                 .fontWeight(.semibold)
                 .padding(.horizontal, 16)

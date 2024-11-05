@@ -67,12 +67,34 @@ struct MembershipView: View {
             
             // Plans
             VStack(spacing: 26) {
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Yearly Plan (12 Months)", comment: ""), price: "$44.99", productId: "yearlyPlan", monthlyRate: NSLocalizedString("$3.75/month", comment: ""), isCurrentPlan: currentPlan == "Yearlyplan")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Quarterly Plan (3 Months)", comment: ""), price: "$13.99", productId: "quarterlyPlan", monthlyRate: NSLocalizedString("$4.66/month", comment: ""), isCurrentPlan: currentPlan == "Quarterlyplan")
-                PlanView(subscriptionManager: subscriptionManager, user: $user, planName:  NSLocalizedString("Monthly Plan (1 Month)", comment: ""), price: "$4.99", productId: "monthlyPlan", monthlyRate: NSLocalizedString(" ~ a cup of coffee", comment: ""), isCurrentPlan: currentPlan == "Monthlyplan")
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Yearly Plan (12 Months)", comment: ""), price: "$44.99", productId: "yearlyPlan", monthlyRate: NSLocalizedString("$3.75/month", comment: ""), isCurrentPlan: currentPlan == "Yearlyplan", closeMembershipView: {
+                    showSubscription = false
+                })
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName: NSLocalizedString("Quarterly Plan (3 Months)", comment: ""), price: "$13.99", productId: "quarterlyPlan", monthlyRate: NSLocalizedString("$4.66/month", comment: ""), isCurrentPlan: currentPlan == "Quarterlyplan", closeMembershipView: {
+                    showSubscription = false })
+                PlanView(subscriptionManager: subscriptionManager, user: $user, planName:  NSLocalizedString("Monthly Plan (1 Month)", comment: ""), price: "$4.99", productId: "monthlyPlan", monthlyRate: NSLocalizedString(" ~ a cup of coffee", comment: ""), isCurrentPlan: currentPlan == "Monthlyplan", closeMembershipView: {
+                    showSubscription = false })
             }
             // .disabled(subscriptionManager.purchaseState == .purchasing)
             // .opacity(subscriptionManager.purchaseState == .purchased ? 0 : 1)
+            
+            // Display "Cancel Membership" button only if the user has a current plan
+            if currentPlan != nil {
+                Button(action: {
+                    openSubscriptionManagement()
+//                    subscriptionManager.cancelMembership {
+//                        showSubscription = false // Close MembershipView on cancellation
+//                    }
+                }) {
+                    Text(NSLocalizedString("Cancel Membership", comment: ""))
+                        .font(.headline)
+                        .foregroundColor(.red)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                }
+                .padding(.top, 20)
+            }
             
             // Agreement text
             AgreementText()
@@ -81,6 +103,13 @@ struct MembershipView: View {
         .scrollIndicators(.hidden)
         .padding()
         
+    }
+    
+    // Function to open App Store's subscription management page
+    private func openSubscriptionManagement() {
+        if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
+            UIApplication.shared.open(url)
+        }
     }
 }
 
@@ -126,6 +155,7 @@ struct PlanView: View {
     var productId: String
     var monthlyRate: String?
     var isCurrentPlan: Bool
+    var closeMembershipView: () -> Void
     
     
     var body: some View {
@@ -136,7 +166,9 @@ struct PlanView: View {
             
             Button {
                 if !isCurrentPlan {
-                    subscriptionManager.purchaseVIP(productId: productId)
+                    subscriptionManager.purchaseVIP(productId: productId) {
+                        closeMembershipView()
+                    }
                 }
             } label: {
                 HStack {
@@ -204,6 +236,6 @@ struct AgreementText: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MembershipView(subscriptionManager: SubscriptionManager(profileViewModel: ProfileViewModel()), showSubscription: .constant(true), user: .constant(User.MOCK_USER))
+        MembershipView(subscriptionManager: SubscriptionManager(profileViewModel: ProfileViewModel()), showSubscription: .constant(true), user: .constant(User.MOCK_USER), currentPlan: "Monthly")
     }
 }

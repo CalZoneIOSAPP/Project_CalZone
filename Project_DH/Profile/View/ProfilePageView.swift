@@ -200,6 +200,7 @@ struct ProfilePageView: View {
                     }
                     
                     SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user, subscriptionType: viewModel.subscriptionType)
+                        .padding(.horizontal, 10)
                         // .opacity(viewModel.subscriptionType == nil ? 1 : 0) // Hide if already a VIP
                 }
                 .padding(.leading, 45)
