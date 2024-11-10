@@ -46,31 +46,33 @@ struct DashboardView: View {
                                 }
                             
                         } else if viewModel.meals.isEmpty {
-                            dashboardHeader
-                            
-                            Spacer()
-                            
-                            dashboardUtilitiesSection
-                                .padding(.bottom, 20)
-                            
-                            Image("noMeal")
-                                .resizable()
-                                .frame(width: 250, height: 250)
-                                .clipShape(Circle())
-                                .opacity(0.5)
-                            
-                            Text("Start by adding a meal...")
-                                .font(.headline)
-                                .foregroundColor(.gray)
-                                .padding()
-                            
-                            Image(systemName: "arrow.down")
-                                .resizable()
-                                .frame(width: 25, height: 40)
-                                .opacity(0.5)
-                                .padding(.top, 20)
-                            
-                            Spacer()
+                            ScrollView{
+                                dashboardHeader
+                                
+                                Spacer()
+                                
+                                dashboardUtilitiesSection
+                                    .padding(.bottom, 20)
+                                
+                                Image("noMeal")
+                                    .resizable()
+                                    .frame(width: 250, height: 250)
+                                    .clipShape(Circle())
+                                    .opacity(0.5)
+                                
+                                Text("Start by adding a meal...")
+                                    .font(.headline)
+                                    .foregroundColor(.gray)
+                                    .padding()
+                                
+                                Image(systemName: "arrow.down")
+                                    .resizable()
+                                    .frame(width: 25, height: 40)
+                                    .opacity(0.5)
+                                    .padding(.top, 20)
+                                
+                                Spacer()
+                            }
                             
                         } else {
                             ScrollView {

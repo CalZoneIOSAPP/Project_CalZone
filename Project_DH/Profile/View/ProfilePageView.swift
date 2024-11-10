@@ -138,74 +138,59 @@ struct ProfilePageView: View {
     
     
     var headerView: some View {
-        
-        ZStack {
-            HStack(spacing: 30) {
-                Button { // Move to EditProfileView
-                    showingProfileInfo = true
-    //                        .toolbar(.hidden, for: .tabBar)
-                } label: {
-                    if let _ = user?.profileImageUrl{
-                        CircularProfileImageView(user: user, width: 80, height: 80, showCircle: true)
-                    } else {
-                        ZStack{
-                            Circle()
-                                .foregroundColor(.gray)
-                                .frame(width: 80, height: 80)
-                            Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                                .foregroundStyle(Color(.systemGray4))
-                        }
+        HStack {
+            
+            Button { // Move to EditProfileView
+                showingProfileInfo = true
+//                        .toolbar(.hidden, for: .tabBar)
+            } label: {
+                if let _ = user?.profileImageUrl{
+                    CircularProfileImageView(user: user, width: 80, height: 80, showCircle: true)
+                } else {
+                    ZStack{
+                        Circle()
+                            .foregroundColor(.gray)
+                            .frame(width: 80, height: 80)
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .foregroundStyle(Color(.systemGray4))
                     }
                 }
-                .padding(.leading, 45)
-                
-                Spacer()
             }
+            .padding(.leading, 30)
             
-            HStack {
+            Spacer()
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text(user?.userName ?? "Username")
+                    .font(.title2)
+                    .fontWeight(.semibold)
                 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(user?.userName ?? "Username")
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                HStack {
+                    Text(NSLocalizedString("Membership:", comment: ""))
+                        .font(.headline)
+                        .foregroundStyle(.gray)
                     
-    //                Button { // Show profile preview button
-    //                    showingProfilePreview = true
-    //                } label: {
-    //                    Text(LocalizedStringKey("Profile Preview"))
-    //                        .font(.footnote)
-    //                        .fontWeight(.semibold)
-    //                        .frame(width: 130, height: 25)
-    //                        .foregroundStyle(.brandDarkGreen)
-    //                        .background(Color(.systemGray6))
-    //                        .clipShape(RoundedRectangle(cornerRadius: 10))
-    //                }
-                    HStack {
-                        Text(NSLocalizedString("Membership:", comment: ""))
+                    if let type = viewModel.subscriptionType {
+                        Text(type)
                             .font(.headline)
                             .foregroundStyle(.gray)
-                        
-                        if let type = viewModel.subscriptionType {
-                            Text(type)
-                                .font(.headline)
-                                .foregroundStyle(.gray)
-                        }
-                        else {
-                            Text(NSLocalizedString("BETA", comment: ""))
-                                .font(.headline)
-                                .foregroundStyle(.gray)
-                        }
                     }
-                    
-                    SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user, subscriptionType: viewModel.subscriptionType)
-                        .padding(.horizontal, 10)
-                        // .opacity(viewModel.subscriptionType == nil ? 1 : 0) // Hide if already a VIP
+                    else {
+                        Text(NSLocalizedString("BETA", comment: ""))
+                            .font(.headline)
+                            .foregroundStyle(.gray)
+                    }
                 }
-                .padding(.leading, 45)
+                
+                SubscriptionButton(showSubscribePage: $viewModel.showSubscriptionPage, user: user, subscriptionType: viewModel.subscriptionType)
+                    .padding(.horizontal, 10)
+                    // .opacity(viewModel.subscriptionType == nil ? 1 : 0) // Hide if already a VIP
             }
+            .padding(.trailing, 25)
             
+            Spacer()
         }
     }
     
