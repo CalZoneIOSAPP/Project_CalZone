@@ -22,7 +22,6 @@ struct ProfilePageView: View {
     
     var body: some View {
         NavigationStack {
-            // TODO: Make this HeaderView
             VStack {
                 // Header
                 headerView

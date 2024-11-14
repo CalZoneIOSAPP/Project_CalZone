@@ -69,6 +69,8 @@ class ProfileViewModel: ObservableObject {
         guard let userEmail = currentUser?.email else {
             throw NSError(domain: "User email not available.", code: 0, userInfo: nil)
         }
+        
+        try await subscriptionManager.checkAndUpdateSubscription(for: userEmail)
 
         // Query Firestore for the user's subscription by email
         let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
