@@ -13,6 +13,8 @@ class ControllerModel: ObservableObject {
     
     @Published var refetchMeal: Bool = false
     @Published var deletingAccount: Bool = false
+    @Published var getMealSuggestion: Bool = false
+    
     
     
 }

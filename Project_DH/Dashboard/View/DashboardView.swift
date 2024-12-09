@@ -79,6 +79,9 @@ struct DashboardView: View {
                                 dashboardHeader
                                 dashboardUtilitiesSection
                                     .padding(.bottom)
+                                mealSuggestion
+                                    .padding(.bottom)
+                                    .padding(.horizontal)
                                 mealSections
                             }
                             .scrollIndicators(.hidden)
@@ -109,6 +112,12 @@ struct DashboardView: View {
                                 if let uid = viewModel.profileViewModel.currentUser?.uid {
                                     try await viewModel.fetchMeals(for: uid, with: true)
                                     control.refetchMeal = false
+                                    if control.getMealSuggestion == true {
+                                        Task {
+                                            await viewModel.getMealSuggestion()
+                                            control.getMealSuggestion = false
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -120,6 +129,9 @@ struct DashboardView: View {
                             viewModel.sumCalories = 0
                             if let uid = viewModel.profileViewModel.currentUser?.uid {
                                 try await viewModel.fetchMeals(for: uid, with: true)
+                            }
+                            if let suggestion = viewModel.profileViewModel.currentUser?.mealSuggestion {
+                                viewModel.mealSuggestion = suggestion // Load meal suggestion
                             }
                         }
                     }
@@ -177,6 +189,36 @@ struct DashboardView: View {
                 }
             }
         }
+    }
+    
+    
+    // Meal Suggestion Section
+    var mealSuggestion: some View {
+        VStack {
+            HStack {
+                Text("Cally's Recommendation")
+                    .foregroundStyle(.brandDarkGreen)
+                    .padding(.leading)
+                    .bold()
+                Spacer()
+            }
+            .padding(.top)
+            
+            Spacer()
+            HStack {
+                Spacer()
+                Text( viewModel.mealSuggestion)
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .foregroundStyle(Color.gray)
+                Spacer()
+        }
+            Spacer()
+        }
+        .frame(minHeight: 140)
+        .background(.white)
+        .cornerRadius(8)
+        .shadow(color: .gray.opacity(0.3), radius: 10, x: 0, y: 5)
     }
     
     

@@ -11,6 +11,7 @@ import Combine
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseFirestoreSwift
+import FirebaseFunctions
 
 
 class DashboardViewModel: ObservableObject {
@@ -31,6 +32,9 @@ class DashboardViewModel: ObservableObject {
     
     @Published var fetchAllItems: Bool = false
     
+    @Published var foodItemsForSuggestion: [FoodItem] = []
+    @Published var mealSuggestion: String = "Loading suggestion..."
+    
     // Edit popup
     @Published var showEditPopup: Bool = false
     @Published var selectedFoodItem: FoodItem?
@@ -45,7 +49,6 @@ class DashboardViewModel: ObservableObject {
     private var globalFunctions = GlobalFx() // IMPORT GLOBAL FUNCTIONS
     
     private var db = Firestore.firestore()
-    
     
     /// This function fetches all meals for a given user id.
     /// - Parameters:
@@ -67,7 +70,7 @@ class DashboardViewModel: ObservableObject {
             self.sumCalories = 0
             try await mealServices.fetchMeals(for: userId, on: dateToFetch)
             meals = mealServices.meals
-            try await categorizeFoodItems()
+            try await categorizeFoodItems() // Fetch all food items.
             self.isLoading = false
             self.isRefreshing = false
         } catch {
@@ -154,6 +157,8 @@ class DashboardViewModel: ObservableObject {
             if fetchAllItems {
                 allFoodItems.append(contentsOf: foodItems)
             }
+            
+            foodItemsForSuggestion.append(contentsOf: foodItems)
             
             let mealType = NSLocalizedString(mealType, comment: "")
             
@@ -309,5 +314,42 @@ class DashboardViewModel: ObservableObject {
         }
     }
     
-    
+    /// This function calls the Cloud Function for meal suggestions
+    /// - Parameters: none
+    /// - Returns: none
+    @MainActor
+    func getMealSuggestion() async {
+        let functions = Functions.functions()
+        let foodItems = foodItemsForSuggestion.map { item in
+            var itemDict: [String: Any] = [
+                "name": item.foodName,
+                "calories": item.calorieNumber,
+            ]
+            
+            if let imageUrl = URL(string: item.imageURL) {
+                itemDict["imageURL"] = imageUrl.absoluteString
+            }
+            
+            return itemDict
+        }
+        
+        do {
+            let result = try await functions.httpsCallable("generateMealSuggestion").call([
+                "foodItems": foodItems
+            ])
+            
+            if let data = result.data as? [String: Any],
+               let suggestion = data["suggestion"] as? String {
+                await MainActor.run {
+                    self.mealSuggestion = suggestion
+                }
+            }
+        } catch {
+            print("Error getting meal suggestion: \(error.localizedDescription)")
+            await MainActor.run {
+                self.mealSuggestion = "Unable to generate suggestion at this time."
+            }
+        }
+        foodItemsForSuggestion = []
+    }
 }

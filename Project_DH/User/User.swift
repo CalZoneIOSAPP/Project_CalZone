@@ -48,6 +48,8 @@ struct User: Codable, Identifiable, Hashable {
     var activityLevel: String?
     var achievementDate: Date?
     
+    var mealSuggestion: String?
+    
     
     
     /// The function returns whether the user is trying to lose weight based on the current and target weight values.

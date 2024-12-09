@@ -147,13 +147,13 @@ struct MealInputView: View {
                     
                     if viewModel.showUsageError {
                         PopUpMessageView(messageTitle: NSLocalizedString("Apologies", comment: ""), message: NSLocalizedString("To be able to get unlimited usage, please join us and become a CalBite member!", comment: ""), popupPositivity: .negative, isPresented: $viewModel.showUsageError)
-                            .animation(.easeInOut, value: viewModel.showInputError)
+                            .animation(.easeInOut, value: viewModel.showUsageError)
                             .padding(.horizontal, 30)
                     }
                     
                     if viewModel.showEstimationError {
                         PopUpMessageView(messageTitle: NSLocalizedString("Apologies", comment: ""), message: NSLocalizedString("It seems that we are unable to predict the number of calories. You can re-upload or retake the photo.", comment: ""), popupPositivity: .negative, isPresented: $viewModel.showEstimationError)
-                            .animation(.easeInOut, value: viewModel.showInputError)
+                            .animation(.easeInOut, value: viewModel.showEstimationError)
                             .padding(.horizontal, 30)
                     }
                     
@@ -277,6 +277,12 @@ struct MealInputView: View {
                             } else {
                                 print("SUCCESS: Food Saved!")
                                 control.refetchMeal = true
+                                let calendar = Calendar.current
+                                let today = calendar.dateComponents([.year, .month, .day], from: Date())
+                                let selectedDate = calendar.dateComponents([.year, .month, .day], from: viewModel.selectedDate)
+                                if today == selectedDate {
+                                    control.getMealSuggestion = true
+                                }
                             }
                         }
                     } catch {

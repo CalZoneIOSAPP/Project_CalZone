@@ -254,3 +254,63 @@ export const analyzeFoodImage = functions.https.onCall(
     }
   }
 );
+
+// Type definition for food item
+interface FoodItem {
+  name: string;
+  calories: number;
+  mealType: string;
+  timestamp: string;
+}
+
+// Function to generate meal suggestions
+export const generateMealSuggestion = functions.https.onCall(
+  async (data: { foodItems: FoodItem[] }) => {
+    const {foodItems} = data;
+
+    // Format the food items into a readable string
+    const foodItemsSummary = foodItems
+      .map((item) =>
+        `${item.name} (${item.calories} calories) for ${item.mealType}`
+      )
+      .join(", ");
+
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-4-turbo-preview",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful nutrition expert and meal planner. " +
+              "Your task is to provide personalized meal suggestions " +
+              "based on what the user has already eaten today.",
+          },
+          {
+            role: "user",
+            content:
+              `Here are the meals recorded today: ${foodItemsSummary}. ` +
+              "Based on these meals, what would you suggest for the user's " +
+              "next meal? Consider nutritional balance, time of day, and " +
+              "calories already consumed. Keep the response under 100 words " +
+              "and focus on practical suggestions.",
+          },
+        ],
+        max_tokens: 150,
+        temperature: 0.7,
+      });
+
+      const suggestion = response.choices[0].message.content;
+      return {
+        suggestion: suggestion?.trim() ||
+          "Unable to generate suggestion at this time.",
+      };
+    } catch (error) {
+      console.error("Error generating meal suggestion:", error);
+      throw new functions.https.HttpsError(
+        "internal",
+        "Failed to generate meal suggestion"
+      );
+    }
+  }
+);
