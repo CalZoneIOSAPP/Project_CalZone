@@ -342,6 +342,9 @@ class DashboardViewModel: ObservableObject {
                let suggestion = data["suggestion"] as? String {
                 await MainActor.run {
                     self.mealSuggestion = suggestion
+                    Task {
+                        try await profileViewModel.updateInfo(with: nil, with: .mealSuggestion, strInfo: suggestion, optionStrInfo: nil, dateInfo: nil, doubleInfo: nil)
+                    }
                 }
             }
         } catch {

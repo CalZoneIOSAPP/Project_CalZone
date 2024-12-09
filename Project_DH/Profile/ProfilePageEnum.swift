@@ -271,7 +271,7 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
     case bmi
     case achievementDate
     case targetCalories
-
+    case mealSuggestion
     
     /// Title of each options in user info edit page.
     var title: String {
@@ -292,6 +292,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return NSLocalizedString("Target Calories", comment: "")
         case .bmi:
             return NSLocalizedString("BMI Value", comment: "")
+        case .mealSuggestion:
+            return NSLocalizedString("Cally's Suggestion", comment: "")
         }
     }
     
@@ -315,6 +317,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return "targetCalories"
         case .bmi:
             return "bmi"
+        case .mealSuggestion:
+            return "mealSuggestion"
         }
     }
     
@@ -338,6 +342,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return NSLocalizedString("target calories", comment: "")
         case .bmi:
             return NSLocalizedString("bmi value", comment: "")
+        case .mealSuggestion:
+            return NSLocalizedString("cally's suggestion", comment: "")
         }
     }
     
@@ -361,6 +367,8 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .numPad
         case .bmi:
             return .decimalsPad
+        case .mealSuggestion:
+            return .nothing
         }
     }
     
@@ -370,7 +378,7 @@ enum DietaryInfoOptions: Int, CaseIterable, Identifiable {
             return .gender
         case .activityLevel:
             return .activityLevel
-        case .weight, .weightTarget, .height, .targetCalories, .achievementDate, .bmi :
+        case .weight, .weightTarget, .height, .targetCalories, .achievementDate, .bmi , .mealSuggestion:
             return nil
         }
     }
@@ -386,6 +394,7 @@ enum inputStyles: Int, CaseIterable, Identifiable {
     case decimalsPad
     case dropDown
     case pickerStyle
+    case nothing
     
     
 }

@@ -227,6 +227,8 @@ class ProfileViewModel: ObservableObject {
                 try await UserServices.sharedUser.updateDietaryOptions(with: dateInfo!, enumInfo: .achievementDate)
             case .targetCalories:
                 try await UserServices.sharedUser.updateDietaryOptions(with: strInfo!, enumInfo: .targetCalories)
+            case .mealSuggestion:
+                try await UserServices.sharedUser.updateDietaryOptions(with: strInfo!, enumInfo: .mealSuggestion)
             case .none:
                 return
             }
@@ -464,6 +466,12 @@ class ProfileViewModel: ObservableObject {
                 return calories
             } else {
                 return ""
+            }
+        case .mealSuggestion:
+            if let suggestion = currentUser?.mealSuggestion {
+                return suggestion
+            } else {
+                return "No dietary suggestion yet.."
             }
         }
     }

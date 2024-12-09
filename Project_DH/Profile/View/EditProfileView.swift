@@ -252,6 +252,8 @@ struct EditProfileView: View {
                         }
                     }
                     clearButton
+                case .nothing:
+                    Text("Nothing")
                 }
             }
             .zIndex(10000.0) // Making sure that the drop down will list will be on top.

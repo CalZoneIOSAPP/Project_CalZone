@@ -207,7 +207,7 @@ struct DashboardView: View {
             Spacer()
             HStack {
                 Spacer()
-                Text( viewModel.mealSuggestion)
+                Text(viewModel.mealSuggestion)
                     .multilineTextAlignment(.center)
                     .bold()
                     .foregroundStyle(Color.gray)

@@ -944,6 +944,12 @@
     "Cally's Recommendation" : {
 
     },
+    "cally's suggestion" : {
+
+    },
+    "Cally's Suggestion" : {
+
+    },
     "Calorie Bomb of the Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3054,6 +3060,9 @@
           }
         }
       }
+    },
+    "Nothing" : {
+
     },
     "Obese" : {
       "localizations" : {

@@ -256,6 +256,13 @@ class UserServices {
                 }
                 dataToUpdate = ["targetCalories": newTargetCalories]
                 currentUser?.targetCalories = infoToChange as? String
+            case .mealSuggestion:
+                guard let suggestion = infoToChange as? String else {
+                    continuation.resume(throwing: NSError(domain: "Invalid type for meal suggestions.", code: 0, userInfo: nil))
+                    return
+                }
+                dataToUpdate = ["mealSuggestion" : suggestion]
+                currentUser?.mealSuggestion = infoToChange as? String
             }
 
             // Update Firestore
