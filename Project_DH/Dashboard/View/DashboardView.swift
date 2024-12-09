@@ -211,6 +211,7 @@ struct DashboardView: View {
                     .multilineTextAlignment(.center)
                     .bold()
                     .foregroundStyle(Color.gray)
+                    .padding(.horizontal)
                 Spacer()
         }
             Spacer()
