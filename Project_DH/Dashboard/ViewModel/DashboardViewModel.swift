@@ -333,9 +333,32 @@ class DashboardViewModel: ObservableObject {
             return itemDict
         }
         
+        // Get current language code
+        let currentLanguage = Bundle.main.preferredLocalizations.first ?? "en"
+        
+        // Calculate age if birthday is available
+        var age: Int?
+        if let birthday = profileViewModel.currentUser?.birthday {
+            let calendar = Calendar.current
+            age = calendar.dateComponents([.year], from: birthday, to: Date()).year
+        }
+        
+        // Create user profile dictionary
+        var userProfile: [String: Any] = [:]
+        if let age = age { userProfile["age"] = age }
+        if let gender = profileViewModel.currentUser?.gender { userProfile["gender"] = gender }
+        if let targetCalories = profileViewModel.currentUser?.targetCalories { userProfile["targetCalories"] = targetCalories }
+        if let bmi = profileViewModel.currentUser?.bmi { userProfile["bmi"] = bmi }
+        if let weight = profileViewModel.currentUser?.weight { userProfile["weight"] = weight }
+        if let weightTarget = profileViewModel.currentUser?.weightTarget { userProfile["weightTarget"] = weightTarget }
+        if let height = profileViewModel.currentUser?.height { userProfile["height"] = height }
+        if let activityLevel = profileViewModel.currentUser?.activityLevel { userProfile["activityLevel"] = activityLevel }
+        
         do {
             let result = try await functions.httpsCallable("generateMealSuggestion").call([
-                "foodItems": foodItems
+                "foodItems": foodItems,
+                "language": currentLanguage,
+                "userProfile": userProfile
             ])
             
             if let data = result.data as? [String: Any],

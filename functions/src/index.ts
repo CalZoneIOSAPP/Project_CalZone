@@ -255,6 +255,18 @@ export const analyzeFoodImage = functions.https.onCall(
   }
 );
 
+// Type definition for user profile
+interface UserProfile {
+  age?: number;
+  gender?: string;
+  targetCalories?: string;
+  bmi?: number;
+  weight?: number;
+  weightTarget?: number;
+  height?: number;
+  activityLevel?: string;
+}
+
 // Type definition for food item
 interface FoodItem {
   name: string;
@@ -265,8 +277,12 @@ interface FoodItem {
 
 // Function to generate meal suggestions
 export const generateMealSuggestion = functions.https.onCall(
-  async (data: { foodItems: FoodItem[] }) => {
-    const {foodItems} = data;
+  async (data: {
+    foodItems: FoodItem[];
+    language?: string;
+    userProfile?: UserProfile;
+  }) => {
+    const {foodItems, language = "en", userProfile} = data;
 
     // Format the food items into a readable string
     const foodItemsSummary = foodItems
@@ -275,25 +291,78 @@ export const generateMealSuggestion = functions.https.onCall(
       )
       .join(", ");
 
+    // Format user profile information for the AI
+    let userContext = "";
+    if (userProfile) {
+      const contextParts = [];
+      if (userProfile.age) contextParts.push(`age: ${userProfile.age}`);
+      if (userProfile.gender) {
+        contextParts.push(`gender: ${userProfile.gender}`);
+      }
+      if (userProfile.bmi) contextParts.push(`BMI: ${userProfile.bmi}`);
+      if (userProfile.targetCalories) {
+        contextParts.push(
+          `daily calorie target: ${userProfile.targetCalories}`);
+      }
+      if (userProfile.weight && userProfile.weightTarget) {
+        contextParts.push(
+          `current weight: ${userProfile.weight}kg, ` +
+          `target weight: ${userProfile.weightTarget}kg`
+        );
+      }
+      if (userProfile.activityLevel) {
+        contextParts.push(`activity level: ${userProfile.activityLevel}`);
+      }
+      if (contextParts.length > 0) {
+        userContext = "User profile - " + contextParts.join(", ") + ". ";
+      }
+    }
+
+    // Language-specific system prompts
+    const systemPrompts: { [key: string]: string } = {
+      "en": "You are a helpful nutrition expert and meal planner focused" +
+        " only on food suggestions. Provide a very concise analysis of" +
+        " today's meals followed by a specific meal suggestion. Consider" +
+        " the user's profile for personalized advice. Do not include any" +
+        " advice about drinking water or other beverages.",
+      "zh-Hans": "你是一位专业的营养专家和膳食规划师，专注于食物建议。" +
+        "请根据用户的个人信息，简明扼要地分析今天的饮食状况，然后给出具体" +
+        "的膳食建议。请不要包含任何关于饮水或其他饮品的建议。",
+      "cs": "Jste užitečný odborník na výživu a plánovač jídel." +
+        " Poskytněte velmi stručnou analýzu dnešních jídel a následně" +
+        " konkrétní návrh jídla s ohledem na profil uživatele." +
+        " Nezahrnujte žádné rady ohledně pití vody nebo jiných nápojů.",
+    };
+
+    // Language-specific user prompts
+    const userPrompts: { [key: string]: string } = {
+      "en": `${userContext}Here are the meals recorded today:` +
+        ` ${foodItemsSummary}. In 100 words or less: First, give a 1-2` +
+        " sentence analysis of current nutritional balance. Then suggest" +
+        " specific foods for the next meal, considering time of day," +
+        " calories consumed, and user's profile. Focus on solid foods.",
+      "zh-Hans": `${userContext}以下是今天记录的食物：${foodItemsSummary}。` +
+        "请在100字以内：首先用1-2句话分析当前的营养均衡状况，然后根据" +
+        "时间、已消耗的卡路里和用户的个人情况，具体建议下一餐吃什么。" +
+        "仅限于实体食物建议。",
+      "cs": `${userContext}Zde jsou jídla zaznamenaná dnes:` +
+        ` ${foodItemsSummary}. Ve 100 slovech nebo méně: Nejprve v 1-2` +
+        " větách analyzujte současnou nutriční rovnováhu. Poté navrhněte" +
+        " konkrétní jídla pro další chod s ohledem na denní dobu a" +
+        " spotřebované kalorie. Pouze pevná strava.",
+    };
+
     try {
       const response = await openai.chat.completions.create({
         model: "gpt-4-turbo-preview",
         messages: [
           {
             role: "system",
-            content:
-              "You are a helpful nutrition expert and meal planner. " +
-              "Your task is to provide personalized meal suggestions " +
-              "based on what the user has already eaten today.",
+            content: systemPrompts[language] || systemPrompts["en"],
           },
           {
             role: "user",
-            content:
-              `Here are the meals recorded today: ${foodItemsSummary}. ` +
-              "Based on these meals, what would you suggest for the user's " +
-              "next meal? Consider nutritional balance, time of day, and " +
-              "calories already consumed. Keep the response under 100 words " +
-              "and focus on practical suggestions.",
+            content: userPrompts[language] || userPrompts["en"],
           },
         ],
         max_tokens: 150,

@@ -942,13 +942,34 @@
       }
     },
     "Cally's Recommendation" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cally的饮食建议"
+          }
+        }
+      }
     },
     "cally's suggestion" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cally的饮食建议"
+          }
+        }
+      }
     },
     "Cally's Suggestion" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cally的饮食建议"
+          }
+        }
+      }
     },
     "Calorie Bomb of the Month" : {
       "localizations" : {
@@ -3062,7 +3083,14 @@
       }
     },
     "Nothing" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无"
+          }
+        }
+      }
     },
     "Obese" : {
       "localizations" : {
