@@ -107,6 +107,11 @@ struct ProfilePageView: View {
                 try await viewModel.fetchUserSubscription()
             }
         }
+        .onChange(of: viewModel.currentUser) { _, newUser in
+            Task {
+                try await viewModel.fetchUserSubscription()
+            }
+        }
         .fullScreenCover(isPresented: $showingProfileInfo, content: {
             EditProfileView(showingProfileInfo: $showingProfileInfo)
                 .environmentObject(viewModel)
@@ -129,9 +134,9 @@ struct ProfilePageView: View {
                     .environmentObject(control)
             }
         }
-        .fullScreenCover(isPresented: $viewModel.showSubscriptionPage, content: {
-            MembershipView(subscriptionManager: SubscriptionManager(profileViewModel: viewModel), showSubscription: $viewModel.showSubscriptionPage, user: $viewModel.currentUser, currentPlan: viewModel.subscriptionType)
-        })
+        .sheet(isPresented: $viewModel.showSubscriptionPage) {
+            SubscriptionView()
+        }
         
     }
     

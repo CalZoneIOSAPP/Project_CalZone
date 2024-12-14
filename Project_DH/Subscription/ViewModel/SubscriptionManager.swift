@@ -5,306 +5,375 @@
 //  Created by mac on 2024/10/9.
 //
 
+import Foundation
 import StoreKit
-import SwiftUI
-import Combine
-import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 
-class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    @Published var products: [SKProduct] = []
-    @Published var purchaseState: PurchaseState = .notPurchased
-    @Published var showSubscriptionPage: Bool = false
+@MainActor
+class SubscriptionManager: ObservableObject {
+    static let shared = SubscriptionManager()
     
-    private var productRequest: SKProductsRequest?
-    private var selectedProductId: String?
-    private let profileViewModel : ProfileViewModel
-    private var purchaseCompletion: (() -> Void)?
-
-    enum PurchaseState {
-        case purchasing, purchased, notPurchased
-    }
+    @Published private(set) var subscriptions: [Product] = []
+    @Published private(set) var currentSubscription: Product?
+    @Published private(set) var purchasedSubscriptions: [Product] = []
+    @Published private(set) var isVIP: Bool = false
     
-
-    init(profileViewModel: ProfileViewModel) {
-        self.profileViewModel = profileViewModel
-        super.init()
-        SKPaymentQueue.default().add(self)
-        fetchProducts()
+    private var updateListenerTask: Task<Void, Error>?
+    private let db = Firestore.firestore()
+    
+    init() {
+        updateListenerTask = listenForTransactions()
+        
+        Task {
+            await loadProducts()
+            await updateSubscriptionStatus()
+        }
     }
-
     
     deinit {
-        SKPaymentQueue.default().remove(self)
+        updateListenerTask?.cancel()
     }
     
-
-    /// Fetches available subscription products.
-    func fetchProducts() {
-        let productIdentifiers: Set<String> = ["monthlyPlan", "quarterlyPlan", "yearlyPlan"]
-        let request = SKProductsRequest(productIdentifiers: productIdentifiers)
-        request.delegate = self
-        request.start()
-    }
-
+    // MARK: - Product Loading
     
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        DispatchQueue.main.async {
-            self.products = response.products
-        }
-    }
-
-    
-    /// Initiates a purchase for the given product ID.
-    func purchaseVIP(productId: String, completion: @escaping () -> Void) {
-        guard let product = products.first(where: { $0.productIdentifier == productId }) else {
-            print("Product with ID \(productId) not found.")
-            return
-        }
-
-        selectedProductId = productId
-        purchaseCompletion = completion
-        let payment = SKPayment(product: product)
-        SKPaymentQueue.default().add(payment)
-        purchaseState = .purchasing
-        
-    }
-
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchased:
-                purchaseState = .purchased
-                SKPaymentQueue.default().finishTransaction(transaction)
-                print("Purchase successful for product: \(transaction.payment.productIdentifier)")
+    func loadProducts() async {
+        do {
+            subscriptions = try await Product.products(
+                for: SubscriptionPlan.allCases.map { $0.rawValue }
+            )
+            
+            // Sort in desired order: yearly, quarterly, monthly
+            subscriptions.sort { product1, product2 in
+                let order: [SubscriptionPlan] = [.yearlyPlan, .quarterlyPlan, .monthlyPlan]
+                let plan1 = product1.subscriptionPlan
+                let plan2 = product2.subscriptionPlan
                 
-                if let productId = selectedProductId {
-                    updateSubscriptionInFirebase(for: productId)
+                guard let index1 = plan1.flatMap({ plan in order.firstIndex(of: plan) }),
+                      let index2 = plan2.flatMap({ plan in order.firstIndex(of: plan) }) else {
+                    return false
                 }
                 
-                // Call the completion handler to notify of purchase completion
-                purchaseCompletion?()
-                purchaseCompletion = nil
-                
-                // Refetch user subscription after successful purchase
-                Task {
-                    try await profileViewModel.fetchUserSubscription() // Notify ProfileViewModel to refresh
-                }
-
-            case .failed:
-                purchaseState = .notPurchased
-                if let error = transaction.error {
-                    print("Transaction failed: \(error.localizedDescription)")
-                }
-                SKPaymentQueue.default().finishTransaction(transaction)
-                purchaseCompletion = nil
-
-            case .restored:
-                purchaseState = .purchased
-                let productId = transaction.payment.productIdentifier // Direct assignment
-                updateSubscriptionInFirebase(for: productId)
-                SKPaymentQueue.default().finishTransaction(transaction)
-                
-            default:
-                break
+                return index1 < index2
             }
+        } catch {
+            print("Failed to load products: \(error)")
         }
     }
     
+    // MARK: - Purchase Management
     
-    // Cancels the current membership by updating Firebase
-    func cancelMembership(completion: @escaping () -> Void) {
-        guard let userEmail = profileViewModel.currentUser?.email else {
-            print("User email not available.")
-            return
-        }
+    func purchase(_ product: Product) async throws -> StoreKit.Transaction? {
+        let result = try await product.purchase()
         
-        let db = Firestore.firestore()
-        
-        let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
-        query.getDocuments { snapshot, error in
-            if let error = error {
-                print("Failed to fetch subscriptions: \(error.localizedDescription)")
-                return
+        switch result {
+        case .success(let verification):
+            let transaction = try checkVerified(verification)
+            print("DEBUG(purchase): Purchase transaction details:")
+            print("DEBUG(purchase): - Product ID: \(transaction.productID)")
+            print("DEBUG(purchase): - Purchase Date: \(transaction.purchaseDate)")
+            
+            // Verify the product ID matches what we expect
+            guard transaction.productID == product.id else {
+                print("DEBUG(purchase): Error - Transaction product ID (\(transaction.productID)) doesn't match requested product (\(product.id))")
+                return nil
             }
             
-            guard let document = snapshot?.documents.first else {
-                print("No subscription found for user: \(userEmail)")
-                return
+            // Calculate end date based on the subscription plan
+            let plan = getSubscriptionPlan(from: product.id)
+            print("DEBUG: Product ID: \(product.id)")
+            print("DEBUG: Mapped to plan: \(String(describing: plan))")
+            
+            let endDate = calculateEndDate(for: plan, startingFrom: Date())
+            print("DEBUG: Our calculated end date: \(endDate.dateValue())")
+            
+            if let storeKitExpiration = transaction.expirationDate {
+                print("DEBUG(purchase): StoreKit's expiration date: \(storeKitExpiration)")
+                print("DEBUG(purchase): Note: Currently using our calculated date instead of StoreKit's date")
             }
             
-            document.reference.delete() { error in
-                if let error = error{
-                    print("Failed to delete subscription: \(error.localizedDescription)")
-                    return
-                } else {
-                    print("Successfully deleted subscription.")
-                    
-                    DispatchQueue.main.async {
-                        self.purchaseState = .notPurchased
-                        self.profileViewModel.subscriptionType = nil
-                        self.profileViewModel.isVIP = false
-                        completion()
-                    }
-                }
+            // Update Firebase with our calculated end date
+            await updateFirebaseSubscription(for: product, expirationDate: endDate.dateValue())
+            
+            // Update local state
+            await MainActor.run {
+                self.isVIP = true
+                self.currentSubscription = product
             }
+            
+            await transaction.finish()
+            return transaction
+            
+        case .userCancelled:
+            return nil
+            
+        case .pending:
+            return nil
+            
+        @unknown default:
+            return nil
         }
-        
     }
-
     
-    private func updateSubscriptionInFirebase(for newProductId: String) {
-        guard let userEmail = profileViewModel.currentUser?.email else {
-            print("User email not available.")
+    // MARK: - Firebase Integration
+    
+    private func getSubscriptionPlan(from productId: String) -> SubscriptionPlan? {
+        return SubscriptionPlan(rawValue: productId)
+    }
+    
+    private func updateFirebaseSubscription(for product: Product, expirationDate: Date? = nil) async {
+        guard let user = Auth.auth().currentUser else {
+            print("No authenticated user found")
             return
         }
         
-        let db = Firestore.firestore()
-        let subscriptionRef = db.collection("subscriptions")
+        let startDate = Date()
+        let endDate: Timestamp
         
-        // Retrieve the current subscription
-        subscriptionRef
-            .whereField("email", isEqualTo: userEmail)
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("ERROR: Error checking for subscription. \n\(error.localizedDescription)")
-                    return
-                }
-                
-                if let documents = querySnapshot?.documents, let document = documents.first {
-                    // Existing subscription found
-                    let currentProductId = document.get("type") as? String ?? ""
-                    
-                    if self.isUpgrade(currentPlan: currentProductId, newPlan: newProductId) {
-                        // Upgrade: Apply new end date based on new plan immediately
-                        let newEndDate = self.calculateEndDate(for: newProductId)
-                        
-                        let data: [String: Any] = [
-                            "type": newProductId,
-                            "startDate": Timestamp(date: Date()),
-                            "endDate": newEndDate,
-                            "isVIP": true // Adjust if needed based on plan type
-                        ]
-                        
-                        document.reference.updateData(data) { error in
-                            if let error = error {
-                                print("ERROR: Failed to upgrade subscription: \(error.localizedDescription)")
-                            } else {
-                                print("NOTE: Subscription upgraded successfully.")
-                            }
-                        }
-                        
-                    } else {
-                        // Downgrade: Maintain current end date, set downgrade to apply at period end
-                        let currentEndDate = document.get("endDate") as? Timestamp ?? self.calculateEndDate(for: currentProductId)
-                        
-                        document.reference.updateData([
-                            "nextType": newProductId,    // Schedule new plan type for next cycle
-                            "nextEndDate": currentEndDate // Downgrade applied at end of current cycle
-                        ]) { error in
-                            if let error = error {
-                                print("ERROR: Failed to schedule downgrade: \(error.localizedDescription)")
-                            } else {
-                                print("NOTE: Downgrade scheduled for end of current period.")
-                            }
-                        }
-                    }
-                    
-                } else {
-                    // No existing subscription, create new subscription entry
-                    let data: [String: Any] = [
-                        "email": userEmail,
-                        "isVIP": true,
-                        "type": newProductId,
-                        "startDate": Timestamp(date: Date()),
-                        "endDate": self.calculateEndDate(for: newProductId)
-                    ]
-                    
-                    db.collection("subscriptions").addDocument(data: data) { error in
-                        if let error = error {
-                            print("ERROR: Failed to create subscription: \(error.localizedDescription)")
-                        } else {
-                            print("NOTE: Subscription created successfully.")
-                        }
-                    }
-                }
-            }
-    }
-    
-    
-    @MainActor
-    func checkAndUpdateSubscription(for userEmail: String) async throws {
-        let db = Firestore.firestore()
-        let subscriptionRef = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
-        
-        // Fetch subscription document
-        let querySnapshot = try await subscriptionRef.getDocuments()
-        guard let document = querySnapshot.documents.first else {
-            print("No subscription document found for this user.")
-            return
-        }
-        
-        let subscriptionData = document.data()
-        let endDate = (subscriptionData["endDate"] as? Timestamp)?.dateValue() ?? Date()
-        let now = Date()
-        
-        // Check if the subscription has expired
-        if endDate <= now, let nextType = subscriptionData["nextType"] as? String {
-            // Subscription expired, apply the scheduled next plan
-            let newEndDate = calculateEndDate(for: nextType)
-            
-            // Define data outside MainActor
-            let updateData: [String: Any] = [
-                "type": nextType,
-                "endDate": newEndDate,
-                "nextType": FieldValue.delete(),
-                "nextEndDate": FieldValue.delete()
-            ]
-            
-            // Update Firestore with the new plan
-            try await document.reference.updateData(updateData)
-            
-            print("Subscription updated to new plan successfully.")
+        if let specificEndDate = expirationDate {
+            endDate = Timestamp(date: specificEndDate)
         } else {
-            print("Subscription is still active or no next plan scheduled.")
+            let plan = getSubscriptionPlan(from: product.id)
+            print("DEBUG: Product ID: \(product.id)")
+            print("DEBUG: Mapped to plan: \(String(describing: plan))")
+            endDate = calculateEndDate(for: plan, startingFrom: Date())
+        }
+        print("DEBUG: Final end date for Firebase: \(endDate.dateValue())")
+        
+        // Create Sendable dictionary
+        let subscriptionData: [String: Any] = await withCheckedContinuation { continuation in
+            Task { @MainActor in
+                let data: [String: Any] = [
+                    "email": user.email ?? "",
+                    "endDate": endDate,
+                    "isVIP": true,
+                    "type": product.id,
+                    "startDate": Timestamp(date: startDate),
+                    "lastUpdated": Timestamp(date: startDate)
+                ]
+                print("DEBUG: Writing to Firebase - endDate: \(endDate.dateValue())")
+                continuation.resume(returning: data)
+            }
+        }
+        
+        do {
+            // Check if subscription document exists
+            let querySnapshot = try await db.collection("subscriptions")
+                .whereField("email", isEqualTo: user.email ?? "")
+                .getDocuments()
+            
+            if let existingDoc = querySnapshot.documents.first {
+                // Update existing subscription
+                try await existingDoc.reference.updateData(subscriptionData)
+                print("DEBUG: Updated existing document with end date: \(endDate.dateValue())")
+            } else {
+                // Create new subscription document
+                _ = try await db.collection("subscriptions").addDocument(data: subscriptionData)
+                print("DEBUG: Created new document with end date: \(endDate.dateValue())")
+            }
+            
+            // Verify the write by reading it back
+            let verifySnapshot = try await db.collection("subscriptions")
+                .whereField("email", isEqualTo: user.email ?? "")
+                .getDocuments()
+            
+            if let doc = verifySnapshot.documents.first,
+               let verifyEndDate = (doc.data()["endDate"] as? Timestamp)?.dateValue() {
+                print("DEBUG: Verified end date in Firebase: \(verifyEndDate)")
+            }
+            
+            await MainActor.run {
+                self.isVIP = true
+            }
+        } catch {
+            print("Error updating Firebase subscription: \(error.localizedDescription)")
         }
     }
-
-
     
-    // Helper function to determine if it's an upgrade or downgrade
-    func isUpgrade(currentPlan: String, newPlan: String) -> Bool {
-        let planOrder: [String: Int] = ["monthlyPlan": 1, "quarterlyPlan": 2, "yearlyPlan": 3]
-        return planOrder[newPlan] ?? 0 > planOrder[currentPlan] ?? 0
-    }
-
-    // Calculate end date method remains unchanged
-
-
-    
-    /// Calculate the end date based on the subscription type.
-    private func calculateEndDate(for productId: String) -> Timestamp {
+    private func calculateEndDate(for plan: SubscriptionPlan?, startingFrom date: Date) -> Timestamp {
         let calendar = Calendar.current
-        var components = DateComponents()
-
-        switch productId {
-        case "monthlyPlan":
-            components.month = 1
-        case "quarterlyPlan":
-            components.month = 3
-        case "yearlyPlan":
-            components.year = 1
-        default:
-            components.month = 1
+        print("DEBUG: Calculating end date for plan: \(String(describing: plan))")
+        
+        // Calculate subscription period based on plan
+        let endDate: Date
+        switch plan {
+        case .monthlyPlan:
+            endDate = calendar.date(byAdding: .month, value: 1, to: date) ?? date
+            print("DEBUG: Monthly plan - adding 1 month")
+        case .quarterlyPlan:
+            endDate = calendar.date(byAdding: .month, value: 3, to: date) ?? date
+            print("DEBUG: Quarterly plan - adding 3 months")
+        case .yearlyPlan:
+            endDate = calendar.date(byAdding: .year, value: 1, to: date) ?? date
+            print("DEBUG: Yearly plan - adding 1 year")
+        case .none:
+            print("DEBUG: No plan found - defaulting to 1 month")
+            endDate = calendar.date(byAdding: .month, value: 1, to: date) ?? date
         }
-
-        let endDate = calendar.date(byAdding: components, to: Date()) ?? Date()
+        
+        // Set to end of day
+        if let finalEndDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: endDate) {
+            print("DEBUG: Final end date with time: \(finalEndDate)")
+            return Timestamp(date: finalEndDate)
+        }
+        
+        print("DEBUG: Fallback end date: \(endDate)")
         return Timestamp(date: endDate)
     }
-
     
-    /// Restore purchases if the user reinstalls the app or changes devices.
-    func restorePurchases() {
-        SKPaymentQueue.default().restoreCompletedTransactions()
+    func checkSubscriptionStatus() async {
+        guard Auth.auth().currentUser != nil else {
+            print("No authenticated user found")
+            return
+        }
+        
+        print("DEBUG: Checking StoreKit subscription status...")
+        
+        // Collect all valid transactions
+        var validTransactions: [(StoreKit.Transaction, Date)] = []
+        for await verificationResult in StoreKit.Transaction.currentEntitlements {
+            if let transaction = try? verificationResult.payloadValue,
+               let expirationDate = transaction.expirationDate {
+                validTransactions.append((transaction, expirationDate))
+            }
+        }
+        
+        // Sort by expiration date, most recent first
+        validTransactions.sort { $0.1 > $1.1 }
+        
+        print("DEBUG: Found \(validTransactions.count) valid transactions")
+        
+        // Use the most recent non-expired transaction
+        let now = Date()
+        for (transaction, expirationDate) in validTransactions {
+            print("DEBUG: Transaction details:")
+            print("DEBUG: - Product ID: \(transaction.productID)")
+            print("DEBUG: - Expiration Date: \(expirationDate)")
+            print("DEBUG: - Is expired: \(expirationDate <= now)")
+            print("DEBUG: - Purchase Date: \(transaction.purchaseDate)")
+            print("DEBUG: - Original Purchase Date: \(transaction.originalPurchaseDate)")
+            
+            if expirationDate > now {
+                // Found a valid subscription
+                await MainActor.run {
+                    self.isVIP = true
+                    if let product = subscriptions.first(where: { $0.id == transaction.productID }) {
+                        self.currentSubscription = product
+                    }
+                }
+                return
+            }
+        }
+        
+        // If we get here, no valid subscription was found
+        await MainActor.run {
+            self.isVIP = false
+            self.currentSubscription = nil
+        }
+    }
+    
+    func cancelSubscription() async {
+        guard let user = Auth.auth().currentUser else { return }
+        
+        do {
+            let querySnapshot = try await db.collection("subscriptions")
+                .whereField("email", isEqualTo: user.email ?? "")
+                .getDocuments()
+            
+            if let document = querySnapshot.documents.first {
+                let updateData: [String: Any] = await withCheckedContinuation { continuation in
+                    Task { @MainActor in
+                        continuation.resume(returning: [
+                            "isVIP": false,
+                            "cancelDate": Timestamp(date: Date())
+                        ])
+                    }
+                }
+                try await document.reference.updateData(updateData)
+                
+                await MainActor.run {
+                    self.isVIP = false
+                    self.currentSubscription = nil
+                }
+            }
+        } catch {
+            print("Error canceling subscription: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: - Subscription Status
+    
+    func updateSubscriptionStatus() async {
+        for await result in StoreKit.Transaction.currentEntitlements {
+            do {
+                let transaction = try checkVerified(result)
+                
+                if let subscription = subscriptions.first(where: { $0.id == transaction.productID }) {
+                    await MainActor.run {
+                        self.currentSubscription = subscription
+                        if !self.purchasedSubscriptions.contains(where: { $0.id == subscription.id }) {
+                            self.purchasedSubscriptions.append(subscription)
+                        }
+                    }
+                    await updateFirebaseSubscription(for: subscription)
+                }
+            } catch {
+                print("Failed to verify transaction: \(error)")
+            }
+        }
+        
+        // Check Firebase subscription status
+        await checkSubscriptionStatus()
+    }
+    
+    func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+        switch result {
+        case .unverified:
+            throw StoreError.verificationFailed
+        case .verified(let safe):
+            return safe
+        }
+    }
+    
+    // MARK: - Transaction Listener
+    
+    private func listenForTransactions() -> Task<Void, Error> {
+        return Task.detached {
+            for await result in StoreKit.Transaction.updates {
+                do {
+                    let transaction = try await self.checkVerified(result)
+                    await self.updateSubscriptionStatus()
+                    await transaction.finish()
+                } catch {
+                    print("Failed to verify transaction: \(error)")
+                }
+            }
+        }
+    }
+    
+    // MARK: - Subscription Management
+    
+    func manageSubscriptions() async {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            do {
+                try await AppStore.showManageSubscriptions(in: windowScene)
+            } catch {
+                print("Failed to show subscription management: \(error)")
+            }
+        }
+    }
+}
+
+// MARK: - Errors
+
+enum StoreError: Error {
+    case verificationFailed
+}
+
+// MARK: - Product Extensions
+
+extension Product {
+    var subscriptionPlan: SubscriptionPlan? {
+        return SubscriptionPlan(rawValue: id)
     }
 }

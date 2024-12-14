@@ -34,6 +34,7 @@
       }
     },
     " ~ a cup of coffee" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -54,6 +55,7 @@
       }
     },
     "(%@)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -218,6 +220,7 @@
       }
     },
     "$3.75/month" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -228,6 +231,7 @@
       }
     },
     "$4.66/month" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -570,6 +574,7 @@
       }
     },
     "AI Assistant" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -650,6 +655,7 @@
       }
     },
     "Ask unlimited dietary and dining questions in a single day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -752,6 +758,9 @@
           }
         }
       }
+    },
+    "Become a CalBite Foodie" : {
+
     },
     "BETA" : {
       "localizations" : {
@@ -889,7 +898,11 @@
         }
       }
     },
+    "By continuing, you agree to our" : {
+
+    },
     "By proceeding you have read and agree to the " : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1002,6 +1015,7 @@
       }
     },
     "Calorie Estimation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1122,6 +1136,7 @@
       }
     },
     "Cancel Membership" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1415,6 +1430,9 @@
           }
         }
       }
+    },
+    "Current Plan" : {
+
     },
     "Dashboard" : {
       "localizations" : {
@@ -1870,6 +1888,9 @@
           }
         }
       }
+    },
+    "Error" : {
+
     },
     "Error deleting your account, please try again later or contact our support team." : {
       "localizations" : {
@@ -2439,6 +2460,7 @@
       }
     },
     "JOIN THE CALBITE MEMBERSHIP FOR UNLIMITED USE OF ALL FUNCTIONALITIES." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2732,6 +2754,9 @@
         }
       }
     },
+    "Manage Subscription" : {
+
+    },
     "Me" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2870,6 +2895,7 @@
       }
     },
     "Monthly Plan (1 Month)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3123,6 +3149,9 @@
           }
         }
       }
+    },
+    "OK" : {
+
     },
     "One-line description." : {
       "localizations" : {
@@ -3404,6 +3433,9 @@
         }
       }
     },
+    "Pricing" : {
+
+    },
     "Privacy Policy" : {
       "localizations" : {
         "cs" : {
@@ -3472,6 +3504,7 @@
       }
     },
     "Quarterly Plan (3 Months)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3743,6 +3776,9 @@
           }
         }
       }
+    },
+    "Select Plan" : {
+
     },
     "Select Week" : {
       "localizations" : {
@@ -4190,6 +4226,7 @@
       }
     },
     "Take unlimited photos and get the calorie estimations in a single day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4407,6 +4444,9 @@
         }
       }
     },
+    "Terms of Service" : {
+
+    },
     "terms_agreement" : {
       "localizations" : {
         "cs" : {
@@ -4584,6 +4624,12 @@
         }
       }
     },
+    "Unlimited use of following features" : {
+
+    },
+    "Unlock usage limits for all features." : {
+
+    },
     "Update Weight" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4720,6 +4766,7 @@
       }
     },
     "WE HOPE THAT YOU LIKED OUR FEATURES!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5021,6 +5068,7 @@
       }
     },
     "Yearly Plan (12 Months)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

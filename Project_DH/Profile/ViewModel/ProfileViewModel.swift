@@ -51,7 +51,11 @@ class ProfileViewModel: ObservableObject {
         NSLocalizedString("Super Active", comment: "") : 1.9
     ]
     
-    lazy var subscriptionManager: SubscriptionManager = SubscriptionManager(profileViewModel: self)
+    // Make only the subscription manager access actor-isolated
+    @MainActor
+    var subscriptionManager: SubscriptionManager {
+        SubscriptionManager.shared
+    }
     
     init() {
         setupUser()
@@ -60,113 +64,53 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    
     /// Fetches subscription status for current user
     /// - Parameters:
     ///   - none
     @MainActor
     func fetchUserSubscription() async throws {
-        guard let userEmail = currentUser?.email else {
+        guard (currentUser?.email) != nil else {
             throw NSError(domain: "User email not available.", code: 0, userInfo: nil)
         }
         
-        try await subscriptionManager.checkAndUpdateSubscription(for: userEmail)
-
-        // Query Firestore for the user's subscription by email
-        let query = db.collection("subscriptions").whereField("email", isEqualTo: userEmail)
-
-        do {
-            let querySnapshot = try await query.getDocuments()
-
-            if let document = querySnapshot.documents.first {
-                let data = document.data()
-                
-                if let isVIP = data["isVIP"] as? Bool {
-                    print(isVIP)
-                    self.isVIP = isVIP
-                }
-
-                if let type = data["type"] as? String {
-                    self.subscriptionType = type.capitalized
-                    print("NOTE: Fetched subscription type: \(self.subscriptionType ?? "None")")
-                }
-
-                if let endDate = data["endDate"] as? Timestamp {
-                    try await self.checkSubscriptionExpiry(endDate: endDate, documentId: document.documentID)
-                }
-            } else {
-                print("NOTE: No subscription found.")
-                self.subscriptionType = nil
-            }
-        } catch {
-            throw error
-        }
+        // Check subscription status using SubscriptionManager
+        await subscriptionManager.checkSubscriptionStatus()
+        self.isVIP = subscriptionManager.isVIP
         
-        print("I got a subscription: \(String(describing: self.subscriptionType))")
-    }
-    
-    
-    /// Checks if the subscription has expired and deletes the document if necessary
-    @MainActor
-    private func checkSubscriptionExpiry(endDate: Timestamp, documentId: String) async throws {
-        let currentDate = Date()
-
-        if endDate.dateValue() < currentDate {
-            print("NOTE: Subscription has expired. Deleting document and updating user status.")
-
-            // Delete the subscription document from Firestore
-            do {
-                try await db.collection("subscriptions").document(documentId).delete()
-                print("NOTE: Subscription deleted successfully.")
-                self.updateVIPStatusLocally(isVIP: false)
-            } catch {
-                throw error
-            }
+        if let currentSub = subscriptionManager.currentSubscription {
+            self.subscriptionType = currentSub.displayName
+        } else {
+            self.subscriptionType = nil
         }
     }
-
+    
     /// Updates the user's VIP status locally
     private func updateVIPStatusLocally(isVIP: Bool) {
-        guard let _ = currentUser else { return }
-        // user.isVIP = isVIP
-        subscriptionType = nil // Reset subscription type if not VIP
-        print("NOTE: Updated user VIP status to: \(isVIP)")
+        self.isVIP = isVIP
+        self.subscriptionType = nil // Reset subscription type if not VIP
     }
     
-    
-    
     /// This function is called when setting up the user session.
-    /// - Parameters: none
-    /// - Returns: none
     private func setupUser() {
         UserServices.sharedUser.$currentUser
-            .receive(on: DispatchQueue.main) // Ensure that updates happen on the main thread
+            .receive(on: RunLoop.main)
             .sink { [weak self] user in
                 self?.currentUser = user
             }
             .store(in: &cancellables)
     }
     
-    
     /// This function calls the profile image update logic.
-    /// - Parameters: none
-    /// - Returns: none
-    /// - Note: This function doesn't perform the update logic, it is an interface for the frontend to call.
     func updateProfilePhoto() async throws {
         try await updateProfileImage()
-        print("NOTE: Updated user profile.")
     }
     
-    
     /// This function updates the profile username, and handles the logic for that.
-    /// - Parameters: none
-    /// - Returns: none
-    /// - Note: This function doesn't perform the networking tasks, instead it calls the updateUserProfileImage function inside UserServices to do that.
     @MainActor
     private func updateProfileImage() async throws {
         guard let image = self.uiImage else { return }
         guard let imageUrl = try? await ImageUploader.uploadImage(image) else {
-            print("ERROR: Failed to get imageURL! \nSource: updateProfileImage() ")
+            print("ERROR: Failed to get imageURL!")
             return
         }
         
@@ -178,12 +122,7 @@ class ProfileViewModel: ObservableObject {
         try await UserServices.sharedUser.updateUserProfileImage(with: imageUrl)
     }
     
-    
     /// This function is an generic function which updates any user related information.
-    /// - Parameters:
-    ///     - with: the enum which is the AccountOptions
-    ///     - strInfo: The information to update.
-    /// - Returns: none
     @MainActor
     func updateInfo(with accountEnum: AccountOptions?, with dietaryEnum: DietaryInfoOptions?, strInfo: String?, optionStrInfo: String?, dateInfo: Date?, doubleInfo: Double?) async throws {
         if strInfo == nil && dateInfo == nil && optionStrInfo == nil && doubleInfo == nil {
@@ -235,7 +174,6 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    
     /// This function has the main logic for calculating target calories and checks when is it valid to do calculation. The target calorie number is saved to Firebase after the calculation.
     /// - Parameters: none
     /// - Returns: none
@@ -248,7 +186,6 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    
     /// This function has the main logic for calculating BMI and checks when is it valid to do calculation. The BMI number is saved to Firebase after the calculation.
     /// - Parameters: none
     /// - Returns: none
@@ -259,7 +196,6 @@ class ProfileViewModel: ObservableObject {
             try await updateInfo(with: nil, with: .bmi, strInfo: nil, optionStrInfo: nil, dateInfo: nil, doubleInfo: bmi)
         }
     }
-    
     
     /// This function calculates the age with the given birthday date.
     /// - Parameters:
@@ -272,7 +208,6 @@ class ProfileViewModel: ObservableObject {
         let ageComponents = calendar.dateComponents([.year], from: birthDate, to: currentDate)
         return ageComponents.year ?? 0
     }
-    
     
     /// This function calculates the number of weeks with a given Date from today's Date.
     /// - Parameters:
@@ -287,7 +222,6 @@ class ProfileViewModel: ObservableObject {
         return weeksDifference
     }
     
-    
     /// This function calculates the number of days from today's Date.
     /// - Parameters:
     ///     - date: The starting date.
@@ -300,20 +234,11 @@ class ProfileViewModel: ObservableObject {
         return days
     }
     
-    
     /// This function holds the formula for calculating the users desired or suggested calorie number.
     /// - Parameters:
     ///     - user: Target user for calorie calculation.
     /// - Returns: Number of calories.
     func calculateTargetCalories(user: User) -> Int {
-//        print("Gender: \(String(describing: user.gender))")
-//        print("Birthday: \(String(describing: user.birthday))")
-//        print("Weight Target: \(String(describing: user.weightTarget))")
-//        print("Weight: \(String(describing: user.weight))")
-//        print("Height: \(String(describing: user.height))")
-//        print("Activity Level: \(String(describing: user.activityLevel))")
-//        print("Achievement Date: \(String(describing: user.achievementDate))")
-        
         let age = calculateAge(date: user.birthday!)
         let weightDiff = user.weightTarget! - user.weight!
         var userBMR: Double
@@ -346,7 +271,6 @@ class ProfileViewModel: ObservableObject {
         return calories
     }
     
-    
     /// Calculates the BMI value  based on the user input.
     /// - Parameters: 
     ///     - weight: The weight of the user in kg.
@@ -358,7 +282,6 @@ class ProfileViewModel: ObservableObject {
         bmiValue = Double(round(10 * bmiValue) / 10)
         return bmiValue
     }
-    
     
     /// This function decides whether the user meets all requirements to calculate the target calorie number.
     /// - Parameters:
@@ -376,7 +299,6 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    
     func infoAvailableForBMICalculation(for user: User?) -> Bool {
         if let user = user, let height = user.height, let weight = user.weight {
             if height == 0.0 || weight == 0.0 {
@@ -388,7 +310,6 @@ class ProfileViewModel: ObservableObject {
             return false
         }
     }
-    
     
     /// This function displays the current user's account information.
     /// - Parameters:
@@ -411,7 +332,6 @@ class ProfileViewModel: ObservableObject {
             return ""
         }
     }
-    
     
     /// This function displays the current user's dietary information.
     /// - Parameters:
@@ -475,13 +395,4 @@ class ProfileViewModel: ObservableObject {
             }
         }
     }
-    
-//    private func loadImage() async {
-//        guard let item = selectedItem else { return }
-//        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
-//        guard let uiImage = UIImage(data: data) else { return }
-//        self.profileImage = Image(uiImage: uiImage)
-//    }
-    
-    
 }
